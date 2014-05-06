@@ -1,6 +1,7 @@
 drop table cir.congregation if exist;
 drop table cir.service_group if exist;
 drop table cir.meeting_place if exist;
+drop table cir.contact_status if exist;
 
 create table cir.congregation(
     id integer identity primary key,
@@ -21,17 +22,28 @@ create table cir.service_group(
     prefix varchar(5),
     start_number integer,
     next_number integer,
+    icon longvarbinary,
     created_datetime datetime,
     updated_datetime datetime
 );
 
 create table cir.meeting_place(
     id integer identity primary key,
-    service_group_id,
+    service_group_id integer,
     name varchar(50),
     address varchar(100),
     latitude doube,
     longitude double,
     created_datetime,
     updated_datetime
+);
+
+create table cir.contact_status(
+    id integer identity primary key,
+    name varchar(50),
+    modifiable bit,
+    printarble bit,
+    icon longvarbinary,
+    created_datetime datetime,
+    updated_datetime datetime
 );
