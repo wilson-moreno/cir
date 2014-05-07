@@ -7,6 +7,8 @@
 package org.jw.service;
 
 import javax.swing.JFrame;
+import org.jw.service.dao.DataAccessObject;
+import org.jw.service.entity.Contact;
 import org.jw.service.gui.ApplicationFrame;
 
 /**
@@ -20,6 +22,8 @@ public class Main {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+
+        
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Windows".equals(info.getName())) {
@@ -33,6 +37,7 @@ public class Main {
         
         
         java.awt.EventQueue.invokeLater(new RunnableImpl());        
+        
     }
     
     private static class RunnableImpl implements Runnable {
