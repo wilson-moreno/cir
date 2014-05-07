@@ -1,14 +1,14 @@
-create schema cir;
-set schema cir;
+--create schema cir;
+--set schema cir;
 
-drop table cir.congregation if exist;
-drop table cir.service_group if exist;
-drop table cir.meeting_place if exist;
-drop table cir.config if exist;
-drop table cir.contact_status if exist;
-drop table cir.location_map if exist;
-drop table cir.direction_map if exist;
-drop table cir.contact_call if exist;
+drop table cir.congregation if exists;
+drop table cir.service_group if exists;
+drop table cir.meeting_place if exists;
+drop table cir.configuration if exists;
+drop table cir.contact_status if exists;
+drop table cir.location_map if exists;
+drop table cir.direction_map if exists;
+drop table cir.contact_call if exists;
 
 create table cir.congregation(
     id integer identity primary key,
@@ -39,23 +39,23 @@ create table cir.meeting_place(
     service_group_id integer,
     name varchar(50),
     address varchar(100),
-    latitude doube,
+    latitude double,
     longitude double,
-    created_datetime,
-    updated_datetime
+    created_datetime datetime,
+    updated_datetime datetime
 );
 
 create table cir.contact_status(
     id integer identity primary key,
     name varchar(50),
     modifiable bit,
-    printarble bit,
+    printable bit,
     icon longvarbinary,
     created_datetime datetime,
     updated_datetime datetime
 );
 
-create table cir.config(
+create table cir.configuration(
     id integer identity primary key,
     report_title varchar(50),
     created_datetime datetime,
@@ -66,6 +66,7 @@ create table cir.contact(
     id integer identity primary key,
     service_group_id integer,
     status_id integer,
+    location_map_id integer,    
     record_number varchar(15),
     record_date datetime,
     birthdate datetime,
@@ -123,7 +124,7 @@ create table cir.direction_map(
     height integer,
     zoom integer,
     scale integer,
-    path_color varchar(10)
+    path_color varchar(10),
     created_datetime datetime,
     updated_datetime datetime
 );
@@ -143,3 +144,12 @@ create table cir.contact_call(
     created_datetime datetime,
     updated_datetime datetime
 );
+
+alter table cir.service_group add foreign key (congregation_id) references cir.congregation (id);
+alter table cir.meeting_place add foreign key (service_group_id) references cir.service_group (id);
+alter table cir.contact add foreign key (service_group_id) references cir.service_group (id);
+alter table cir.contact add foreign key (status_id) references cir.contact_status (id);
+alter table cir.contact add foreign key (location_map_id) references cir.location_map (id);
+alter table cir.direction_map add foreign key (meeting_place_id) references cir.meeting_place (id);
+alter table cir.direction_map add foreign key (location_map_id) references cir.location_map (id);
+alter table cir.contact_call add foreign key (contact_id) references cir.contact (id);
