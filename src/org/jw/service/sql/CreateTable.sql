@@ -8,6 +8,7 @@ drop table cir.config if exist;
 drop table cir.contact_status if exist;
 drop table cir.location_map if exist;
 drop table cir.direction_map if exist;
+drop table cir.contact_call if exist;
 
 create table cir.congregation(
     id integer identity primary key,
@@ -120,6 +121,22 @@ create table cir.direction_map(
     zoom integer,
     scale integer,
     path_color varchar(10)
+    created_datetime datetime,
+    updated_datetime datetime
+);
+
+create table cir.contact_call(
+    id integer identity primary key,
+    contact_id integer,
+    call_date datetime,
+    call_day varchar(15),
+    call_time varchar(10),
+    scriptures varchar(75),
+    literature varchar(75),
+    publishers varchar(75),
+    notes longvarchar,
+    next_visit datetime,
+    next_topic longvarchar,
     created_datetime datetime,
     updated_datetime datetime
 );
