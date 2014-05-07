@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JDialogFormInfo">
+<Form version="1.6" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JDialogFormInfo">
   <NonVisualComponents>
     <Component class="java.util.List" name="serviceGroupList">
+      <Properties>
+        <Property name="query" type="java.lang.Object" editor="org.netbeans.modules.form.j2ee.J2EEPropertyModifier$QueryBeanProperty$QueryEditor">
+          <ComponentRef name="null"/>
+        </Property>
+        <Property name="observable" type="boolean" value="true"/>
+      </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="org.jdesktop.observablecollections.ObservableCollections.observableList(new java.util.ArrayList&lt;org.jw.service.entity.ServiceGroup&gt;())"/>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;org.jw.service.entity.ServiceGroup&gt;"/>
@@ -170,23 +176,32 @@
           <BindingProperties>
             <BindingProperty name="text" source="serviceGroupsTable" sourcePath="${selectedElement.name}" target="nameTextField" targetPath="text" updateStrategy="0" immediately="false">
               <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+              <Property name="nullValue" type="java.lang.String" value=""/>
+              <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+              <Property name="name" type="java.lang.String" value="name"/>
             </BindingProperty>
           </BindingProperties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="nameTextFieldActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="overseerTextField">
           <BindingProperties>
             <BindingProperty name="text" source="serviceGroupsTable" sourcePath="${selectedElement.overseer}" target="overseerTextField" targetPath="text" updateStrategy="0" immediately="false">
               <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+              <Property name="nullValue" type="java.lang.String" value="null"/>
+              <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+              <Property name="name" type="java.lang.String" value="overseer"/>
             </BindingProperty>
           </BindingProperties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="overseerTextFieldActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="assistantTextField">
           <BindingProperties>
             <BindingProperty name="text" source="serviceGroupsTable" sourcePath="${selectedElement.assistant}" target="assistantTextField" targetPath="text" updateStrategy="0" immediately="false">
               <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+              <Property name="nullValue" type="java.lang.String" value="null"/>
+              <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+              <Property name="name" type="java.lang.String" value="assistant"/>
             </BindingProperty>
           </BindingProperties>
         </Component>
@@ -209,6 +224,9 @@
           <BindingProperties>
             <BindingProperty name="text" source="serviceGroupsTable" sourcePath="${selectedElement.prefix}" target="prefixTextField" targetPath="text" updateStrategy="0" immediately="false">
               <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+              <Property name="nullValue" type="java.lang.String" value="null"/>
+              <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+              <Property name="name" type="java.lang.String" value="prefix"/>
             </BindingProperty>
           </BindingProperties>
         </Component>
@@ -216,13 +234,22 @@
           <BindingProperties>
             <BindingProperty name="text" source="serviceGroupsTable" sourcePath="${selectedElement.startNumber}" target="startNumberTextField" targetPath="text" updateStrategy="0" immediately="false">
               <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+              <Property name="nullValue" type="java.lang.String" value="null"/>
+              <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+              <Property name="name" type="java.lang.String" value="startNumber"/>
             </BindingProperty>
           </BindingProperties>
         </Component>
         <Component class="javax.swing.JTextField" name="nextNumberTextField">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+          </Properties>
           <BindingProperties>
             <BindingProperty name="text" source="serviceGroupsTable" sourcePath="${selectedElement.nextNumber}" target="nextNumberTextField" targetPath="text" updateStrategy="0" immediately="false">
               <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+              <Property name="nullValue" type="java.lang.String" value="null"/>
+              <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+              <Property name="name" type="java.lang.String" value="nextNumber"/>
             </BindingProperty>
           </BindingProperties>
         </Component>
@@ -269,6 +296,17 @@
           <SubComponents>
             <Component class="javax.swing.JTable" name="serviceGroupsTable">
               <Properties>
+                <Property name="autoCreateRowSorter" type="boolean" value="true"/>
+                <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
+                  <Table columnCount="6" rowCount="0">
+                    <Column editable="false" title="Name" type="java.lang.String"/>
+                    <Column editable="false" title="Overseer" type="java.lang.String"/>
+                    <Column editable="false" title="Assistant" type="java.lang.String"/>
+                    <Column editable="false" title="Prefix" type="java.lang.String"/>
+                    <Column editable="false" title="Start Number" type="java.lang.Integer"/>
+                    <Column editable="false" title="Next Number" type="java.lang.Integer"/>
+                  </Table>
+                </Property>
                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                   <TableColumnModel selectionModel="0">
                     <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
@@ -292,6 +330,9 @@
                       <Renderer/>
                     </Column>
                   </TableColumnModel>
+                </Property>
+                <Property name="selectionModel" type="javax.swing.ListSelectionModel" editor="org.netbeans.modules.form.editors2.JTableSelectionModelEditor">
+                  <JTableSelectionModel selectionMode="0"/>
                 </Property>
                 <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
                   <TableHeader reorderingAllowed="true" resizingAllowed="true"/>

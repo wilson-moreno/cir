@@ -14,11 +14,15 @@ import javax.swing.JProgressBar;
  * @author Wilson
  */
 public class DefaultTaskListener extends AbstractTaskListener{
+
+    public static DefaultTaskListener create(JProgressBar taskProgressBar, JLabel messageNotificationLabel, String startMessage, String doneMessage, boolean indeterminate) {
+        return new DefaultTaskListener(taskProgressBar, messageNotificationLabel, startMessage, doneMessage, indeterminate);
+    }
     private final boolean indeterminate;
     private final String startMessage;
     private final String doneMessage;
     
-    public DefaultTaskListener(JProgressBar taskProgressBar, 
+    private DefaultTaskListener(JProgressBar taskProgressBar, 
                                JLabel messageNotificationLabel,
                                String startMessage,
                                String doneMessage,

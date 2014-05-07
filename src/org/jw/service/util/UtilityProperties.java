@@ -7,6 +7,7 @@
 package org.jw.service.util;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Properties;
@@ -18,12 +19,14 @@ import java.util.logging.Logger;
  * @author Wilson
  */
 public class UtilityProperties extends DefaultUtility{
-    public static final String MARITAL_STATUS_PROPERTIES = "/org/jw/service/gui/resources/properties/marital_status.properties";
-    public static final String SEX_PROPERTIES = "/org/jw/service/gui/resources/properties/sex.properties";
+    public static final String PROPERTIES_DIRECTORY = "/org/jw/service/gui/resources/properties/";
+    public static final String MARITAL_STATUS_PROPERTIES = "marital_status.properties";
+    public static final String SEX_PROPERTIES = "sex.properties";
+    public static final String TASK_MESSAGE_PROPERTIES = "task_message.properties";
     private final Properties property;
     
     public static UtilityProperties create(String propertyFile) {
-        return new UtilityProperties(propertyFile);
+        return new UtilityProperties(PROPERTIES_DIRECTORY + propertyFile);
     }
     
     private UtilityProperties(String propertyFile){
@@ -33,11 +36,13 @@ public class UtilityProperties extends DefaultUtility{
     
     private Properties getProperties(String file){
         Properties properties = new Properties();
-        try {
-            properties.load(getResourceAsStream(file));
+        
+        try (InputStream inputStream = getResourceAsStream(file)) {
+             properties.load(inputStream);
         } catch (IOException ex) {
             Logger.getLogger(UtilityProperties.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
         return properties;
     }
     
@@ -47,5 +52,9 @@ public class UtilityProperties extends DefaultUtility{
     
     public Enumeration getKeys(){
         return this.property.keys();
+    }
+    
+    public String getProperty(String key){
+        return this.property.getProperty(key);
     }
 }

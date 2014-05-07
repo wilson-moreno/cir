@@ -6,18 +6,54 @@
 
 package org.jw.service.gui;
 
+import javax.persistence.EntityManager;
+import org.jw.service.action.DefaultCloseAction;
+import org.jw.service.action.DefaultDeleteAction;
+import org.jw.service.action.DefaultNewAction;
+import org.jw.service.action.DefaultRefreshAction;
+import org.jw.service.action.DefaultSaveAction;
+import org.jw.service.builder.DefaultTaskBuilder;
+import org.jw.service.dao.DataAccessObject;
+import org.jw.service.entity.ServiceGroup;
+import org.jw.service.util.UtilityProperties;
+
 /**
  *
  * @author Wilson
  */
 public class ServiceGroupDialog extends javax.swing.JDialog {
-
+    private final EntityManager em;
+    
     /**
      * Creates new form ServiceGroupDialog
+     * @param parent
+     * @param modal
      */
-    public ServiceGroupDialog(java.awt.Frame parent, boolean modal) {
+    public ServiceGroupDialog(java.awt.Frame parent, boolean modal, EntityManager em) {
         super(parent, modal);
+        this.em = em;
         initComponents();
+        initMyComponents();
+    }
+    
+    private void initMyComponents(){        
+        dao = DataAccessObject.create(em, ServiceGroup.class);
+        serviceGroupList.addAll(dao.readAll("SELECT s FROM ServiceGroup s"));
+        DefaultTaskBuilder taskBuilder = new DefaultTaskBuilder();
+        taskBuilder.setEntityName("service");
+        taskBuilder.setProperties(taskMessageProperties);
+        taskBuilder.setCrudPanel(crudPanel);
+        taskBuilder.setTaskMonitorPanel(taskMonitorPanel);
+        taskBuilder.setCloseAction(closeAction);
+        taskBuilder.setNewAction(newAction);
+        taskBuilder.setDeleteAction(deleteAction);
+        taskBuilder.setRefreshAction(refreshAction);
+        taskBuilder.setSaveAction(saveAction);        
+        taskBuilder.setList(serviceGroupList);
+        taskBuilder.setTable(serviceGroupsTable);
+        taskBuilder.setDialog(this);
+        taskBuilder.setDao(dao);
+        taskBuilder.buildDefaultTasks();
     }
 
     /**
@@ -60,19 +96,25 @@ public class ServiceGroupDialog extends javax.swing.JDialog {
 
         assitantLabel.setText("Assistant:");
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, serviceGroupsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.name}"), nameTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, serviceGroupsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.name}"), nameTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "name");
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue(null);
         bindingGroup.addBinding(binding);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, serviceGroupsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.overseer}"), overseerTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        overseerTextField.addActionListener(new java.awt.event.ActionListener() {
+        nameTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                overseerTextFieldActionPerformed(evt);
+                nameTextFieldActionPerformed(evt);
             }
         });
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, serviceGroupsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.assistant}"), assistantTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, serviceGroupsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.overseer}"), overseerTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "overseer");
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, serviceGroupsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.assistant}"), assistantTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "assistant");
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
         bindingGroup.addBinding(binding);
 
         prefixLabel.setText("Prefix:");
@@ -81,13 +123,21 @@ public class ServiceGroupDialog extends javax.swing.JDialog {
 
         nextNumberLabel.setText("Next Number:");
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, serviceGroupsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.prefix}"), prefixTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, serviceGroupsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.prefix}"), prefixTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "prefix");
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
         bindingGroup.addBinding(binding);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, serviceGroupsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.startNumber}"), startNumberTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, serviceGroupsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.startNumber}"), startNumberTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "startNumber");
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
         bindingGroup.addBinding(binding);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, serviceGroupsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.nextNumber}"), nextNumberTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        nextNumberTextField.setEditable(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, serviceGroupsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.nextNumber}"), nextNumberTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "nextNumber");
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
         bindingGroup.addBinding(binding);
 
         javax.swing.GroupLayout serviceGroupPanelLayout = new javax.swing.GroupLayout(serviceGroupPanel);
@@ -155,6 +205,32 @@ public class ServiceGroupDialog extends javax.swing.JDialog {
         );
 
         groupsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Groups", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+
+        serviceGroupsTable.setAutoCreateRowSorter(true);
+        serviceGroupsTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Name", "Overseer", "Assistant", "Prefix", "Start Number", "Next Number"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        serviceGroupsTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, serviceGroupList, serviceGroupsTable);
         org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${name}"));
@@ -229,9 +305,9 @@ public class ServiceGroupDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void overseerTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_overseerTextFieldActionPerformed
+    private void nameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameTextFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_overseerTextFieldActionPerformed
+    }//GEN-LAST:event_nameTextFieldActionPerformed
 
     
 
@@ -257,4 +333,12 @@ public class ServiceGroupDialog extends javax.swing.JDialog {
     private org.jw.service.gui.component.TaskMonitorPanel taskMonitorPanel;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
+
+    UtilityProperties taskMessageProperties = UtilityProperties.create(UtilityProperties.TASK_MESSAGE_PROPERTIES);
+    DefaultCloseAction<ServiceGroup> closeAction;
+    DefaultNewAction<ServiceGroup> newAction;
+    DefaultDeleteAction<ServiceGroup> deleteAction;
+    DefaultRefreshAction<ServiceGroup> refreshAction;
+    DefaultSaveAction<ServiceGroup> saveAction;        
+    DataAccessObject<ServiceGroup> dao;
 }

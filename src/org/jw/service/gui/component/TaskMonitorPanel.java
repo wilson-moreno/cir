@@ -67,7 +67,7 @@ public class TaskMonitorPanel extends javax.swing.JPanel {
     private javax.swing.JSeparator separator;
     // End of variables declaration//GEN-END:variables
 
-    public DefaultTaskListener createDefaultTaskListener(String startMessage, String doneMessage, boolean indeterminate){
-        return new DefaultTaskListener(progressBar, progressMessageLabel, startMessage, doneMessage, indeterminate);
+    public DefaultTaskListener createDefaultTaskListener(String startMessage, String doneMessage){
+        return DefaultTaskListener.create(progressBar, progressMessageLabel, startMessage, doneMessage, true);
     }
 }

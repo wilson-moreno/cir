@@ -24,6 +24,7 @@ public class Main {
         // TODO code application logic here
 
         
+        
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Windows".equals(info.getName())) {
@@ -45,12 +46,15 @@ public class Main {
         public RunnableImpl(){}
 
         @Override
-        public void run() {                          
+        public void run() {   
+            javax.persistence.EntityManager entityManager = javax.persistence.Persistence.createEntityManagerFactory("ContactInformationRecordPU").createEntityManager();
             JFrame.setDefaultLookAndFeelDecorated(true);
-            ApplicationFrame applicationFrame = new ApplicationFrame();            
+            ApplicationFrame applicationFrame = new ApplicationFrame(entityManager);            
             //contactFrame.setIconImage(ImageIconUtil.getInstance().getImageIcon(CIMS_LOGO, contactFrame).getImage());
             applicationFrame.setVisible(true);
         }
+        
+        
     }
     
 }

@@ -6,6 +6,9 @@
 
 package org.jw.service.gui.component;
 
+import javax.swing.JButton;
+import org.jw.service.listener.task.DefaultTaskListener;
+
 /**
  *
  * @author Wilson
@@ -100,4 +103,11 @@ public class CRUDPanel extends javax.swing.JPanel {
     private javax.swing.JButton refreshCommand;
     private javax.swing.JButton saveCommand;
     // End of variables declaration//GEN-END:variables
+
+    public JButton getCloseCommand(){ return closeCommand; }
+    public JButton getDeleteCommand(){ return deleteCommand; }
+    public JButton getNewCommand(){ return newCommand; }
+    public JButton getRefreshCommand(){ return refreshCommand; }
+    public JButton getSaveCommand(){ return saveCommand; }
+    
 }

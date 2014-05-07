@@ -6,6 +6,10 @@
 
 package org.jw.service.gui;
 
+import javax.persistence.EntityManager;
+import org.jw.service.action.DefaultOpenAction;
+import org.jw.service.dao.DataAccessObject;
+import org.jw.service.entity.Contact;
 import org.jw.service.util.UtilityProperties;
 
 /**
@@ -17,8 +21,12 @@ public class ApplicationFrame extends javax.swing.JFrame {
     /**
      * Creates new form ApplicationFrame
      */
-    public ApplicationFrame() {
+    public ApplicationFrame(EntityManager em) {        
+        this.em = em;
         initComponents();
+        initMyComponents();
+        
+        
     }
 
     /**
@@ -109,6 +117,8 @@ public class ApplicationFrame extends javax.swing.JFrame {
         menuBar = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
+        optionsMenu = new javax.swing.JMenu();
+        serviceGroupsMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -180,15 +190,15 @@ public class ApplicationFrame extends javax.swing.JFrame {
         recordNumberTextField.setEditable(false);
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.recordNumber}"), recordNumberTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "recordNumber");
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue(null);
+        binding.setSourceNullValue("null");
+        binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
 
         lastNameLabel.setText("Last Name:");
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.lastName}"), lastNameTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "lastName");
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue(null);
+        binding.setSourceNullValue("null");
+        binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
 
         lastNameTextField.addActionListener(new java.awt.event.ActionListener() {
@@ -200,8 +210,8 @@ public class ApplicationFrame extends javax.swing.JFrame {
         nickNameLabel.setText("Nick Name:");
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.nickName}"), nickNameTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "nickName");
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue(null);
+        binding.setSourceNullValue("null");
+        binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
 
         sexLabel.setText("Sex:");
@@ -215,8 +225,8 @@ public class ApplicationFrame extends javax.swing.JFrame {
         statusLabel.setText("Status:");
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.firstName}"), firstNameTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "firstName");
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue(null);
+        binding.setSourceNullValue("null");
+        binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
 
         statusComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -245,8 +255,8 @@ public class ApplicationFrame extends javax.swing.JFrame {
         nationalityLabel.setText("Nationality:");
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.nationaltiy}"), nationalityTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "nationality");
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue(null);
+        binding.setSourceNullValue("null");
+        binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.birthdate}"), birthDateChooser, org.jdesktop.beansbinding.BeanProperty.create("date"), "birthdate");
@@ -680,6 +690,13 @@ public class ApplicationFrame extends javax.swing.JFrame {
         jMenu2.setText("Edit");
         menuBar.add(jMenu2);
 
+        optionsMenu.setText("Options");
+
+        serviceGroupsMenuItem.setText("Service Groups");
+        optionsMenu.add(serviceGroupsMenuItem);
+
+        menuBar.add(optionsMenu);
+
         setJMenuBar(menuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -721,6 +738,12 @@ public class ApplicationFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_lastNameTextFieldActionPerformed
 
+    public void initMyComponents(){
+        contactDAO = DataAccessObject.create(em, Contact.class);
+        ServiceGroupDialog serviceGroupDialog = new ServiceGroupDialog(this, true, em);
+        DefaultOpenAction openServiceGroup = new DefaultOpenAction(serviceGroupsMenuItem,this,serviceGroupDialog);        
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -780,6 +803,7 @@ public class ApplicationFrame extends javax.swing.JFrame {
     private javax.swing.JTextField nationalityTextField;
     private javax.swing.JLabel nickNameLabel;
     private javax.swing.JTextField nickNameTextField;
+    private javax.swing.JMenu optionsMenu;
     private javax.swing.JLabel personalLabel;
     private javax.swing.JTextField personalTextField;
     private javax.swing.JLabel phoneNumberLabel;
@@ -792,6 +816,7 @@ public class ApplicationFrame extends javax.swing.JFrame {
     private javax.swing.JTextField recordNumberTextField;
     private javax.swing.JLabel religionLabel;
     private javax.swing.JTextField religionTextField;
+    private javax.swing.JMenuItem serviceGroupsMenuItem;
     private javax.swing.JComboBox sexComboBox;
     private javax.swing.JLabel sexLabel;
     private javax.swing.JTextField skypeAccountTextField;
@@ -810,4 +835,8 @@ public class ApplicationFrame extends javax.swing.JFrame {
 
     UtilityProperties maritalStatusProperties = UtilityProperties.create(UtilityProperties.MARITAL_STATUS_PROPERTIES);
     UtilityProperties sexProperties = UtilityProperties.create(UtilityProperties.SEX_PROPERTIES);
+    ServiceGroupDialog serviceGroupDialog;
+    DefaultOpenAction openServiceGroup;
+    EntityManager em;
+    DataAccessObject<Contact> contactDAO;
 }

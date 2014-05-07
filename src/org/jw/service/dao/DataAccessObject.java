@@ -8,11 +8,13 @@ package org.jw.service.dao;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.LockModeType;
+import javax.persistence.Query;
 
 /**
  *
@@ -53,6 +55,11 @@ public class DataAccessObject<T> {
     public T read(Long id){
         em.clear();
         return em.find(entityClass, id);
+    }
+    
+    public List<T> readAll(String queryString){
+        Query query = em.createQuery(queryString);
+        return query.getResultList();
     }
     
     public T save(T entity){
