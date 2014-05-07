@@ -32,6 +32,7 @@ public class TaskMonitorPanel extends javax.swing.JPanel {
 
         progressMessageLabel = new javax.swing.JLabel();
         progressBar = new javax.swing.JProgressBar();
+        separator = new javax.swing.JSeparator();
 
         progressMessageLabel.setText("Progress...");
 
@@ -45,11 +46,13 @@ public class TaskMonitorPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
+            .addComponent(separator)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addComponent(separator, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(1, 1, 1)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(progressBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(progressMessageLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -61,6 +64,7 @@ public class TaskMonitorPanel extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JProgressBar progressBar;
     private javax.swing.JLabel progressMessageLabel;
+    private javax.swing.JSeparator separator;
     // End of variables declaration//GEN-END:variables
 
     public DefaultTaskListener createDefaultTaskListener(String startMessage, String doneMessage, boolean indeterminate){
