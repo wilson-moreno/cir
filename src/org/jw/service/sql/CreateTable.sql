@@ -48,6 +48,7 @@ create table cir.meeting_place(
 create table cir.contact_status(
     id integer identity primary key,
     name varchar(50),
+    description varchar(100),
     modifiable bit,
     printable bit,
     icon longvarbinary,
