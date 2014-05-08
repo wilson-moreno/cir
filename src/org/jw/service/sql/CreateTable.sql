@@ -1,5 +1,5 @@
---create schema cir;
---set schema cir;
+create schema cir;
+set schema cir;
 
 drop table cir.congregation if exists;
 drop table cir.service_group if exists;

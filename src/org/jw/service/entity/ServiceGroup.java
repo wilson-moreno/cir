@@ -6,8 +6,6 @@
 
 package org.jw.service.entity;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
@@ -27,6 +25,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -51,15 +50,15 @@ public class ServiceGroup implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "ID", nullable = false)
+    @Column(name = "ID")
     private Integer id;
-    @Column(name = "NAME", length = 50)
+    @Column(name = "NAME")
     private String name;
-    @Column(name = "OVERSEER", length = 75)
+    @Column(name = "OVERSEER")
     private String overseer;
-    @Column(name = "ASSISTANT", length = 75)
+    @Column(name = "ASSISTANT")
     private String assistant;
-    @Column(name = "PREFIX", length = 5)
+    @Column(name = "PREFIX")
     private String prefix;
     @Column(name = "START_NUMBER")
     private Integer startNumber;
@@ -83,246 +82,117 @@ public class ServiceGroup implements Serializable {
     private Collection<Contact> contactCollection;
 
     public ServiceGroup() {
-        this.assistant = "";
-        this.congregationId = null;
-        this.contactCollection = null;
-        this.createdDatetime = new Date();
-        this.icon = null;
-        this.meetingPlaceCollection = null;
-        this.name = "";
-        this.nextNumber = null;
-        this.overseer = "";
-        this.prefix = "";
-        this.startNumber = null;
-        this.updatedDatetime = new Date();
     }
 
     public ServiceGroup(Integer id) {
-        super();
         this.id = id;
     }
 
-    /**
-     * @return the id
-     */
     public Integer getId() {
         return id;
     }
 
-    /**
-     * @param id the id to set
-     */
     public void setId(Integer id) {
-        java.lang.Integer oldId = this.id;
         this.id = id;
-        propertyChangeSupport.firePropertyChange(PROP_ID, oldId, id);
     }
 
-    /**
-     * @return the name
-     */
     public String getName() {
         return name;
     }
 
-    /**
-     * @param name the name to set
-     */
     public void setName(String name) {
-        java.lang.String oldName = this.name;
         this.name = name;
-        propertyChangeSupport.firePropertyChange(PROP_NAME, oldName, name);
     }
 
-    /**
-     * @return the overseer
-     */
     public String getOverseer() {
         return overseer;
     }
 
-    /**
-     * @param overseer the overseer to set
-     */
     public void setOverseer(String overseer) {
-        java.lang.String oldOverseer = this.overseer;
         this.overseer = overseer;
-        propertyChangeSupport.firePropertyChange(PROP_OVERSEER, oldOverseer, overseer);
     }
 
-    /**
-     * @return the assistant
-     */
     public String getAssistant() {
         return assistant;
     }
 
-    /**
-     * @param assistant the assistant to set
-     */
     public void setAssistant(String assistant) {
-        java.lang.String oldAssistant = this.assistant;
         this.assistant = assistant;
-        propertyChangeSupport.firePropertyChange(PROP_ASSISTANT, oldAssistant, assistant);
     }
 
-    /**
-     * @return the prefix
-     */
     public String getPrefix() {
         return prefix;
     }
 
-    /**
-     * @param prefix the prefix to set
-     */
     public void setPrefix(String prefix) {
-        java.lang.String oldPrefix = this.prefix;
         this.prefix = prefix;
-        propertyChangeSupport.firePropertyChange(PROP_PREFIX, oldPrefix, prefix);
     }
 
-    /**
-     * @return the startNumber
-     */
     public Integer getStartNumber() {
         return startNumber;
     }
 
-    /**
-     * @param startNumber the startNumber to set
-     */
     public void setStartNumber(Integer startNumber) {
-        java.lang.Integer oldStartNumber = this.startNumber;
         this.startNumber = startNumber;
-        propertyChangeSupport.firePropertyChange(PROP_STARTNUMBER, oldStartNumber, startNumber);
     }
 
-    /**
-     * @return the nextNumber
-     */
     public Integer getNextNumber() {
         return nextNumber;
     }
 
-    /**
-     * @param nextNumber the nextNumber to set
-     */
     public void setNextNumber(Integer nextNumber) {
-        java.lang.Integer oldNextNumber = this.nextNumber;
         this.nextNumber = nextNumber;
-        propertyChangeSupport.firePropertyChange(PROP_NEXTNUMBER, oldNextNumber, nextNumber);
     }
 
-    /**
-     * @return the icon
-     */
     public byte[] getIcon() {
         return icon;
     }
 
-    /**
-     * @param icon the icon to set
-     */
     public void setIcon(byte[] icon) {
-        byte[] oldIcon = this.icon;
         this.icon = icon;
-        propertyChangeSupport.firePropertyChange(PROP_ICON, oldIcon, icon);
     }
 
-    /**
-     * @return the createdDatetime
-     */
     public Date getCreatedDatetime() {
         return createdDatetime;
     }
 
-    /**
-     * @param createdDatetime the createdDatetime to set
-     */
     public void setCreatedDatetime(Date createdDatetime) {
-        java.util.Date oldCreatedDatetime = this.createdDatetime;
         this.createdDatetime = createdDatetime;
-        propertyChangeSupport.firePropertyChange(PROP_CREATEDDATETIME, oldCreatedDatetime, createdDatetime);
     }
 
-    /**
-     * @return the updatedDatetime
-     */
     public Date getUpdatedDatetime() {
         return updatedDatetime;
     }
 
-    /**
-     * @param updatedDatetime the updatedDatetime to set
-     */
     public void setUpdatedDatetime(Date updatedDatetime) {
-        java.util.Date oldUpdatedDatetime = this.updatedDatetime;
         this.updatedDatetime = updatedDatetime;
-        propertyChangeSupport.firePropertyChange(PROP_UPDATEDDATETIME, oldUpdatedDatetime, updatedDatetime);
     }
 
-    /**
-     * @return the congregationId
-     */
     public Congregation getCongregationId() {
         return congregationId;
     }
 
-    /**
-     * @param congregationId the congregationId to set
-     */
     public void setCongregationId(Congregation congregationId) {
-        org.jw.service.entity.Congregation oldCongregationId = this.congregationId;
         this.congregationId = congregationId;
-        propertyChangeSupport.firePropertyChange(PROP_CONGREGATIONID, oldCongregationId, congregationId);
     }
 
-    /**
-     * @return the meetingPlaceCollection
-     */
+    @XmlTransient
     public Collection<MeetingPlace> getMeetingPlaceCollection() {
         return meetingPlaceCollection;
     }
 
-    /**
-     * @param meetingPlaceCollection the meetingPlaceCollection to set
-     */
     public void setMeetingPlaceCollection(Collection<MeetingPlace> meetingPlaceCollection) {
-        java.util.Collection<org.jw.service.entity.MeetingPlace> oldMeetingPlaceCollection = this.meetingPlaceCollection;
         this.meetingPlaceCollection = meetingPlaceCollection;
-        propertyChangeSupport.firePropertyChange(PROP_MEETINGPLACECOLLECTION, oldMeetingPlaceCollection, meetingPlaceCollection);
     }
 
-    /**
-     * @return the contactCollection
-     */
+    @XmlTransient
     public Collection<Contact> getContactCollection() {
         return contactCollection;
     }
 
-    /**
-     * @param contactCollection the contactCollection to set
-     */
     public void setContactCollection(Collection<Contact> contactCollection) {
-        java.util.Collection<org.jw.service.entity.Contact> oldContactCollection = this.contactCollection;
         this.contactCollection = contactCollection;
-        propertyChangeSupport.firePropertyChange(PROP_CONTACTCOLLECTION, oldContactCollection, contactCollection);
     }
-    private final transient PropertyChangeSupport propertyChangeSupport = new java.beans.PropertyChangeSupport(this);
-    public static final String PROP_ID = "id";
-    public static final String PROP_NAME = "name";
-    public static final String PROP_OVERSEER = "overseer";
-    public static final String PROP_ASSISTANT = "assistant";
-    public static final String PROP_PREFIX = "prefix";
-    public static final String PROP_STARTNUMBER = "startNumber";
-    public static final String PROP_NEXTNUMBER = "nextNumber";
-    public static final String PROP_ICON = "icon";
-    public static final String PROP_CREATEDDATETIME = "createdDatetime";
-    public static final String PROP_UPDATEDDATETIME = "updatedDatetime";
-    public static final String PROP_CONGREGATIONID = "congregationId";
-    public static final String PROP_MEETINGPLACECOLLECTION = "meetingPlaceCollection";
-    public static final String PROP_CONTACTCOLLECTION = "contactCollection";
 
     @Override
     public int hashCode() {
@@ -348,12 +218,5 @@ public class ServiceGroup implements Serializable {
     public String toString() {
         return "org.jw.service.entity.ServiceGroup[ id=" + id + " ]";
     }
- 
-    public void addPropertyChangeListener(PropertyChangeListener listener){
-        propertyChangeSupport.addPropertyChangeListener(listener);
-    }
     
-    public void removePropertyChangeListener(PropertyChangeListener listener){
-        propertyChangeSupport.removePropertyChangeListener(listener);
-    }
 }

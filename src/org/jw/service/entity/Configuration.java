@@ -39,9 +39,9 @@ public class Configuration implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "ID", nullable = false)
+    @Column(name = "ID")
     private Integer id;
-    @Column(name = "REPORT_TITLE", length = 50)
+    @Column(name = "REPORT_TITLE")
     private String reportTitle;
     @Column(name = "CREATED_DATETIME")
     @Temporal(TemporalType.TIMESTAMP)

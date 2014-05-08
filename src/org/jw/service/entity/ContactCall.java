@@ -36,6 +36,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ContactCall.findByCallDate", query = "SELECT c FROM ContactCall c WHERE c.callDate = :callDate"),
     @NamedQuery(name = "ContactCall.findByCallDay", query = "SELECT c FROM ContactCall c WHERE c.callDay = :callDay"),
     @NamedQuery(name = "ContactCall.findByCallTime", query = "SELECT c FROM ContactCall c WHERE c.callTime = :callTime"),
+    @NamedQuery(name = "ContactCall.findByStatus", query = "SELECT c FROM ContactCall c WHERE c.status = :status"),
     @NamedQuery(name = "ContactCall.findByScriptures", query = "SELECT c FROM ContactCall c WHERE c.scriptures = :scriptures"),
     @NamedQuery(name = "ContactCall.findByLiterature", query = "SELECT c FROM ContactCall c WHERE c.literature = :literature"),
     @NamedQuery(name = "ContactCall.findByPublishers", query = "SELECT c FROM ContactCall c WHERE c.publishers = :publishers"),
@@ -45,33 +46,33 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ContactCall.findByCreatedDatetime", query = "SELECT c FROM ContactCall c WHERE c.createdDatetime = :createdDatetime"),
     @NamedQuery(name = "ContactCall.findByUpdatedDatetime", query = "SELECT c FROM ContactCall c WHERE c.updatedDatetime = :updatedDatetime")})
 public class ContactCall implements Serializable {
-    @Column(name = "STATUS")
-    private String status;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "ID", nullable = false)
+    @Column(name = "ID")
     private Integer id;
     @Column(name = "CALL_DATE")
     @Temporal(TemporalType.TIMESTAMP)
     private Date callDate;
-    @Column(name = "CALL_DAY", length = 15)
+    @Column(name = "CALL_DAY")
     private String callDay;
-    @Column(name = "CALL_TIME", length = 10)
+    @Column(name = "CALL_TIME")
     private String callTime;
-    @Column(name = "SCRIPTURES", length = 75)
+    @Column(name = "STATUS")
+    private String status;
+    @Column(name = "SCRIPTURES")
     private String scriptures;
-    @Column(name = "LITERATURE", length = 75)
+    @Column(name = "LITERATURE")
     private String literature;
-    @Column(name = "PUBLISHERS", length = 75)
+    @Column(name = "PUBLISHERS")
     private String publishers;
-    @Column(name = "NOTES", length = 16777216)
+    @Column(name = "NOTES")
     private String notes;
     @Column(name = "NEXT_VISIT")
     @Temporal(TemporalType.TIMESTAMP)
     private Date nextVisit;
-    @Column(name = "NEXT_TOPIC", length = 16777216)
+    @Column(name = "NEXT_TOPIC")
     private String nextTopic;
     @Column(name = "CREATED_DATETIME")
     @Temporal(TemporalType.TIMESTAMP)
@@ -120,6 +121,14 @@ public class ContactCall implements Serializable {
 
     public void setCallTime(String callTime) {
         this.callTime = callTime;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getScriptures() {
@@ -217,14 +226,6 @@ public class ContactCall implements Serializable {
     @Override
     public String toString() {
         return "org.jw.service.entity.ContactCall[ id=" + id + " ]";
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
     
 }

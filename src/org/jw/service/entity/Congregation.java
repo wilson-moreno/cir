@@ -45,15 +45,15 @@ public class Congregation implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "ID", nullable = false)
+    @Column(name = "ID")
     private Integer id;
-    @Column(name = "NAME", length = 50)
+    @Column(name = "NAME")
     private String name;
-    @Column(name = "ADDRESS_1", length = 100)
+    @Column(name = "ADDRESS_1")
     private String address1;
-    @Column(name = "ADDRESS_2", length = 100)
+    @Column(name = "ADDRESS_2")
     private String address2;
-    @Column(name = "CITY", length = 50)
+    @Column(name = "CITY")
     private String city;
     @Column(name = "CREATED_DATETIME")
     @Temporal(TemporalType.TIMESTAMP)

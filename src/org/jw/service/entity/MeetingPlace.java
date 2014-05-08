@@ -47,16 +47,16 @@ public class MeetingPlace implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "ID", nullable = false)
+    @Column(name = "ID")
     private Integer id;
-    @Column(name = "NAME", length = 50)
+    @Column(name = "NAME")
     private String name;
-    @Column(name = "ADDRESS", length = 100)
+    @Column(name = "ADDRESS")
     private String address;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "LATITUDE", precision = 64)
+    @Column(name = "LATITUDE")
     private Double latitude;
-    @Column(name = "LONGITUDE", precision = 64)
+    @Column(name = "LONGITUDE")
     private Double longitude;
     @Column(name = "CREATED_DATETIME")
     @Temporal(TemporalType.TIMESTAMP)

@@ -2,20 +2,20 @@
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
   <persistence-unit name="ContactInformationRecordPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-    <class>org.jw.service.entity.DirectionMap</class>
-    <class>org.jw.service.entity.LocationMap</class>
-    <class>org.jw.service.entity.Contact</class>
-    <class>org.jw.service.entity.ContactCall</class>
-    <class>org.jw.service.entity.Congregation</class>
-    <class>org.jw.service.entity.ServiceGroup</class>
-    <class>org.jw.service.entity.Configuration</class>
-    <class>org.jw.service.entity.ContactStatus</class>
     <class>org.jw.service.entity.MeetingPlace</class>
+    <class>org.jw.service.entity.Contact</class>
+    <class>org.jw.service.entity.ContactStatus</class>
+    <class>org.jw.service.entity.ContactCall</class>
+    <class>org.jw.service.entity.ServiceGroup</class>
+    <class>org.jw.service.entity.Congregation</class>
+    <class>org.jw.service.entity.Configuration</class>
+    <class>org.jw.service.entity.LocationMap</class>
+    <class>org.jw.service.entity.DirectionMap</class>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:hsqldb:file:data/cir"/>
-      <property name="javax.persistence.jdbc.password" value=""/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:hsqldb:file:data/jwcir"/>
+      <property name="javax.persistence.jdbc.password" value="@_@Revelation2134"/>
       <property name="javax.persistence.jdbc.driver" value="org.hsqldb.jdbcDriver"/>
-      <property name="javax.persistence.jdbc.user" value=""/>
+      <property name="javax.persistence.jdbc.user" value="SA"/>
     </properties>
   </persistence-unit>
 </persistence>

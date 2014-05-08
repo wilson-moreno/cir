@@ -48,14 +48,14 @@ public class DirectionMap implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "ID", nullable = false)
+    @Column(name = "ID")
     private Integer id;
     @Lob
     @Column(name = "IMAGE")
     private byte[] image;
-    @Column(name = "DIRECTION", length = 16777216)
+    @Column(name = "DIRECTION")
     private String direction;
-    @Column(name = "TRAVEL_MODE", length = 15)
+    @Column(name = "TRAVEL_MODE")
     private String travelMode;
     @Column(name = "WIDTH")
     private Integer width;
@@ -65,7 +65,7 @@ public class DirectionMap implements Serializable {
     private Integer zoom;
     @Column(name = "SCALE")
     private Integer scale;
-    @Column(name = "PATH_COLOR", length = 10)
+    @Column(name = "PATH_COLOR")
     private String pathColor;
     @Column(name = "CREATED_DATETIME")
     @Temporal(TemporalType.TIMESTAMP)

@@ -70,9 +70,9 @@ public class Contact implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "ID", nullable = false)
+    @Column(name = "ID")
     private Integer id;
-    @Column(name = "RECORD_NUMBER", length = 15)
+    @Column(name = "RECORD_NUMBER")
     private String recordNumber;
     @Column(name = "RECORD_DATE")
     @Temporal(TemporalType.TIMESTAMP)
@@ -80,54 +80,54 @@ public class Contact implements Serializable {
     @Column(name = "BIRTHDATE")
     @Temporal(TemporalType.TIMESTAMP)
     private Date birthdate;
-    @Column(name = "LAST_NAME", length = 30)
+    @Column(name = "LAST_NAME")
     private String lastName;
-    @Column(name = "FIRST_NAME", length = 30)
+    @Column(name = "FIRST_NAME")
     private String firstName;
-    @Column(name = "NICK_NAME", length = 30)
+    @Column(name = "NICK_NAME")
     private String nickName;
-    @Column(name = "SEX", length = 6)
+    @Column(name = "SEX")
     private String sex;
-    @Column(name = "MARITAL_STATUS", length = 15)
+    @Column(name = "MARITAL_STATUS")
     private String maritalStatus;
-    @Column(name = "NATIONALTIY", length = 30)
+    @Column(name = "NATIONALTIY")
     private String nationaltiy;
     @Lob
     @Column(name = "PROFILE_PICTURE")
     private byte[] profilePicture;
-    @Column(name = "HOUSE_NUMBER", length = 15)
+    @Column(name = "HOUSE_NUMBER")
     private String houseNumber;
-    @Column(name = "STREET", length = 200)
+    @Column(name = "STREET")
     private String street;
-    @Column(name = "BARANGAY", length = 20)
+    @Column(name = "BARANGAY")
     private String barangay;
-    @Column(name = "CITY", length = 50)
+    @Column(name = "CITY")
     private String city;
-    @Column(name = "AREA", length = 50)
+    @Column(name = "AREA")
     private String area;
-    @Column(name = "PERSONAL_BACKGROUND", length = 150)
+    @Column(name = "PERSONAL_BACKGROUND")
     private String personalBackground;
-    @Column(name = "FAMILY_BACKGROUND", length = 150)
+    @Column(name = "FAMILY_BACKGROUND")
     private String familyBackground;
-    @Column(name = "WORK_BACKGROUND", length = 150)
+    @Column(name = "WORK_BACKGROUND")
     private String workBackground;
-    @Column(name = "PHONE_NUMBER", length = 50)
+    @Column(name = "PHONE_NUMBER")
     private String phoneNumber;
-    @Column(name = "MOBILE_NUMBER", length = 50)
+    @Column(name = "MOBILE_NUMBER")
     private String mobileNumber;
-    @Column(name = "EMAIL_ADDRESS", length = 50)
+    @Column(name = "EMAIL_ADDRESS")
     private String emailAddress;
-    @Column(name = "SKYPE_ACCOUNT", length = 50)
+    @Column(name = "SKYPE_ACCOUNT")
     private String skypeAccount;
-    @Column(name = "FACEBOOK_ACCOUNT", length = 50)
+    @Column(name = "FACEBOOK_ACCOUNT")
     private String facebookAccount;
-    @Column(name = "FATHERS_NAME", length = 50)
+    @Column(name = "FATHERS_NAME")
     private String fathersName;
-    @Column(name = "MOTHERS_NAME", length = 50)
+    @Column(name = "MOTHERS_NAME")
     private String mothersName;
-    @Column(name = "RELIGION", length = 50)
+    @Column(name = "RELIGION")
     private String religion;
-    @Column(name = "FOUND_BY", length = 50)
+    @Column(name = "FOUND_BY")
     private String foundBy;
     @Column(name = "CREATED_DATETIME")
     @Temporal(TemporalType.TIMESTAMP)

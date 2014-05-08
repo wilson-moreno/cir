@@ -50,15 +50,15 @@ public class LocationMap implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "ID", nullable = false)
+    @Column(name = "ID")
     private Integer id;
     @Lob
     @Column(name = "IMAGE")
     private byte[] image;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "LATITUDE", precision = 64)
+    @Column(name = "LATITUDE")
     private Double latitude;
-    @Column(name = "LONGITUDE", precision = 64)
+    @Column(name = "LONGITUDE")
     private Double longitude;
     @Column(name = "WIDTH")
     private Integer width;
@@ -68,9 +68,9 @@ public class LocationMap implements Serializable {
     private Integer scale;
     @Column(name = "ZOOM")
     private Integer zoom;
-    @Column(name = "IMAGE_FORMAT", length = 15)
+    @Column(name = "IMAGE_FORMAT")
     private String imageFormat;
-    @Column(name = "MAP_TYPE", length = 15)
+    @Column(name = "MAP_TYPE")
     private String mapType;
     @Column(name = "CREATED_DATETIME")
     @Temporal(TemporalType.TIMESTAMP)
