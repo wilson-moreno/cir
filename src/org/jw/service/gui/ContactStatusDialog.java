@@ -35,53 +35,31 @@ public class ContactStatusDialog extends javax.swing.JDialog {
         crudPanel = new org.jw.service.gui.component.CRUDPanel();
         contactStatusPanel = new javax.swing.JPanel();
         statusNameLabel = new javax.swing.JLabel();
-        statusNameTextField = new javax.swing.JTextField();
         descriptionLabel = new javax.swing.JLabel();
-        descriptionTextField = new javax.swing.JTextField();
-        modifiableCheckBox = new javax.swing.JCheckBox();
-        printableCheckBox = new javax.swing.JCheckBox();
-        setIconCommand = new javax.swing.JButton();
-        statusIconLabel = new javax.swing.JLabel();
+        jTextField3 = new javax.swing.JTextField();
+        jTextField4 = new javax.swing.JTextField();
+        jCheckBox1 = new javax.swing.JCheckBox();
+        jButton1 = new javax.swing.JButton();
+        jCheckBox2 = new javax.swing.JCheckBox();
         statusPanel = new javax.swing.JPanel();
         scrollPane = new javax.swing.JScrollPane();
         statusTable = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/jw/service/gui/resources/properties/gui"); // NOI18N
+        setTitle(bundle.getString("status.dialog.title")); // NOI18N
 
         contactStatusPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Contact Status", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
         statusNameLabel.setText("Name:");
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, statusTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.name}"), statusNameTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
         descriptionLabel.setText("Description:");
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, statusTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.description}"), descriptionTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
+        jCheckBox1.setText("Modifiable");
 
-        modifiableCheckBox.setText("Modifiable");
+        jButton1.setText("Icon");
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, statusTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.modifiable}"), modifiableCheckBox, org.jdesktop.beansbinding.BeanProperty.create("selected"));
-        bindingGroup.addBinding(binding);
-
-        modifiableCheckBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                modifiableCheckBoxActionPerformed(evt);
-            }
-        });
-
-        printableCheckBox.setText("Printable");
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, statusTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.printable}"), printableCheckBox, org.jdesktop.beansbinding.BeanProperty.create("selected"));
-        bindingGroup.addBinding(binding);
-
-        setIconCommand.setText("Icon");
-
-        statusIconLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, statusTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.icon}"), statusIconLabel, org.jdesktop.beansbinding.BeanProperty.create("icon"));
-        bindingGroup.addBinding(binding);
+        jCheckBox2.setText("Printable");
 
         javax.swing.GroupLayout contactStatusPanelLayout = new javax.swing.GroupLayout(contactStatusPanel);
         contactStatusPanel.setLayout(contactStatusPanelLayout);
@@ -89,26 +67,23 @@ public class ContactStatusDialog extends javax.swing.JDialog {
             contactStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(contactStatusPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(contactStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(contactStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(contactStatusPanelLayout.createSequentialGroup()
                         .addComponent(descriptionLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(contactStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(descriptionTextField)
-                            .addGroup(contactStatusPanelLayout.createSequentialGroup()
-                                .addComponent(modifiableCheckBox)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(printableCheckBox)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(setIconCommand)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(statusIconLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap())))
+                        .addGap(4, 4, 4)
+                        .addComponent(jTextField4))
                     .addGroup(contactStatusPanelLayout.createSequentialGroup()
                         .addComponent(statusNameLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(statusNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(contactStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(contactStatusPanelLayout.createSequentialGroup()
+                        .addComponent(jCheckBox1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1))
+                    .addComponent(jCheckBox2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         contactStatusPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {descriptionLabel, statusNameLabel});
@@ -116,22 +91,18 @@ public class ContactStatusDialog extends javax.swing.JDialog {
         contactStatusPanelLayout.setVerticalGroup(
             contactStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(contactStatusPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(contactStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(statusNameLabel)
-                    .addComponent(statusNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jCheckBox1)
+                    .addComponent(jButton1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(contactStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(descriptionLabel)
-                    .addComponent(descriptionTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(contactStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(contactStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(modifiableCheckBox)
-                        .addComponent(printableCheckBox)
-                        .addComponent(setIconCommand))
-                    .addComponent(statusIconLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(2, 2, 2))
+                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jCheckBox2))
+                .addContainerGap())
         );
 
         statusPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Status", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
@@ -160,14 +131,14 @@ public class ContactStatusDialog extends javax.swing.JDialog {
             statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(statusPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addContainerGap())
         );
         statusPanelLayout.setVerticalGroup(
             statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, statusPanelLayout.createSequentialGroup()
+            .addGroup(statusPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
+                .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -202,25 +173,20 @@ public class ContactStatusDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void modifiableCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifiableCheckBoxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_modifiableCheckBoxActionPerformed
-
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel contactStatusPanel;
     private org.jw.service.gui.component.CRUDPanel crudPanel;
     private javax.swing.JLabel descriptionLabel;
-    private javax.swing.JTextField descriptionTextField;
-    private javax.swing.JCheckBox modifiableCheckBox;
-    private javax.swing.JCheckBox printableCheckBox;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JCheckBox jCheckBox2;
+    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextField4;
     private javax.swing.JScrollPane scrollPane;
-    private javax.swing.JButton setIconCommand;
-    private javax.swing.JLabel statusIconLabel;
     private java.util.List<org.jw.service.entity.ContactStatus> statusList;
     private javax.swing.JLabel statusNameLabel;
-    private javax.swing.JTextField statusNameTextField;
     private javax.swing.JPanel statusPanel;
     private javax.swing.JTable statusTable;
     private org.jw.service.gui.component.TaskMonitorPanel taskMonitorPanel;

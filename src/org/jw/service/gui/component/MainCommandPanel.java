@@ -34,6 +34,11 @@ public class MainCommandPanel extends javax.swing.JPanel {
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
+        jButton8 = new javax.swing.JButton();
+        jButton10 = new javax.swing.JButton();
+        jComboBox1 = new javax.swing.JComboBox();
         separator = new javax.swing.JSeparator();
 
         toolBar.setFloatable(false);
@@ -69,11 +74,38 @@ public class MainCommandPanel extends javax.swing.JPanel {
         jButton4.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         toolBar.add(jButton4);
 
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.show.calls.png"))); // NOI18N
+        jButton5.setText("Calls");
+        jButton5.setFocusable(false);
+        jButton5.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        toolBar.add(jButton5);
+
+        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.database.backup.png"))); // NOI18N
+        jButton7.setText("Backup");
+        jButton7.setFocusable(false);
+        jButton7.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        toolBar.add(jButton7);
+
+        jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.search.contact.png"))); // NOI18N
+        jButton8.setText("Search");
+        jButton8.setFocusable(false);
+        jButton8.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        toolBar.add(jButton8);
+
+        jButton10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.print.contact.png"))); // NOI18N
+        jButton10.setText("Print");
+        jButton10.setFocusable(false);
+        jButton10.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        toolBar.add(jButton10);
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "FSG #1 - Valenzuela", "FSG #2 - Caloocan", "FSG #3 - Tondo", "FSG #4 - Malabon-Navotas" }));
+        toolBar.add(jComboBox1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(toolBar, javax.swing.GroupLayout.DEFAULT_SIZE, 466, Short.MAX_VALUE)
+            .addComponent(toolBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(separator)
         );
         layout.setVerticalGroup(
@@ -90,9 +122,14 @@ public class MainCommandPanel extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton exitCommand;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
+    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JSeparator separator;
     private javax.swing.JToolBar toolBar;
     // End of variables declaration//GEN-END:variables

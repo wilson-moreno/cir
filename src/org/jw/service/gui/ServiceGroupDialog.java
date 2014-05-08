@@ -38,7 +38,6 @@ public class ServiceGroupDialog extends javax.swing.JDialog {
     
     private void initMyComponents(){        
         dao = DataAccessObject.create(em, ServiceGroup.class);
-        serviceGroupList.addAll(dao.readAll("SELECT s FROM ServiceGroup s"));
         DefaultTaskBuilder taskBuilder = new DefaultTaskBuilder();
         taskBuilder.setEntityName("service");
         taskBuilder.setProperties(taskMessageProperties);
@@ -87,6 +86,8 @@ public class ServiceGroupDialog extends javax.swing.JDialog {
         serviceGroupsTable = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/jw/service/gui/resources/properties/gui"); // NOI18N
+        setTitle(bundle.getString("service.dialog.title")); // NOI18N
 
         serviceGroupPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Service Group", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
@@ -98,7 +99,7 @@ public class ServiceGroupDialog extends javax.swing.JDialog {
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, serviceGroupsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.name}"), nameTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "name");
         binding.setSourceNullValue("");
-        binding.setSourceUnreadableValue(null);
+        binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
 
         nameTextField.addActionListener(new java.awt.event.ActionListener() {
@@ -108,13 +109,13 @@ public class ServiceGroupDialog extends javax.swing.JDialog {
         });
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, serviceGroupsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.overseer}"), overseerTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "overseer");
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue(null);
+        binding.setSourceNullValue("null");
+        binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, serviceGroupsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.assistant}"), assistantTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "assistant");
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue(null);
+        binding.setSourceNullValue("null");
+        binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
 
         prefixLabel.setText("Prefix:");
@@ -124,20 +125,20 @@ public class ServiceGroupDialog extends javax.swing.JDialog {
         nextNumberLabel.setText("Next Number:");
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, serviceGroupsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.prefix}"), prefixTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "prefix");
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue(null);
+        binding.setSourceNullValue("null");
+        binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, serviceGroupsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.startNumber}"), startNumberTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "startNumber");
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue(null);
+        binding.setSourceNullValue("null");
+        binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
 
         nextNumberTextField.setEditable(false);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, serviceGroupsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.nextNumber}"), nextNumberTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "nextNumber");
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue(null);
+        binding.setSourceNullValue("null");
+        binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
 
         javax.swing.GroupLayout serviceGroupPanelLayout = new javax.swing.GroupLayout(serviceGroupPanel);
@@ -207,29 +208,6 @@ public class ServiceGroupDialog extends javax.swing.JDialog {
         groupsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Groups", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
         serviceGroupsTable.setAutoCreateRowSorter(true);
-        serviceGroupsTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Name", "Overseer", "Assistant", "Prefix", "Start Number", "Next Number"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
         serviceGroupsTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, serviceGroupList, serviceGroupsTable);

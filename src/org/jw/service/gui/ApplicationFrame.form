@@ -15,11 +15,6 @@
             <Property name="text" type="java.lang.String" value="File"/>
           </Properties>
         </Menu>
-        <Menu class="javax.swing.JMenu" name="jMenu2">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Edit"/>
-          </Properties>
-        </Menu>
         <Menu class="javax.swing.JMenu" name="optionsMenu">
           <Properties>
             <Property name="text" type="java.lang.String" value="Options"/>
@@ -30,6 +25,11 @@
                 <Property name="text" type="java.lang.String" value="Service Groups"/>
               </Properties>
             </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="contactStatusMenuItem">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Contact Status"/>
+              </Properties>
+            </MenuItem>
           </SubComponents>
         </Menu>
       </SubComponents>
@@ -37,6 +37,9 @@
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
+    <Property name="title" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+      <ResourceString bundle="org/jw/service/gui/resources/properties/gui.properties" key="app.frame.title" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+    </Property>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="menuBar" type="java.lang.String" value="menuBar"/>
@@ -192,7 +195,10 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="profilePicturePanel" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="profilePicturePanel" max="32767" attributes="0"/>
+                          <Component id="setProfilePictureCommand" max="32767" attributes="0"/>
+                      </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jPanel4" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -206,7 +212,8 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
                               <Component id="profilePicturePanel" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="27" max="32767" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="setProfilePictureCommand" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Component id="jPanel4" max="32767" attributes="0"/>
                       </Group>
@@ -318,7 +325,7 @@
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="statusComboBox" pref="124" max="32767" attributes="0"/>
+                                      <Component id="statusComboBox" pref="140" max="32767" attributes="0"/>
                                       <Component id="nationalityTextField" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
@@ -369,7 +376,7 @@
                               <Component id="nationalityLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="nationalityTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="12" max="32767" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -551,6 +558,11 @@
                 </Component>
               </SubComponents>
             </Container>
+            <Component class="javax.swing.JButton" name="setProfilePictureCommand">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Set Profile Picture"/>
+              </Properties>
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="addressTabPanel">
@@ -603,7 +615,7 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="houseNumberLabel" linkSize="3" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="houseNumberTextField" pref="467" max="32767" attributes="0"/>
+                                  <Component id="houseNumberTextField" pref="483" max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -653,7 +665,7 @@
                               <Component id="areaTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="areaLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="0" pref="12" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="30" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -784,7 +796,7 @@
                                       <Group type="102" alignment="0" attributes="0">
                                           <Component id="religionLabel" linkSize="6" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="religionTextField" pref="219" max="32767" attributes="0"/>
+                                          <Component id="religionTextField" pref="235" max="32767" attributes="0"/>
                                       </Group>
                                       <Group type="102" alignment="0" attributes="0">
                                           <Group type="103" groupAlignment="0" attributes="0">
@@ -963,7 +975,7 @@
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="1" attributes="0">
-                                      <Component id="mobileNumberTextField" pref="467" max="32767" attributes="0"/>
+                                      <Component id="mobileNumberTextField" pref="483" max="32767" attributes="0"/>
                                       <Component id="phoneNumberTextField" max="32767" attributes="0"/>
                                       <Component id="emailAddressTextField" max="32767" attributes="0"/>
                                   </Group>
@@ -1012,7 +1024,7 @@
                               <Component id="facebookLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="facebookTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="12" max="32767" attributes="0"/>
+                          <EmptySpace pref="30" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -1053,6 +1065,103 @@
                 </Component>
                 <Component class="javax.swing.JTextField" name="facebookTextField">
                 </Component>
+              </SubComponents>
+            </Container>
+          </SubComponents>
+        </Container>
+        <Container class="javax.swing.JPanel" name="jPanel1">
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+              <JTabbedPaneConstraints tabName="Maps">
+                <Property name="tabTitle" type="java.lang.String" value="Maps"/>
+              </JTabbedPaneConstraints>
+            </Constraint>
+          </Constraints>
+
+          <Layout>
+            <DimensionLayout dim="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jPanel3" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+            <DimensionLayout dim="1">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jPanel3" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+          </Layout>
+          <SubComponents>
+            <Container class="javax.swing.JPanel" name="jPanel3">
+              <Properties>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                  <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+                    <TitledBorder title="Maps">
+                      <Font PropertyName="font" name="Tahoma" size="11" style="1"/>
+                    </TitledBorder>
+                  </Border>
+                </Property>
+              </Properties>
+
+              <Layout>
+                <DimensionLayout dim="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jToolBar1" min="-2" pref="100" max="-2" attributes="0"/>
+                          <EmptySpace pref="471" max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+                <DimensionLayout dim="1">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jToolBar1" pref="143" max="32767" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+              </Layout>
+              <SubComponents>
+                <Container class="javax.swing.JToolBar" name="jToolBar1">
+                  <Properties>
+                    <Property name="floatable" type="boolean" value="false"/>
+                    <Property name="orientation" type="int" value="1"/>
+                    <Property name="rollover" type="boolean" value="true"/>
+                  </Properties>
+
+                  <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout"/>
+                  <SubComponents>
+                    <Component class="javax.swing.JButton" name="jButton1">
+                      <Properties>
+                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                          <Image iconType="3" name="/org/jw/service/gui/resources/icon/default.plot.map.png"/>
+                        </Property>
+                        <Property name="text" type="java.lang.String" value="Location"/>
+                        <Property name="focusable" type="boolean" value="false"/>
+                        <Property name="horizontalTextPosition" type="int" value="4"/>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JButton" name="jButton2">
+                      <Properties>
+                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                          <Image iconType="3" name="/org/jw/service/gui/resources/icon/default.direcion.png"/>
+                        </Property>
+                        <Property name="text" type="java.lang.String" value="Direction"/>
+                        <Property name="focusable" type="boolean" value="false"/>
+                        <Property name="horizontalTextPosition" type="int" value="4"/>
+                      </Properties>
+                    </Component>
+                  </SubComponents>
+                </Container>
               </SubComponents>
             </Container>
           </SubComponents>

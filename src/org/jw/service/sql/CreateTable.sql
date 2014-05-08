@@ -136,6 +136,7 @@ create table cir.contact_call(
     call_date datetime,
     call_day varchar(15),
     call_time varchar(10),
+    status varchar(15),
     scriptures varchar(75),
     literature varchar(75),
     publishers varchar(75),

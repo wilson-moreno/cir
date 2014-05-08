@@ -10,6 +10,7 @@ import javax.persistence.EntityManager;
 import org.jw.service.action.DefaultOpenAction;
 import org.jw.service.dao.DataAccessObject;
 import org.jw.service.entity.Contact;
+import org.jw.service.entity.ContactStatus;
 import org.jw.service.util.UtilityProperties;
 
 /**
@@ -72,6 +73,7 @@ public class ApplicationFrame extends javax.swing.JFrame {
         nationalityTextField = new javax.swing.JTextField();
         birthDateChooser = new com.toedter.calendar.JDateChooser();
         recordDateChooser = new com.toedter.calendar.JDateChooser();
+        setProfilePictureCommand = new javax.swing.JButton();
         addressTabPanel = new javax.swing.JPanel();
         addressPanel = new javax.swing.JPanel();
         houseNumberLabel = new javax.swing.JLabel();
@@ -114,13 +116,20 @@ public class ApplicationFrame extends javax.swing.JFrame {
         skypeAccountTextField = new javax.swing.JTextField();
         facebookLabel = new javax.swing.JLabel();
         facebookTextField = new javax.swing.JTextField();
+        jPanel1 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        jToolBar1 = new javax.swing.JToolBar();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         menuBar = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
         optionsMenu = new javax.swing.JMenu();
         serviceGroupsMenuItem = new javax.swing.JMenuItem();
+        contactStatusMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/jw/service/gui/resources/properties/gui"); // NOI18N
+        setTitle(bundle.getString("app.frame.title")); // NOI18N
 
         treeScrollPane.setViewportView(contactsTree);
 
@@ -316,7 +325,7 @@ public class ApplicationFrame extends javax.swing.JFrame {
                             .addComponent(statusLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(statusComboBox, 0, 124, Short.MAX_VALUE)
+                            .addComponent(statusComboBox, 0, 140, Short.MAX_VALUE)
                             .addComponent(nationalityTextField))))
                 .addContainerGap())
         );
@@ -360,8 +369,10 @@ public class ApplicationFrame extends javax.swing.JFrame {
                     .addComponent(maritalStatusLabel)
                     .addComponent(nationalityLabel)
                     .addComponent(nationalityTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        setProfilePictureCommand.setText("Set Profile Picture");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -369,7 +380,9 @@ public class ApplicationFrame extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(profilePicturePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(profilePicturePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(setProfilePictureCommand, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -381,7 +394,8 @@ public class ApplicationFrame extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(profilePicturePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 27, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(setProfilePictureCommand))
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -410,7 +424,7 @@ public class ApplicationFrame extends javax.swing.JFrame {
                     .addGroup(addressPanelLayout.createSequentialGroup()
                         .addComponent(houseNumberLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(houseNumberTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 467, Short.MAX_VALUE))
+                        .addComponent(houseNumberTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 483, Short.MAX_VALUE))
                     .addGroup(addressPanelLayout.createSequentialGroup()
                         .addGroup(addressPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(barangayLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -451,7 +465,7 @@ public class ApplicationFrame extends javax.swing.JFrame {
                 .addGroup(addressPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(areaTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(areaLabel))
-                .addGap(0, 12, Short.MAX_VALUE))
+                .addGap(0, 30, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout addressTabPanelLayout = new javax.swing.GroupLayout(addressTabPanel);
@@ -528,7 +542,7 @@ public class ApplicationFrame extends javax.swing.JFrame {
                             .addGroup(backgroundPanelLayout.createSequentialGroup()
                                 .addComponent(religionLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(religionTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE))
+                                .addComponent(religionTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE))
                             .addGroup(backgroundPanelLayout.createSequentialGroup()
                                 .addGroup(backgroundPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(guardianLabel)
@@ -623,7 +637,7 @@ public class ApplicationFrame extends javax.swing.JFrame {
                             .addComponent(emailAddressLabel))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(communicationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(mobileNumberTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 467, Short.MAX_VALUE)
+                            .addComponent(mobileNumberTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 483, Short.MAX_VALUE)
                             .addComponent(phoneNumberTextField)
                             .addComponent(emailAddressTextField)))
                     .addGroup(communicationPanelLayout.createSequentialGroup()
@@ -662,7 +676,7 @@ public class ApplicationFrame extends javax.swing.JFrame {
                 .addGroup(communicationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(facebookLabel)
                     .addComponent(facebookTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout communicationTabPanelLayout = new javax.swing.GroupLayout(communicationTabPanel);
@@ -684,16 +698,70 @@ public class ApplicationFrame extends javax.swing.JFrame {
 
         tabbedPane.addTab("Communication", communicationTabPanel);
 
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Maps", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+
+        jToolBar1.setFloatable(false);
+        jToolBar1.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        jToolBar1.setRollover(true);
+
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.plot.map.png"))); // NOI18N
+        jButton1.setText("Location");
+        jButton1.setFocusable(false);
+        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        jToolBar1.add(jButton1);
+
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.direcion.png"))); // NOI18N
+        jButton2.setText("Direction");
+        jButton2.setFocusable(false);
+        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        jToolBar1.add(jButton2);
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(471, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        tabbedPane.addTab("Maps", jPanel1);
+
         jMenu1.setText("File");
         menuBar.add(jMenu1);
-
-        jMenu2.setText("Edit");
-        menuBar.add(jMenu2);
 
         optionsMenu.setText("Options");
 
         serviceGroupsMenuItem.setText("Service Groups");
         optionsMenu.add(serviceGroupsMenuItem);
+
+        contactStatusMenuItem.setText("Contact Status");
+        optionsMenu.add(contactStatusMenuItem);
 
         menuBar.add(optionsMenu);
 
@@ -740,8 +808,11 @@ public class ApplicationFrame extends javax.swing.JFrame {
 
     public void initMyComponents(){
         contactDAO = DataAccessObject.create(em, Contact.class);
-        ServiceGroupDialog serviceGroupDialog = new ServiceGroupDialog(this, true, em);
-        DefaultOpenAction openServiceGroup = new DefaultOpenAction(serviceGroupsMenuItem,this,serviceGroupDialog);        
+        statusDAO = DataAccessObject.create(em, ContactStatus.class);
+        serviceGroupDialog = new ServiceGroupDialog(this, true, em);
+        contactStatusDialog = new ContactStatusDialog(this, true);
+        openServiceGroupAction = new DefaultOpenAction(serviceGroupsMenuItem,this,serviceGroupDialog);        
+        openContactStatusAction = new DefaultOpenAction(contactStatusMenuItem,this,contactStatusDialog);        
     }
     
     /**
@@ -765,6 +836,7 @@ public class ApplicationFrame extends javax.swing.JFrame {
     private javax.swing.JPanel communicationPanel;
     private javax.swing.JPanel communicationTabPanel;
     private java.util.List<org.jw.service.entity.Contact> contactList;
+    private javax.swing.JMenuItem contactStatusMenuItem;
     private javax.swing.JPanel contactsPanel;
     private javax.swing.JTable contactsTable;
     private javax.swing.JTree contactsTree;
@@ -784,11 +856,15 @@ public class ApplicationFrame extends javax.swing.JFrame {
     private javax.swing.JTextField guardianTextField;
     private javax.swing.JLabel houseNumberLabel;
     private javax.swing.JTextField houseNumberTextField;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JToolBar jToolBar1;
     private javax.swing.JLabel lastNameLabel;
     private javax.swing.JTextField lastNameTextField;
     private org.jw.service.gui.component.MainCommandPanel mainCommandPanel;
@@ -817,6 +893,7 @@ public class ApplicationFrame extends javax.swing.JFrame {
     private javax.swing.JLabel religionLabel;
     private javax.swing.JTextField religionTextField;
     private javax.swing.JMenuItem serviceGroupsMenuItem;
+    private javax.swing.JButton setProfilePictureCommand;
     private javax.swing.JComboBox sexComboBox;
     private javax.swing.JLabel sexLabel;
     private javax.swing.JTextField skypeAccountTextField;
@@ -836,7 +913,10 @@ public class ApplicationFrame extends javax.swing.JFrame {
     UtilityProperties maritalStatusProperties = UtilityProperties.create(UtilityProperties.MARITAL_STATUS_PROPERTIES);
     UtilityProperties sexProperties = UtilityProperties.create(UtilityProperties.SEX_PROPERTIES);
     ServiceGroupDialog serviceGroupDialog;
-    DefaultOpenAction openServiceGroup;
-    EntityManager em;
+    ContactStatusDialog contactStatusDialog;
+    DefaultOpenAction openServiceGroupAction;
+    DefaultOpenAction openContactStatusAction;    
     DataAccessObject<Contact> contactDAO;
+    DataAccessObject<ContactStatus> statusDAO;
+    EntityManager em;
 }

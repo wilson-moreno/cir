@@ -24,15 +24,21 @@ public class UtilityProperties extends DefaultUtility{
     public static final String SEX_PROPERTIES = "sex.properties";
     public static final String TASK_MESSAGE_PROPERTIES = "task_message.properties";
     private final Properties property;
+    private final String propertyFile;
     
     public static UtilityProperties create(String propertyFile) {
         return new UtilityProperties(PROPERTIES_DIRECTORY + propertyFile);
     }
     
     private UtilityProperties(String propertyFile){
+        this.propertyFile = propertyFile;
         this.property = getProperties(propertyFile);
     }
     
+    
+    private InputStream getPropertiesAsStream(){
+        return getResourceAsStream(propertyFile);
+    }
     
     private Properties getProperties(String file){
         Properties properties = new Properties();

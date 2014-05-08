@@ -4,7 +4,6 @@
   <NonVisualComponents>
     <Component class="java.util.List" name="statusList">
       <Properties>
-        <Property name="modifiableWrapper" type="boolean" value="true"/>
         <Property name="observable" type="boolean" value="true"/>
       </Properties>
       <AuxValues>
@@ -15,6 +14,9 @@
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="2"/>
+    <Property name="title" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+      <ResourceString bundle="org/jw/service/gui/resources/properties/gui.properties" key="status.dialog.title" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+    </Property>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
@@ -83,57 +85,48 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="descriptionLabel" linkSize="2" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="descriptionTextField" max="32767" attributes="0"/>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="modifiableCheckBox" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="printableCheckBox" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="setIconCommand" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="32767" attributes="0"/>
-                                  <Component id="statusIconLabel" min="-2" pref="102" max="-2" attributes="0"/>
-                                  <EmptySpace max="32767" attributes="0"/>
-                              </Group>
-                          </Group>
+                          <EmptySpace min="4" pref="4" max="-2" attributes="0"/>
+                          <Component id="jTextField4" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="statusNameLabel" linkSize="2" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="statusNameTextField" min="-2" pref="317" max="-2" attributes="0"/>
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          <Component id="jTextField3" min="-2" pref="190" max="-2" attributes="0"/>
                       </Group>
                   </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Group type="102" attributes="0">
+                          <Component id="jCheckBox1" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Component id="jCheckBox2" max="32767" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="statusNameLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="statusNameTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jTextField3" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jCheckBox1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="descriptionLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="descriptionTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jTextField4" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jCheckBox2" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="modifiableCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="printableCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="setIconCommand" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <Component id="statusIconLabel" max="32767" attributes="0"/>
-                  </Group>
-                  <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -144,56 +137,29 @@
             <Property name="text" type="java.lang.String" value="Name:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="statusNameTextField">
-          <BindingProperties>
-            <BindingProperty name="text" source="statusTable" sourcePath="${selectedElement.name}" target="statusNameTextField" targetPath="text" updateStrategy="0" immediately="false">
-              <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
-            </BindingProperty>
-          </BindingProperties>
-        </Component>
         <Component class="javax.swing.JLabel" name="descriptionLabel">
           <Properties>
             <Property name="text" type="java.lang.String" value="Description:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="descriptionTextField">
-          <BindingProperties>
-            <BindingProperty name="text" source="statusTable" sourcePath="${selectedElement.description}" target="descriptionTextField" targetPath="text" updateStrategy="0" immediately="false">
-              <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
-            </BindingProperty>
-          </BindingProperties>
+        <Component class="javax.swing.JTextField" name="jTextField3">
         </Component>
-        <Component class="javax.swing.JCheckBox" name="modifiableCheckBox">
+        <Component class="javax.swing.JTextField" name="jTextField4">
+        </Component>
+        <Component class="javax.swing.JCheckBox" name="jCheckBox1">
           <Properties>
             <Property name="text" type="java.lang.String" value="Modifiable"/>
           </Properties>
-          <BindingProperties>
-            <BindingProperty name="selected" source="statusTable" sourcePath="${selectedElement.modifiable}" target="modifiableCheckBox" targetPath="selected" updateStrategy="0" immediately="false"/>
-          </BindingProperties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="modifiableCheckBoxActionPerformed"/>
-          </Events>
         </Component>
-        <Component class="javax.swing.JCheckBox" name="printableCheckBox">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Printable"/>
-          </Properties>
-          <BindingProperties>
-            <BindingProperty name="selected" source="statusTable" sourcePath="${selectedElement.printable}" target="printableCheckBox" targetPath="selected" updateStrategy="0" immediately="false"/>
-          </BindingProperties>
-        </Component>
-        <Component class="javax.swing.JButton" name="setIconCommand">
+        <Component class="javax.swing.JButton" name="jButton1">
           <Properties>
             <Property name="text" type="java.lang.String" value="Icon"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="statusIconLabel">
+        <Component class="javax.swing.JCheckBox" name="jCheckBox2">
           <Properties>
-            <Property name="horizontalTextPosition" type="int" value="0"/>
+            <Property name="text" type="java.lang.String" value="Printable"/>
           </Properties>
-          <BindingProperties>
-            <BindingProperty name="icon" source="statusTable" sourcePath="${selectedElement.icon}" target="statusIconLabel" targetPath="icon" updateStrategy="0" immediately="false"/>
-          </BindingProperties>
         </Component>
       </SubComponents>
     </Container>
@@ -213,16 +179,16 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="scrollPane" min="-2" pref="368" max="-2" attributes="0"/>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <Component id="scrollPane" pref="0" max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="1" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="scrollPane" pref="152" max="32767" attributes="0"/>
+                  <Component id="scrollPane" pref="113" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>

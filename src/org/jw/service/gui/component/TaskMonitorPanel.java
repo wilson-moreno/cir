@@ -34,7 +34,7 @@ public class TaskMonitorPanel extends javax.swing.JPanel {
         progressBar = new javax.swing.JProgressBar();
         separator = new javax.swing.JSeparator();
 
-        progressMessageLabel.setText("Progress...");
+        progressMessageLabel.setText("Ready...");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

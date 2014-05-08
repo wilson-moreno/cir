@@ -45,6 +45,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ContactCall.findByCreatedDatetime", query = "SELECT c FROM ContactCall c WHERE c.createdDatetime = :createdDatetime"),
     @NamedQuery(name = "ContactCall.findByUpdatedDatetime", query = "SELECT c FROM ContactCall c WHERE c.updatedDatetime = :updatedDatetime")})
 public class ContactCall implements Serializable {
+    @Column(name = "STATUS")
+    private String status;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -215,6 +217,14 @@ public class ContactCall implements Serializable {
     @Override
     public String toString() {
         return "org.jw.service.entity.ContactCall[ id=" + id + " ]";
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
     
 }

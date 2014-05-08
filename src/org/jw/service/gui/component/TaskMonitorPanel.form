@@ -43,7 +43,7 @@
   <SubComponents>
     <Component class="javax.swing.JLabel" name="progressMessageLabel">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Progress..."/>
+        <Property name="text" type="java.lang.String" value="Ready..."/>
       </Properties>
     </Component>
     <Component class="javax.swing.JProgressBar" name="progressBar">
