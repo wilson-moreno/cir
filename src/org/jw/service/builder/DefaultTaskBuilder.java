@@ -8,6 +8,7 @@ package org.jw.service.builder;
 
 import java.beans.PropertyChangeSupport;
 import java.util.List;
+import javax.persistence.EntityManager;
 import javax.swing.JDialog;
 import javax.swing.JTable;
 import org.jw.service.action.DefaultCloseAction;
@@ -39,6 +40,7 @@ public class DefaultTaskBuilder {
     public static final String PROP_DIALOG = "PROP_DIALOG";
     public static final String PROP_CLOSEACTION = "PROP_CLOSEACTION";
     public static final String PROP_DAO = "PROP_DAO";
+    public static final String PROP_EM = "PROP_EM";
     private DefaultCrudPanel crudPanel;
     private TaskMonitorPanel taskMonitorPanel;
     private UtilityProperties properties;
@@ -53,6 +55,7 @@ public class DefaultTaskBuilder {
     private JTable table;
     private JDialog dialog;
     private DataAccessObject dao;
+    
     
     public DefaultTaskBuilder(){
         this.crudPanel = null;
@@ -108,7 +111,7 @@ public class DefaultTaskBuilder {
         newAction = new DefaultNewAction(crudPanel.getNewCommand(), dao, this.list, this.table, newTaskListener);
         deleteAction = new DefaultDeleteAction(crudPanel.getDeleteCommand(), this.list, this.table, deleteTaskListener);
         refreshAction = new DefaultRefreshAction(crudPanel.getRefreshCommand(), this.list, this.table, refreshTaskListener);
-        saveAction = new DefaultSaveAction(crudPanel.getSaveCommand(), this.list, this.table, saveTaskListener);        
+        saveAction = new DefaultSaveAction(crudPanel.getSaveCommand(), dao, this.list, this.table, saveTaskListener);        
     }
 
     /**
@@ -192,3 +195,4 @@ public class DefaultTaskBuilder {
         propertyChangeSupport.firePropertyChange(PROP_DAO, oldDao, dao);
     }
 }
+  

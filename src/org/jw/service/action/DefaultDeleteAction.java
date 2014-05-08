@@ -25,11 +25,10 @@ public class DefaultDeleteAction<T> extends AbstractAction{
     
     public DefaultDeleteAction(JButton command, List<T> list, JTable table, DefaultTaskListener listener){
         super(command.getText(), command.getIcon());
-        command.setAction(this);
         this.list = list;
         this.table = table;
         this.listener = listener;
-        
+        command.setAction(this);
     }
     
     

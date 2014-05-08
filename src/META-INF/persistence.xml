@@ -12,8 +12,8 @@
     <class>org.jw.service.entity.LocationMap</class>
     <class>org.jw.service.entity.DirectionMap</class>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:hsqldb:file:data/jwcir"/>
-      <property name="javax.persistence.jdbc.password" value="@_@Revelation2134"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:hsqldb:file:hsqldb-2.3.2/data/test"/>
+      <property name="javax.persistence.jdbc.password" value=""/>
       <property name="javax.persistence.jdbc.driver" value="org.hsqldb.jdbcDriver"/>
       <property name="javax.persistence.jdbc.user" value="SA"/>
     </properties>

@@ -10,12 +10,12 @@ package org.jw.service.gui;
  *
  * @author Wilson
  */
-public class ContactCallDialog extends javax.swing.JDialog {
+public class ContactCallsDialog extends javax.swing.JDialog {
 
     /**
      * Creates new form ContactCallDialog
      */
-    public ContactCallDialog(java.awt.Frame parent, boolean modal) {
+    public ContactCallsDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
@@ -30,7 +30,7 @@ public class ContactCallDialog extends javax.swing.JDialog {
     private void initComponents() {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        contactCallsList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(((javax.persistence.Query)null).getResultList());
+        contactCallsList = org.jdesktop.observablecollections.ObservableCollections.observableList(new java.util.ArrayList<org.jw.service.entity.ContactCall>());
         taskMonitorPanel = new org.jw.service.gui.component.TaskMonitorPanel();
         crudPanel = new org.jw.service.gui.component.DefaultCrudPanel();
         contactCallPanel = new javax.swing.JPanel();
@@ -40,8 +40,6 @@ public class ContactCallDialog extends javax.swing.JDialog {
         callTimeLabel = new javax.swing.JLabel();
         dayComboBox = new javax.swing.JComboBox();
         callTimeSpinner = new javax.swing.JSpinner();
-        javax.swing.JSpinner.DateEditor timeEditor = new javax.swing.JSpinner.DateEditor(callTimeSpinner, "HH:mm");
-        callTimeSpinner.setEditor(timeEditor);
         stausLabel = new javax.swing.JLabel();
         statusTextField = new javax.swing.JTextField();
         callNotesLabel = new javax.swing.JLabel();

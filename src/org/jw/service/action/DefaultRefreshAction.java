@@ -24,10 +24,10 @@ public class DefaultRefreshAction<T> extends AbstractAction{
     
     public DefaultRefreshAction(JButton command, List<T> list, JTable table, DefaultTaskListener listener){
         super(command.getText(), command.getIcon());
-        command.setAction(this);
         this.list = list;
         this.table = table;
         this.listener = listener;
+        command.setAction(this);
     }
     
     

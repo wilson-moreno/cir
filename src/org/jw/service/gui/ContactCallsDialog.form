@@ -7,6 +7,7 @@
         <Property name="observable" type="boolean" value="true"/>
       </Properties>
       <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="org.jdesktop.observablecollections.ObservableCollections.observableList(new java.util.ArrayList&lt;org.jw.service.entity.ContactCall&gt;())"/>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;org.jw.service.entity.ContactCall&gt;"/>
       </AuxValues>
     </Component>
@@ -224,9 +225,6 @@
           <BindingProperties>
             <BindingProperty name="value" source="callsTable" sourcePath="${selectedElement.callTime}" target="callTimeSpinner" targetPath="value" updateStrategy="0" immediately="false"/>
           </BindingProperties>
-          <AuxValues>
-            <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="javax.swing.JSpinner.DateEditor timeEditor = new javax.swing.JSpinner.DateEditor(callTimeSpinner, &quot;HH:mm&quot;);&#xd;&#xa;callTimeSpinner.setEditor(timeEditor);"/>
-          </AuxValues>
         </Component>
         <Component class="javax.swing.JLabel" name="stausLabel">
           <Properties>

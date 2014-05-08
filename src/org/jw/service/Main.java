@@ -51,12 +51,12 @@ public class Main {
         @Override
         public void run() {   
             javax.persistence.EntityManager entityManager = javax.persistence.Persistence.createEntityManagerFactory("ContactInformationRecordPU").createEntityManager();
-            Query query = entityManager.createQuery("SELECT c FROM ServiceGroup c");
-            System.out.println(query.getResultList());
-            //JFrame.setDefaultLookAndFeelDecorated(true);
-            //ApplicationFrame applicationFrame = new ApplicationFrame(entityManager);            
+            //Query query = entityManager.createQuery("SELECT c FROM ServiceGroup c");
+            //System.out.println(query.getResultList());
+            JFrame.setDefaultLookAndFeelDecorated(true);
+            ApplicationFrame applicationFrame = new ApplicationFrame(entityManager);            
             //contactFrame.setIconImage(ImageIconUtil.getInstance().getImageIcon(CIMS_LOGO, contactFrame).getImage());
-            //applicationFrame.setVisible(true);
+            applicationFrame.setVisible(true);
         }
         
         

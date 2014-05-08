@@ -19,10 +19,9 @@ public class DefaultCloseAction<T> extends AbstractAction{
     private final JDialog dialog;
     
     public DefaultCloseAction(JButton command, JDialog dialog){
-        super(command.getText(), command.getIcon());
-        command.setAction(this);
+        super(command.getText(), command.getIcon());        
         this.dialog = dialog;
-        
+        command.setAction(this);
     }
     
     @Override

@@ -11,6 +11,8 @@ import javax.swing.AbstractAction;
 import javax.swing.AbstractButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import org.jw.service.listener.task.DefaultTaskListener;
+import org.jw.service.worker.DefaultOpenWorker;
 
 /**
  *
@@ -20,12 +22,14 @@ import javax.swing.JFrame;
 public class DefaultOpenAction<T> extends AbstractAction{
     private final JFrame parent;
     private final JDialog dialog;
+    private final DefaultTaskListener listener;
     
-    public DefaultOpenAction(AbstractButton command, JFrame parent, JDialog dialog){
+    public DefaultOpenAction(AbstractButton command, JFrame parent, JDialog dialog, DefaultTaskListener listener){
         super(command.getText(), command.getIcon());
-        command.setAction(this);
         this.parent = parent;
         this.dialog = dialog;
+        this.listener = listener;
+        command.setAction(this);
         
     }
     
@@ -33,7 +37,8 @@ public class DefaultOpenAction<T> extends AbstractAction{
     public void actionPerformed(ActionEvent ae) {
         dialog.setLocationRelativeTo(parent);
         dialog.setModal(true);
-        dialog.setVisible(true);
+        DefaultOpenWorker worker = new DefaultOpenWorker(dialog, listener);
+        worker.execute();
     }
     
 }

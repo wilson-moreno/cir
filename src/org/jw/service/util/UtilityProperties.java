@@ -18,7 +18,7 @@ import java.util.logging.Logger;
  *
  * @author Wilson
  */
-public class UtilityProperties extends DefaultUtility{
+public class UtilityProperties extends UtilityDefault{
     public static final String PROPERTIES_DIRECTORY = "/org/jw/service/gui/resources/properties/";
     public static final String MARITAL_STATUS_PROPERTIES = "marital_status.properties";
     public static final String SEX_PROPERTIES = "sex.properties";

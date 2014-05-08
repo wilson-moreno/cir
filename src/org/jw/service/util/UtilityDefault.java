@@ -12,7 +12,7 @@ import java.io.InputStream;
  *
  * @author Wilson
  */
-public class DefaultUtility {
+public class UtilityDefault {
     protected InputStream getResourceAsStream(String resource){
         return getClass().getResourceAsStream(resource);
     }

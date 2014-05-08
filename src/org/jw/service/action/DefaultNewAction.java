@@ -27,11 +27,11 @@ public class DefaultNewAction<T> extends AbstractAction{
     
     public DefaultNewAction(JButton command, DataAccessObject<T> dao, List<T> list, JTable table, DefaultTaskListener listener){
         super(command.getText(), command.getIcon());
-        command.setAction(this);    
         this.dao = dao;        
         this.list = list;
         this.table = table;
         this.listener = listener;        
+        command.setAction(this);    
     }
     
     @Override

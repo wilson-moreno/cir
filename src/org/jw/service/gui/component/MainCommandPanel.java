@@ -6,6 +6,8 @@
 
 package org.jw.service.gui.component;
 
+import javax.swing.JButton;
+
 /**
  *
  * @author Wilson
@@ -35,11 +37,10 @@ public class MainCommandPanel extends javax.swing.JPanel {
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        contactCallsCommand = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
         jButton10 = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox();
         separator = new javax.swing.JSeparator();
 
@@ -78,11 +79,11 @@ public class MainCommandPanel extends javax.swing.JPanel {
         jButton4.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         toolBar.add(jButton4);
 
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.show.calls.png"))); // NOI18N
-        jButton5.setText("Calls");
-        jButton5.setFocusable(false);
-        jButton5.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        toolBar.add(jButton5);
+        contactCallsCommand.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.show.calls.png"))); // NOI18N
+        contactCallsCommand.setText("Calls");
+        contactCallsCommand.setFocusable(false);
+        contactCallsCommand.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        toolBar.add(contactCallsCommand);
 
         jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.database.backup.png"))); // NOI18N
         jButton7.setText("Backup");
@@ -101,9 +102,6 @@ public class MainCommandPanel extends javax.swing.JPanel {
         jButton10.setFocusable(false);
         jButton10.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         toolBar.add(jButton10);
-
-        jLabel2.setText("     ");
-        toolBar.add(jLabel2);
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "FSG #1 - Valenzuela", "FSG #2 - Caloocan", "FSG #3 - Tondo", "FSG #4 - Malabon-Navotas" }));
         toolBar.add(jComboBox1);
@@ -127,19 +125,20 @@ public class MainCommandPanel extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton contactCallsCommand;
     private javax.swing.JButton exitCommand;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JSeparator separator;
     private javax.swing.JToolBar toolBar;
     // End of variables declaration//GEN-END:variables
+
+    public JButton getContactCallsCommand(){ return contactCallsCommand; }
 }

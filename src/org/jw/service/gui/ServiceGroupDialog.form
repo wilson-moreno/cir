@@ -180,7 +180,7 @@
             <BindingProperty name="text" source="serviceGroupsTable" sourcePath="${selectedElement.name}" target="nameTextField" targetPath="text" updateStrategy="0" immediately="false">
               <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
               <Property name="nullValue" type="java.lang.String" value=""/>
-              <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+              <Property name="incompletePathValue" type="java.lang.String" value=""/>
               <Property name="name" type="java.lang.String" value="name"/>
             </BindingProperty>
           </BindingProperties>
@@ -192,8 +192,8 @@
           <BindingProperties>
             <BindingProperty name="text" source="serviceGroupsTable" sourcePath="${selectedElement.overseer}" target="overseerTextField" targetPath="text" updateStrategy="0" immediately="false">
               <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
-              <Property name="nullValue" type="java.lang.String" value="null"/>
-              <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+              <Property name="nullValue" type="java.lang.String" value=""/>
+              <Property name="incompletePathValue" type="java.lang.String" value=""/>
               <Property name="name" type="java.lang.String" value="overseer"/>
             </BindingProperty>
           </BindingProperties>
@@ -202,8 +202,8 @@
           <BindingProperties>
             <BindingProperty name="text" source="serviceGroupsTable" sourcePath="${selectedElement.assistant}" target="assistantTextField" targetPath="text" updateStrategy="0" immediately="false">
               <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
-              <Property name="nullValue" type="java.lang.String" value="null"/>
-              <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+              <Property name="nullValue" type="java.lang.String" value=""/>
+              <Property name="incompletePathValue" type="java.lang.String" value=""/>
               <Property name="name" type="java.lang.String" value="assistant"/>
             </BindingProperty>
           </BindingProperties>
@@ -227,8 +227,8 @@
           <BindingProperties>
             <BindingProperty name="text" source="serviceGroupsTable" sourcePath="${selectedElement.prefix}" target="prefixTextField" targetPath="text" updateStrategy="0" immediately="false">
               <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
-              <Property name="nullValue" type="java.lang.String" value="null"/>
-              <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+              <Property name="nullValue" type="java.lang.String" value=""/>
+              <Property name="incompletePathValue" type="java.lang.String" value=""/>
               <Property name="name" type="java.lang.String" value="prefix"/>
             </BindingProperty>
           </BindingProperties>
@@ -237,8 +237,8 @@
           <BindingProperties>
             <BindingProperty name="text" source="serviceGroupsTable" sourcePath="${selectedElement.startNumber}" target="startNumberTextField" targetPath="text" updateStrategy="0" immediately="false">
               <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
-              <Property name="nullValue" type="java.lang.String" value="null"/>
-              <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+              <Property name="nullValue" type="java.lang.String" value=""/>
+              <Property name="incompletePathValue" type="java.lang.String" value=""/>
               <Property name="name" type="java.lang.String" value="startNumber"/>
             </BindingProperty>
           </BindingProperties>
@@ -250,8 +250,8 @@
           <BindingProperties>
             <BindingProperty name="text" source="serviceGroupsTable" sourcePath="${selectedElement.nextNumber}" target="nextNumberTextField" targetPath="text" updateStrategy="0" immediately="false">
               <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
-              <Property name="nullValue" type="java.lang.String" value="null"/>
-              <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+              <Property name="nullValue" type="java.lang.String" value=""/>
+              <Property name="incompletePathValue" type="java.lang.String" value=""/>
               <Property name="name" type="java.lang.String" value="nextNumber"/>
             </BindingProperty>
           </BindingProperties>

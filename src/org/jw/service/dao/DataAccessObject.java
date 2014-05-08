@@ -57,8 +57,8 @@ public class DataAccessObject<T> {
         return em.find(entityClass, id);
     }
     
-    public List<T> readAll(String queryString){
-        Query query = em.createQuery(queryString);
+    public List<T> readAll(){
+        Query query = em.createNamedQuery(entityClass.getSimpleName() + ".findAll", entityClass);
         return query.getResultList();
     }
     
