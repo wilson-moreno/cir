@@ -7,6 +7,7 @@
 package org.jw.service.gui.component;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 
 /**
  *
@@ -41,7 +42,7 @@ public class MainCommandPanel extends javax.swing.JPanel {
         jButton7 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
         jButton10 = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox();
+        serviceGroupComboBox = new javax.swing.JComboBox();
         separator = new javax.swing.JSeparator();
 
         jLabel1.setText("jLabel1");
@@ -103,8 +104,7 @@ public class MainCommandPanel extends javax.swing.JPanel {
         jButton10.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         toolBar.add(jButton10);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "FSG #1 - Valenzuela", "FSG #2 - Caloocan", "FSG #3 - Tondo", "FSG #4 - Malabon-Navotas" }));
-        toolBar.add(jComboBox1);
+        toolBar.add(serviceGroupComboBox);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -134,11 +134,12 @@ public class MainCommandPanel extends javax.swing.JPanel {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
-    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JSeparator separator;
+    private javax.swing.JComboBox serviceGroupComboBox;
     private javax.swing.JToolBar toolBar;
     // End of variables declaration//GEN-END:variables
 
     public JButton getContactCallsCommand(){ return contactCallsCommand; }
+    public JComboBox getServiceGroupComboBox(){ return serviceGroupComboBox; }
 }

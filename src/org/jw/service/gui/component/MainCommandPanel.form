@@ -137,15 +137,10 @@
             <Property name="horizontalTextPosition" type="int" value="4"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JComboBox" name="jComboBox1">
+        <Component class="javax.swing.JComboBox" name="serviceGroupComboBox">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="4">
-                <StringItem index="0" value="FSG #1 - Valenzuela"/>
-                <StringItem index="1" value="FSG #2 - Caloocan"/>
-                <StringItem index="2" value="FSG #3 - Tondo"/>
-                <StringItem index="3" value="FSG #4 - Malabon-Navotas"/>
-              </StringArray>
+              <StringArray count="0"/>
             </Property>
           </Properties>
         </Component>

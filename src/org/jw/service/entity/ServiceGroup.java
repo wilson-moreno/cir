@@ -26,6 +26,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -46,8 +47,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ServiceGroup.findByNextNumber", query = "SELECT s FROM ServiceGroup s WHERE s.nextNumber = :nextNumber"),
     @NamedQuery(name = "ServiceGroup.findByCreatedDatetime", query = "SELECT s FROM ServiceGroup s WHERE s.createdDatetime = :createdDatetime"),
     @NamedQuery(name = "ServiceGroup.findByUpdatedDatetime", query = "SELECT s FROM ServiceGroup s WHERE s.updatedDatetime = :updatedDatetime")})
-public class ServiceGroup implements Serializable {
+public class ServiceGroup implements Serializable, ObservableEntity {
     private static final long serialVersionUID = 1L;
+    public static final String PROP_SAVESTATE = "saveState";
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -81,11 +83,26 @@ public class ServiceGroup implements Serializable {
     private Collection<MeetingPlace> meetingPlaceCollection;
     @OneToMany(mappedBy = "serviceGroupId")
     private Collection<Contact> contactCollection;
+    @Transient
+    private String saveState;
 
     public ServiceGroup() {
+        this.congregationId = null;
+        this.contactCollection = null;
+        this.createdDatetime = new Date();
+        this.icon = null;
+        this.meetingPlaceCollection = null;
+        this.name = "";
+        this.nextNumber = new Integer(0);
+        this.overseer = "";
+        this.prefix = "";
+        this.saveState = "";
+        this.startNumber = new Integer(0);
+        this.updatedDatetime = new Date();
     }
 
     public ServiceGroup(Integer id) {
+        super();
         this.id = id;
     }
 
@@ -333,15 +350,36 @@ public class ServiceGroup implements Serializable {
 
     @Override
     public String toString() {
-        return "org.jw.service.entity.ServiceGroup[ id=" + id + " ]";
+        //return "org.jw.service.entity.ServiceGroup[ id=" + id + " ]";
+        return this.name;
     }
     
     
+    @Override
     public void addPropertyChangeListener(PropertyChangeListener listener){
         propertyChangeSupport.addPropertyChangeListener(listener);
     }   
     
+    @Override
     public void removePropertyChangeListener(PropertyChangeListener listener){
         propertyChangeSupport.removePropertyChangeListener(listener);
     }   
+
+    /**
+     * @return the saveState
+     */
+    @Override
+    public String getSaveState() {
+        return saveState;
+    }
+
+    /**
+     * @param saveState the saveState to set
+     */
+    @Override
+    public void setSaveState(String saveState) {
+        java.lang.String oldSaveState = this.saveState;
+        this.saveState = saveState;
+        propertyChangeSupport.firePropertyChange(PROP_SAVESTATE, oldSaveState, saveState);
+    }
 }

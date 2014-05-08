@@ -7,10 +7,13 @@
 package org.jw.service.gui;
 
 import javax.persistence.EntityManager;
+import javax.swing.DefaultComboBoxModel;
 import org.jw.service.action.DefaultOpenAction;
 import org.jw.service.dao.DataAccessObject;
 import org.jw.service.entity.Contact;
 import org.jw.service.entity.ContactStatus;
+import org.jw.service.entity.ServiceGroup;
+import org.jw.service.listener.combobox.DefaultComboBoxModelListListener;
 import org.jw.service.util.UtilityProperties;
 
 /**
@@ -816,9 +819,10 @@ public class ApplicationFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_lastNameTextFieldActionPerformed
 
     public void initMyComponents(){
+        sgListListener = DefaultComboBoxModelListListener.create(this.mainCommandPanel.getServiceGroupComboBox());
         contactDAO = DataAccessObject.create(em, Contact.class);
         statusDAO = DataAccessObject.create(em, ContactStatus.class);
-        serviceGroupDialog = new ServiceGroupDialog(this, true, em);
+        serviceGroupDialog = new ServiceGroupDialog(this, true, em, this.sgListListener);
         contactStatusDialog = new ContactStatusDialog(this, true);
         locationMapDialog = new LocationMapDialog(this, true);
         contactCallsDialog = new ContactCallsDialog(this, true);
@@ -826,6 +830,7 @@ public class ApplicationFrame extends javax.swing.JFrame {
         openContactStatusAction = new DefaultOpenAction(contactStatusMenuItem,this,contactStatusDialog, null);        
         openLocationMapAction = new DefaultOpenAction(openLocationMapCommand,this,locationMapDialog, null);        
         openContactCallsAction = new DefaultOpenAction(this.mainCommandPanel.getContactCallsCommand(),this,contactCallsDialog, null);        
+        
     }
     
     /**
@@ -926,6 +931,7 @@ public class ApplicationFrame extends javax.swing.JFrame {
 
     UtilityProperties maritalStatusProperties = UtilityProperties.create(UtilityProperties.MARITAL_STATUS_PROPERTIES);
     UtilityProperties sexProperties = UtilityProperties.create(UtilityProperties.SEX_PROPERTIES);
+    DefaultComboBoxModelListListener<ServiceGroup> sgListListener;
     ServiceGroupDialog serviceGroupDialog;
     ContactStatusDialog contactStatusDialog;
     LocationMapDialog locationMapDialog;

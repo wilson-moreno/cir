@@ -6,12 +6,7 @@
 
 package org.jw.service;
 
-import java.util.Map;
-import javax.persistence.Query;
 import javax.swing.JFrame;
-import org.jw.service.dao.DataAccessObject;
-import org.jw.service.entity.Contact;
-import org.jw.service.entity.ServiceGroup;
 import org.jw.service.gui.ApplicationFrame;
 
 /**

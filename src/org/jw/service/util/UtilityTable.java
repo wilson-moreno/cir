@@ -25,7 +25,7 @@ public class UtilityTable {
     
     public int getSelectedModelIndex(){
         int viewRowIndex;
-        viewRowIndex = table.getSelectedRow();
+        viewRowIndex = table.getSelectedRow();        
         return table.getRowSorter().convertRowIndexToModel(viewRowIndex);
     }
 }

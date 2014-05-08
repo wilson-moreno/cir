@@ -12,8 +12,10 @@ import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import org.jw.service.dao.DataAccessObject;
+import org.jw.service.entity.ObservableEntity;
 import org.jw.service.listener.task.DefaultTaskListener;
 import org.jw.service.util.UtilityTable;
+import org.jw.service.worker.DefaultSaveWorker;
 
 /**
  *
@@ -22,23 +24,24 @@ import org.jw.service.util.UtilityTable;
  */
 public class DefaultSaveAction<T> extends AbstractAction{
     private final List<T> list;
-    private final UtilityTable utilTable;
+    private final JTable table;
     private final DefaultTaskListener listener;
     private final DataAccessObject dao;
     
     public DefaultSaveAction(JButton command, DataAccessObject dao, List<T> list, JTable table, DefaultTaskListener listener){
         super(command.getText(), command.getIcon());
         this.list = list;
-        this.utilTable = UtilityTable.create(table);
+        this.table = table;
         this.listener = listener;
         this.dao = dao;
+        this.setEnabled(false);
         command.setAction(this);
     }
     
     @Override
     public void actionPerformed(ActionEvent ae) {
-        int modelIndex = utilTable.getSelectedModelIndex();
-        Object save = dao.save(list.get(modelIndex));
+        DefaultSaveWorker worker = new DefaultSaveWorker(dao, table, list, listener);
+        worker.execute();
     }
     
 }

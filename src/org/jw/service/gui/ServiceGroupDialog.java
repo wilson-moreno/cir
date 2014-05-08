@@ -7,6 +7,8 @@
 package org.jw.service.gui;
 
 import javax.persistence.EntityManager;
+import org.jdesktop.observablecollections.ObservableList;
+import org.jdesktop.observablecollections.ObservableListListener;
 import org.jw.service.action.DefaultCloseAction;
 import org.jw.service.action.DefaultDeleteAction;
 import org.jw.service.action.DefaultNewAction;
@@ -22,24 +24,29 @@ import org.jw.service.util.UtilityProperties;
  * @author Wilson
  */
 public class ServiceGroupDialog extends javax.swing.JDialog {
-    private final EntityManager em;
+    private final EntityManager em;    
+    private final ObservableListListener listListener;
     
     /**
      * Creates new form ServiceGroupDialog
      * @param parent
      * @param modal
+     * @param em
+     * @param listListener
      */
-    public ServiceGroupDialog(java.awt.Frame parent, boolean modal, EntityManager em) {
+    public ServiceGroupDialog(java.awt.Frame parent, boolean modal, EntityManager em, ObservableListListener listListener) {
         super(parent, modal);
-        this.em = em;
-        initComponents();
+        this.em = em;        
+        this.listListener = listListener;
+        initComponents();        
         initMyComponents();
     }
     
     private void initMyComponents(){        
-        dao = DataAccessObject.create(em, ServiceGroup.class);
+        ((ObservableList)serviceGroupList).addObservableListListener(listListener);
+        dao = DataAccessObject.create(em, ServiceGroup.class);    
         serviceGroupList.addAll(dao.readAll());
-        DefaultTaskBuilder taskBuilder = new DefaultTaskBuilder();
+        DefaultTaskBuilder<ServiceGroup> taskBuilder = new DefaultTaskBuilder();
         taskBuilder.setEntityName("service");
         taskBuilder.setProperties(taskMessageProperties);
         taskBuilder.setCrudPanel(crudPanel);
@@ -103,12 +110,6 @@ public class ServiceGroupDialog extends javax.swing.JDialog {
         binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
-        nameTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nameTextFieldActionPerformed(evt);
-            }
-        });
-
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, serviceGroupsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.overseer}"), overseerTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "overseer");
         binding.setSourceNullValue("");
         binding.setSourceUnreadableValue("");
@@ -166,21 +167,23 @@ public class ServiceGroupDialog extends javax.swing.JDialog {
                     .addGroup(serviceGroupPanelLayout.createSequentialGroup()
                         .addComponent(prefixLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(prefixTextField))
+                        .addComponent(prefixTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(serviceGroupPanelLayout.createSequentialGroup()
                         .addComponent(nextNumberLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(nextNumberTextField))
+                        .addComponent(nextNumberTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(serviceGroupPanelLayout.createSequentialGroup()
                         .addComponent(startNumberLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(startNumberTextField)))
+                        .addComponent(startNumberTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
         serviceGroupPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {assitantLabel, overseerLabel, serviceGroupNameLabel});
 
         serviceGroupPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {nextNumberLabel, prefixLabel, startNumberLabel});
+
+        serviceGroupPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {assistantTextField, nameTextField, nextNumberTextField, overseerTextField, prefixTextField, startNumberTextField});
 
         serviceGroupPanelLayout.setVerticalGroup(
             serviceGroupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -284,10 +287,6 @@ public class ServiceGroupDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void nameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_nameTextFieldActionPerformed
-
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -313,11 +312,11 @@ public class ServiceGroupDialog extends javax.swing.JDialog {
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
-    UtilityProperties taskMessageProperties = UtilityProperties.create(UtilityProperties.TASK_MESSAGE_PROPERTIES);
+    UtilityProperties taskMessageProperties = UtilityProperties.create(UtilityProperties.TASK_MESSAGE_PROPERTIES);    
     DefaultCloseAction<ServiceGroup> closeAction;
     DefaultNewAction<ServiceGroup> newAction;
     DefaultDeleteAction<ServiceGroup> deleteAction;
     DefaultRefreshAction<ServiceGroup> refreshAction;
     DefaultSaveAction<ServiceGroup> saveAction;        
-    DataAccessObject<ServiceGroup> dao;
+    DataAccessObject<ServiceGroup> dao;    
 }

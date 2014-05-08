@@ -12,7 +12,9 @@ import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import org.jw.service.dao.DataAccessObject;
+import org.jw.service.listener.state.DefaultEntityStateListener;
 import org.jw.service.listener.task.DefaultTaskListener;
+import org.jw.service.worker.DefaultNewWorker;
 
 /**
  *
@@ -23,21 +25,23 @@ public class DefaultNewAction<T> extends AbstractAction{
     private final DataAccessObject<T> dao;
     private final List<T> list;
     private final JTable table;
-    private final DefaultTaskListener listener;
+    private final DefaultTaskListener taskListener;
+    private final DefaultEntityStateListener stateListener;
     
-    public DefaultNewAction(JButton command, DataAccessObject<T> dao, List<T> list, JTable table, DefaultTaskListener listener){
+    public DefaultNewAction(JButton command, DataAccessObject<T> dao, List<T> list, JTable table, DefaultTaskListener taskListener, DefaultEntityStateListener stateListener){
         super(command.getText(), command.getIcon());
         this.dao = dao;        
         this.list = list;
         this.table = table;
-        this.listener = listener;        
+        this.taskListener = taskListener;        
+        this.stateListener = stateListener;
         command.setAction(this);    
     }
     
     @Override
     public void actionPerformed(ActionEvent ae) {
-        T entity = dao.create();        
-        list.add(0, entity);
+        DefaultNewWorker<T> worker = new DefaultNewWorker(dao, list, table, taskListener, stateListener);        
+        worker.execute();
     }
     
 }

@@ -95,17 +95,17 @@
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="serviceGroupNameLabel" linkSize="1" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="nameTextField" min="-2" pref="200" max="-2" attributes="0"/>
+                          <Component id="nameTextField" linkSize="3" min="-2" pref="200" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="overseerLabel" linkSize="1" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="overseerTextField" max="32767" attributes="0"/>
+                          <Component id="overseerTextField" linkSize="3" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="assitantLabel" linkSize="1" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="assistantTextField" max="32767" attributes="0"/>
+                          <Component id="assistantTextField" linkSize="3" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -113,17 +113,17 @@
                       <Group type="102" attributes="0">
                           <Component id="prefixLabel" linkSize="2" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="prefixTextField" max="32767" attributes="0"/>
+                          <Component id="prefixTextField" linkSize="3" min="-2" pref="162" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" attributes="0">
                           <Component id="nextNumberLabel" linkSize="2" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="nextNumberTextField" max="32767" attributes="0"/>
+                          <Component id="nextNumberTextField" linkSize="3" min="-2" pref="162" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="startNumberLabel" linkSize="2" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="startNumberTextField" max="32767" attributes="0"/>
+                          <Component id="startNumberTextField" linkSize="3" min="-2" pref="162" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -184,9 +184,6 @@
               <Property name="name" type="java.lang.String" value="name"/>
             </BindingProperty>
           </BindingProperties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="nameTextFieldActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="overseerTextField">
           <BindingProperties>

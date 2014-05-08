@@ -28,6 +28,7 @@ public class DefaultDeleteAction<T> extends AbstractAction{
         this.list = list;
         this.table = table;
         this.listener = listener;
+        this.setEnabled(false);
         command.setAction(this);
     }
     

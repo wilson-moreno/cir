@@ -8,7 +8,6 @@ package org.jw.service.builder;
 
 import java.beans.PropertyChangeSupport;
 import java.util.List;
-import javax.persistence.EntityManager;
 import javax.swing.JDialog;
 import javax.swing.JTable;
 import org.jw.service.action.DefaultCloseAction;
@@ -17,8 +16,10 @@ import org.jw.service.action.DefaultNewAction;
 import org.jw.service.action.DefaultRefreshAction;
 import org.jw.service.action.DefaultSaveAction;
 import org.jw.service.dao.DataAccessObject;
+import org.jw.service.entity.ObservableEntity;
 import org.jw.service.gui.component.DefaultCrudPanel;
 import org.jw.service.gui.component.TaskMonitorPanel;
+import org.jw.service.listener.state.DefaultEntityStateListener;
 import org.jw.service.listener.task.DefaultTaskListener;
 import org.jw.service.util.UtilityProperties;
 
@@ -26,7 +27,7 @@ import org.jw.service.util.UtilityProperties;
  *
  * @author Wilson
  */
-public class DefaultTaskBuilder {
+public class DefaultTaskBuilder<T> {
     public static final String PROP_CRUDPANEL = "PROP_CRUDPANEL";
     public static final String PROP_TASKMONITORPANEL = "PROP_TASKMONITORPANEL";
     public static final String PROP_UTILITYPROPERTIES = "PROP_UTILITYPROPERTIES";
@@ -51,7 +52,7 @@ public class DefaultTaskBuilder {
     private DefaultRefreshAction refreshAction;
     private DefaultSaveAction saveAction;
     private DefaultCloseAction closeAction;
-    private List list;
+    private List<T> list;
     private JTable table;
     private JDialog dialog;
     private DataAccessObject dao;
@@ -107,11 +108,17 @@ public class DefaultTaskBuilder {
         DefaultTaskListener refreshTaskListener = taskMonitorPanel.createDefaultTaskListener(properties.getProperty(entityName + ".refresh.start.message"), properties.getProperty(entityName + ".refresh.done.message"));
         DefaultTaskListener saveTaskListener = taskMonitorPanel.createDefaultTaskListener(properties.getProperty(entityName + ".save.start.message"), properties.getProperty(entityName + ".save.done.message"));
           
+        saveAction = new DefaultSaveAction(crudPanel.getSaveCommand(), dao, this.list, this.table, saveTaskListener);        
+        DefaultEntityStateListener stateListener = DefaultEntityStateListener.create(saveAction);
         closeAction = new DefaultCloseAction(crudPanel.getCloseCommand(), dialog);
-        newAction = new DefaultNewAction(crudPanel.getNewCommand(), dao, this.list, this.table, newTaskListener);
+        newAction = new DefaultNewAction(crudPanel.getNewCommand(), dao, this.list, this.table, newTaskListener, stateListener);
         deleteAction = new DefaultDeleteAction(crudPanel.getDeleteCommand(), this.list, this.table, deleteTaskListener);
         refreshAction = new DefaultRefreshAction(crudPanel.getRefreshCommand(), this.list, this.table, refreshTaskListener);
-        saveAction = new DefaultSaveAction(crudPanel.getSaveCommand(), dao, this.list, this.table, saveTaskListener);        
+        
+        for(Object entity : list){
+            System.out.println(entity);
+            ((ObservableEntity)entity).addPropertyChangeListener(stateListener);
+        }
     }
 
     /**
