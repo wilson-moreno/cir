@@ -10,9 +10,9 @@
     </Component>
     <Menu class="javax.swing.JMenuBar" name="menuBar">
       <SubComponents>
-        <Menu class="javax.swing.JMenu" name="jMenu1">
+        <Menu class="javax.swing.JMenu" name="systemMenu">
           <Properties>
-            <Property name="text" type="java.lang.String" value="File"/>
+            <Property name="text" type="java.lang.String" value="System"/>
           </Properties>
         </Menu>
         <Menu class="javax.swing.JMenu" name="optionsMenu">
@@ -67,7 +67,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Component id="treeScrollPane" pref="155" max="32767" attributes="0"/>
-                  <Component id="jComboBox2" max="32767" attributes="0"/>
+                  <Component id="treeViewComboBox" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
@@ -90,7 +90,7 @@
                       <Component id="contactsPanel" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="jComboBox2" min="-2" max="-2" attributes="0"/>
+                      <Component id="treeViewComboBox" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="treeScrollPane" max="32767" attributes="0"/>
                   </Group>
@@ -133,7 +133,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jScrollPane2" max="32767" attributes="0"/>
+                  <Component id="contactsScrollPane" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -142,14 +142,14 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" max="-2" attributes="0"/>
-                  <Component id="jScrollPane2" pref="199" max="32767" attributes="0"/>
+                  <Component id="contactsScrollPane" pref="199" max="32767" attributes="0"/>
                   <EmptySpace min="-2" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Container class="javax.swing.JScrollPane" name="jScrollPane2">
+        <Container class="javax.swing.JScrollPane" name="contactsScrollPane">
           <AuxValues>
             <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
           </AuxValues>
@@ -188,7 +188,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
       <SubComponents>
-        <Container class="javax.swing.JPanel" name="jPanel2">
+        <Container class="javax.swing.JPanel" name="personalTab">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Personal">
@@ -207,7 +207,7 @@
                           <Component id="setProfilePictureCommand" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jPanel4" max="32767" attributes="0"/>
+                      <Component id="personalPanel" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -222,7 +222,7 @@
                               <EmptySpace max="32767" attributes="0"/>
                               <Component id="setProfilePictureCommand" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="jPanel4" max="32767" attributes="0"/>
+                          <Component id="personalPanel" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -265,7 +265,7 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Container class="javax.swing.JPanel" name="jPanel4">
+            <Container class="javax.swing.JPanel" name="personalPanel">
               <Properties>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -404,8 +404,8 @@
                   <BindingProperties>
                     <BindingProperty name="text" source="contactsTable" sourcePath="${selectedElement.recordNumber}" target="recordNumberTextField" targetPath="text" updateStrategy="0" immediately="false">
                       <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
-                      <Property name="nullValue" type="java.lang.String" value="null"/>
-                      <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+                      <Property name="nullValue" type="java.lang.String" value=""/>
+                      <Property name="incompletePathValue" type="java.lang.String" value=""/>
                       <Property name="name" type="java.lang.String" value="recordNumber"/>
                     </BindingProperty>
                   </BindingProperties>
@@ -416,11 +416,16 @@
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="lastNameTextField">
+                  <Properties>
+                    <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                      <ComponentRef name="nickNameTextField"/>
+                    </Property>
+                  </Properties>
                   <BindingProperties>
                     <BindingProperty name="text" source="contactsTable" sourcePath="${selectedElement.lastName}" target="lastNameTextField" targetPath="text" updateStrategy="0" immediately="false">
                       <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
-                      <Property name="nullValue" type="java.lang.String" value="null"/>
-                      <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+                      <Property name="nullValue" type="java.lang.String" value=""/>
+                      <Property name="incompletePathValue" type="java.lang.String" value=""/>
                       <Property name="name" type="java.lang.String" value="lastName"/>
                     </BindingProperty>
                   </BindingProperties>
@@ -434,11 +439,16 @@
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="nickNameTextField">
+                  <Properties>
+                    <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                      <ComponentRef name="sexComboBox"/>
+                    </Property>
+                  </Properties>
                   <BindingProperties>
                     <BindingProperty name="text" source="contactsTable" sourcePath="${selectedElement.nickName}" target="nickNameTextField" targetPath="text" updateStrategy="0" immediately="false">
                       <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
-                      <Property name="nullValue" type="java.lang.String" value="null"/>
-                      <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+                      <Property name="nullValue" type="java.lang.String" value=""/>
+                      <Property name="incompletePathValue" type="java.lang.String" value=""/>
                       <Property name="name" type="java.lang.String" value="nickName"/>
                     </BindingProperty>
                   </BindingProperties>
@@ -469,11 +479,16 @@
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="firstNameTextField">
+                  <Properties>
+                    <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                      <ComponentRef name="birthDateChooser"/>
+                    </Property>
+                  </Properties>
                   <BindingProperties>
                     <BindingProperty name="text" source="contactsTable" sourcePath="${selectedElement.firstName}" target="firstNameTextField" targetPath="text" updateStrategy="0" immediately="false">
                       <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
-                      <Property name="nullValue" type="java.lang.String" value="null"/>
-                      <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+                      <Property name="nullValue" type="java.lang.String" value=""/>
+                      <Property name="incompletePathValue" type="java.lang.String" value=""/>
                       <Property name="name" type="java.lang.String" value="firstName"/>
                     </BindingProperty>
                   </BindingProperties>
@@ -481,12 +496,10 @@
                 <Component class="javax.swing.JComboBox" name="statusComboBox">
                   <Properties>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                      <StringArray count="4">
-                        <StringItem index="0" value="Item 1"/>
-                        <StringItem index="1" value="Item 2"/>
-                        <StringItem index="2" value="Item 3"/>
-                        <StringItem index="3" value="Item 4"/>
-                      </StringArray>
+                      <StringArray count="0"/>
+                    </Property>
+                    <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                      <ComponentRef name="nationalityTextField"/>
                     </Property>
                   </Properties>
                   <BindingProperties>
@@ -501,6 +514,9 @@
                   <Properties>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                       <Connection code="new javax.swing.DefaultComboBoxModel(sexProperties.getValues().toArray())" type="code"/>
+                    </Property>
+                    <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                      <ComponentRef name="maritalStatusComboBox"/>
                     </Property>
                   </Properties>
                   <BindingProperties>
@@ -521,6 +537,9 @@
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                       <Connection code="new javax.swing.DefaultComboBoxModel(maritalStatusProperties.getValues().toArray())" type="code"/>
                     </Property>
+                    <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                      <ComponentRef name="recordDateChooser"/>
+                    </Property>
                   </Properties>
                   <BindingProperties>
                     <BindingProperty name="selectedItem" source="contactsTable" sourcePath="${selectedElement.sex}" target="maritalStatusComboBox" targetPath="selectedItem" updateStrategy="0" immediately="false">
@@ -539,13 +558,18 @@
                   <BindingProperties>
                     <BindingProperty name="text" source="contactsTable" sourcePath="${selectedElement.nationaltiy}" target="nationalityTextField" targetPath="text" updateStrategy="0" immediately="false">
                       <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
-                      <Property name="nullValue" type="java.lang.String" value="null"/>
-                      <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+                      <Property name="nullValue" type="java.lang.String" value=""/>
+                      <Property name="incompletePathValue" type="java.lang.String" value=""/>
                       <Property name="name" type="java.lang.String" value="nationality"/>
                     </BindingProperty>
                   </BindingProperties>
                 </Component>
                 <Component class="com.toedter.calendar.JDateChooser" name="birthDateChooser">
+                  <Properties>
+                    <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                      <ComponentRef name="statusComboBox"/>
+                    </Property>
+                  </Properties>
                   <BindingProperties>
                     <BindingProperty name="date" source="contactsTable" sourcePath="${selectedElement.birthdate}" target="birthDateChooser" targetPath="date" updateStrategy="0" immediately="false">
                       <Property name="nullValue" type="java.util.Date" value="null"/>
@@ -555,6 +579,11 @@
                   </BindingProperties>
                 </Component>
                 <Component class="com.toedter.calendar.JDateChooser" name="recordDateChooser">
+                  <Properties>
+                    <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                      <ComponentRef name="firstNameTextField"/>
+                    </Property>
+                  </Properties>
                   <BindingProperties>
                     <BindingProperty name="date" source="contactsTable" sourcePath="${selectedElement.recordDate}" target="recordDateChooser" targetPath="date" updateStrategy="0" immediately="false">
                       <Property name="nullValue" type="java.util.Date" value="null"/>
@@ -572,7 +601,7 @@
             </Component>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JPanel" name="addressTabPanel">
+        <Container class="javax.swing.JPanel" name="addressTab">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Address">
@@ -684,6 +713,14 @@
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="houseNumberTextField">
+                  <BindingProperties>
+                    <BindingProperty name="text" source="contactsTable" sourcePath="${selectedElement.houseNumber}" target="houseNumberTextField" targetPath="text" updateStrategy="0" immediately="false">
+                      <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+                      <Property name="nullValue" type="java.lang.String" value=""/>
+                      <Property name="incompletePathValue" type="java.lang.String" value=""/>
+                      <Property name="name" type="java.lang.String" value="houseNumber"/>
+                    </BindingProperty>
+                  </BindingProperties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="barangayLabel">
                   <Properties>
@@ -691,6 +728,14 @@
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="cityTextField">
+                  <BindingProperties>
+                    <BindingProperty name="text" source="contactsTable" sourcePath="${selectedElement.city}" target="cityTextField" targetPath="text" updateStrategy="0" immediately="false">
+                      <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+                      <Property name="nullValue" type="java.lang.String" value="null"/>
+                      <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+                      <Property name="name" type="java.lang.String" value="city"/>
+                    </BindingProperty>
+                  </BindingProperties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="streetLabel">
                   <Properties>
@@ -703,8 +748,24 @@
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="streetTextField">
+                  <BindingProperties>
+                    <BindingProperty name="text" source="contactsTable" sourcePath="${selectedElement.street}" target="streetTextField" targetPath="text" updateStrategy="0" immediately="false">
+                      <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+                      <Property name="nullValue" type="java.lang.String" value="null"/>
+                      <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+                      <Property name="name" type="java.lang.String" value="street"/>
+                    </BindingProperty>
+                  </BindingProperties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="barangayTextField">
+                  <BindingProperties>
+                    <BindingProperty name="text" source="contactsTable" sourcePath="${selectedElement.barangay}" target="barangayTextField" targetPath="text" updateStrategy="0" immediately="false">
+                      <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+                      <Property name="nullValue" type="java.lang.String" value="null"/>
+                      <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+                      <Property name="name" type="java.lang.String" value="barangay"/>
+                    </BindingProperty>
+                  </BindingProperties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="areaLabel">
                   <Properties>
@@ -712,12 +773,20 @@
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="areaTextField">
+                  <BindingProperties>
+                    <BindingProperty name="text" source="contactsTable" sourcePath="${selectedElement.area}" target="areaTextField" targetPath="text" updateStrategy="0" immediately="false">
+                      <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+                      <Property name="nullValue" type="java.lang.String" value="null"/>
+                      <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+                      <Property name="name" type="java.lang.String" value="area"/>
+                    </BindingProperty>
+                  </BindingProperties>
                 </Component>
               </SubComponents>
             </Container>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JPanel" name="backgroundTabPanel">
+        <Container class="javax.swing.JPanel" name="backgroundTab">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Background">
@@ -781,8 +850,7 @@
                                       </Group>
                                       <Group type="102" attributes="0">
                                           <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
-                                          <Component id="workTextField" max="32767" attributes="0"/>
-                                          <EmptySpace min="292" pref="292" max="-2" attributes="0"/>
+                                          <Component id="workTextField" min="-2" pref="220" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
@@ -790,8 +858,8 @@
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" alignment="0" attributes="0">
                                           <Component id="fatherLabel" linkSize="5" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" max="-2" attributes="0"/>
-                                          <Component id="fatherTextField" pref="221" max="32767" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="fatherTextField" pref="220" max="32767" attributes="0"/>
                                       </Group>
                                       <Group type="102" alignment="0" attributes="0">
                                           <Component id="motherLabel" linkSize="5" min="-2" max="-2" attributes="0"/>
@@ -799,28 +867,28 @@
                                           <Component id="motherTextField" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
-                                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" alignment="0" attributes="0">
                                           <Component id="religionLabel" linkSize="6" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="religionTextField" pref="236" max="32767" attributes="0"/>
+                                          <Component id="foundByTextField" pref="235" max="32767" attributes="0"/>
                                       </Group>
                                       <Group type="102" alignment="0" attributes="0">
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Component id="guardianLabel" linkSize="6" min="-2" max="-2" attributes="0"/>
-                                              <Component id="foundByLabel" min="-2" pref="49" max="-2" attributes="0"/>
+                                              <Component id="foundByLabel" linkSize="6" min="-2" pref="49" max="-2" attributes="0"/>
                                           </Group>
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="religionTextField" max="32767" attributes="0"/>
                                               <Component id="guardianTextField" max="32767" attributes="0"/>
-                                              <Component id="foundByTextField" max="32767" attributes="0"/>
                                           </Group>
                                       </Group>
                                   </Group>
                               </Group>
                           </Group>
-                          <EmptySpace min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -845,7 +913,7 @@
                               </Group>
                               <Group type="103" alignment="1" groupAlignment="3" attributes="0">
                                   <Component id="foundByLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="foundByTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="guardianTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
@@ -853,14 +921,14 @@
                               <Component id="fatherLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="fatherTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="guardianLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="guardianTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="religionTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="motherLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="motherTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="religionLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="religionTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="foundByTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -874,6 +942,14 @@
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="personalTextField">
+                  <BindingProperties>
+                    <BindingProperty name="text" source="contactsTable" sourcePath="${selectedElement.personalBackground}" target="personalTextField" targetPath="text" updateStrategy="0" immediately="false">
+                      <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+                      <Property name="nullValue" type="java.lang.String" value="null"/>
+                      <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+                      <Property name="name" type="java.lang.String" value="personalBackground"/>
+                    </BindingProperty>
+                  </BindingProperties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="familyLabel">
                   <Properties>
@@ -886,8 +962,24 @@
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="familyTextField">
+                  <BindingProperties>
+                    <BindingProperty name="text" source="contactsTable" sourcePath="${selectedElement.familyBackground}" target="familyTextField" targetPath="text" updateStrategy="0" immediately="false">
+                      <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+                      <Property name="nullValue" type="java.lang.String" value="null"/>
+                      <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+                      <Property name="name" type="java.lang.String" value="familyBackground"/>
+                    </BindingProperty>
+                  </BindingProperties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="workTextField">
+                  <BindingProperties>
+                    <BindingProperty name="text" source="contactsTable" sourcePath="${selectedElement.workBackground}" target="workTextField" targetPath="text" updateStrategy="0" immediately="false">
+                      <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+                      <Property name="nullValue" type="java.lang.String" value="null"/>
+                      <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+                      <Property name="name" type="java.lang.String" value="workBackground"/>
+                    </BindingProperty>
+                  </BindingProperties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="fatherLabel">
                   <Properties>
@@ -895,6 +987,14 @@
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="fatherTextField">
+                  <BindingProperties>
+                    <BindingProperty name="text" source="contactsTable" sourcePath="${selectedElement.fathersName}" target="fatherTextField" targetPath="text" updateStrategy="0" immediately="false">
+                      <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+                      <Property name="nullValue" type="java.lang.String" value=""/>
+                      <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+                      <Property name="name" type="java.lang.String" value="fathersName"/>
+                    </BindingProperty>
+                  </BindingProperties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="motherLabel">
                   <Properties>
@@ -902,33 +1002,65 @@
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="motherTextField">
+                  <BindingProperties>
+                    <BindingProperty name="text" source="contactsTable" sourcePath="${selectedElement.mothersName}" target="motherTextField" targetPath="text" updateStrategy="0" immediately="false">
+                      <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+                      <Property name="nullValue" type="java.lang.String" value="null"/>
+                      <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+                      <Property name="name" type="java.lang.String" value="mothersName"/>
+                    </BindingProperty>
+                  </BindingProperties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="guardianLabel">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Guardian:"/>
-                  </Properties>
-                </Component>
-                <Component class="javax.swing.JLabel" name="religionLabel">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Religion:"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="guardianTextField">
-                </Component>
-                <Component class="javax.swing.JTextField" name="religionTextField">
-                </Component>
-                <Component class="javax.swing.JLabel" name="foundByLabel">
+                <Component class="javax.swing.JLabel" name="religionLabel">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Found by:"/>
                   </Properties>
                 </Component>
+                <Component class="javax.swing.JTextField" name="religionTextField">
+                  <BindingProperties>
+                    <BindingProperty name="text" source="contactsTable" sourcePath="${selectedElement.religion}" target="religionTextField" targetPath="text" updateStrategy="0" immediately="false">
+                      <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+                      <Property name="nullValue" type="java.lang.String" value="null"/>
+                      <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+                      <Property name="name" type="java.lang.String" value="religion"/>
+                    </BindingProperty>
+                  </BindingProperties>
+                </Component>
                 <Component class="javax.swing.JTextField" name="foundByTextField">
+                  <BindingProperties>
+                    <BindingProperty name="text" source="contactsTable" sourcePath="${selectedElement.foundBy}" target="foundByTextField" targetPath="text" updateStrategy="0" immediately="false">
+                      <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+                      <Property name="nullValue" type="java.lang.String" value="null"/>
+                      <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+                      <Property name="name" type="java.lang.String" value="foundBy"/>
+                    </BindingProperty>
+                  </BindingProperties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="foundByLabel">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Guardian:"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="guardianTextField">
+                  <BindingProperties>
+                    <BindingProperty name="text" source="contactsTable" sourcePath="${selectedElement.guardiansName}" target="guardianTextField" targetPath="text" updateStrategy="0" immediately="false">
+                      <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+                      <Property name="nullValue" type="java.lang.String" value="null"/>
+                      <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+                      <Property name="name" type="java.lang.String" value="guardiansName"/>
+                    </BindingProperty>
+                  </BindingProperties>
                 </Component>
               </SubComponents>
             </Container>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JPanel" name="communicationTabPanel">
+        <Container class="javax.swing.JPanel" name="communicationTab">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Communication">
@@ -1044,6 +1176,14 @@
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="phoneNumberTextField">
+                  <BindingProperties>
+                    <BindingProperty name="text" source="contactsTable" sourcePath="${selectedElement.phoneNumber}" target="phoneNumberTextField" targetPath="text" updateStrategy="0" immediately="false">
+                      <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+                      <Property name="nullValue" type="java.lang.String" value="null"/>
+                      <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+                      <Property name="name" type="java.lang.String" value="phoneNumber"/>
+                    </BindingProperty>
+                  </BindingProperties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="mobileNumberLabel">
                   <Properties>
@@ -1051,6 +1191,14 @@
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="mobileNumberTextField">
+                  <BindingProperties>
+                    <BindingProperty name="text" source="contactsTable" sourcePath="${selectedElement.mobileNumber}" target="mobileNumberTextField" targetPath="text" updateStrategy="0" immediately="false">
+                      <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+                      <Property name="nullValue" type="java.lang.String" value="null"/>
+                      <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+                      <Property name="name" type="java.lang.String" value="mobileNumber"/>
+                    </BindingProperty>
+                  </BindingProperties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="emailAddressLabel">
                   <Properties>
@@ -1058,6 +1206,14 @@
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="emailAddressTextField">
+                  <BindingProperties>
+                    <BindingProperty name="text" source="contactsTable" sourcePath="${selectedElement.emailAddress}" target="emailAddressTextField" targetPath="text" updateStrategy="0" immediately="false">
+                      <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+                      <Property name="nullValue" type="java.lang.String" value="null"/>
+                      <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+                      <Property name="name" type="java.lang.String" value="emailAddress"/>
+                    </BindingProperty>
+                  </BindingProperties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="skypeLabel">
                   <Properties>
@@ -1065,6 +1221,14 @@
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="skypeAccountTextField">
+                  <BindingProperties>
+                    <BindingProperty name="text" source="contactsTable" sourcePath="${selectedElement.skypeAccount}" target="skypeAccountTextField" targetPath="text" updateStrategy="0" immediately="false">
+                      <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+                      <Property name="nullValue" type="java.lang.String" value="null"/>
+                      <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+                      <Property name="name" type="java.lang.String" value="skypeAccount"/>
+                    </BindingProperty>
+                  </BindingProperties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="facebookLabel">
                   <Properties>
@@ -1072,12 +1236,20 @@
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="facebookTextField">
+                  <BindingProperties>
+                    <BindingProperty name="text" source="contactsTable" sourcePath="${selectedElement.facebookAccount}" target="facebookTextField" targetPath="text" updateStrategy="0" immediately="false">
+                      <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+                      <Property name="nullValue" type="java.lang.String" value="null"/>
+                      <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+                      <Property name="name" type="java.lang.String" value="facebookAccount"/>
+                    </BindingProperty>
+                  </BindingProperties>
                 </Component>
               </SubComponents>
             </Container>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JPanel" name="jPanel1">
+        <Container class="javax.swing.JPanel" name="mapsTab">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Maps">
@@ -1091,7 +1263,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jPanel3" max="32767" attributes="0"/>
+                      <Component id="mapsPanel" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -1100,14 +1272,14 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jPanel3" max="32767" attributes="0"/>
+                      <Component id="mapsPanel" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Container class="javax.swing.JPanel" name="jPanel3">
+            <Container class="javax.swing.JPanel" name="mapsPanel">
               <Properties>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -1123,7 +1295,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jToolBar1" min="-2" pref="100" max="-2" attributes="0"/>
+                          <Component id="mapsToolBar" min="-2" pref="100" max="-2" attributes="0"/>
                           <EmptySpace pref="471" max="32767" attributes="0"/>
                       </Group>
                   </Group>
@@ -1132,14 +1304,14 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jToolBar1" pref="143" max="32767" attributes="0"/>
+                          <Component id="mapsToolBar" pref="143" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Container class="javax.swing.JToolBar" name="jToolBar1">
+                <Container class="javax.swing.JToolBar" name="mapsToolBar">
                   <Properties>
                     <Property name="floatable" type="boolean" value="false"/>
                     <Property name="orientation" type="int" value="1"/>
@@ -1176,7 +1348,7 @@
         </Container>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JComboBox" name="jComboBox2">
+    <Component class="javax.swing.JComboBox" name="treeViewComboBox">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="3">

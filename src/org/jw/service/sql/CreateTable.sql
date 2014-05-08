@@ -93,6 +93,7 @@ create table cir.contact(
     facebook_account varchar(50),
     fathers_name varchar(50),
     mothers_name varchar(50),
+    guardians_name varchar(50),
     religion varchar(50),
     found_by varchar(50),
     created_datetime datetime,

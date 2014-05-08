@@ -7,7 +7,6 @@
 package org.jw.service.gui;
 
 import javax.persistence.EntityManager;
-import javax.swing.DefaultComboBoxModel;
 import org.jw.service.action.DefaultOpenAction;
 import org.jw.service.dao.DataAccessObject;
 import org.jw.service.entity.Contact;
@@ -20,17 +19,16 @@ import org.jw.service.util.UtilityProperties;
  *
  * @author Wilson
  */
-public class ApplicationFrame extends javax.swing.JFrame {
+public final class ApplicationFrame extends javax.swing.JFrame {
 
     /**
      * Creates new form ApplicationFrame
+     * @param em
      */
     public ApplicationFrame(EntityManager em) {        
         this.em = em;
         initComponents();
         initMyComponents();
-        
-        
     }
 
     /**
@@ -49,13 +47,13 @@ public class ApplicationFrame extends javax.swing.JFrame {
         treeScrollPane = new javax.swing.JScrollPane();
         contactsTree = new javax.swing.JTree();
         contactsPanel = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
+        contactsScrollPane = new javax.swing.JScrollPane();
         contactsTable = new javax.swing.JTable();
         tabbedPane = new javax.swing.JTabbedPane();
-        jPanel2 = new javax.swing.JPanel();
+        personalTab = new javax.swing.JPanel();
         profilePicturePanel = new javax.swing.JPanel();
         profilePictureLabel = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
+        personalPanel = new javax.swing.JPanel();
         recordNumberLabel = new javax.swing.JLabel();
         recordNumberTextField = new javax.swing.JTextField();
         lastNameLabel = new javax.swing.JLabel();
@@ -77,7 +75,7 @@ public class ApplicationFrame extends javax.swing.JFrame {
         birthDateChooser = new com.toedter.calendar.JDateChooser();
         recordDateChooser = new com.toedter.calendar.JDateChooser();
         setProfilePictureCommand = new javax.swing.JButton();
-        addressTabPanel = new javax.swing.JPanel();
+        addressTab = new javax.swing.JPanel();
         addressPanel = new javax.swing.JPanel();
         houseNumberLabel = new javax.swing.JLabel();
         houseNumberTextField = new javax.swing.JTextField();
@@ -89,7 +87,7 @@ public class ApplicationFrame extends javax.swing.JFrame {
         barangayTextField = new javax.swing.JTextField();
         areaLabel = new javax.swing.JLabel();
         areaTextField = new javax.swing.JTextField();
-        backgroundTabPanel = new javax.swing.JPanel();
+        backgroundTab = new javax.swing.JPanel();
         backgroundPanel = new javax.swing.JPanel();
         personalLabel = new javax.swing.JLabel();
         personalTextField = new javax.swing.JTextField();
@@ -103,11 +101,11 @@ public class ApplicationFrame extends javax.swing.JFrame {
         motherTextField = new javax.swing.JTextField();
         guardianLabel = new javax.swing.JLabel();
         religionLabel = new javax.swing.JLabel();
-        guardianTextField = new javax.swing.JTextField();
         religionTextField = new javax.swing.JTextField();
-        foundByLabel = new javax.swing.JLabel();
         foundByTextField = new javax.swing.JTextField();
-        communicationTabPanel = new javax.swing.JPanel();
+        foundByLabel = new javax.swing.JLabel();
+        guardianTextField = new javax.swing.JTextField();
+        communicationTab = new javax.swing.JPanel();
         communicationPanel = new javax.swing.JPanel();
         phoneNumberLabel = new javax.swing.JLabel();
         phoneNumberTextField = new javax.swing.JTextField();
@@ -119,14 +117,14 @@ public class ApplicationFrame extends javax.swing.JFrame {
         skypeAccountTextField = new javax.swing.JTextField();
         facebookLabel = new javax.swing.JLabel();
         facebookTextField = new javax.swing.JTextField();
-        jPanel1 = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
-        jToolBar1 = new javax.swing.JToolBar();
+        mapsTab = new javax.swing.JPanel();
+        mapsPanel = new javax.swing.JPanel();
+        mapsToolBar = new javax.swing.JToolBar();
         openLocationMapCommand = new javax.swing.JButton();
         openDirectionMapAction = new javax.swing.JButton();
-        jComboBox2 = new javax.swing.JComboBox();
+        treeViewComboBox = new javax.swing.JComboBox();
         menuBar = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
+        systemMenu = new javax.swing.JMenu();
         optionsMenu = new javax.swing.JMenu();
         serviceGroupsMenuItem = new javax.swing.JMenuItem();
         contactStatusMenuItem = new javax.swing.JMenuItem();
@@ -161,7 +159,7 @@ public class ApplicationFrame extends javax.swing.JFrame {
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
 
-        jScrollPane2.setViewportView(contactsTable);
+        contactsScrollPane.setViewportView(contactsTable);
 
         javax.swing.GroupLayout contactsPanelLayout = new javax.swing.GroupLayout(contactsPanel);
         contactsPanel.setLayout(contactsPanelLayout);
@@ -169,14 +167,14 @@ public class ApplicationFrame extends javax.swing.JFrame {
             contactsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(contactsPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2)
+                .addComponent(contactsScrollPane)
                 .addContainerGap())
         );
         contactsPanelLayout.setVerticalGroup(
             contactsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(contactsPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
+                .addComponent(contactsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -195,7 +193,7 @@ public class ApplicationFrame extends javax.swing.JFrame {
             .addComponent(profilePictureLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Personal", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        personalPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Personal", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
         recordNumberLabel.setLabelFor(recordNumberTextField);
         recordNumberLabel.setText("Record Number:");
@@ -203,15 +201,17 @@ public class ApplicationFrame extends javax.swing.JFrame {
         recordNumberTextField.setEditable(false);
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.recordNumber}"), recordNumberTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "recordNumber");
-        binding.setSourceNullValue("null");
-        binding.setSourceUnreadableValue("null");
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
         lastNameLabel.setText("Last Name:");
 
+        lastNameTextField.setNextFocusableComponent(nickNameTextField);
+
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.lastName}"), lastNameTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "lastName");
-        binding.setSourceNullValue("null");
-        binding.setSourceUnreadableValue("null");
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
         lastNameTextField.addActionListener(new java.awt.event.ActionListener() {
@@ -222,9 +222,11 @@ public class ApplicationFrame extends javax.swing.JFrame {
 
         nickNameLabel.setText("Nick Name:");
 
+        nickNameTextField.setNextFocusableComponent(sexComboBox);
+
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.nickName}"), nickNameTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "nickName");
-        binding.setSourceNullValue("null");
-        binding.setSourceUnreadableValue("null");
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
         sexLabel.setText("Sex:");
@@ -237,12 +239,14 @@ public class ApplicationFrame extends javax.swing.JFrame {
 
         statusLabel.setText("Status:");
 
+        firstNameTextField.setNextFocusableComponent(birthDateChooser);
+
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.firstName}"), firstNameTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "firstName");
-        binding.setSourceNullValue("null");
-        binding.setSourceUnreadableValue("null");
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
-        statusComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        statusComboBox.setNextFocusableComponent(nationalityTextField);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.statusId}"), statusComboBox, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"), "status");
         binding.setSourceNullValue(null);
@@ -250,6 +254,7 @@ public class ApplicationFrame extends javax.swing.JFrame {
         bindingGroup.addBinding(binding);
 
         sexComboBox.setModel(new javax.swing.DefaultComboBoxModel(sexProperties.getValues().toArray()));
+        sexComboBox.setNextFocusableComponent(maritalStatusComboBox);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.sex}"), sexComboBox, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"), "sex");
         binding.setSourceNullValue(null);
@@ -259,6 +264,7 @@ public class ApplicationFrame extends javax.swing.JFrame {
         maritalStatusLabel.setText("Marital Status:");
 
         maritalStatusComboBox.setModel(new javax.swing.DefaultComboBoxModel(maritalStatusProperties.getValues().toArray()));
+        maritalStatusComboBox.setNextFocusableComponent(recordDateChooser);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.sex}"), maritalStatusComboBox, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"), "maritalStatus");
         binding.setSourceNullValue(null);
@@ -268,107 +274,111 @@ public class ApplicationFrame extends javax.swing.JFrame {
         nationalityLabel.setText("Nationality:");
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.nationaltiy}"), nationalityTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "nationality");
-        binding.setSourceNullValue("null");
-        binding.setSourceUnreadableValue("null");
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
+
+        birthDateChooser.setNextFocusableComponent(statusComboBox);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.birthdate}"), birthDateChooser, org.jdesktop.beansbinding.BeanProperty.create("date"), "birthdate");
         binding.setSourceNullValue(null);
         binding.setSourceUnreadableValue(null);
         bindingGroup.addBinding(binding);
 
+        recordDateChooser.setNextFocusableComponent(firstNameTextField);
+
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.recordDate}"), recordDateChooser, org.jdesktop.beansbinding.BeanProperty.create("date"), "recordDate");
         binding.setSourceNullValue(null);
         binding.setSourceUnreadableValue(null);
         bindingGroup.addBinding(binding);
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
+        javax.swing.GroupLayout personalPanelLayout = new javax.swing.GroupLayout(personalPanel);
+        personalPanel.setLayout(personalPanelLayout);
+        personalPanelLayout.setHorizontalGroup(
+            personalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(personalPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGroup(personalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(personalPanelLayout.createSequentialGroup()
                         .addComponent(maritalStatusLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(maritalStatusComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
+                    .addGroup(personalPanelLayout.createSequentialGroup()
                         .addComponent(nickNameLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(nickNameTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
+                    .addGroup(personalPanelLayout.createSequentialGroup()
                         .addComponent(sexLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(sexComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
+                    .addGroup(personalPanelLayout.createSequentialGroup()
                         .addComponent(recordNumberLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(recordNumberTextField))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
+                    .addGroup(personalPanelLayout.createSequentialGroup()
                         .addComponent(lastNameLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lastNameTextField)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGroup(personalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(personalPanelLayout.createSequentialGroup()
                         .addComponent(recordDateLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(recordDateChooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
+                    .addGroup(personalPanelLayout.createSequentialGroup()
                         .addComponent(firstNameLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(firstNameTextField))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
+                    .addGroup(personalPanelLayout.createSequentialGroup()
                         .addComponent(birthdateLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(birthDateChooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(personalPanelLayout.createSequentialGroup()
+                        .addGroup(personalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(nationalityLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(statusLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(personalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(statusComboBox, 0, 140, Short.MAX_VALUE)
                             .addComponent(nationalityTextField))))
                 .addContainerGap())
         );
 
-        jPanel4Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lastNameLabel, maritalStatusLabel, nickNameLabel, recordNumberLabel, sexLabel});
+        personalPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lastNameLabel, maritalStatusLabel, nickNameLabel, recordNumberLabel, sexLabel});
 
-        jPanel4Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {birthdateLabel, firstNameLabel, nationalityLabel, recordDateLabel, statusLabel});
+        personalPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {birthdateLabel, firstNameLabel, nationalityLabel, recordDateLabel, statusLabel});
 
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
+        personalPanelLayout.setVerticalGroup(
+            personalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(personalPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(personalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(personalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(recordNumberLabel)
                         .addComponent(recordNumberTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(recordDateLabel))
                     .addComponent(recordDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(personalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lastNameLabel)
                     .addComponent(lastNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(firstNameLabel)
                     .addComponent(firstNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(personalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(personalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(nickNameLabel)
                         .addComponent(nickNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(birthdateLabel))
                     .addComponent(birthDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(personalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(sexLabel)
                     .addComponent(statusLabel)
                     .addComponent(statusComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(sexComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(personalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(maritalStatusComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(maritalStatusLabel)
                     .addComponent(nationalityLabel)
@@ -378,45 +388,70 @@ public class ApplicationFrame extends javax.swing.JFrame {
 
         setProfilePictureCommand.setText("Set Profile Picture");
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        javax.swing.GroupLayout personalTabLayout = new javax.swing.GroupLayout(personalTab);
+        personalTab.setLayout(personalTabLayout);
+        personalTabLayout.setHorizontalGroup(
+            personalTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(personalTabLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(personalTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(profilePicturePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(setProfilePictureCommand, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(personalPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        personalTabLayout.setVerticalGroup(
+            personalTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(personalTabLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(personalTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(personalTabLayout.createSequentialGroup()
                         .addComponent(profilePicturePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(setProfilePictureCommand))
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(personalPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
-        tabbedPane.addTab("Personal", jPanel2);
+        tabbedPane.addTab("Personal", personalTab);
 
         addressPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Address", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
         houseNumberLabel.setText("House Number:");
 
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.houseNumber}"), houseNumberTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "houseNumber");
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
+        bindingGroup.addBinding(binding);
+
         barangayLabel.setText("Barangay:");
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.city}"), cityTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "city");
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
 
         streetLabel.setText("Street:");
 
         cityLabel.setText("City:");
 
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.street}"), streetTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "street");
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.barangay}"), barangayTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "barangay");
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
+
         areaLabel.setText("Area:");
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.area}"), areaTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "area");
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
 
         javax.swing.GroupLayout addressPanelLayout = new javax.swing.GroupLayout(addressPanel);
         addressPanel.setLayout(addressPanelLayout);
@@ -472,42 +507,82 @@ public class ApplicationFrame extends javax.swing.JFrame {
                 .addGap(0, 30, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout addressTabPanelLayout = new javax.swing.GroupLayout(addressTabPanel);
-        addressTabPanel.setLayout(addressTabPanelLayout);
-        addressTabPanelLayout.setHorizontalGroup(
-            addressTabPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(addressTabPanelLayout.createSequentialGroup()
+        javax.swing.GroupLayout addressTabLayout = new javax.swing.GroupLayout(addressTab);
+        addressTab.setLayout(addressTabLayout);
+        addressTabLayout.setHorizontalGroup(
+            addressTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(addressTabLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(addressPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        addressTabPanelLayout.setVerticalGroup(
-            addressTabPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(addressTabPanelLayout.createSequentialGroup()
+        addressTabLayout.setVerticalGroup(
+            addressTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(addressTabLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(addressPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        tabbedPane.addTab("Address", addressTabPanel);
+        tabbedPane.addTab("Address", addressTab);
 
         backgroundPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Background", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
         personalLabel.setText("Personal:");
 
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.personalBackground}"), personalTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "personalBackground");
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
+
         familyLabel.setText("Family:");
 
         workLabel.setText("Work:");
 
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.familyBackground}"), familyTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "familyBackground");
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.workBackground}"), workTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "workBackground");
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
+
         fatherLabel.setText("Father:");
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.fathersName}"), fatherTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "fathersName");
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
 
         motherLabel.setText("Mother:");
 
-        guardianLabel.setText("Guardian:");
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.mothersName}"), motherTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "mothersName");
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
 
-        religionLabel.setText("Religion:");
+        guardianLabel.setText("Religion:");
 
-        foundByLabel.setText("Found by:");
+        religionLabel.setText("Found by:");
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.religion}"), religionTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "religion");
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.foundBy}"), foundByTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "foundBy");
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
+
+        foundByLabel.setText("Guardian:");
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.guardiansName}"), guardianTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "guardiansName");
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
 
         javax.swing.GroupLayout backgroundPanelLayout = new javax.swing.GroupLayout(backgroundPanel);
         backgroundPanel.setLayout(backgroundPanelLayout);
@@ -530,14 +605,13 @@ public class ApplicationFrame extends javax.swing.JFrame {
                                 .addComponent(familyTextField))
                             .addGroup(backgroundPanelLayout.createSequentialGroup()
                                 .addGap(4, 4, 4)
-                                .addComponent(workTextField)
-                                .addGap(292, 292, 292))))
+                                .addComponent(workTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(backgroundPanelLayout.createSequentialGroup()
                         .addGroup(backgroundPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(backgroundPanelLayout.createSequentialGroup()
                                 .addComponent(fatherLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(fatherTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE))
+                                .addComponent(fatherTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE))
                             .addGroup(backgroundPanelLayout.createSequentialGroup()
                                 .addComponent(motherLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -547,21 +621,21 @@ public class ApplicationFrame extends javax.swing.JFrame {
                             .addGroup(backgroundPanelLayout.createSequentialGroup()
                                 .addComponent(religionLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(religionTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE))
+                                .addComponent(foundByTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE))
                             .addGroup(backgroundPanelLayout.createSequentialGroup()
                                 .addGroup(backgroundPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(guardianLabel)
                                     .addComponent(foundByLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(backgroundPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(guardianTextField)
-                                    .addComponent(foundByTextField))))))
+                                    .addComponent(religionTextField)
+                                    .addComponent(guardianTextField))))))
                 .addContainerGap())
         );
 
         backgroundPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {familyLabel, fatherLabel, motherLabel, personalLabel, workLabel});
 
-        backgroundPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {guardianLabel, religionLabel});
+        backgroundPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {foundByLabel, guardianLabel, religionLabel});
 
         backgroundPanelLayout.setVerticalGroup(
             backgroundPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -581,52 +655,77 @@ public class ApplicationFrame extends javax.swing.JFrame {
                         .addComponent(workTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backgroundPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(foundByLabel)
-                        .addComponent(foundByTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(guardianTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(backgroundPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(fatherLabel)
                     .addComponent(fatherTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(guardianLabel)
-                    .addComponent(guardianTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(religionTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(backgroundPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(motherLabel)
                     .addComponent(motherTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(religionLabel)
-                    .addComponent(religionTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(foundByTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
-        javax.swing.GroupLayout backgroundTabPanelLayout = new javax.swing.GroupLayout(backgroundTabPanel);
-        backgroundTabPanel.setLayout(backgroundTabPanelLayout);
-        backgroundTabPanelLayout.setHorizontalGroup(
-            backgroundTabPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(backgroundTabPanelLayout.createSequentialGroup()
+        javax.swing.GroupLayout backgroundTabLayout = new javax.swing.GroupLayout(backgroundTab);
+        backgroundTab.setLayout(backgroundTabLayout);
+        backgroundTabLayout.setHorizontalGroup(
+            backgroundTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(backgroundTabLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(backgroundPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        backgroundTabPanelLayout.setVerticalGroup(
-            backgroundTabPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(backgroundTabPanelLayout.createSequentialGroup()
+        backgroundTabLayout.setVerticalGroup(
+            backgroundTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(backgroundTabLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(backgroundPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
-        tabbedPane.addTab("Background", backgroundTabPanel);
+        tabbedPane.addTab("Background", backgroundTab);
 
         communicationPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Communication", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
         phoneNumberLabel.setText("Phone Number:");
 
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.phoneNumber}"), phoneNumberTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "phoneNumber");
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
+
         mobileNumberLabel.setText("Mobile Number:");
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.mobileNumber}"), mobileNumberTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "mobileNumber");
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
 
         emailAddressLabel.setText("Email:");
 
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.emailAddress}"), emailAddressTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "emailAddress");
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
+
         skypeLabel.setText("Skype:");
 
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.skypeAccount}"), skypeAccountTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "skypeAccount");
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
+
         facebookLabel.setText("Facebook:");
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.facebookAccount}"), facebookTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "facebookAccount");
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
 
         javax.swing.GroupLayout communicationPanelLayout = new javax.swing.GroupLayout(communicationPanel);
         communicationPanel.setLayout(communicationPanelLayout);
@@ -684,83 +783,83 @@ public class ApplicationFrame extends javax.swing.JFrame {
                 .addContainerGap(30, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout communicationTabPanelLayout = new javax.swing.GroupLayout(communicationTabPanel);
-        communicationTabPanel.setLayout(communicationTabPanelLayout);
-        communicationTabPanelLayout.setHorizontalGroup(
-            communicationTabPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(communicationTabPanelLayout.createSequentialGroup()
+        javax.swing.GroupLayout communicationTabLayout = new javax.swing.GroupLayout(communicationTab);
+        communicationTab.setLayout(communicationTabLayout);
+        communicationTabLayout.setHorizontalGroup(
+            communicationTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(communicationTabLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(communicationPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        communicationTabPanelLayout.setVerticalGroup(
-            communicationTabPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(communicationTabPanelLayout.createSequentialGroup()
+        communicationTabLayout.setVerticalGroup(
+            communicationTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(communicationTabLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(communicationPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        tabbedPane.addTab("Communication", communicationTabPanel);
+        tabbedPane.addTab("Communication", communicationTab);
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Maps", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        mapsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Maps", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
-        jToolBar1.setFloatable(false);
-        jToolBar1.setOrientation(javax.swing.SwingConstants.VERTICAL);
-        jToolBar1.setRollover(true);
+        mapsToolBar.setFloatable(false);
+        mapsToolBar.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        mapsToolBar.setRollover(true);
 
         openLocationMapCommand.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.plot.map.png"))); // NOI18N
         openLocationMapCommand.setText("Location");
         openLocationMapCommand.setFocusable(false);
         openLocationMapCommand.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        jToolBar1.add(openLocationMapCommand);
+        mapsToolBar.add(openLocationMapCommand);
 
         openDirectionMapAction.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.direcion.png"))); // NOI18N
         openDirectionMapAction.setText("Direction");
         openDirectionMapAction.setFocusable(false);
         openDirectionMapAction.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        jToolBar1.add(openDirectionMapAction);
+        mapsToolBar.add(openDirectionMapAction);
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+        javax.swing.GroupLayout mapsPanelLayout = new javax.swing.GroupLayout(mapsPanel);
+        mapsPanel.setLayout(mapsPanelLayout);
+        mapsPanelLayout.setHorizontalGroup(
+            mapsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mapsPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(mapsToolBar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(471, Short.MAX_VALUE))
         );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+        mapsPanelLayout.setVerticalGroup(
+            mapsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mapsPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
+                .addComponent(mapsToolBar, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout mapsTabLayout = new javax.swing.GroupLayout(mapsTab);
+        mapsTab.setLayout(mapsTabLayout);
+        mapsTabLayout.setHorizontalGroup(
+            mapsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mapsTabLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(mapsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        mapsTabLayout.setVerticalGroup(
+            mapsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mapsTabLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(mapsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        tabbedPane.addTab("Maps", jPanel1);
+        tabbedPane.addTab("Maps", mapsTab);
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Service Group View", "Territory View", "Alphabetical View" }));
+        treeViewComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Service Group View", "Territory View", "Alphabetical View" }));
 
-        jMenu1.setText("File");
-        menuBar.add(jMenu1);
+        systemMenu.setText("System");
+        menuBar.add(systemMenu);
 
         optionsMenu.setText("Options");
 
@@ -784,7 +883,7 @@ public class ApplicationFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(treeScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
-                    .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(treeViewComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(contactsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -802,7 +901,7 @@ public class ApplicationFrame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(contactsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(treeViewComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(treeScrollPane)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -840,11 +939,11 @@ public class ApplicationFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel addressPanel;
-    private javax.swing.JPanel addressTabPanel;
+    private javax.swing.JPanel addressTab;
     private javax.swing.JLabel areaLabel;
     private javax.swing.JTextField areaTextField;
     private javax.swing.JPanel backgroundPanel;
-    private javax.swing.JPanel backgroundTabPanel;
+    private javax.swing.JPanel backgroundTab;
     private javax.swing.JLabel barangayLabel;
     private javax.swing.JTextField barangayTextField;
     private com.toedter.calendar.JDateChooser birthDateChooser;
@@ -852,10 +951,11 @@ public class ApplicationFrame extends javax.swing.JFrame {
     private javax.swing.JLabel cityLabel;
     private javax.swing.JTextField cityTextField;
     private javax.swing.JPanel communicationPanel;
-    private javax.swing.JPanel communicationTabPanel;
+    private javax.swing.JPanel communicationTab;
     private java.util.List<org.jw.service.entity.Contact> contactList;
     private javax.swing.JMenuItem contactStatusMenuItem;
     private javax.swing.JPanel contactsPanel;
+    private javax.swing.JScrollPane contactsScrollPane;
     private javax.swing.JTable contactsTable;
     private javax.swing.JTree contactsTree;
     private javax.swing.JLabel emailAddressLabel;
@@ -874,17 +974,12 @@ public class ApplicationFrame extends javax.swing.JFrame {
     private javax.swing.JTextField guardianTextField;
     private javax.swing.JLabel houseNumberLabel;
     private javax.swing.JTextField houseNumberTextField;
-    private javax.swing.JComboBox jComboBox2;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JToolBar jToolBar1;
     private javax.swing.JLabel lastNameLabel;
     private javax.swing.JTextField lastNameTextField;
     private org.jw.service.gui.component.MainCommandPanel mainCommandPanel;
+    private javax.swing.JPanel mapsPanel;
+    private javax.swing.JPanel mapsTab;
+    private javax.swing.JToolBar mapsToolBar;
     private javax.swing.JComboBox maritalStatusComboBox;
     private javax.swing.JLabel maritalStatusLabel;
     private javax.swing.JMenuBar menuBar;
@@ -900,6 +995,8 @@ public class ApplicationFrame extends javax.swing.JFrame {
     private javax.swing.JButton openLocationMapCommand;
     private javax.swing.JMenu optionsMenu;
     private javax.swing.JLabel personalLabel;
+    private javax.swing.JPanel personalPanel;
+    private javax.swing.JPanel personalTab;
     private javax.swing.JTextField personalTextField;
     private javax.swing.JLabel phoneNumberLabel;
     private javax.swing.JTextField phoneNumberTextField;
@@ -921,9 +1018,11 @@ public class ApplicationFrame extends javax.swing.JFrame {
     private javax.swing.JLabel statusLabel;
     private javax.swing.JLabel streetLabel;
     private javax.swing.JTextField streetTextField;
+    private javax.swing.JMenu systemMenu;
     private javax.swing.JTabbedPane tabbedPane;
     private org.jw.service.gui.component.TaskMonitorPanel taskMonitorPanel;
     private javax.swing.JScrollPane treeScrollPane;
+    private javax.swing.JComboBox treeViewComboBox;
     private javax.swing.JLabel workLabel;
     private javax.swing.JTextField workTextField;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;

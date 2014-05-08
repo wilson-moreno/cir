@@ -6,6 +6,7 @@
 
 package org.jw.service.entity;
 
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
@@ -67,6 +68,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Contact.findByUpdatedDatetime", query = "SELECT c FROM Contact c WHERE c.updatedDatetime = :updatedDatetime")})
 public class Contact implements Serializable {
     private static final long serialVersionUID = 1L;
+    public static final String PROP_GUARDIANSNAME = "guardiansName";
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -125,6 +127,8 @@ public class Contact implements Serializable {
     private String fathersName;
     @Column(name = "MOTHERS_NAME")
     private String mothersName;
+    @Column(name = "GUARDIANS_NAME")
+    private String guardiansName;    
     @Column(name = "RELIGION")
     private String religion;
     @Column(name = "FOUND_BY")
@@ -146,6 +150,7 @@ public class Contact implements Serializable {
     @JoinColumn(name = "STATUS_ID", referencedColumnName = "ID")
     @ManyToOne
     private ContactStatus statusId;
+    private final transient PropertyChangeSupport propertyChangeSupport = new java.beans.PropertyChangeSupport(this);
 
     public Contact() {
     }
@@ -450,6 +455,22 @@ public class Contact implements Serializable {
     @Override
     public String toString() {
         return "org.jw.service.entity.Contact[ id=" + id + " ]";
+    }
+
+    /**
+     * @return the guardiansName
+     */
+    public String getGuardiansName() {
+        return guardiansName;
+    }
+
+    /**
+     * @param guardiansName the guardiansName to set
+     */
+    public void setGuardiansName(String guardiansName) {
+        java.lang.String oldGuardiansName = this.guardiansName;
+        this.guardiansName = guardiansName;
+        propertyChangeSupport.firePropertyChange(PROP_GUARDIANSNAME, oldGuardiansName, guardiansName);
     }
     
 }

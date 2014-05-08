@@ -19,7 +19,7 @@ public class MainCommandPanel extends javax.swing.JPanel {
      * Creates new form MainCommandPanel
      */
     public MainCommandPanel() {
-        initComponents();
+        initComponents();        
     }
 
     /**
@@ -31,21 +31,18 @@ public class MainCommandPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
         toolBar = new javax.swing.JToolBar();
         exitCommand = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        newCommand = new javax.swing.JButton();
+        deleteCommand = new javax.swing.JButton();
+        refreshCommand = new javax.swing.JButton();
+        saveCommand = new javax.swing.JButton();
         contactCallsCommand = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
-        jButton10 = new javax.swing.JButton();
+        backupCommand = new javax.swing.JButton();
+        searchCommand = new javax.swing.JButton();
+        printContactCommand = new javax.swing.JButton();
         serviceGroupComboBox = new javax.swing.JComboBox();
         separator = new javax.swing.JSeparator();
-
-        jLabel1.setText("jLabel1");
 
         toolBar.setFloatable(false);
         toolBar.setRollover(true);
@@ -56,29 +53,29 @@ public class MainCommandPanel extends javax.swing.JPanel {
         exitCommand.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         toolBar.add(exitCommand);
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.new.contact.png"))); // NOI18N
-        jButton1.setText("New");
-        jButton1.setFocusable(false);
-        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        toolBar.add(jButton1);
+        newCommand.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.new.contact.png"))); // NOI18N
+        newCommand.setText("New");
+        newCommand.setFocusable(false);
+        newCommand.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        toolBar.add(newCommand);
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.delete.contact.png"))); // NOI18N
-        jButton2.setText("Delete");
-        jButton2.setFocusable(false);
-        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        toolBar.add(jButton2);
+        deleteCommand.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.delete.contact.png"))); // NOI18N
+        deleteCommand.setText("Delete");
+        deleteCommand.setFocusable(false);
+        deleteCommand.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        toolBar.add(deleteCommand);
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.refresh.png"))); // NOI18N
-        jButton3.setText("Refresh");
-        jButton3.setFocusable(false);
-        jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        toolBar.add(jButton3);
+        refreshCommand.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.refresh.png"))); // NOI18N
+        refreshCommand.setText("Refresh");
+        refreshCommand.setFocusable(false);
+        refreshCommand.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        toolBar.add(refreshCommand);
 
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.save.png"))); // NOI18N
-        jButton4.setText("Save");
-        jButton4.setFocusable(false);
-        jButton4.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        toolBar.add(jButton4);
+        saveCommand.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.save.png"))); // NOI18N
+        saveCommand.setText("Save");
+        saveCommand.setFocusable(false);
+        saveCommand.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        toolBar.add(saveCommand);
 
         contactCallsCommand.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.show.calls.png"))); // NOI18N
         contactCallsCommand.setText("Calls");
@@ -86,23 +83,23 @@ public class MainCommandPanel extends javax.swing.JPanel {
         contactCallsCommand.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         toolBar.add(contactCallsCommand);
 
-        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.database.backup.png"))); // NOI18N
-        jButton7.setText("Backup");
-        jButton7.setFocusable(false);
-        jButton7.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        toolBar.add(jButton7);
+        backupCommand.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.database.backup.png"))); // NOI18N
+        backupCommand.setText("Backup");
+        backupCommand.setFocusable(false);
+        backupCommand.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        toolBar.add(backupCommand);
 
-        jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.search.contact.png"))); // NOI18N
-        jButton8.setText("Search");
-        jButton8.setFocusable(false);
-        jButton8.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        toolBar.add(jButton8);
+        searchCommand.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.search.contact.png"))); // NOI18N
+        searchCommand.setText("Search");
+        searchCommand.setFocusable(false);
+        searchCommand.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        toolBar.add(searchCommand);
 
-        jButton10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.print.contact.png"))); // NOI18N
-        jButton10.setText("Print");
-        jButton10.setFocusable(false);
-        jButton10.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        toolBar.add(jButton10);
+        printContactCommand.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.print.contact.png"))); // NOI18N
+        printContactCommand.setText("Print");
+        printContactCommand.setFocusable(false);
+        printContactCommand.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        toolBar.add(printContactCommand);
 
         toolBar.add(serviceGroupComboBox);
 
@@ -125,16 +122,15 @@ public class MainCommandPanel extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton backupCommand;
     private javax.swing.JButton contactCallsCommand;
+    private javax.swing.JButton deleteCommand;
     private javax.swing.JButton exitCommand;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton newCommand;
+    private javax.swing.JButton printContactCommand;
+    private javax.swing.JButton refreshCommand;
+    private javax.swing.JButton saveCommand;
+    private javax.swing.JButton searchCommand;
     private javax.swing.JSeparator separator;
     private javax.swing.JComboBox serviceGroupComboBox;
     private javax.swing.JToolBar toolBar;
