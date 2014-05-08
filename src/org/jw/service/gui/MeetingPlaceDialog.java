@@ -42,7 +42,7 @@ public class MeetingPlaceDialog extends javax.swing.JDialog {
         latitudeTextField = new javax.swing.JTextField();
         longitudeTextField = new javax.swing.JTextField();
         taskMonitorPanel1 = new org.jw.service.gui.component.TaskMonitorPanel();
-        cRUDPanel1 = new org.jw.service.gui.component.CRUDPanel();
+        cRUDPanel1 = new org.jw.service.gui.component.DefaultCrudPanel();
         meetingPlacesPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -209,7 +209,7 @@ public class MeetingPlaceDialog extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel addressLabel;
-    private org.jw.service.gui.component.CRUDPanel cRUDPanel1;
+    private org.jw.service.gui.component.DefaultCrudPanel cRUDPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;

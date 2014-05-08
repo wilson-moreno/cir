@@ -32,7 +32,7 @@ public class ContactStatusDialog extends javax.swing.JDialog {
 
         statusList = org.jdesktop.observablecollections.ObservableCollections.observableList(new java.util.ArrayList<org.jw.service.entity.ContactStatus>());
         taskMonitorPanel = new org.jw.service.gui.component.TaskMonitorPanel();
-        crudPanel = new org.jw.service.gui.component.CRUDPanel();
+        crudPanel = new org.jw.service.gui.component.DefaultCrudPanel();
         contactStatusPanel = new javax.swing.JPanel();
         statusNameLabel = new javax.swing.JLabel();
         descriptionLabel = new javax.swing.JLabel();
@@ -177,7 +177,7 @@ public class ContactStatusDialog extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel contactStatusPanel;
-    private org.jw.service.gui.component.CRUDPanel crudPanel;
+    private org.jw.service.gui.component.DefaultCrudPanel crudPanel;
     private javax.swing.JLabel descriptionLabel;
     private javax.swing.JButton jButton1;
     private javax.swing.JCheckBox jCheckBox1;

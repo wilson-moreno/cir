@@ -16,7 +16,7 @@ import org.jw.service.action.DefaultNewAction;
 import org.jw.service.action.DefaultRefreshAction;
 import org.jw.service.action.DefaultSaveAction;
 import org.jw.service.dao.DataAccessObject;
-import org.jw.service.gui.component.CRUDPanel;
+import org.jw.service.gui.component.DefaultCrudPanel;
 import org.jw.service.gui.component.TaskMonitorPanel;
 import org.jw.service.listener.task.DefaultTaskListener;
 import org.jw.service.util.UtilityProperties;
@@ -39,7 +39,7 @@ public class DefaultTaskBuilder {
     public static final String PROP_DIALOG = "PROP_DIALOG";
     public static final String PROP_CLOSEACTION = "PROP_CLOSEACTION";
     public static final String PROP_DAO = "PROP_DAO";
-    private CRUDPanel crudPanel;
+    private DefaultCrudPanel crudPanel;
     private TaskMonitorPanel taskMonitorPanel;
     private UtilityProperties properties;
     private String entityName;
@@ -64,8 +64,8 @@ public class DefaultTaskBuilder {
     /**
      * @param crudPanel the crudPanel to set
      */
-    public void setCrudPanel(CRUDPanel crudPanel) {
-        org.jw.service.gui.component.CRUDPanel oldCrudPanel = this.crudPanel;
+    public void setCrudPanel(DefaultCrudPanel crudPanel) {
+        org.jw.service.gui.component.DefaultCrudPanel oldCrudPanel = this.crudPanel;
         this.crudPanel = crudPanel;
         propertyChangeSupport.firePropertyChange(PROP_CRUDPANEL, oldCrudPanel, crudPanel);
     }

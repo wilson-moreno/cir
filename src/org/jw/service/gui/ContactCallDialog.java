@@ -32,7 +32,7 @@ public class ContactCallDialog extends javax.swing.JDialog {
 
         contactCallsList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(((javax.persistence.Query)null).getResultList());
         taskMonitorPanel = new org.jw.service.gui.component.TaskMonitorPanel();
-        crudPanel = new org.jw.service.gui.component.CRUDPanel();
+        crudPanel = new org.jw.service.gui.component.DefaultCrudPanel();
         contactCallPanel = new javax.swing.JPanel();
         callDateLabel = new javax.swing.JLabel();
         callDateChooser = new com.toedter.calendar.JDateChooser();
@@ -278,7 +278,7 @@ public class ContactCallDialog extends javax.swing.JDialog {
     private javax.swing.JPanel contactCallPanel;
     private java.util.List<org.jw.service.entity.ContactCall> contactCallsList;
     private org.jw.service.gui.component.ContactInfoPanel contactInfoPanel1;
-    private org.jw.service.gui.component.CRUDPanel crudPanel;
+    private org.jw.service.gui.component.DefaultCrudPanel crudPanel;
     private javax.swing.JComboBox dayComboBox;
     private javax.swing.JLabel literatureLabel;
     private javax.swing.JTextField literatureTextField;

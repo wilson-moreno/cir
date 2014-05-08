@@ -67,7 +67,7 @@ public class ServiceGroupDialog extends javax.swing.JDialog {
 
         serviceGroupList = org.jdesktop.observablecollections.ObservableCollections.observableList(new java.util.ArrayList<org.jw.service.entity.ServiceGroup>());
         taskMonitorPanel = new org.jw.service.gui.component.TaskMonitorPanel();
-        crudPanel = new org.jw.service.gui.component.CRUDPanel();
+        crudPanel = new org.jw.service.gui.component.DefaultCrudPanel();
         serviceGroupPanel = new javax.swing.JPanel();
         serviceGroupNameLabel = new javax.swing.JLabel();
         overseerLabel = new javax.swing.JLabel();
@@ -292,7 +292,7 @@ public class ServiceGroupDialog extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField assistantTextField;
     private javax.swing.JLabel assitantLabel;
-    private org.jw.service.gui.component.CRUDPanel crudPanel;
+    private org.jw.service.gui.component.DefaultCrudPanel crudPanel;
     private javax.swing.JPanel groupsPanel;
     private javax.swing.JTextField nameTextField;
     private javax.swing.JLabel nextNumberLabel;

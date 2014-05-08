@@ -215,7 +215,7 @@
     </Container>
     <Component class="org.jw.service.gui.component.TaskMonitorPanel" name="taskMonitorPanel1">
     </Component>
-    <Component class="org.jw.service.gui.component.CRUDPanel" name="cRUDPanel1">
+    <Component class="org.jw.service.gui.component.DefaultCrudPanel" name="cRUDPanel1">
     </Component>
     <Container class="javax.swing.JPanel" name="meetingPlacesPanel">
       <Properties>
