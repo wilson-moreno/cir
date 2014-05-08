@@ -119,8 +119,8 @@ public class ApplicationFrame extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jToolBar1 = new javax.swing.JToolBar();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        openLocationMapCommand = new javax.swing.JButton();
+        openDirectionMapAction = new javax.swing.JButton();
         menuBar = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         optionsMenu = new javax.swing.JMenu();
@@ -704,17 +704,17 @@ public class ApplicationFrame extends javax.swing.JFrame {
         jToolBar1.setOrientation(javax.swing.SwingConstants.VERTICAL);
         jToolBar1.setRollover(true);
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.plot.map.png"))); // NOI18N
-        jButton1.setText("Location");
-        jButton1.setFocusable(false);
-        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        jToolBar1.add(jButton1);
+        openLocationMapCommand.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.plot.map.png"))); // NOI18N
+        openLocationMapCommand.setText("Location");
+        openLocationMapCommand.setFocusable(false);
+        openLocationMapCommand.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        jToolBar1.add(openLocationMapCommand);
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.direcion.png"))); // NOI18N
-        jButton2.setText("Direction");
-        jButton2.setFocusable(false);
-        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        jToolBar1.add(jButton2);
+        openDirectionMapAction.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.direcion.png"))); // NOI18N
+        openDirectionMapAction.setText("Direction");
+        openDirectionMapAction.setFocusable(false);
+        openDirectionMapAction.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        jToolBar1.add(openDirectionMapAction);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -811,8 +811,10 @@ public class ApplicationFrame extends javax.swing.JFrame {
         statusDAO = DataAccessObject.create(em, ContactStatus.class);
         serviceGroupDialog = new ServiceGroupDialog(this, true, em);
         contactStatusDialog = new ContactStatusDialog(this, true);
+        locationMapDialog = new LocationMapDialog(this, true);
         openServiceGroupAction = new DefaultOpenAction(serviceGroupsMenuItem,this,serviceGroupDialog);        
         openContactStatusAction = new DefaultOpenAction(contactStatusMenuItem,this,contactStatusDialog);        
+        openLocationMapAction = new DefaultOpenAction(openLocationMapCommand,this,locationMapDialog);        
     }
     
     /**
@@ -856,8 +858,6 @@ public class ApplicationFrame extends javax.swing.JFrame {
     private javax.swing.JTextField guardianTextField;
     private javax.swing.JLabel houseNumberLabel;
     private javax.swing.JTextField houseNumberTextField;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -879,6 +879,8 @@ public class ApplicationFrame extends javax.swing.JFrame {
     private javax.swing.JTextField nationalityTextField;
     private javax.swing.JLabel nickNameLabel;
     private javax.swing.JTextField nickNameTextField;
+    private javax.swing.JButton openDirectionMapAction;
+    private javax.swing.JButton openLocationMapCommand;
     private javax.swing.JMenu optionsMenu;
     private javax.swing.JLabel personalLabel;
     private javax.swing.JTextField personalTextField;
@@ -914,8 +916,10 @@ public class ApplicationFrame extends javax.swing.JFrame {
     UtilityProperties sexProperties = UtilityProperties.create(UtilityProperties.SEX_PROPERTIES);
     ServiceGroupDialog serviceGroupDialog;
     ContactStatusDialog contactStatusDialog;
+    LocationMapDialog locationMapDialog;
     DefaultOpenAction openServiceGroupAction;
-    DefaultOpenAction openContactStatusAction;    
+    DefaultOpenAction openContactStatusAction;
+    DefaultOpenAction openLocationMapAction;
     DataAccessObject<Contact> contactDAO;
     DataAccessObject<ContactStatus> statusDAO;
     EntityManager em;

@@ -28,6 +28,7 @@ public class MainCommandPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
         toolBar = new javax.swing.JToolBar();
         exitCommand = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
@@ -38,8 +39,11 @@ public class MainCommandPanel extends javax.swing.JPanel {
         jButton7 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
         jButton10 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox();
         separator = new javax.swing.JSeparator();
+
+        jLabel1.setText("jLabel1");
 
         toolBar.setFloatable(false);
         toolBar.setRollover(true);
@@ -98,6 +102,9 @@ public class MainCommandPanel extends javax.swing.JPanel {
         jButton10.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         toolBar.add(jButton10);
 
+        jLabel2.setText("     ");
+        toolBar.add(jLabel2);
+
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "FSG #1 - Valenzuela", "FSG #2 - Caloocan", "FSG #3 - Tondo", "FSG #4 - Malabon-Navotas" }));
         toolBar.add(jComboBox1);
 
@@ -130,6 +137,8 @@ public class MainCommandPanel extends javax.swing.JPanel {
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JSeparator separator;
     private javax.swing.JToolBar toolBar;
     // End of variables declaration//GEN-END:variables
