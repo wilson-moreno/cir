@@ -28,4 +28,12 @@ public class UtilityTable {
         viewRowIndex = table.getSelectedRow();        
         return table.getRowSorter().convertRowIndexToModel(viewRowIndex);
     }
+    
+    public void selectRow(int index){
+        int viewIndex = table.getRowSorter().convertRowIndexToView(0);
+        table.getSelectionModel().setSelectionInterval(viewIndex, viewIndex);                    
+        table.scrollRectToVisible(table.getCellRect(viewIndex, 0, true));                                 
+    }
+    
+    
 }

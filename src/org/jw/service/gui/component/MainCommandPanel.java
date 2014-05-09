@@ -138,4 +138,67 @@ public class MainCommandPanel extends javax.swing.JPanel {
 
     public JButton getContactCallsCommand(){ return contactCallsCommand; }
     public JComboBox getServiceGroupComboBox(){ return serviceGroupComboBox; }
+
+    /**
+     * @return the backupCommand
+     */
+    public javax.swing.JButton getBackupCommand() {
+        return backupCommand;
+    }
+
+    /**
+     * @param backupCommand the backupCommand to set
+     */
+    public void setBackupCommand(javax.swing.JButton backupCommand) {
+        this.backupCommand = backupCommand;
+    }
+
+    /**
+     * @return the deleteCommand
+     */
+    public javax.swing.JButton getDeleteCommand() {
+        return deleteCommand;
+    }
+
+    /**
+     * @return the exitCommand
+     */
+    public javax.swing.JButton getExitCommand() {
+        return exitCommand;
+    }
+
+    /**
+     * @return the newCommand
+     */
+    public javax.swing.JButton getNewCommand() {
+        return newCommand;
+    }
+
+    /**
+     * @return the printContactCommand
+     */
+    public javax.swing.JButton getPrintContactCommand() {
+        return printContactCommand;
+    }
+
+    /**
+     * @return the refreshCommand
+     */
+    public javax.swing.JButton getRefreshCommand() {
+        return refreshCommand;
+    }
+
+    /**
+     * @return the saveCommand
+     */
+    public javax.swing.JButton getSaveCommand() {
+        return saveCommand;
+    }
+
+    /**
+     * @return the searchCommand
+     */
+    public javax.swing.JButton getSearchCommand() {
+        return searchCommand;
+    }
 }

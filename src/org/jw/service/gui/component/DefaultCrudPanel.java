@@ -6,6 +6,7 @@
 
 package org.jw.service.gui.component;
 
+import javax.swing.AbstractButton;
 import javax.swing.JButton;
 import org.jw.service.listener.task.DefaultTaskListener;
 
@@ -58,6 +59,7 @@ public class DefaultCrudPanel extends javax.swing.JPanel {
 
         deleteCommand.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.delete.from.list.png"))); // NOI18N
         deleteCommand.setText("Delete");
+        deleteCommand.setEnabled(false);
         deleteCommand.setFocusable(false);
         deleteCommand.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         crudToolBar.add(deleteCommand);
@@ -111,4 +113,9 @@ public class DefaultCrudPanel extends javax.swing.JPanel {
     public JButton getRefreshCommand(){ return refreshCommand; }
     public JButton getSaveCommand(){ return saveCommand; }
     
+    public void setCloseCommand(JButton closeCommand){ this.closeCommand = closeCommand; }
+    public void setDeleteCommand(JButton deleteCommand){ this.deleteCommand = deleteCommand; }
+    public void setNewCommand(JButton newCommand){ this.newCommand = newCommand; }
+    public void setRefreshCommand(JButton refreshCommand){ this.refreshCommand = refreshCommand; }
+    public void setSaveCommand(JButton saveCommand){ this.saveCommand = saveCommand; }
 }

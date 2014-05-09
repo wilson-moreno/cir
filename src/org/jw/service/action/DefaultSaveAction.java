@@ -12,9 +12,7 @@ import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import org.jw.service.dao.DataAccessObject;
-import org.jw.service.entity.ObservableEntity;
 import org.jw.service.listener.task.DefaultTaskListener;
-import org.jw.service.util.UtilityTable;
 import org.jw.service.worker.DefaultSaveWorker;
 
 /**

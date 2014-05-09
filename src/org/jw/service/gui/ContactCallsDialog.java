@@ -40,6 +40,12 @@ public class ContactCallsDialog extends javax.swing.JDialog {
         callTimeLabel = new javax.swing.JLabel();
         dayComboBox = new javax.swing.JComboBox();
         callTimeSpinner = new javax.swing.JSpinner();
+        callTimeSpinner.setModel(new javax.swing.SpinnerDateModel());
+        javax.swing.JSpinner.DateEditor dateEditor = new javax.swing.JSpinner.DateEditor(callTimeSpinner,"hh:mm a");
+        callTimeSpinner.setEditor(dateEditor);
+        javax.swing.text.DateFormatter formatter = (javax.swing.text.DateFormatter)dateEditor.getTextField().getFormatter();
+        formatter.setAllowsInvalid(false);
+        formatter.setOverwriteMode(true);
         stausLabel = new javax.swing.JLabel();
         statusTextField = new javax.swing.JTextField();
         callNotesLabel = new javax.swing.JLabel();
@@ -76,8 +82,6 @@ public class ContactCallsDialog extends javax.swing.JDialog {
         binding.setSourceNullValue(null);
         binding.setSourceUnreadableValue(null);
         bindingGroup.addBinding(binding);
-
-        callTimeSpinner.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(), null, null, java.util.Calendar.HOUR));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, callsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.callTime}"), callTimeSpinner, org.jdesktop.beansbinding.BeanProperty.create("value"));
         bindingGroup.addBinding(binding);

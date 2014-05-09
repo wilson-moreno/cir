@@ -6,10 +6,12 @@
 
 package org.jw.service.builder;
 
+import java.awt.Window;
 import java.beans.PropertyChangeSupport;
 import java.util.List;
 import javax.swing.JDialog;
 import javax.swing.JTable;
+import org.jdesktop.observablecollections.ObservableList;
 import org.jw.service.action.DefaultCloseAction;
 import org.jw.service.action.DefaultDeleteAction;
 import org.jw.service.action.DefaultNewAction;
@@ -19,6 +21,8 @@ import org.jw.service.dao.DataAccessObject;
 import org.jw.service.entity.ObservableEntity;
 import org.jw.service.gui.component.DefaultCrudPanel;
 import org.jw.service.gui.component.TaskMonitorPanel;
+import org.jw.service.listener.list.DefaultObservableListListener;
+import org.jw.service.listener.selection.DefaultListSelectionListener;
 import org.jw.service.listener.state.DefaultEntityStateListener;
 import org.jw.service.listener.task.DefaultTaskListener;
 import org.jw.service.util.UtilityProperties;
@@ -54,8 +58,10 @@ public class DefaultTaskBuilder<T> {
     private DefaultCloseAction closeAction;
     private List<T> list;
     private JTable table;
-    private JDialog dialog;
+    private Window window;
     private DataAccessObject dao;
+    private DefaultListSelectionListener selectionListener;
+    private DefaultObservableListListener listListener;
     
     
     public DefaultTaskBuilder(){
@@ -110,13 +116,18 @@ public class DefaultTaskBuilder<T> {
           
         saveAction = new DefaultSaveAction(crudPanel.getSaveCommand(), dao, this.list, this.table, saveTaskListener);        
         DefaultEntityStateListener stateListener = DefaultEntityStateListener.create(saveAction);
-        closeAction = new DefaultCloseAction(crudPanel.getCloseCommand(), dialog);
+        closeAction = new DefaultCloseAction(crudPanel.getCloseCommand(), window);
         newAction = new DefaultNewAction(crudPanel.getNewCommand(), dao, this.list, this.table, newTaskListener, stateListener);
-        deleteAction = new DefaultDeleteAction(crudPanel.getDeleteCommand(), this.list, this.table, deleteTaskListener);
-        refreshAction = new DefaultRefreshAction(crudPanel.getRefreshCommand(), this.list, this.table, refreshTaskListener);
+        deleteAction = new DefaultDeleteAction(crudPanel.getDeleteCommand(), dao, this.list, this.table, deleteTaskListener);
+        refreshAction = new DefaultRefreshAction(crudPanel.getRefreshCommand(), dao, this.list, refreshTaskListener);
         
-        for(Object entity : list){
-            System.out.println(entity);
+        selectionListener = DefaultListSelectionListener.create(list, table, saveAction, deleteAction);
+        listListener = DefaultObservableListListener.create(deleteAction, saveAction);
+
+        table.getSelectionModel().addListSelectionListener(selectionListener);
+        ((ObservableList)list).addObservableListListener(listListener);
+        
+        for(Object entity : list){            
             ((ObservableEntity)entity).addPropertyChangeListener(stateListener);
         }
     }
@@ -176,12 +187,12 @@ public class DefaultTaskBuilder<T> {
     }
 
     /**
-     * @param dialog the dialog to set
+     * @param window the Window to set
      */
-    public void setDialog(JDialog dialog) {
-        javax.swing.JDialog oldDialog = this.dialog;
-        this.dialog = dialog;
-        propertyChangeSupport.firePropertyChange(PROP_DIALOG, oldDialog, dialog);
+    public void setWindow(Window window) {
+        java.awt.Window oldWindow = this.window;
+        this.window = window;
+        propertyChangeSupport.firePropertyChange(PROP_DIALOG, oldWindow, window);
     }
 
     /**

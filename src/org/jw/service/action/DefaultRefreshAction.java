@@ -7,11 +7,17 @@
 package org.jw.service.action;
 
 import java.awt.event.ActionEvent;
+import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JTable;
+import org.jw.service.dao.DataAccessObject;
 import org.jw.service.listener.task.DefaultTaskListener;
+import org.jw.service.worker.DefaultRefreshWorker;
 
 /**
  *
@@ -19,21 +25,22 @@ import org.jw.service.listener.task.DefaultTaskListener;
  */
 public class DefaultRefreshAction<T> extends AbstractAction{
     private final List<T> list;
-    private final JTable table;
+    private final DataAccessObject<T> dao;
     private final DefaultTaskListener listener;
     
-    public DefaultRefreshAction(JButton command, List<T> list, JTable table, DefaultTaskListener listener){
+    public DefaultRefreshAction(JButton command, DataAccessObject<T> dao, List<T> list, DefaultTaskListener listener){
         super(command.getText(), command.getIcon());
         this.list = list;
-        this.table = table;
+        this.dao = dao;
         this.listener = listener;
         command.setAction(this);
     }
     
     
     @Override
-    public void actionPerformed(ActionEvent ae) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void actionPerformed(ActionEvent ae) {      
+        DefaultRefreshWorker<T> worker = new DefaultRefreshWorker<>(dao, list, listener);
+        worker.execute();
     }
     
 }

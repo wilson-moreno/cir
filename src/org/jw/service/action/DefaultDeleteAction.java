@@ -11,7 +11,9 @@ import java.util.List;
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JTable;
+import org.jw.service.dao.DataAccessObject;
 import org.jw.service.listener.task.DefaultTaskListener;
+import org.jw.service.worker.DefaultDeleteWorker;
 
 /**
  *
@@ -22,9 +24,11 @@ public class DefaultDeleteAction<T> extends AbstractAction{
     private final List<T> list;
     private final JTable table;
     private final DefaultTaskListener listener;
+    private final DataAccessObject<T> dao;
     
-    public DefaultDeleteAction(JButton command, List<T> list, JTable table, DefaultTaskListener listener){
+    public DefaultDeleteAction(JButton command,DataAccessObject<T> dao, List<T> list, JTable table, DefaultTaskListener listener){
         super(command.getText(), command.getIcon());
+        this.dao = dao;
         this.list = list;
         this.table = table;
         this.listener = listener;
@@ -35,7 +39,9 @@ public class DefaultDeleteAction<T> extends AbstractAction{
     
     @Override
     public void actionPerformed(ActionEvent ae) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        DefaultDeleteWorker<T> worker;
+        worker = new DefaultDeleteWorker<>(dao, list, table, listener);
+        worker.execute();
     }
     
 }

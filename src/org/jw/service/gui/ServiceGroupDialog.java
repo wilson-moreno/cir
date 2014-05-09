@@ -58,7 +58,7 @@ public class ServiceGroupDialog extends javax.swing.JDialog {
         taskBuilder.setSaveAction(saveAction);        
         taskBuilder.setList(serviceGroupList);
         taskBuilder.setTable(serviceGroupsTable);
-        taskBuilder.setDialog(this);
+        taskBuilder.setWindow(this);
         taskBuilder.setDao(dao);
         taskBuilder.buildDefaultTasks();
     }
@@ -312,7 +312,7 @@ public class ServiceGroupDialog extends javax.swing.JDialog {
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
-    UtilityProperties taskMessageProperties = UtilityProperties.create(UtilityProperties.TASK_MESSAGE_PROPERTIES);    
+    UtilityProperties taskMessageProperties = UtilityProperties.create(UtilityProperties.TASK_MESSAGE_PROPERTIES);        
     DefaultCloseAction<ServiceGroup> closeAction;
     DefaultNewAction<ServiceGroup> newAction;
     DefaultDeleteAction<ServiceGroup> deleteAction;

@@ -6,20 +6,60 @@
 
 package org.jw.service.gui;
 
+import javax.persistence.EntityManager;
+import org.jdesktop.observablecollections.ObservableList;
+import org.jdesktop.observablecollections.ObservableListListener;
+import org.jw.service.action.DefaultCloseAction;
+import org.jw.service.action.DefaultDeleteAction;
+import org.jw.service.action.DefaultNewAction;
+import org.jw.service.action.DefaultRefreshAction;
+import org.jw.service.action.DefaultSaveAction;
+import org.jw.service.builder.DefaultTaskBuilder;
+import org.jw.service.dao.DataAccessObject;
+import org.jw.service.entity.ContactStatus;
+import org.jw.service.util.UtilityProperties;
+
 /**
  *
  * @author Wilson
  */
 public class ContactStatusDialog extends javax.swing.JDialog {
-
+    private final EntityManager em;
+    private final ObservableListListener listListener;
+    
     /**
      * Creates new form ContactStatusDialog
      */
-    public ContactStatusDialog(java.awt.Frame parent, boolean modal) {
+    public ContactStatusDialog(java.awt.Frame parent, boolean modal, EntityManager em, ObservableListListener listListener) {
         super(parent, modal);
+        this.em = em;
+        this.listListener = listListener;
         initComponents();
+        initMyComponents();
     }
 
+    private void initMyComponents(){ 
+        ((ObservableList)statusList).addObservableListListener(listListener);
+        dao = DataAccessObject.create(em, ContactStatus.class);    
+        statusList.addAll(dao.readAll());
+        DefaultTaskBuilder<ContactStatus> taskBuilder = new DefaultTaskBuilder<>();
+        taskBuilder.setEntityName("status");
+        taskBuilder.setProperties(taskMessageProperties);
+        taskBuilder.setCrudPanel(crudPanel);
+        taskBuilder.setTaskMonitorPanel(taskMonitorPanel);
+        taskBuilder.setCloseAction(closeAction);
+        taskBuilder.setNewAction(newAction);
+        taskBuilder.setDeleteAction(deleteAction);
+        taskBuilder.setRefreshAction(refreshAction);
+        taskBuilder.setSaveAction(saveAction);        
+        taskBuilder.setList(statusList);
+        taskBuilder.setTable(statusTable);
+        taskBuilder.setWindow(this);
+        taskBuilder.setDao(dao);
+        taskBuilder.buildDefaultTasks();
+    }
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -36,11 +76,11 @@ public class ContactStatusDialog extends javax.swing.JDialog {
         contactStatusPanel = new javax.swing.JPanel();
         statusNameLabel = new javax.swing.JLabel();
         descriptionLabel = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jButton1 = new javax.swing.JButton();
-        jCheckBox2 = new javax.swing.JCheckBox();
+        nameTextField = new javax.swing.JTextField();
+        descriptionTextField = new javax.swing.JTextField();
+        modifiableCheckBox = new javax.swing.JCheckBox();
+        iconCommand = new javax.swing.JButton();
+        printableCheckBox = new javax.swing.JCheckBox();
         statusPanel = new javax.swing.JPanel();
         scrollPane = new javax.swing.JScrollPane();
         statusTable = new javax.swing.JTable();
@@ -55,11 +95,33 @@ public class ContactStatusDialog extends javax.swing.JDialog {
 
         descriptionLabel.setText("Description:");
 
-        jCheckBox1.setText("Modifiable");
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, statusTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.name}"), nameTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "statusName");
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
 
-        jButton1.setText("Icon");
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, statusTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.description}"), descriptionTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "description");
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
 
-        jCheckBox2.setText("Printable");
+        modifiableCheckBox.setText("Modifiable");
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, statusTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.modifiable}"), modifiableCheckBox, org.jdesktop.beansbinding.BeanProperty.create("selected"), "modifiable");
+        binding.setSourceNullValue(false);
+        binding.setSourceUnreadableValue(false);
+        bindingGroup.addBinding(binding);
+
+        iconCommand.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.icon.search.png"))); // NOI18N
+        iconCommand.setText("Icon");
+        iconCommand.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+
+        printableCheckBox.setText("Printable");
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, statusTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.printable}"), printableCheckBox, org.jdesktop.beansbinding.BeanProperty.create("selected"), "printable");
+        binding.setSourceNullValue(false);
+        binding.setSourceUnreadableValue(false);
+        bindingGroup.addBinding(binding);
 
         javax.swing.GroupLayout contactStatusPanelLayout = new javax.swing.GroupLayout(contactStatusPanel);
         contactStatusPanel.setLayout(contactStatusPanelLayout);
@@ -71,19 +133,18 @@ public class ContactStatusDialog extends javax.swing.JDialog {
                     .addGroup(contactStatusPanelLayout.createSequentialGroup()
                         .addComponent(descriptionLabel)
                         .addGap(4, 4, 4)
-                        .addComponent(jTextField4))
+                        .addComponent(descriptionTextField))
                     .addGroup(contactStatusPanelLayout.createSequentialGroup()
                         .addComponent(statusNameLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(contactStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(contactStatusPanelLayout.createSequentialGroup()
-                        .addComponent(jCheckBox1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1))
-                    .addComponent(jCheckBox2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(contactStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(modifiableCheckBox)
+                    .addComponent(printableCheckBox))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(iconCommand)
+                .addContainerGap())
         );
 
         contactStatusPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {descriptionLabel, statusNameLabel});
@@ -92,20 +153,24 @@ public class ContactStatusDialog extends javax.swing.JDialog {
             contactStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(contactStatusPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(contactStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(statusNameLabel)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCheckBox1)
-                    .addComponent(jButton1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(contactStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(descriptionLabel)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCheckBox2))
+                .addGroup(contactStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(iconCommand, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(contactStatusPanelLayout.createSequentialGroup()
+                        .addGroup(contactStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(statusNameLabel)
+                            .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(modifiableCheckBox))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(contactStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(descriptionLabel)
+                            .addComponent(descriptionTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(printableCheckBox))))
                 .addContainerGap())
         );
 
         statusPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Status", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+
+        statusTable.setAutoCreateRowSorter(true);
 
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, statusList, statusTable);
         org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${name}"));
@@ -122,7 +187,6 @@ public class ContactStatusDialog extends javax.swing.JDialog {
         columnBinding.setColumnClass(Boolean.class);
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
-
         scrollPane.setViewportView(statusTable);
 
         javax.swing.GroupLayout statusPanelLayout = new javax.swing.GroupLayout(statusPanel);
@@ -179,11 +243,11 @@ public class ContactStatusDialog extends javax.swing.JDialog {
     private javax.swing.JPanel contactStatusPanel;
     private org.jw.service.gui.component.DefaultCrudPanel crudPanel;
     private javax.swing.JLabel descriptionLabel;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField descriptionTextField;
+    private javax.swing.JButton iconCommand;
+    private javax.swing.JCheckBox modifiableCheckBox;
+    private javax.swing.JTextField nameTextField;
+    private javax.swing.JCheckBox printableCheckBox;
     private javax.swing.JScrollPane scrollPane;
     private java.util.List<org.jw.service.entity.ContactStatus> statusList;
     private javax.swing.JLabel statusNameLabel;
@@ -192,4 +256,12 @@ public class ContactStatusDialog extends javax.swing.JDialog {
     private org.jw.service.gui.component.TaskMonitorPanel taskMonitorPanel;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
+
+    UtilityProperties taskMessageProperties = UtilityProperties.create(UtilityProperties.TASK_MESSAGE_PROPERTIES);        
+    DefaultCloseAction<ContactStatus> closeAction;
+    DefaultNewAction<ContactStatus> newAction;
+    DefaultDeleteAction<ContactStatus> deleteAction;
+    DefaultRefreshAction<ContactStatus> refreshAction;
+    DefaultSaveAction<ContactStatus> saveAction;        
+    DataAccessObject<ContactStatus> dao;    
 }

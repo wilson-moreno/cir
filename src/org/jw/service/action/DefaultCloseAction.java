@@ -6,27 +6,27 @@
 
 package org.jw.service.action;
 
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 
 /**
  *
  * @author Wilson
  */
 public class DefaultCloseAction<T> extends AbstractAction{
-    private final JDialog dialog;
+    private final Window window;
     
-    public DefaultCloseAction(JButton command, JDialog dialog){
+    public DefaultCloseAction(JButton command, Window window){
         super(command.getText(), command.getIcon());        
-        this.dialog = dialog;
+        this.window = window;
         command.setAction(this);
     }
     
     @Override
     public void actionPerformed(ActionEvent ae) {
-        dialog.dispose();
+        window.dispose();
     }
     
 }

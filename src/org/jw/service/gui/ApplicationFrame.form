@@ -157,6 +157,9 @@
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
             <Component class="javax.swing.JTable" name="contactsTable">
+              <Properties>
+                <Property name="autoCreateRowSorter" type="boolean" value="true"/>
+              </Properties>
               <BindingProperties>
                 <BindingProperty name="elements" source="contactList" target="contactsTable" targetPath="elements" updateStrategy="0" immediately="true">
                   <Subbinding sourcePath="${recordNumber}">
@@ -596,7 +599,7 @@
             </Container>
             <Component class="javax.swing.JButton" name="setProfilePictureCommand">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Set Profile Picture"/>
+                <Property name="text" type="java.lang.String" value="Profile Picture"/>
               </Properties>
             </Component>
           </SubComponents>

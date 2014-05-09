@@ -10,8 +10,6 @@ import java.util.List;
 import javax.swing.JTable;
 import javax.swing.SwingWorker;
 import org.jw.service.dao.DataAccessObject;
-import org.jw.service.entity.ObservableEntity;
-import org.jw.service.listener.state.DefaultEntityStateListener;
 import org.jw.service.listener.task.DefaultTaskListener;
 import org.jw.service.util.UtilityTable;
 
@@ -20,27 +18,24 @@ import org.jw.service.util.UtilityTable;
  * @author Wilson
  * @param <T>
  */
-public class DefaultNewWorker<T> extends SwingWorker<String, String>{
+public class DefaultDeleteWorker<T> extends SwingWorker<String, String>{
     private final DataAccessObject<T> dao;
-    private final DefaultEntityStateListener stateListener;
     private final UtilityTable utilTable;
     private final List<T> list;
     
-    public DefaultNewWorker(DataAccessObject dao, List<T> list, JTable table, DefaultTaskListener taskListener, DefaultEntityStateListener stateListener){
+    public DefaultDeleteWorker(DataAccessObject<T> dao, List<T> list, JTable table, DefaultTaskListener listener){
         this.dao = dao;
         this.list = list;
-        this.addPropertyChangeListener(taskListener);
-        this.stateListener = stateListener;
         this.utilTable = UtilityTable.create(table);
+        this.addPropertyChangeListener(listener);
     }
-
+    
     @Override
     protected String doInBackground() throws Exception {
-        T entity = dao.create();        
-        ((ObservableEntity)entity).addPropertyChangeListener(stateListener);
-        list.add(0, entity);
-        utilTable.selectRow(0);
-        return "";                
+        int modelIndex = utilTable.getSelectedModelIndex();
+        T remove = list.remove(modelIndex);
+        dao.delete(remove);
+        return "";
     }
     
 }
