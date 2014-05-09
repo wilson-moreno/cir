@@ -9,7 +9,6 @@ package org.jw.service.builder;
 import java.awt.Window;
 import java.beans.PropertyChangeSupport;
 import java.util.List;
-import javax.swing.JDialog;
 import javax.swing.JTable;
 import org.jdesktop.observablecollections.ObservableList;
 import org.jw.service.action.DefaultCloseAction;
@@ -17,6 +16,7 @@ import org.jw.service.action.DefaultDeleteAction;
 import org.jw.service.action.DefaultNewAction;
 import org.jw.service.action.DefaultRefreshAction;
 import org.jw.service.action.DefaultSaveAction;
+import org.jw.service.action.dependency.DefaultDeletePreDependency;
 import org.jw.service.dao.DataAccessObject;
 import org.jw.service.entity.ObservableEntity;
 import org.jw.service.gui.component.DefaultCrudPanel;
@@ -130,6 +130,8 @@ public class DefaultTaskBuilder<T> {
         for(Object entity : list){            
             ((ObservableEntity)entity).addPropertyChangeListener(stateListener);
         }
+        
+        deleteAction.addPreActionCommands("DefaultDeletePreDependency", new DefaultDeletePreDependency(window));
     }
 
     /**
@@ -139,6 +141,10 @@ public class DefaultTaskBuilder<T> {
         org.jw.service.action.DefaultNewAction oldNewAction = this.newAction;
         this.newAction = newAction;
         propertyChangeSupport.firePropertyChange(PROP_NEWACTION, oldNewAction, newAction);
+    }
+    
+    public DefaultNewAction getNewAction(){
+        return this.newAction;
     }
 
     /**
@@ -168,6 +174,10 @@ public class DefaultTaskBuilder<T> {
         propertyChangeSupport.firePropertyChange(PROP_SAVEACTION, oldSaveAction, saveAction);
     }
 
+    public DefaultSaveAction getSaveAction(){
+        return this.saveAction;
+    }
+    
     /**
      * @param list the list to set
      */

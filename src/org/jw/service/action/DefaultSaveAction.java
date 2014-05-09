@@ -7,6 +7,7 @@
 package org.jw.service.action;
 
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
@@ -20,7 +21,7 @@ import org.jw.service.worker.DefaultSaveWorker;
  * @author Wilson
  * @param <T>
  */
-public class DefaultSaveAction<T> extends AbstractAction{
+public class DefaultSaveAction<T> extends DependentAbstractAction {
     private final List<T> list;
     private final JTable table;
     private final DefaultTaskListener listener;
@@ -34,12 +35,12 @@ public class DefaultSaveAction<T> extends AbstractAction{
         this.dao = dao;
         this.setEnabled(false);
         command.setAction(this);
-    }
-    
+    }    
+
     @Override
-    public void actionPerformed(ActionEvent ae) {
+    public boolean mainActionPerformed(ActionEvent ae) {
         DefaultSaveWorker worker = new DefaultSaveWorker(dao, table, list, listener);
         worker.execute();
+        return true;
     }
-    
 }

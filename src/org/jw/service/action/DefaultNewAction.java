@@ -8,6 +8,9 @@ package org.jw.service.action;
 
 import java.awt.event.ActionEvent;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JTable;
@@ -21,7 +24,7 @@ import org.jw.service.worker.DefaultNewWorker;
  * @author Wilson
  * @param <T>
  */
-public class DefaultNewAction<T> extends AbstractAction{
+public class DefaultNewAction<T> extends DependentAbstractAction{
     private final DataAccessObject<T> dao;
     private final List<T> list;
     private final JTable table;
@@ -39,9 +42,15 @@ public class DefaultNewAction<T> extends AbstractAction{
     }
     
     @Override
-    public void actionPerformed(ActionEvent ae) {
-        DefaultNewWorker<T> worker = new DefaultNewWorker(dao, list, table, taskListener, stateListener);        
-        worker.execute();
+    public boolean mainActionPerformed(ActionEvent ae) {
+        try {
+            DefaultNewWorker<T> worker = new DefaultNewWorker(dao, list, table, taskListener, stateListener);
+            worker.execute();
+            workerResult = worker.get();            
+        } catch (InterruptedException | ExecutionException ex) {
+            Logger.getLogger(DefaultNewAction.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return true;
     }
     
 }

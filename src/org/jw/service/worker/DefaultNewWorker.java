@@ -20,7 +20,7 @@ import org.jw.service.util.UtilityTable;
  * @author Wilson
  * @param <T>
  */
-public class DefaultNewWorker<T> extends SwingWorker<String, String>{
+public class DefaultNewWorker<T> extends SwingWorker<T, String>{
     private final DataAccessObject<T> dao;
     private final DefaultEntityStateListener stateListener;
     private final UtilityTable utilTable;
@@ -35,12 +35,12 @@ public class DefaultNewWorker<T> extends SwingWorker<String, String>{
     }
 
     @Override
-    protected String doInBackground() throws Exception {
+    protected T doInBackground() throws Exception {
         T entity = dao.create();        
         ((ObservableEntity)entity).addPropertyChangeListener(stateListener);
         list.add(0, entity);
         utilTable.selectRow(0);
-        return "";                
+        return entity;                
     }
     
 }

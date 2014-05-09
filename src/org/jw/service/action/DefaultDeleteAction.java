@@ -20,7 +20,7 @@ import org.jw.service.worker.DefaultDeleteWorker;
  * @author Wilson
  * @param <T>
  */
-public class DefaultDeleteAction<T> extends AbstractAction{
+public class DefaultDeleteAction<T> extends DependentAbstractAction{
     private final List<T> list;
     private final JTable table;
     private final DefaultTaskListener listener;
@@ -38,10 +38,13 @@ public class DefaultDeleteAction<T> extends AbstractAction{
     
     
     @Override
-    public void actionPerformed(ActionEvent ae) {
+    public boolean mainActionPerformed(ActionEvent ae) {
         DefaultDeleteWorker<T> worker;
         worker = new DefaultDeleteWorker<>(dao, list, table, listener);
         worker.execute();
+        return true;
     }
+
+    
     
 }
