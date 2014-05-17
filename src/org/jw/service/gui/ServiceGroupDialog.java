@@ -46,8 +46,8 @@ public class ServiceGroupDialog extends javax.swing.JDialog {
     }
     
     private void initMyComponents(){        
-        ((ObservableList)serviceGroupList).addObservableListListener(listListener);
-        dao = DataAccessObject.create(em, ServiceGroup.class);    
+        dao = DataAccessObject.create(em, ServiceGroup.class);            
+        ((ObservableList)serviceGroupList).addObservableListListener(listListener);        
         serviceGroupList.addAll(dao.readAll());
         DefaultTaskBuilder<ServiceGroup> taskBuilder = new DefaultTaskBuilder();
         taskBuilder.setEntityName("service");
@@ -103,6 +103,11 @@ public class ServiceGroupDialog extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/jw/service/gui/resources/properties/gui"); // NOI18N
         setTitle(bundle.getString("service.dialog.title")); // NOI18N
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
         serviceGroupPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Service Group", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
@@ -291,6 +296,12 @@ public class ServiceGroupDialog extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        // TODO add your handling code here:
+        serviceGroupList.clear();
+        serviceGroupList.addAll(dao.readAll());
+    }//GEN-LAST:event_formWindowActivated
 
     
 

@@ -44,7 +44,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "ContactStatus.findByPrintable", query = "SELECT c FROM ContactStatus c WHERE c.printable = :printable"),
     @NamedQuery(name = "ContactStatus.findByCreatedDatetime", query = "SELECT c FROM ContactStatus c WHERE c.createdDatetime = :createdDatetime"),
     @NamedQuery(name = "ContactStatus.findByUpdatedDatetime", query = "SELECT c FROM ContactStatus c WHERE c.updatedDatetime = :updatedDatetime")})
-public class ContactStatus implements Serializable, ObservableEntity {
+public class ContactStatus implements Serializable, ObservableEntity, SilentSetter {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -285,5 +285,24 @@ public class ContactStatus implements Serializable, ObservableEntity {
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         propertyChangeSupport.removePropertyChangeListener(listener);
     }
+
+    @Override
+    public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void silentSetProperty(String name, Object value) {
+        switch(name){
+            case "updatedDatetime" : this.updatedDatetime = (Date) value; break;
+            default : throw new UnsupportedOperationException("Property not Supported: " + name);
+        }
+    }
+    
     
 }

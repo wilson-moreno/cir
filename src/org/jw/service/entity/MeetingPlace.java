@@ -45,7 +45,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "MeetingPlace.findByLongitude", query = "SELECT m FROM MeetingPlace m WHERE m.longitude = :longitude"),
     @NamedQuery(name = "MeetingPlace.findByCreatedDatetime", query = "SELECT m FROM MeetingPlace m WHERE m.createdDatetime = :createdDatetime"),
     @NamedQuery(name = "MeetingPlace.findByUpdatedDatetime", query = "SELECT m FROM MeetingPlace m WHERE m.updatedDatetime = :updatedDatetime")})
-public class MeetingPlace implements Serializable, ObservableEntity {
+public class MeetingPlace implements Serializable, ObservableEntity, SilentSetter {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -287,5 +287,22 @@ public class MeetingPlace implements Serializable, ObservableEntity {
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
+    @Override
+    public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void silentSetProperty(String name, Object value) {
+        switch(name){
+            case "updatedDatetime" : this.updatedDatetime = (Date) value; break;
+            default : throw new UnsupportedOperationException("Property not Supported: " + name);
+        }
+    }
 }

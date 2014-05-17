@@ -7,12 +7,14 @@
 package org.jw.service.gui;
 
 import javax.persistence.EntityManager;
+import javax.swing.table.TableModel;
 import org.jw.service.action.DefaultCloseAction;
 import org.jw.service.action.DefaultDeleteAction;
 import org.jw.service.action.DefaultNewAction;
 import org.jw.service.action.DefaultOpenAction;
 import org.jw.service.action.DefaultRefreshAction;
 import org.jw.service.action.DefaultSaveAction;
+import org.jw.service.action.dependency.DefaultSystemExitPreDependency;
 import org.jw.service.action.dependency.RecordNumberPostDependency;
 import org.jw.service.action.dependency.RecordNumberPreDependency;
 import org.jw.service.builder.DefaultTaskBuilder;
@@ -37,7 +39,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     public ApplicationFrame(EntityManager em) {        
         this.em = em;
         initComponents();
-        initMyComponents();
+        initMyComponents();        
     }
 
     /**
@@ -137,6 +139,8 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         optionsMenu = new javax.swing.JMenu();
         serviceGroupsMenuItem = new javax.swing.JMenuItem();
         contactStatusMenuItem = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/jw/service/gui/resources/properties/gui"); // NOI18N
@@ -147,48 +151,50 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         contactsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Contacts", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
         contactsTable.setAutoCreateRowSorter(true);
-        contactsTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Record Number", "Last Name", "First Name", "Nick Name", "Birthdate", "Sex", "Status"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.Object.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
+        contactsTable.setIntercellSpacing(new java.awt.Dimension(2, 2));
+        contactsTable.getTableHeader().setReorderingAllowed(false);
 
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactList, contactsTable);
-        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${recordNumber}"));
-        columnBinding.setColumnName("Record Number");
+        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${saveState}"));
+        columnBinding.setColumnName("");
         columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${recordNumber}"));
+        columnBinding.setColumnName("Record #");
+        columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${lastName}"));
         columnBinding.setColumnName("Last Name");
         columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${firstName}"));
         columnBinding.setColumnName("First Name");
         columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${nickName}"));
         columnBinding.setColumnName("Nick Name");
         columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${birthdate}"));
         columnBinding.setColumnName("Birthdate");
         columnBinding.setColumnClass(java.util.Date.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${sex}"));
         columnBinding.setColumnName("Sex");
         columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${statusId}"));
-        columnBinding.setColumnName("Status Id");
+        columnBinding.setColumnName("Status");
         columnBinding.setColumnClass(org.jw.service.entity.ContactStatus.class);
+        columnBinding.setEditable(false);
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
         contactsScrollPane.setViewportView(contactsTable);
+        if (contactsTable.getColumnModel().getColumnCount() > 0) {
+            contactsTable.getColumnModel().getColumn(0).setResizable(false);
+            contactsTable.getColumnModel().getColumn(0).setPreferredWidth(10);
+            contactsTable.getColumnModel().getColumn(0).setCellRenderer(org.jw.service.table.cell.renderer.DefaultStateCellRenderer.create());
+        }
 
         javax.swing.GroupLayout contactsPanelLayout = new javax.swing.GroupLayout(contactsPanel);
         contactsPanel.setLayout(contactsPanelLayout);
@@ -211,6 +217,12 @@ public final class ApplicationFrame extends javax.swing.JFrame {
 
         profilePictureLabel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.profilePicture}"), profilePictureLabel, org.jdesktop.beansbinding.BeanProperty.create("icon"));
+        binding.setSourceNullValue(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.profile.picture.blank.png"))); // NOI18N
+        binding.setSourceUnreadableValue(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.profile.picture.blank.png"))); // NOI18N
+        binding.setConverter(org.jw.service.beansbinding.converter.ByteToImageConverter.create());
+        bindingGroup.addBinding(binding);
+
         javax.swing.GroupLayout profilePicturePanelLayout = new javax.swing.GroupLayout(profilePicturePanel);
         profilePicturePanel.setLayout(profilePicturePanelLayout);
         profilePicturePanelLayout.setHorizontalGroup(
@@ -229,7 +241,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
 
         recordNumberTextField.setEditable(false);
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.recordNumber}"), recordNumberTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "recordNumber");
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.recordNumber}"), recordNumberTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "recordNumber");
         binding.setSourceNullValue("");
         binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
@@ -900,6 +912,14 @@ public final class ApplicationFrame extends javax.swing.JFrame {
 
         menuBar.add(optionsMenu);
 
+        jMenu1.setText("Settings");
+
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.reports.setting.png"))); // NOI18N
+        jMenuItem1.setText("Reports");
+        jMenu1.add(jMenuItem1);
+
+        menuBar.add(jMenu1);
+
         setJMenuBar(menuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -951,6 +971,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         statusListListener = DefaultComboBoxModelListListener.create(this.statusComboBox);
         contactDAO = DataAccessObject.create(em, Contact.class);
         statusDAO = DataAccessObject.create(em, ContactStatus.class);
+        serviceGroupDAO = DataAccessObject.create(em, ServiceGroup.class);
         serviceGroupDialog = new ServiceGroupDialog(this, true, em, this.sgListListener);
         contactStatusDialog = new ContactStatusDialog(this, true, em, this.statusListListener);
         locationMapDialog = new LocationMapDialog(this, true);
@@ -972,6 +993,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         surrogateCrudPanel.setRefreshCommand(this.mainCommandPanel.getRefreshCommand());
         surrogateCrudPanel.setDeleteCommand(this.mainCommandPanel.getDeleteCommand());
         surrogateCrudPanel.setSaveCommand(this.mainCommandPanel.getSaveCommand());                
+        surrogateCrudPanel.setCloseCommand(this.mainCommandPanel.getExitCommand());                
         taskBuilder.setCrudPanel(surrogateCrudPanel);
         taskBuilder.setTaskMonitorPanel(taskMonitorPanel);
         taskBuilder.setCloseAction(closeAction);
@@ -986,10 +1008,11 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         taskBuilder.buildDefaultTasks();
         
         // Set Dependencies
-        RecordNumberPreDependency recordNumberPreDependency = new RecordNumberPreDependency(this, this.mainCommandPanel.getServiceGroupComboBox());
-        RecordNumberPostDependency recordNumberPostDependency = new RecordNumberPostDependency(this, this.mainCommandPanel.getServiceGroupComboBox());
-        taskBuilder.getNewAction().addPreActionCommands("recordNumberPreDependency",recordNumberPreDependency);
-        taskBuilder.getNewAction().addPostActionCommands("recordNumberPostDependency",recordNumberPostDependency);
+        RecordNumberPreDependency recordNumberPreDependency = new RecordNumberPreDependency(this, serviceGroupDAO, this.mainCommandPanel.getServiceGroupComboBox());        
+        RecordNumberPostDependency recordNumberPostDependency = new RecordNumberPostDependency(contactDAO, serviceGroupDAO, this.mainCommandPanel.getServiceGroupComboBox());                
+        taskBuilder.getNewAction().addPreActionCommands("recordNumberPreDependency",recordNumberPreDependency);        
+        taskBuilder.getNewAction().addPostActionCommands("recordNumberPostDependency",recordNumberPostDependency);        
+        taskBuilder.getCloseAction().addPreActionCommands("systemExitPreDependency", new DefaultSystemExitPreDependency(this, em));
     }
     
     /**
@@ -1034,6 +1057,8 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     private javax.swing.JTextField guardianTextField;
     private javax.swing.JLabel houseNumberLabel;
     private javax.swing.JTextField houseNumberTextField;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JLabel lastNameLabel;
     private javax.swing.JTextField lastNameTextField;
     private org.jw.service.gui.component.MainCommandPanel mainCommandPanel;
@@ -1102,6 +1127,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     DefaultOpenAction openContactCallsAction;
     DataAccessObject<Contact> contactDAO;
     DataAccessObject<ContactStatus> statusDAO;
+    DataAccessObject<ServiceGroup> serviceGroupDAO;
     EntityManager em;
     
     

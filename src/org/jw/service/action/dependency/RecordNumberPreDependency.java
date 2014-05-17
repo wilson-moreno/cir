@@ -11,19 +11,23 @@ import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import org.jw.service.action.DependencyCommand;
+import org.jw.service.dao.DataAccessObject;
+import org.jw.service.entity.ServiceGroup;
 
 /**
  *
  * @author Wilson
- * @param <String>
  */
-public class RecordNumberPreDependency<String> implements DependencyCommand{
+public class RecordNumberPreDependency<T> implements DependencyCommand{
     private final Window parent;
     private final JComboBox sgComboBox;
+    private final DataAccessObject<ServiceGroup> dao;
+    private String recordNumber;
     
-    public RecordNumberPreDependency(Window parent, JComboBox sgComboBox){
+    public RecordNumberPreDependency(Window parent, DataAccessObject<ServiceGroup> dao, JComboBox sgComboBox){
         this.parent = parent;
         this.sgComboBox = sgComboBox;
+        this.dao = dao;
     }
     
     @Override
@@ -31,7 +35,7 @@ public class RecordNumberPreDependency<String> implements DependencyCommand{
         if(sgComboBox.getModel().getSize() == 0){
             JOptionPane.showMessageDialog(parent,"Please add Service Groups.", "Service Groups", JOptionPane.INFORMATION_MESSAGE);
             return false;
-        }else{
+        }else{            
             return true;
         }    
     }
@@ -41,8 +45,8 @@ public class RecordNumberPreDependency<String> implements DependencyCommand{
      * @return
      */
     @Override
-    public String get() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public T get() {
+        return (T) recordNumber;
     }
 
     @Override

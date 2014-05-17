@@ -15,6 +15,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.LockModeType;
 import javax.persistence.Query;
+import org.jw.service.entity.SilentSetter;
 
 /**
  *
@@ -63,20 +64,13 @@ public class DataAccessObject<T> {
     }
     
     public T save(T entity){
-        try {
-            EntityTransaction entityTransaction = em.getTransaction();
-            entityTransaction.begin();
-            Method setUpdatedDatetime = entity.getClass().getDeclaredMethod("setUpdatedDatetime", java.util.Date.class);
-            Object invoke = setUpdatedDatetime.invoke(entity, new java.util.Date());
-            em.persist(entity);
-            entityTransaction.commit();
-            em.refresh(entity);
-            return entity;
-        } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-            Logger.getLogger(DataAccessObject.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        return null;
+        EntityTransaction entityTransaction = em.getTransaction();
+        entityTransaction.begin();
+        ((SilentSetter)entity).silentSetProperty("updatedDatetime", new java.util.Date());
+        em.persist(entity);
+        entityTransaction.commit();
+        em.refresh(entity);
+        return entity;               
     }
     
     public void delete(T entity) {

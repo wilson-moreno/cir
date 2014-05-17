@@ -68,7 +68,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Contact.findByFoundBy", query = "SELECT c FROM Contact c WHERE c.foundBy = :foundBy"),
     @NamedQuery(name = "Contact.findByCreatedDatetime", query = "SELECT c FROM Contact c WHERE c.createdDatetime = :createdDatetime"),
     @NamedQuery(name = "Contact.findByUpdatedDatetime", query = "SELECT c FROM Contact c WHERE c.updatedDatetime = :updatedDatetime")})
-public class Contact implements Serializable, ObservableEntity {
+public class Contact implements Serializable, ObservableEntity, SilentSetter {
     private static final long serialVersionUID = 1L;
     public static final String PROP_GUARDIANSNAME = "guardiansName";
     @Id
@@ -843,5 +843,26 @@ public class Contact implements Serializable, ObservableEntity {
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         propertyChangeSupport.removePropertyChangeListener(listener);
     }
-    
+
+    @Override
+    public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
+        propertyChangeSupport.addPropertyChangeListener(propertyName, listener);
+    }
+
+    @Override
+    public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
+        propertyChangeSupport.removePropertyChangeListener(propertyName, listener);
+    }
+
+    @Override
+    public void silentSetProperty(String name, Object value) {
+        switch(name.trim()){
+            case "recordNumber" : this.recordNumber = (String) value; break;
+            case "updatedDatetime" : this.updatedDatetime = (Date) value; break; 
+            case "serviceGroupId" : this.serviceGroupId = (ServiceGroup) value; break;
+            default : throw new UnsupportedOperationException("Property not Supported: " + name);
+        }
+    }
 }
+
+        

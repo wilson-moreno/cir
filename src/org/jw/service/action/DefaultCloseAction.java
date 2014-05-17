@@ -14,8 +14,9 @@ import javax.swing.JButton;
 /**
  *
  * @author Wilson
+ * @param <T>
  */
-public class DefaultCloseAction<T> extends AbstractAction{
+public class DefaultCloseAction<T> extends DependentAbstractAction{
     private final Window window;
     
     public DefaultCloseAction(JButton command, Window window){
@@ -25,8 +26,9 @@ public class DefaultCloseAction<T> extends AbstractAction{
     }
     
     @Override
-    public void actionPerformed(ActionEvent ae) {
+    public boolean mainActionPerformed(ActionEvent ae) {
         window.dispose();
+        return true;
     }
     
 }

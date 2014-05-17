@@ -35,7 +35,7 @@ public class DefaultEntityStateListener implements PropertyChangeListener{
                                  case "*" : saveAction.setEnabled(true);break;
                                  case ""  : saveAction.setEnabled(false);break;
                               }break;
-           default : entity.setSaveState("*");                      
+            default : entity.setSaveState("*");                      
                      break;  
         }
     }

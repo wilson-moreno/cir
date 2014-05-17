@@ -16,5 +16,7 @@ public interface ObservableEntity {
     public String getSaveState();
     public void setSaveState(String saveState);
     public void addPropertyChangeListener(PropertyChangeListener listener);
+    public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener);
     public void removePropertyChangeListener(PropertyChangeListener listener);
+    public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener);
 }

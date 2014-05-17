@@ -47,7 +47,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ServiceGroup.findByNextNumber", query = "SELECT s FROM ServiceGroup s WHERE s.nextNumber = :nextNumber"),
     @NamedQuery(name = "ServiceGroup.findByCreatedDatetime", query = "SELECT s FROM ServiceGroup s WHERE s.createdDatetime = :createdDatetime"),
     @NamedQuery(name = "ServiceGroup.findByUpdatedDatetime", query = "SELECT s FROM ServiceGroup s WHERE s.updatedDatetime = :updatedDatetime")})
-public class ServiceGroup implements Serializable, ObservableEntity {
+public class ServiceGroup implements Serializable, ObservableEntity, SilentSetter {
     private static final long serialVersionUID = 1L;
     public static final String PROP_SAVESTATE = "saveState";
     @Id
@@ -381,5 +381,31 @@ public class ServiceGroup implements Serializable, ObservableEntity {
         java.lang.String oldSaveState = this.saveState;
         this.saveState = saveState;
         propertyChangeSupport.firePropertyChange(PROP_SAVESTATE, oldSaveState, saveState);
+    }
+
+    @Override
+    public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
+        propertyChangeSupport.addPropertyChangeListener(name, listener);
+    }
+
+    @Override
+    public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
+        propertyChangeSupport.removePropertyChangeListener(name, listener);
+    }
+    
+    
+    public String useNextRecordNumber(){
+        String prefixString = prefix.trim();
+        Integer nextNumberInteger = nextNumber;
+        nextNumber += 1;        
+        return prefixString + nextNumberInteger.toString().trim();        
+    }    
+
+    @Override
+    public void silentSetProperty(String name, Object value) {
+        switch(name){
+            case "updatedDatetime" : this.updatedDatetime = (Date) value; break;
+            default : throw new UnsupportedOperationException("Property not Supported: " + name);
+        }
     }
 }

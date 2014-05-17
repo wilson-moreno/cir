@@ -214,6 +214,10 @@ public class DefaultTaskBuilder<T> {
         propertyChangeSupport.firePropertyChange(PROP_CLOSEACTION, oldCloseAction, closeAction);
     }
 
+    public DefaultCloseAction getCloseAction(){
+        return this.closeAction;
+    }
+    
     /**
      * @param dao the dao to set
      */
