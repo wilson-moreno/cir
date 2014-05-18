@@ -16,7 +16,6 @@ import org.jw.service.action.DefaultSaveAction;
 import org.jw.service.builder.DefaultTaskBuilder;
 import org.jw.service.dao.DataAccessObject;
 import org.jw.service.entity.ContactCall;
-import org.jw.service.entity.ServiceGroup;
 import org.jw.service.util.UtilityProperties;
 
 /**

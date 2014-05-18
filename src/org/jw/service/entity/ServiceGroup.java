@@ -393,14 +393,6 @@ public class ServiceGroup implements Serializable, ObservableEntity, SilentSette
         propertyChangeSupport.removePropertyChangeListener(name, listener);
     }
     
-    
-    public String useNextRecordNumber(){
-        String prefixString = prefix.trim();
-        Integer nextNumberInteger = nextNumber;
-        nextNumber += 1;        
-        return prefixString + nextNumberInteger.toString().trim();        
-    }    
-
     @Override
     public void silentSetProperty(String name, Object value) {
         switch(name){
@@ -408,4 +400,11 @@ public class ServiceGroup implements Serializable, ObservableEntity, SilentSette
             default : throw new UnsupportedOperationException("Property not Supported: " + name);
         }
     }
+    
+    public String useNextRecordNumber(){
+        String prefixString = prefix.trim();
+        Integer nextNumberInteger = nextNumber;
+        nextNumber += 1;        
+        return prefixString + nextNumberInteger.toString().trim();        
+    }    
 }

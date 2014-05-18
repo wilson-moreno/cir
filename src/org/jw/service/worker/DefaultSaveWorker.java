@@ -17,6 +17,7 @@ import org.jw.service.util.UtilityTable;
 /**
  *
  * @author Wilson
+ * @param <T>
  */
 public class DefaultSaveWorker<T> extends SwingWorker<String, String>{
     private final DataAccessObject dao;
@@ -32,8 +33,8 @@ public class DefaultSaveWorker<T> extends SwingWorker<String, String>{
     
     @Override
     protected String doInBackground() throws Exception {
-        int modelIndex = utilTable.getSelectedModelIndex();                
-        ObservableEntity save = (ObservableEntity)dao.save(list.get(modelIndex));
+        int modelIndex = utilTable.getSelectedModelIndex();                                
+        ObservableEntity save = (ObservableEntity)dao.save(list.get(modelIndex));        
         save.setSaveState("");
         return "";
     }

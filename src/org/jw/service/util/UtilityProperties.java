@@ -22,6 +22,7 @@ public class UtilityProperties extends UtilityDefault{
     public static final String PROPERTIES_DIRECTORY = "/org/jw/service/gui/resources/properties/";
     public static final String MARITAL_STATUS_PROPERTIES = "marital_status.properties";
     public static final String SEX_PROPERTIES = "sex.properties";
+    public static final String CONTROL_TYPES_PROPERTIES = "control_types.properties";
     public static final String TASK_MESSAGE_PROPERTIES = "task_message.properties";
     private final Properties property;
     private final String propertyFile;

@@ -37,12 +37,12 @@
             <Property name="text" type="java.lang.String" value="Settings"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem1">
+            <MenuItem class="javax.swing.JMenuItem" name="reportTemplatesMenuItem">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/org/jw/service/gui/resources/icon/default.reports.setting.png"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Reports"/>
+                <Property name="text" type="java.lang.String" value="Reports Templates"/>
               </Properties>
             </MenuItem>
           </SubComponents>

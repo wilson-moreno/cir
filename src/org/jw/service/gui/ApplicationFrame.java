@@ -7,14 +7,15 @@
 package org.jw.service.gui;
 
 import javax.persistence.EntityManager;
-import javax.swing.table.TableModel;
 import org.jw.service.action.DefaultCloseAction;
 import org.jw.service.action.DefaultDeleteAction;
+import org.jw.service.action.DefaultFileChooserOpenAction;
 import org.jw.service.action.DefaultNewAction;
 import org.jw.service.action.DefaultOpenAction;
 import org.jw.service.action.DefaultRefreshAction;
 import org.jw.service.action.DefaultSaveAction;
 import org.jw.service.action.dependency.DefaultSystemExitPreDependency;
+import org.jw.service.action.dependency.ProfileSetPostDependency;
 import org.jw.service.action.dependency.RecordNumberPostDependency;
 import org.jw.service.action.dependency.RecordNumberPreDependency;
 import org.jw.service.builder.DefaultTaskBuilder;
@@ -140,7 +141,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         serviceGroupsMenuItem = new javax.swing.JMenuItem();
         contactStatusMenuItem = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        reportTemplatesMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/jw/service/gui/resources/properties/gui"); // NOI18N
@@ -914,9 +915,9 @@ public final class ApplicationFrame extends javax.swing.JFrame {
 
         jMenu1.setText("Settings");
 
-        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.reports.setting.png"))); // NOI18N
-        jMenuItem1.setText("Reports");
-        jMenu1.add(jMenuItem1);
+        reportTemplatesMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.reports.setting.png"))); // NOI18N
+        reportTemplatesMenuItem.setText("Reports Templates");
+        jMenu1.add(reportTemplatesMenuItem);
 
         menuBar.add(jMenu1);
 
@@ -976,10 +977,15 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         contactStatusDialog = new ContactStatusDialog(this, true, em, this.statusListListener);
         locationMapDialog = new LocationMapDialog(this, true);
         contactCallsDialog = new ContactCallsDialog(this, true, em);
+        appsReportDialog = new AppsReportTemplateDialog(this, true, em);
+        reportPrintDialog = new ReportPrintDialog(this, true, em);
         openServiceGroupAction = new DefaultOpenAction(serviceGroupsMenuItem,this,serviceGroupDialog, null);        
         openContactStatusAction = new DefaultOpenAction(contactStatusMenuItem,this,contactStatusDialog, null);        
         openLocationMapAction = new DefaultOpenAction(openLocationMapCommand,this,locationMapDialog, null);        
         openContactCallsAction = new DefaultOpenAction(this.mainCommandPanel.getContactCallsCommand(),this,contactCallsDialog, null);        
+        openReportTemplatesAction = new DefaultOpenAction(this.reportTemplatesMenuItem,this,appsReportDialog, null);        
+        openReportPrintAction = new DefaultOpenAction(this.mainCommandPanel.getPrintCommand(),this,reportPrintDialog, null);        
+        fcOpenAction = new DefaultFileChooserOpenAction(this.setProfilePictureCommand, this, null);
         buildCrudTask();
     }
     
@@ -1010,9 +1016,11 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         // Set Dependencies
         RecordNumberPreDependency recordNumberPreDependency = new RecordNumberPreDependency(this, serviceGroupDAO, this.mainCommandPanel.getServiceGroupComboBox());        
         RecordNumberPostDependency recordNumberPostDependency = new RecordNumberPostDependency(contactDAO, serviceGroupDAO, this.mainCommandPanel.getServiceGroupComboBox());                
+        ProfileSetPostDependency profileSetPostDependency = new ProfileSetPostDependency(this.profilePictureLabel);
         taskBuilder.getNewAction().addPreActionCommands("recordNumberPreDependency",recordNumberPreDependency);        
         taskBuilder.getNewAction().addPostActionCommands("recordNumberPostDependency",recordNumberPostDependency);        
         taskBuilder.getCloseAction().addPreActionCommands("systemExitPreDependency", new DefaultSystemExitPreDependency(this, em));
+        this.fcOpenAction.addPostActionCommands("profileSetPostDependency", profileSetPostDependency);
     }
     
     /**
@@ -1058,7 +1066,6 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     private javax.swing.JLabel houseNumberLabel;
     private javax.swing.JTextField houseNumberTextField;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JLabel lastNameLabel;
     private javax.swing.JTextField lastNameTextField;
     private org.jw.service.gui.component.MainCommandPanel mainCommandPanel;
@@ -1093,6 +1100,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     private javax.swing.JTextField recordNumberTextField;
     private javax.swing.JLabel religionLabel;
     private javax.swing.JTextField religionTextField;
+    private javax.swing.JMenuItem reportTemplatesMenuItem;
     private javax.swing.JMenuItem serviceGroupsMenuItem;
     private javax.swing.JButton setProfilePictureCommand;
     private javax.swing.JComboBox sexComboBox;
@@ -1121,10 +1129,14 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     ContactStatusDialog contactStatusDialog;
     LocationMapDialog locationMapDialog;
     ContactCallsDialog contactCallsDialog;
+    AppsReportTemplateDialog appsReportDialog;
+    ReportPrintDialog reportPrintDialog;
     DefaultOpenAction openServiceGroupAction;
     DefaultOpenAction openContactStatusAction;
     DefaultOpenAction openLocationMapAction;
     DefaultOpenAction openContactCallsAction;
+    DefaultOpenAction openReportTemplatesAction;
+    DefaultOpenAction openReportPrintAction;
     DataAccessObject<Contact> contactDAO;
     DataAccessObject<ContactStatus> statusDAO;
     DataAccessObject<ServiceGroup> serviceGroupDAO;
@@ -1139,4 +1151,5 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     DefaultDeleteAction<Contact> deleteAction;
     DefaultRefreshAction<Contact> refreshAction;
     DefaultSaveAction<Contact> saveAction;         
+    DefaultFileChooserOpenAction fcOpenAction;
 }

@@ -40,7 +40,7 @@ public class MainCommandPanel extends javax.swing.JPanel {
         contactCallsCommand = new javax.swing.JButton();
         backupCommand = new javax.swing.JButton();
         searchCommand = new javax.swing.JButton();
-        printContactCommand = new javax.swing.JButton();
+        printCommand = new javax.swing.JButton();
         serviceGroupComboBox = new javax.swing.JComboBox();
         separator = new javax.swing.JSeparator();
 
@@ -95,11 +95,11 @@ public class MainCommandPanel extends javax.swing.JPanel {
         searchCommand.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         toolBar.add(searchCommand);
 
-        printContactCommand.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.print.contact.png"))); // NOI18N
-        printContactCommand.setText("Print");
-        printContactCommand.setFocusable(false);
-        printContactCommand.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        toolBar.add(printContactCommand);
+        printCommand.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.print.contact.png"))); // NOI18N
+        printCommand.setText("Print");
+        printCommand.setFocusable(false);
+        printCommand.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        toolBar.add(printCommand);
 
         toolBar.add(serviceGroupComboBox);
 
@@ -127,7 +127,7 @@ public class MainCommandPanel extends javax.swing.JPanel {
     private javax.swing.JButton deleteCommand;
     private javax.swing.JButton exitCommand;
     private javax.swing.JButton newCommand;
-    private javax.swing.JButton printContactCommand;
+    private javax.swing.JButton printCommand;
     private javax.swing.JButton refreshCommand;
     private javax.swing.JButton saveCommand;
     private javax.swing.JButton searchCommand;
@@ -177,8 +177,8 @@ public class MainCommandPanel extends javax.swing.JPanel {
     /**
      * @return the printContactCommand
      */
-    public javax.swing.JButton getPrintContactCommand() {
-        return printContactCommand;
+    public javax.swing.JButton getPrintCommand() {
+        return printCommand;
     }
 
     /**
