@@ -23,6 +23,7 @@ import org.jw.service.dao.DataAccessObject;
 import org.jw.service.entity.Contact;
 import org.jw.service.entity.ContactStatus;
 import org.jw.service.entity.ServiceGroup;
+import org.jw.service.file.filter.FileFilterImage;
 import org.jw.service.gui.component.DefaultCrudPanel;
 import org.jw.service.listener.combobox.DefaultComboBoxModelListListener;
 import org.jw.service.util.UtilityProperties;
@@ -985,7 +986,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         openContactCallsAction = new DefaultOpenAction(this.mainCommandPanel.getContactCallsCommand(),this,contactCallsDialog, null);        
         openReportTemplatesAction = new DefaultOpenAction(this.reportTemplatesMenuItem,this,appsReportDialog, null);        
         openReportPrintAction = new DefaultOpenAction(this.mainCommandPanel.getPrintCommand(),this,reportPrintDialog, null);        
-        fcOpenAction = new DefaultFileChooserOpenAction(this.setProfilePictureCommand, this, null);
+        fcOpenAction = new DefaultFileChooserOpenAction(this.setProfilePictureCommand, this, FileFilterImage.create(), null);
         buildCrudTask();
     }
     

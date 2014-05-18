@@ -11,6 +11,7 @@ import javax.swing.JButton;
 
 import org.jw.service.action.DefaultCloseAction;
 import org.jw.service.action.DefaultDeleteAction;
+import org.jw.service.action.DefaultFileChooserOpenAction;
 import org.jw.service.action.DefaultNewAction;
 import org.jw.service.action.DefaultRefreshAction;
 import org.jw.service.action.DefaultSaveAction;
@@ -22,6 +23,8 @@ import org.jw.service.gui.component.DefaultCrudPanel;
 import org.jw.service.listener.selection.ReportListSelectionListener;
 import org.jw.service.util.UtilityProperties;
 import org.jw.service.action.dependency.ParameterNewPostDependency;
+import org.jw.service.action.dependency.JasperFileChoosePostDependency;
+import org.jw.service.file.filter.FileFilterJasper;
 
 /**
  *
@@ -89,6 +92,7 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
         DefaultDeleteAction<AppsReport> deleteAction = null;
         DefaultRefreshAction<AppsReport> refreshAction = null;
         DefaultSaveAction<AppsReport> saveAction = null;        
+        DefaultFileChooserOpenAction fcOpenAction = null;
         DataAccessObject<AppsReport> dao;    
         
         dao = DataAccessObject.create(em, AppsReport.class);            
@@ -109,6 +113,10 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
         taskBuilder.setWindow(this);
         taskBuilder.setDao(dao);
         taskBuilder.buildDefaultTasks();
+        
+        JasperFileChoosePostDependency jasperFileChoosePostDependency = new JasperFileChoosePostDependency(this.byteArrayBean, this.fileNameTextField, this.fileCreatedDateChooser, this.fileModifiedDateChooser);
+        fcOpenAction = new DefaultFileChooserOpenAction(this.chooseFileCommand, this, FileFilterJasper.create() ,null);
+        fcOpenAction.addPostActionCommands("jasperFileChoosePostDependency", jasperFileChoosePostDependency);
     }
     
     private  void initMyComponents(){
@@ -140,16 +148,18 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
         codeLabel = new javax.swing.JLabel();
         nameLabel = new javax.swing.JLabel();
         queryLabel = new javax.swing.JLabel();
-        nameTextField = new javax.swing.JTextField();
+        codeTextField = new javax.swing.JTextField();
         reportDateLabel = new javax.swing.JLabel();
         reportDateChooser = new com.toedter.calendar.JDateChooser();
         enableCheckBox = new javax.swing.JCheckBox();
-        descriptionTextField = new javax.swing.JTextField();
+        nameTextField = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         queryTextArea = new javax.swing.JTextArea();
-        jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        titleLabel = new javax.swing.JLabel();
+        titleTextField = new javax.swing.JTextField();
         visibleCheckBox = new javax.swing.JCheckBox();
+        descriptionTextField = new javax.swing.JTextField();
+        descriptionLabel = new javax.swing.JLabel();
         reportFilePanel = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jasperNameLabel = new javax.swing.JLabel();
@@ -184,6 +194,7 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/jw/service/gui/resources/properties/apps_report_dialog"); // NOI18N
         setTitle(bundle.getString("title")); // NOI18N
+        setResizable(false);
 
         templatesPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Templates", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
@@ -235,14 +246,14 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
 
         queryLabel.setText("Query:");
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, reportTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.code}"), nameTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "name");
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, reportTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.code}"), codeTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "name");
         binding.setSourceNullValue("");
         binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
-        nameTextField.addActionListener(new java.awt.event.ActionListener() {
+        codeTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nameTextFieldActionPerformed(evt);
+                codeTextFieldActionPerformed(evt);
             }
         });
 
@@ -258,7 +269,7 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
         binding.setSourceUnreadableValue(false);
         bindingGroup.addBinding(binding);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, reportTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.name}"), descriptionTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "description");
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, reportTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.name}"), nameTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "description");
         binding.setSourceNullValue("");
         binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
@@ -273,12 +284,22 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
 
         jScrollPane1.setViewportView(queryTextArea);
 
-        jLabel1.setText("Description:");
+        titleLabel.setText("Title:");
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, reportTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.description}"), jTextField1, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, reportTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.title}"), titleTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         visibleCheckBox.setText("Visible");
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, reportTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.visible}"), visibleCheckBox, org.jdesktop.beansbinding.BeanProperty.create("selected"));
+        binding.setSourceNullValue(false);
+        binding.setSourceUnreadableValue(false);
+        bindingGroup.addBinding(binding);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, reportTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.description}"), descriptionTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        descriptionLabel.setText("Description:");
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -292,15 +313,11 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1))
                     .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1))
-                    .addGroup(jPanel7Layout.createSequentialGroup()
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel7Layout.createSequentialGroup()
                                 .addComponent(codeLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(codeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(reportDateLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -308,15 +325,23 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
                             .addGroup(jPanel7Layout.createSequentialGroup()
                                 .addComponent(nameLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(descriptionTextField)))
+                                .addComponent(nameTextField)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(visibleCheckBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(enableCheckBox, javax.swing.GroupLayout.DEFAULT_SIZE, 68, Short.MAX_VALUE))))
+                            .addComponent(enableCheckBox, javax.swing.GroupLayout.DEFAULT_SIZE, 68, Short.MAX_VALUE)))
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(titleLabel)
+                            .addComponent(descriptionLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(descriptionTextField)
+                            .addComponent(titleTextField))))
                 .addContainerGap())
         );
 
-        jPanel7Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {codeLabel, jLabel1, nameLabel, queryLabel});
+        jPanel7Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {codeLabel, descriptionLabel, nameLabel, queryLabel, titleLabel});
 
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -326,26 +351,29 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
                     .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(codeLabel)
-                            .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(codeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(reportDateLabel))
                         .addComponent(reportDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(enableCheckBox))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(nameLabel)
-                    .addComponent(descriptionTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(visibleCheckBox))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(titleLabel)
+                    .addComponent(titleTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(descriptionTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(descriptionLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addComponent(queryLabel)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addGap(0, 68, Short.MAX_VALUE))))
         );
 
         javax.swing.GroupLayout reportPanelLayout = new javax.swing.GroupLayout(reportPanel);
@@ -378,8 +406,8 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
         fileNameTextField.setEditable(false);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, reportTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.fileName}"), fileNameTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "fileName");
-        binding.setSourceNullValue("null");
-        binding.setSourceUnreadableValue("null");
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
         chooseFileCommand.setText("Choose");
@@ -635,9 +663,9 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void nameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameTextFieldActionPerformed
+    private void codeTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_codeTextFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_nameTextFieldActionPerformed
+    }//GEN-LAST:event_codeTextFieldActionPerformed
 
     
 
@@ -645,14 +673,15 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
     private org.jw.service.beans.ByteArrayBean byteArrayBean;
     private javax.swing.JButton chooseFileCommand;
     private javax.swing.JLabel codeLabel;
+    private javax.swing.JTextField codeTextField;
     private org.jw.service.gui.component.DefaultCrudPanel crudPanel;
     private javax.swing.JButton deleteParamCommand;
+    private javax.swing.JLabel descriptionLabel;
     private javax.swing.JTextField descriptionTextField;
     private javax.swing.JCheckBox enableCheckBox;
     private com.toedter.calendar.JDateChooser fileCreatedDateChooser;
     private com.toedter.calendar.JDateChooser fileModifiedDateChooser;
     private javax.swing.JTextField fileNameTextField;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -662,7 +691,6 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel jasperCreatedLabel;
     private javax.swing.JLabel jasperModifiedLabel;
     private javax.swing.JLabel jasperNameLabel;
@@ -690,6 +718,8 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
     private javax.swing.JTextField sequenceTextField;
     private org.jw.service.gui.component.TaskMonitorPanel taskMonitorPanel;
     private javax.swing.JPanel templatesPanel;
+    private javax.swing.JLabel titleLabel;
+    private javax.swing.JTextField titleTextField;
     private javax.swing.JCheckBox visibleCheckBox;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables

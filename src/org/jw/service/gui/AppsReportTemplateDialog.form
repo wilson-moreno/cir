@@ -39,6 +39,7 @@
     <Property name="title" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
       <ResourceString bundle="org/jw/service/gui/resources/properties/apps_report_dialog.properties" key="title" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
     </Property>
+    <Property name="resizable" type="boolean" value="false"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
@@ -253,16 +254,11 @@
                                   <Component id="jScrollPane1" max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jLabel1" linkSize="3" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jTextField1" max="32767" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                       <Group type="102" alignment="0" attributes="0">
                                           <Component id="codeLabel" linkSize="3" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="nameTextField" min="-2" pref="192" max="-2" attributes="0"/>
+                                          <Component id="codeTextField" min="-2" pref="192" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Component id="reportDateLabel" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
@@ -271,13 +267,24 @@
                                       <Group type="102" alignment="0" attributes="0">
                                           <Component id="nameLabel" linkSize="3" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="descriptionTextField" max="32767" attributes="0"/>
+                                          <Component id="nameTextField" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="visibleCheckBox" max="32767" attributes="0"/>
                                       <Component id="enableCheckBox" pref="68" max="32767" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="titleLabel" linkSize="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="descriptionLabel" linkSize="3" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="descriptionTextField" max="32767" attributes="0"/>
+                                      <Component id="titleTextField" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -293,7 +300,7 @@
                               <Group type="103" groupAlignment="1" attributes="0">
                                   <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="codeLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="nameTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="codeTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="reportDateLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <Component id="reportDateChooser" min="-2" max="-2" attributes="0"/>
@@ -303,23 +310,27 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="nameLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="descriptionTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="nameTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="visibleCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jTextField1" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="titleLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="titleTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="descriptionTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="descriptionLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jScrollPane1" pref="97" max="32767" attributes="0"/>
+                              <Component id="jScrollPane1" pref="0" max="32767" attributes="0"/>
                               <Group type="102" attributes="0">
                                   <Component id="queryLabel" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="68" max="32767" attributes="0"/>
                               </Group>
                           </Group>
-                          <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -340,9 +351,9 @@
                     <Property name="text" type="java.lang.String" value="Query:"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="nameTextField">
+                <Component class="javax.swing.JTextField" name="codeTextField">
                   <BindingProperties>
-                    <BindingProperty name="text" source="reportTable" sourcePath="${selectedElement.code}" target="nameTextField" targetPath="text" updateStrategy="0" immediately="false">
+                    <BindingProperty name="text" source="reportTable" sourcePath="${selectedElement.code}" target="codeTextField" targetPath="text" updateStrategy="0" immediately="false">
                       <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
                       <Property name="nullValue" type="java.lang.String" value=""/>
                       <Property name="incompletePathValue" type="java.lang.String" value=""/>
@@ -350,7 +361,7 @@
                     </BindingProperty>
                   </BindingProperties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="nameTextFieldActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="codeTextFieldActionPerformed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="reportDateLabel">
@@ -377,9 +388,9 @@
                     </BindingProperty>
                   </BindingProperties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="descriptionTextField">
+                <Component class="javax.swing.JTextField" name="nameTextField">
                   <BindingProperties>
-                    <BindingProperty name="text" source="reportTable" sourcePath="${selectedElement.name}" target="descriptionTextField" targetPath="text" updateStrategy="0" immediately="false">
+                    <BindingProperty name="text" source="reportTable" sourcePath="${selectedElement.name}" target="nameTextField" targetPath="text" updateStrategy="0" immediately="false">
                       <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
                       <Property name="nullValue" type="java.lang.String" value=""/>
                       <Property name="incompletePathValue" type="java.lang.String" value=""/>
@@ -410,14 +421,14 @@
                     </Component>
                   </SubComponents>
                 </Container>
-                <Component class="javax.swing.JLabel" name="jLabel1">
+                <Component class="javax.swing.JLabel" name="titleLabel">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Description:"/>
+                    <Property name="text" type="java.lang.String" value="Title:"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="jTextField1">
+                <Component class="javax.swing.JTextField" name="titleTextField">
                   <BindingProperties>
-                    <BindingProperty name="text" source="reportTable" sourcePath="${selectedElement.description}" target="jTextField1" targetPath="text" updateStrategy="0" immediately="false">
+                    <BindingProperty name="text" source="reportTable" sourcePath="${selectedElement.title}" target="titleTextField" targetPath="text" updateStrategy="0" immediately="false">
                       <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
                     </BindingProperty>
                   </BindingProperties>
@@ -425,6 +436,24 @@
                 <Component class="javax.swing.JCheckBox" name="visibleCheckBox">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Visible"/>
+                  </Properties>
+                  <BindingProperties>
+                    <BindingProperty name="selected" source="reportTable" sourcePath="${selectedElement.visible}" target="visibleCheckBox" targetPath="selected" updateStrategy="0" immediately="false">
+                      <Property name="nullValue" type="boolean" value="false"/>
+                      <Property name="incompletePathValue" type="boolean" value="false"/>
+                    </BindingProperty>
+                  </BindingProperties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="descriptionTextField">
+                  <BindingProperties>
+                    <BindingProperty name="text" source="reportTable" sourcePath="${selectedElement.description}" target="descriptionTextField" targetPath="text" updateStrategy="0" immediately="false">
+                      <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+                    </BindingProperty>
+                  </BindingProperties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="descriptionLabel">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Description:"/>
                   </Properties>
                 </Component>
               </SubComponents>
@@ -547,8 +576,8 @@
                   <BindingProperties>
                     <BindingProperty name="text" source="reportTable" sourcePath="${selectedElement.fileName}" target="fileNameTextField" targetPath="text" updateStrategy="0" immediately="false">
                       <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
-                      <Property name="nullValue" type="java.lang.String" value="null"/>
-                      <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+                      <Property name="nullValue" type="java.lang.String" value=""/>
+                      <Property name="incompletePathValue" type="java.lang.String" value=""/>
                       <Property name="name" type="java.lang.String" value="fileName"/>
                     </BindingProperty>
                   </BindingProperties>

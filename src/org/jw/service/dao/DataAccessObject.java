@@ -63,6 +63,10 @@ public class DataAccessObject<T> {
         return query.getResultList();
     }
     
+    public List<T> findBy(){
+        return null;
+    }
+    
     public T save(T entity){
         EntityTransaction entityTransaction = em.getTransaction();
         entityTransaction.begin();

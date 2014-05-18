@@ -48,6 +48,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "AppsReport.findByFileCreatedDatetime", query = "SELECT a FROM AppsReport a WHERE a.fileCreatedDatetime = :fileCreatedDatetime"),
     @NamedQuery(name = "AppsReport.findByQuery", query = "SELECT a FROM AppsReport a WHERE a.query = :query"),
     @NamedQuery(name = "AppsReport.findByEnable", query = "SELECT a FROM AppsReport a WHERE a.enable = :enable"),
+    @NamedQuery(name = "AppsReport.findByVisible", query = "SELECT a FROM AppsReport a WHERE a.visible = :visible"),
     @NamedQuery(name = "AppsReport.findByCreatedDatetime", query = "SELECT a FROM AppsReport a WHERE a.createdDatetime = :createdDatetime"),
     @NamedQuery(name = "AppsReport.findByUpdatedDatetime", query = "SELECT a FROM AppsReport a WHERE a.updatedDatetime = :updatedDatetime")})
 public class AppsReport implements Serializable, ObservableEntity, SilentSetter {
@@ -62,6 +63,8 @@ public class AppsReport implements Serializable, ObservableEntity, SilentSetter 
     private String name;
     @Column(name = "CODE")
     private String code;
+    @Column(name = "TITLE")
+    private String title;
     @Column(name = "DESCRIPTION")
     private String description;
     @Column(name = "REPORT_DATE")
@@ -82,6 +85,8 @@ public class AppsReport implements Serializable, ObservableEntity, SilentSetter 
     private String query;
     @Column(name = "ENABLE")
     private Boolean enable;
+    @Column(name = "VISIBLE")
+    private Boolean visible;
     @Column(name = "CREATED_DATETIME")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDatetime;
@@ -112,6 +117,40 @@ public class AppsReport implements Serializable, ObservableEntity, SilentSetter 
         super();
         this.id = id;
     }
+
+    /**
+     * @return the title
+     */
+    public String getTitle() {
+        return title;
+    }
+
+    /**
+     * @param title the title to set
+     */
+    public void setTitle(String title) {
+        java.lang.String oldTitle = this.title;
+        this.title = title;
+        propertyChangeSupport.firePropertyChange(PROP_TITLE, oldTitle, title);
+    }
+
+    /**
+     * @return the visible
+     */
+    public Boolean getVisible() {
+        return visible;
+    }
+
+    /**
+     * @param visible the visible to set
+     */
+    public void setVisible(Boolean visible) {
+        java.lang.Boolean oldVisible = this.visible;
+        this.visible = visible;
+        propertyChangeSupport.firePropertyChange(PROP_VISIBLE, oldVisible, visible);
+    }
+    public static final String PROP_TITLE = "title";    
+    public static final String PROP_VISIBLE = "visible";
 
     /**
      * @return the id

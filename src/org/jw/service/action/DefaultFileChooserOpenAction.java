@@ -8,14 +8,11 @@ package org.jw.service.action;
 
 import java.awt.Window;
 import java.awt.event.ActionEvent;
-import java.util.concurrent.ExecutionException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.Icon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileFilter;
 import org.jw.service.listener.task.DefaultTaskListener;
 import org.jw.service.util.UtilityFileChooser;
-import org.jw.service.worker.DefaultFileChooserOpenWorker;
 
 /**
  *
@@ -26,19 +23,27 @@ public class DefaultFileChooserOpenAction extends DependentAbstractAction{
     private final DefaultTaskListener listener;
     private final UtilityFileChooser utilFC;
     
-    public DefaultFileChooserOpenAction(JButton command, Window parent, DefaultTaskListener listener) {
+    public DefaultFileChooserOpenAction(JButton command, Window parent, FileFilter filter, DefaultTaskListener listener) {
         super(command.getText(), command.getIcon());
         this.parent = parent;
         this.listener = listener;
         this.utilFC = UtilityFileChooser.create(parent);
+        utilFC.setFileFilter(filter);
         command.setAction(this);
     }
 
     @Override
     public boolean mainActionPerformed(ActionEvent ae) {
-        utilFC.showOpenDialog();
-        this.workerResult = utilFC.getSelectedFile();
-        return true;
+        boolean result;
+        
+        switch(utilFC.showOpenDialog()){
+            case JFileChooser.APPROVE_OPTION : this.workerResult = utilFC.getSelectedFile(); 
+                                               result = true;
+                                               break;
+            default : result = false;    
+        }                       
+        
+        return result;
     }
     
 }

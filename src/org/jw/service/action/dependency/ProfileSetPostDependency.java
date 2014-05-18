@@ -34,15 +34,12 @@ public class ProfileSetPostDependency implements DependencyCommand{
     }
 
     @Override
-    public void run(Object workerResult, ActionEvent ae) {
-        System.out.println("#1");
-        if(workerResult != null){                         
-            System.out.println("#2");
+    public void run(Object workerResult, ActionEvent ae) {        
+        if(workerResult != null){                                     
             try {
-                File file = (File) workerResult;
-                BufferedImage img = ImageIO.read(file);                
-                label.setIcon(new ImageIcon(img.getScaledInstance(label.getWidth(), label.getHeight(), java.awt.Image.SCALE_SMOOTH)));
-                System.out.println("#3");
+                File file = (File) workerResult;                                
+                BufferedImage img = ImageIO.read(file);                     
+                label.setIcon(new ImageIcon(img.getScaledInstance(label.getWidth(), label.getHeight(), java.awt.Image.SCALE_SMOOTH)));                
             } catch (IOException ex) {
                 Logger.getLogger(ProfileSetPostDependency.class.getName()).log(Level.SEVERE, null, ex);
             }           

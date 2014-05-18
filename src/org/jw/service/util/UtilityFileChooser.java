@@ -9,6 +9,7 @@ package org.jw.service.util;
 import java.awt.Window;
 import java.io.File;
 import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileFilter;
 
 /**
  *
@@ -28,12 +29,16 @@ public class UtilityFileChooser {
         this.fc = new JFileChooser();
     }
     
-    public void showOpenDialog(){
-        fc.showOpenDialog(parent);        
+    public int showOpenDialog(){
+        return fc.showOpenDialog(parent);        
     }
     
     public File getSelectedFile(){
         return fc.getSelectedFile();
+    }
+    
+    public void setFileFilter(FileFilter filter){
+        fc.setFileFilter(filter);
     }
     
 }
