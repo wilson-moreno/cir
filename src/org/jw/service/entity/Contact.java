@@ -10,6 +10,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -68,7 +69,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Contact.findByFoundBy", query = "SELECT c FROM Contact c WHERE c.foundBy = :foundBy"),
     @NamedQuery(name = "Contact.findByCreatedDatetime", query = "SELECT c FROM Contact c WHERE c.createdDatetime = :createdDatetime"),
     @NamedQuery(name = "Contact.findByUpdatedDatetime", query = "SELECT c FROM Contact c WHERE c.updatedDatetime = :updatedDatetime")})
-public class Contact implements Serializable, ObservableEntity, SilentSetter, TreeNodeEntity {
+public class Contact implements Serializable, ObservableEntity, SilentSetter, Comparable<Contact> {
     @Lob
     @Column(name = "PROFILE_PICTURE")
     private byte[] profilePicture;
@@ -176,7 +177,7 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Tr
         this.houseNumber = "";
         this.lastName = "";
         this.locationMapId = null;
-        this.maritalStatus = "";
+        this.maritalStatus = null;
         this.mobileNumber = "";
         this.mothersName = "";
         this.nationality = "";
@@ -189,7 +190,7 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Tr
         this.religion = "";
         this.saveState = "";
         this.serviceGroupId = null;
-        this.sex = "";
+        this.sex = null;
         this.skypeAccount = "";
         this.statusId = null;
         this.street = "";
@@ -279,7 +280,7 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Tr
      */
     public void setLastName(String lastName) {
         java.lang.String oldLastName = this.lastName;
-        this.lastName = lastName;
+        this.lastName = lastName.trim();
         propertyChangeSupport.firePropertyChange(PROP_LASTNAME, oldLastName, lastName);
     }
 
@@ -287,7 +288,7 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Tr
      * @return the firstName
      */
     public String getFirstName() {
-        return firstName;
+        return firstName.trim();
     }
 
     /**
@@ -295,7 +296,7 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Tr
      */
     public void setFirstName(String firstName) {
         java.lang.String oldFirstName = this.firstName;
-        this.firstName = firstName;
+        this.firstName = firstName.trim();
         propertyChangeSupport.firePropertyChange(PROP_FIRSTNAME, oldFirstName, firstName);
     }
 
@@ -303,7 +304,7 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Tr
      * @return the nickName
      */
     public String getNickName() {
-        return nickName;
+        return nickName.trim();
     }
 
     /**
@@ -311,7 +312,7 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Tr
      */
     public void setNickName(String nickName) {
         java.lang.String oldNickName = this.nickName;
-        this.nickName = nickName;
+        this.nickName = nickName.trim();
         propertyChangeSupport.firePropertyChange(PROP_NICKNAME, oldNickName, nickName);
     }
 
@@ -807,7 +808,19 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Tr
 
     @Override
     public String toString() {
-        return "org.jw.service.entity.Contact[ id=" + id + " ]";
+        //return "org.jw.service.entity.Contact[ id=" + id + " ]";
+        String stringName;
+                
+        if(firstName.equals("") && !lastName.equals(""))
+            stringName = getLastName();
+        else if(lastName.equals("") && !firstName.equals(""))
+            stringName = ", " + this.getFirstName();
+        else if(!firstName.equals("") && !lastName.equals(""))
+            stringName = this.getLastName() + ", " + this.getFirstName();
+        else
+            stringName = this.getRecordNumber();
+            
+        return stringName;
     }
 
     /**
@@ -885,18 +898,18 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Tr
     }
 
     @Override
-    public String getDisplayString() {
-        String result = this.getRecordNumber();
+    public int compareTo(Contact t) {
+        String firstName1 = this.firstName == null ? "":this.firstName;
+        String lastName1 = this.lastName == null ? "":this.lastName;
+        String firstName2 = t.getFirstName() == null ? "":t.getFirstName();
+        String lastName2 = t.getLastName() == null ? "":t.getLastName();
         
-        String lastNameDisplay = this.getLastName() == null ? "":this.getLastName();
-        String firstNameDisplay = this.getFirstName() == null ? "":this.getFirstName();
-        
-        if(!"".equals(lastNameDisplay) || !"".equals(firstNameDisplay)){
-            result = lastNameDisplay + ", " + firstNameDisplay;
-        }
-        
-        return result;
+        int lastCompare = lastName1.compareTo(lastName2);
+        return (lastCompare != 0 ? lastCompare : firstName1.compareTo(firstName2));
     }
+    
+
+    
     
 }
 

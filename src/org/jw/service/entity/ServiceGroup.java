@@ -47,7 +47,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ServiceGroup.findByNextNumber", query = "SELECT s FROM ServiceGroup s WHERE s.nextNumber = :nextNumber"),
     @NamedQuery(name = "ServiceGroup.findByCreatedDatetime", query = "SELECT s FROM ServiceGroup s WHERE s.createdDatetime = :createdDatetime"),
     @NamedQuery(name = "ServiceGroup.findByUpdatedDatetime", query = "SELECT s FROM ServiceGroup s WHERE s.updatedDatetime = :updatedDatetime")})
-public class ServiceGroup implements Serializable, ObservableEntity, SilentSetter {
+public class ServiceGroup implements Serializable, ObservableEntity, SilentSetter, Comparable<ServiceGroup> {
     private static final long serialVersionUID = 1L;
     public static final String PROP_SAVESTATE = "saveState";
     @Id
@@ -351,7 +351,7 @@ public class ServiceGroup implements Serializable, ObservableEntity, SilentSette
     @Override
     public String toString() {
         //return "org.jw.service.entity.ServiceGroup[ id=" + id + " ]";
-        return this.name;
+        return this.name.trim();
     }
     
     
@@ -407,4 +407,9 @@ public class ServiceGroup implements Serializable, ObservableEntity, SilentSette
         nextNumber += 1;        
         return prefixString + nextNumberInteger.toString().trim();        
     }    
+
+    @Override
+    public int compareTo(ServiceGroup t) {
+        return this.toString().compareTo(t.toString());
+    }
 }

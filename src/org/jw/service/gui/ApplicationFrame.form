@@ -69,6 +69,9 @@
     <Property name="title" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
       <ResourceString bundle="org/jw/service/gui/resources/properties/dialog_titles.properties" key="main.frame.title" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
     </Property>
+    <Property name="iconImages" type="java.util.List" editor="org.netbeans.modules.form.ComponentChooserEditor">
+      <ComponentRef name="null"/>
+    </Property>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="menuBar" type="java.lang.String" value="menuBar"/>
@@ -95,8 +98,8 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="treeScrollPane" pref="155" max="32767" attributes="0"/>
-                  <Component id="treeViewComboBox" max="32767" attributes="0"/>
+                  <Component id="treeScrollPane" max="32767" attributes="0"/>
+                  <Component id="treeViewComboBox" pref="202" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
@@ -254,7 +257,7 @@
                     <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
                   </Subbinding>
                   <Subbinding sourcePath="${recordNumber}">
-                    <BindingParameter name="NAME" value="Record #"/>
+                    <BindingParameter name="NAME" value="Record Number"/>
                     <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
                     <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
                   </Subbinding>
@@ -268,11 +271,6 @@
                     <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
                     <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
                   </Subbinding>
-                  <Subbinding sourcePath="${nickName}">
-                    <BindingParameter name="NAME" value="Nick Name"/>
-                    <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
-                    <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
-                  </Subbinding>
                   <Subbinding sourcePath="${birthdate}">
                     <BindingParameter name="NAME" value="Birthdate"/>
                     <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.util.Date.class"/>
@@ -282,6 +280,10 @@
                     <BindingParameter name="NAME" value="Sex"/>
                     <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
                     <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
+                  </Subbinding>
+                  <Subbinding sourcePath="${maritalStatus}">
+                    <BindingParameter name="NAME" value="Marital Status"/>
+                    <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
                   </Subbinding>
                   <Subbinding sourcePath="${statusId}">
                     <BindingParameter name="NAME" value="Status"/>
@@ -414,7 +416,7 @@
                               <Group type="102" attributes="0">
                                   <Component id="nickNameLabel" linkSize="1" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" max="-2" attributes="0"/>
-                                  <Component id="nickNameTextField" pref="125" max="32767" attributes="0"/>
+                                  <Component id="nickNameTextField" pref="101" max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" attributes="0">
                                   <Component id="sexLabel" linkSize="1" min="-2" max="-2" attributes="0"/>
@@ -456,7 +458,7 @@
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="statusComboBox" pref="140" max="32767" attributes="0"/>
+                                      <Component id="statusComboBox" pref="117" max="32767" attributes="0"/>
                                       <Component id="nationalityTextField" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
@@ -775,7 +777,7 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="houseNumberLabel" linkSize="3" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="houseNumberTextField" pref="483" max="32767" attributes="0"/>
+                                  <Component id="houseNumberTextField" pref="436" max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -1000,7 +1002,7 @@
                                       </Group>
                                       <Group type="102" attributes="0">
                                           <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
-                                          <Component id="workTextField" min="-2" pref="220" max="-2" attributes="0"/>
+                                          <Component id="workTextField" min="-2" pref="197" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
@@ -1009,7 +1011,7 @@
                                       <Group type="102" alignment="0" attributes="0">
                                           <Component id="fatherLabel" linkSize="5" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="fatherTextField" pref="220" max="32767" attributes="0"/>
+                                          <Component id="fatherTextField" pref="197" max="32767" attributes="0"/>
                                       </Group>
                                       <Group type="102" alignment="0" attributes="0">
                                           <Component id="motherLabel" linkSize="5" min="-2" max="-2" attributes="0"/>
@@ -1022,7 +1024,7 @@
                                       <Group type="102" alignment="0" attributes="0">
                                           <Component id="religionLabel" linkSize="6" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="foundByTextField" pref="235" max="32767" attributes="0"/>
+                                          <Component id="foundByTextField" pref="211" max="32767" attributes="0"/>
                                       </Group>
                                       <Group type="102" alignment="0" attributes="0">
                                           <Group type="103" groupAlignment="0" attributes="0">
@@ -1265,7 +1267,7 @@
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="1" attributes="0">
-                                      <Component id="mobileNumberTextField" pref="483" max="32767" attributes="0"/>
+                                      <Component id="mobileNumberTextField" pref="436" max="32767" attributes="0"/>
                                       <Component id="phoneNumberTextField" max="32767" attributes="0"/>
                                       <Component id="emailAddressTextField" max="32767" attributes="0"/>
                                   </Group>
@@ -1446,7 +1448,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="mapsToolBar" min="-2" pref="100" max="-2" attributes="0"/>
-                          <EmptySpace pref="471" max="32767" attributes="0"/>
+                          <EmptySpace pref="424" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>

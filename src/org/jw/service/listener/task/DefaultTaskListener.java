@@ -46,5 +46,4 @@ public class DefaultTaskListener extends AbstractTaskListener{
         this.setMessage(doneMessage);
         if(indeterminate)this.setProgressBarIndeterminate(false);
     }
-    
 }

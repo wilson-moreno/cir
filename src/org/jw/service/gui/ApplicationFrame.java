@@ -27,8 +27,9 @@ import org.jw.service.entity.ServiceGroup;
 import org.jw.service.file.filter.FileFilterImage;
 import org.jw.service.gui.component.DefaultCrudPanel;
 import org.jw.service.listener.combobox.DefaultComboBoxModelListListener;
-import org.jw.service.listener.list.DefaultTreeObservableListListener;
+import org.jw.service.listener.task.DefaultTaskListener;
 import org.jw.service.util.UtilityProperties;
+import org.jw.service.util.UtilityTree;
 
 /**
  *
@@ -152,6 +153,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/jw/service/gui/resources/properties/dialog_titles"); // NOI18N
         setTitle(bundle.getString("main.frame.title")); // NOI18N
+        setIconImages(null);
 
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("root");
         contactTree.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
@@ -169,7 +171,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         columnBinding.setColumnClass(String.class);
         columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${recordNumber}"));
-        columnBinding.setColumnName("Record #");
+        columnBinding.setColumnName("Record Number");
         columnBinding.setColumnClass(String.class);
         columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${lastName}"));
@@ -180,10 +182,6 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         columnBinding.setColumnName("First Name");
         columnBinding.setColumnClass(String.class);
         columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${nickName}"));
-        columnBinding.setColumnName("Nick Name");
-        columnBinding.setColumnClass(String.class);
-        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${birthdate}"));
         columnBinding.setColumnName("Birthdate");
         columnBinding.setColumnClass(java.util.Date.class);
@@ -192,6 +190,9 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         columnBinding.setColumnName("Sex");
         columnBinding.setColumnClass(String.class);
         columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${maritalStatus}"));
+        columnBinding.setColumnName("Marital Status");
+        columnBinding.setColumnClass(String.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${statusId}"));
         columnBinding.setColumnName("Status");
         columnBinding.setColumnClass(org.jw.service.entity.ContactStatus.class);
@@ -356,7 +357,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
                     .addGroup(personalPanelLayout.createSequentialGroup()
                         .addComponent(nickNameLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(nickNameTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE))
+                        .addComponent(nickNameTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE))
                     .addGroup(personalPanelLayout.createSequentialGroup()
                         .addComponent(sexLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -389,7 +390,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
                             .addComponent(statusLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(personalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(statusComboBox, 0, 140, Short.MAX_VALUE)
+                            .addComponent(statusComboBox, 0, 117, Short.MAX_VALUE)
                             .addComponent(nationalityTextField))))
                 .addContainerGap())
         );
@@ -520,7 +521,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
                     .addGroup(addressPanelLayout.createSequentialGroup()
                         .addComponent(houseNumberLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(houseNumberTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 483, Short.MAX_VALUE))
+                        .addComponent(houseNumberTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 436, Short.MAX_VALUE))
                     .addGroup(addressPanelLayout.createSequentialGroup()
                         .addGroup(addressPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(barangayLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -669,13 +670,13 @@ public final class ApplicationFrame extends javax.swing.JFrame {
                                 .addComponent(familyTextField))
                             .addGroup(backgroundPanelLayout.createSequentialGroup()
                                 .addGap(4, 4, 4)
-                                .addComponent(workTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(workTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(backgroundPanelLayout.createSequentialGroup()
                         .addGroup(backgroundPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(backgroundPanelLayout.createSequentialGroup()
                                 .addComponent(fatherLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(fatherTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE))
+                                .addComponent(fatherTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE))
                             .addGroup(backgroundPanelLayout.createSequentialGroup()
                                 .addComponent(motherLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -685,7 +686,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
                             .addGroup(backgroundPanelLayout.createSequentialGroup()
                                 .addComponent(religionLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(foundByTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE))
+                                .addComponent(foundByTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE))
                             .addGroup(backgroundPanelLayout.createSequentialGroup()
                                 .addGroup(backgroundPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(guardianLabel)
@@ -805,7 +806,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
                             .addComponent(emailAddressLabel))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(communicationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(mobileNumberTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 483, Short.MAX_VALUE)
+                            .addComponent(mobileNumberTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 436, Short.MAX_VALUE)
                             .addComponent(phoneNumberTextField)
                             .addComponent(emailAddressTextField)))
                     .addGroup(communicationPanelLayout.createSequentialGroup()
@@ -891,7 +892,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
             .addGroup(mapsPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(mapsToolBar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(471, Short.MAX_VALUE))
+                .addContainerGap(424, Short.MAX_VALUE))
         );
         mapsPanelLayout.setVerticalGroup(
             mapsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -960,8 +961,8 @@ public final class ApplicationFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(treeScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
-                    .addComponent(treeViewComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(treeScrollPane)
+                    .addComponent(treeViewComboBox, 0, 202, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(contactsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1015,14 +1016,14 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         openReportTemplatesAction = new DefaultOpenAction(this.reportTemplatesMenuItem,this,appsReportDialog, null);        
         openReportPrintAction = new DefaultOpenAction(this.mainCommandPanel.getPrintCommand(),this,reportPrintDialog, null);        
         openTerritoryAction = new DefaultOpenAction(this.territoryMenuItem, this, territoryDialog, null);
-        fcOpenAction = new DefaultFileChooserOpenAction(this.setProfilePictureCommand, this, FileFilterImage.create(), null);
-        treeObservableListListener = new DefaultTreeObservableListListener(contactTree);        
+        fcOpenAction = new DefaultFileChooserOpenAction(this.setProfilePictureCommand, this, FileFilterImage.create(), null);        
+        treeConstructListener = taskMonitorPanel.createDefaultTaskListener(taskMessageProperties.getProperty("tree.construct.start.message"),taskMessageProperties.getProperty("tree.construct.done.message"));
+        utilTree = UtilityTree.create(contactTree, serviceGroupDAO.readAll(), treeConstructListener);        
         buildCrudTask();
     }
     
     private void buildCrudTask(){                
-        contactObservableList = (ObservableList) contactList;
-        contactObservableList.addObservableListListener(this.treeObservableListListener);
+        contactObservableList = (ObservableList) contactList;        
         contactList.addAll(contactDAO.readAll());
         DefaultTaskBuilder<ContactStatus> taskBuilder = new DefaultTaskBuilder<>();
         taskBuilder.setEntityName("contact");
@@ -1161,8 +1162,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     UtilityProperties maritalStatusProperties = UtilityProperties.create(UtilityProperties.MARITAL_STATUS_PROPERTIES);
     UtilityProperties sexProperties = UtilityProperties.create(UtilityProperties.SEX_PROPERTIES);
     DefaultComboBoxModelListListener<ServiceGroup> sgListListener;
-    DefaultComboBoxModelListListener<ContactStatus> statusListListener;
-    DefaultTreeObservableListListener treeObservableListListener;
+    DefaultComboBoxModelListListener<ContactStatus> statusListListener;    
     ServiceGroupDialog serviceGroupDialog;
     ContactStatusDialog contactStatusDialog;
     LocationMapDialog locationMapDialog;
@@ -1185,7 +1185,8 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     
     // Create, Read, Update & Delete Task Components;
     DefaultCrudPanel surrogateCrudPanel;
-    UtilityProperties taskMessageProperties = UtilityProperties.create(UtilityProperties.TASK_MESSAGE_PROPERTIES);        
+    UtilityProperties taskMessageProperties = UtilityProperties.create(UtilityProperties.TASK_MESSAGE_PROPERTIES);            
+    UtilityTree utilTree;
     DefaultCloseAction<Contact> closeAction;
     DefaultNewAction<Contact> newAction;
     DefaultDeleteAction<Contact> deleteAction;
@@ -1193,4 +1194,5 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     DefaultSaveAction<Contact> saveAction;         
     DefaultFileChooserOpenAction fcOpenAction;
     ObservableList contactObservableList;
+    DefaultTaskListener treeConstructListener;
 }
