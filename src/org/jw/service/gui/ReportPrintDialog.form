@@ -14,7 +14,9 @@
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="2"/>
-    <Property name="title" type="java.lang.String" value="Print Report"/>
+    <Property name="title" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+      <ResourceString bundle="org/jw/service/gui/resources/properties/dialog_titles.properties" key="report.print.dialog.title" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+    </Property>
     <Property name="resizable" type="boolean" value="false"/>
   </Properties>
   <SyntheticProperties>
@@ -156,8 +158,8 @@
                     </Column>
                     <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
                       <Title/>
-                      <Editor editor="org.netbeans.modules.form.ComponentChooserEditor">
-                        <ComponentRef name="null"/>
+                      <Editor editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                        <Connection code="org.jw.service.table.cell.editor.DefaultDataTypeCellEditor.create(printParametersList)" type="code"/>
                       </Editor>
                       <Renderer/>
                     </Column>

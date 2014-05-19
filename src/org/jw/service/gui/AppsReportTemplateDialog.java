@@ -143,7 +143,7 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
         reportScrollPane = new javax.swing.JScrollPane();
         reportTable = new javax.swing.JTable();
         reportTabbedPane = new javax.swing.JTabbedPane();
-        reportPanel = new javax.swing.JPanel();
+        reportTab = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
         codeLabel = new javax.swing.JLabel();
         nameLabel = new javax.swing.JLabel();
@@ -160,7 +160,11 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
         visibleCheckBox = new javax.swing.JCheckBox();
         descriptionTextField = new javax.swing.JTextField();
         descriptionLabel = new javax.swing.JLabel();
-        reportFilePanel = new javax.swing.JPanel();
+        reportTypeLabel = new javax.swing.JLabel();
+        reportTypeComboBox = new javax.swing.JComboBox();
+        lineLimitLabel = new javax.swing.JLabel();
+        lineLimitTextField = new javax.swing.JTextField();
+        reportFileTab = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jasperNameLabel = new javax.swing.JLabel();
         jasperCreatedLabel = new javax.swing.JLabel();
@@ -169,22 +173,29 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
         chooseFileCommand = new javax.swing.JButton();
         fileCreatedDateChooser = new com.toedter.calendar.JDateChooser();
         fileModifiedDateChooser = new com.toedter.calendar.JDateChooser();
+        parametersTab = new javax.swing.JPanel();
         parametersPanel = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        sequenceLabel = new javax.swing.JLabel();
+        paramNameLabel = new javax.swing.JLabel();
+        defaultValueLabel = new javax.swing.JLabel();
         sequenceTextField = new javax.swing.JTextField();
         paramNameTextField = new javax.swing.JTextField();
-        paramLabelTextField = new javax.swing.JTextField();
-        jLabel8 = new javax.swing.JLabel();
-        paramControlComboBox = new javax.swing.JComboBox();
-        jScrollPane3 = new javax.swing.JScrollPane();
+        datalTypeLabel = new javax.swing.JLabel();
+        paramDataTypeComboBox = new javax.swing.JComboBox();
+        parameterScrollPane = new javax.swing.JScrollPane();
         parameterTable = new javax.swing.JTable();
         saveParamCommand = new javax.swing.JButton();
         refreshParamCommand = new javax.swing.JButton();
         deleteParamCommand = new javax.swing.JButton();
         newParamCommand = new javax.swing.JButton();
+        paramLabel = new javax.swing.JLabel();
+        paramLabelTextField = new javax.swing.JTextField();
+        defaultValueTextField = new javax.swing.JTextField();
+        enableParamCheckBox = new javax.swing.JCheckBox();
+        dependsOnLabel = new javax.swing.JLabel();
+        dependsOnTextField = new javax.swing.JTextField();
+        requiredCheckBox = new javax.swing.JCheckBox();
+        lovCommand = new javax.swing.JButton();
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, reportTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.fileJasper}"), byteArrayBean, org.jdesktop.beansbinding.BeanProperty.create("byteArray"), "jasperContent");
         binding.setSourceNullValue(null);
@@ -192,34 +203,53 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
         bindingGroup.addBinding(binding);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/jw/service/gui/resources/properties/apps_report_dialog"); // NOI18N
-        setTitle(bundle.getString("title")); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/jw/service/gui/resources/properties/dialog_titles"); // NOI18N
+        setTitle(bundle.getString("report.templates.dialog.title")); // NOI18N
         setResizable(false);
 
         templatesPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Templates", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
         reportTable.setAutoCreateRowSorter(true);
         reportTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        reportTable.getTableHeader().setReorderingAllowed(false);
 
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, reportList, reportTable);
-        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${code}"));
+        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${saveState}"));
+        columnBinding.setColumnName("");
+        columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${code}"));
         columnBinding.setColumnName("Code");
         columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${name}"));
         columnBinding.setColumnName("Name");
         columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${description}"));
-        columnBinding.setColumnName("Description");
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${title}"));
+        columnBinding.setColumnName("Title");
         columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${reportDate}"));
-        columnBinding.setColumnName("Report Date");
-        columnBinding.setColumnClass(java.util.Date.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${reportType}"));
+        columnBinding.setColumnName("Type");
+        columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${enable}"));
         columnBinding.setColumnName("Enable");
         columnBinding.setColumnClass(Boolean.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${visible}"));
+        columnBinding.setColumnName("Visible");
+        columnBinding.setColumnClass(Boolean.class);
+        columnBinding.setEditable(false);
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
         reportScrollPane.setViewportView(reportTable);
+        if (reportTable.getColumnModel().getColumnCount() > 0) {
+            reportTable.getColumnModel().getColumn(0).setResizable(false);
+            reportTable.getColumnModel().getColumn(0).setPreferredWidth(10);
+            reportTable.getColumnModel().getColumn(0).setCellRenderer(org.jw.service.table.cell.renderer.DefaultStateCellRenderer.create());
+        }
 
         javax.swing.GroupLayout templatesPanelLayout = new javax.swing.GroupLayout(templatesPanel);
         templatesPanel.setLayout(templatesPanelLayout);
@@ -301,6 +331,22 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
 
         descriptionLabel.setText("Description:");
 
+        reportTypeLabel.setText("Type:");
+
+        reportTypeComboBox.setModel(new javax.swing.DefaultComboBoxModel(this.reportTypesProperties.getValues().toArray()));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, reportTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.reportType}"), reportTypeComboBox, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
+
+        lineLimitLabel.setText("Line Limit:");
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, reportTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.lineLimit}"), lineLimitTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("null");
+        binding.setSourceUnreadableValue("null");
+        bindingGroup.addBinding(binding);
+
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
@@ -313,35 +359,47 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1))
                     .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel7Layout.createSequentialGroup()
-                                .addComponent(codeLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(codeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(reportDateLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(reportDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel7Layout.createSequentialGroup()
-                                .addComponent(nameLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(nameTextField)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(visibleCheckBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(enableCheckBox, javax.swing.GroupLayout.DEFAULT_SIZE, 68, Short.MAX_VALUE)))
-                    .addGroup(jPanel7Layout.createSequentialGroup()
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(titleLabel)
                             .addComponent(descriptionLabel))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(descriptionTextField)
-                            .addComponent(titleTextField))))
+                            .addComponent(titleTextField)))
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel7Layout.createSequentialGroup()
+                                .addComponent(nameLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(nameTextField))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel7Layout.createSequentialGroup()
+                                .addComponent(codeLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(codeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel7Layout.createSequentialGroup()
+                                .addComponent(reportTypeLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(reportTypeComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lineLimitLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel7Layout.createSequentialGroup()
+                                .addComponent(reportDateLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(reportDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(enableCheckBox)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(visibleCheckBox, javax.swing.GroupLayout.DEFAULT_SIZE, 63, Short.MAX_VALUE)
+                            .addComponent(lineLimitTextField))))
                 .addContainerGap())
         );
 
         jPanel7Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {codeLabel, descriptionLabel, nameLabel, queryLabel, titleLabel});
+
+        jPanel7Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {reportDateLabel, reportTypeLabel});
 
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -354,12 +412,17 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
                             .addComponent(codeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(reportDateLabel))
                         .addComponent(reportDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(enableCheckBox))
+                    .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(enableCheckBox)
+                        .addComponent(visibleCheckBox)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(nameLabel)
                     .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(visibleCheckBox))
+                    .addComponent(reportTypeLabel)
+                    .addComponent(reportTypeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lineLimitLabel)
+                    .addComponent(lineLimitTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(titleLabel)
@@ -376,24 +439,24 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
                         .addGap(0, 68, Short.MAX_VALUE))))
         );
 
-        javax.swing.GroupLayout reportPanelLayout = new javax.swing.GroupLayout(reportPanel);
-        reportPanel.setLayout(reportPanelLayout);
-        reportPanelLayout.setHorizontalGroup(
-            reportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(reportPanelLayout.createSequentialGroup()
+        javax.swing.GroupLayout reportTabLayout = new javax.swing.GroupLayout(reportTab);
+        reportTab.setLayout(reportTabLayout);
+        reportTabLayout.setHorizontalGroup(
+            reportTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(reportTabLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        reportPanelLayout.setVerticalGroup(
-            reportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(reportPanelLayout.createSequentialGroup()
+        reportTabLayout.setVerticalGroup(
+            reportTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(reportTabLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        reportTabbedPane.addTab("Report", reportPanel);
+        reportTabbedPane.addTab("Report", reportTab);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Jasper Report", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
@@ -415,11 +478,15 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
         fileCreatedDateChooser.setEnabled(false);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, reportTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.fileCreatedDatetime}"), fileCreatedDateChooser, org.jdesktop.beansbinding.BeanProperty.create("date"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
         bindingGroup.addBinding(binding);
 
         fileModifiedDateChooser.setEnabled(false);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, reportTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.fileModifiedDatetime}"), fileModifiedDateChooser, org.jdesktop.beansbinding.BeanProperty.create("date"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
         bindingGroup.addBinding(binding);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -467,32 +534,32 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
                 .addContainerGap(111, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout reportFilePanelLayout = new javax.swing.GroupLayout(reportFilePanel);
-        reportFilePanel.setLayout(reportFilePanelLayout);
-        reportFilePanelLayout.setHorizontalGroup(
-            reportFilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(reportFilePanelLayout.createSequentialGroup()
+        javax.swing.GroupLayout reportFileTabLayout = new javax.swing.GroupLayout(reportFileTab);
+        reportFileTab.setLayout(reportFileTabLayout);
+        reportFileTabLayout.setHorizontalGroup(
+            reportFileTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(reportFileTabLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        reportFilePanelLayout.setVerticalGroup(
-            reportFilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(reportFilePanelLayout.createSequentialGroup()
+        reportFileTabLayout.setVerticalGroup(
+            reportFileTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(reportFileTabLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        reportTabbedPane.addTab("Jasper File", reportFilePanel);
+        reportTabbedPane.addTab("Jasper File", reportFileTab);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Parameters", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        parametersPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Parameters", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
-        jLabel5.setText("Sequence:");
+        sequenceLabel.setText("Sequence:");
 
-        jLabel6.setText("Name:");
+        paramNameLabel.setText("Name:");
 
-        jLabel7.setText("Label:");
+        defaultValueLabel.setText("Default Value:");
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, parameterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.sequence}"), sequenceTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
@@ -500,14 +567,13 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, parameterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.name}"), paramNameTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, parameterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.label}"), paramLabelTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
+        datalTypeLabel.setText("Datal Type:");
 
-        jLabel8.setText("Control Type:");
+        paramDataTypeComboBox.setModel(new javax.swing.DefaultComboBoxModel(this.dataTypesProperties.getValues().toArray()));
 
-        paramControlComboBox.setModel(new javax.swing.DefaultComboBoxModel(this.controlTypesProperties.getValues().toArray()));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, parameterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.controlType}"), paramControlComboBox, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, parameterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.dataType}"), paramDataTypeComboBox, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
         bindingGroup.addBinding(binding);
 
         parameterTable.setAutoCreateRowSorter(true);
@@ -523,17 +589,29 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
         columnBinding.setColumnName("Name");
         columnBinding.setColumnClass(String.class);
         columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${controlType}"));
-        columnBinding.setColumnName("Control Type");
-        columnBinding.setColumnClass(String.class);
-        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${label}"));
         columnBinding.setColumnName("Label");
         columnBinding.setColumnClass(String.class);
         columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${dataType}"));
+        columnBinding.setColumnName("Data Type");
+        columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${defaultValue}"));
+        columnBinding.setColumnName("Default");
+        columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${enable}"));
+        columnBinding.setColumnName("Enable");
+        columnBinding.setColumnClass(Boolean.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${required}"));
+        columnBinding.setColumnName("Required");
+        columnBinding.setColumnClass(Boolean.class);
+        columnBinding.setEditable(false);
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
-        jScrollPane3.setViewportView(parameterTable);
+        parameterScrollPane.setViewportView(parameterTable);
 
         saveParamCommand.setText("Save");
 
@@ -543,34 +621,41 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
 
         newParamCommand.setText("New");
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 471, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(paramNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(sequenceTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel8)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(paramLabelTextField)
-                            .addComponent(paramControlComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+        paramLabel.setText("Label:");
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, parameterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.label}"), paramLabelTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, parameterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.defaultValue}"), defaultValueTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        enableParamCheckBox.setText("Enable");
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, parameterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.enable}"), enableParamCheckBox, org.jdesktop.beansbinding.BeanProperty.create("selected"));
+        binding.setSourceNullValue(false);
+        binding.setSourceUnreadableValue(false);
+        bindingGroup.addBinding(binding);
+
+        dependsOnLabel.setText("Depends On:");
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, parameterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.dependsOn}"), dependsOnTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        requiredCheckBox.setText("Required");
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, parameterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.required}"), requiredCheckBox, org.jdesktop.beansbinding.BeanProperty.create("selected"));
+        binding.setSourceNullValue(false);
+        binding.setSourceUnreadableValue(false);
+        bindingGroup.addBinding(binding);
+
+        lovCommand.setText("LOV");
+        lovCommand.setToolTipText("List of Values");
+
+        javax.swing.GroupLayout parametersPanelLayout = new javax.swing.GroupLayout(parametersPanel);
+        parametersPanel.setLayout(parametersPanelLayout);
+        parametersPanelLayout.setHorizontalGroup(
+            parametersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, parametersPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(newParamCommand)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -580,55 +665,103 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(saveParamCommand)
                 .addGap(9, 9, 9))
+            .addGroup(parametersPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(parametersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(parameterScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 471, Short.MAX_VALUE)
+                    .addGroup(parametersPanelLayout.createSequentialGroup()
+                        .addComponent(sequenceLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(sequenceTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(datalTypeLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(paramDataTypeComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(parametersPanelLayout.createSequentialGroup()
+                        .addGroup(parametersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, parametersPanelLayout.createSequentialGroup()
+                                .addComponent(paramLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(paramLabelTextField))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, parametersPanelLayout.createSequentialGroup()
+                                .addComponent(paramNameLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(paramNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(parametersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(parametersPanelLayout.createSequentialGroup()
+                                .addComponent(defaultValueLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(defaultValueTextField)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lovCommand))
+                            .addGroup(parametersPanelLayout.createSequentialGroup()
+                                .addComponent(dependsOnLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(dependsOnTextField)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(enableParamCheckBox)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(requiredCheckBox)))))
+                .addContainerGap())
         );
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel5, jLabel6});
+        parametersPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {paramLabel, paramNameLabel, sequenceLabel});
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel7, jLabel8});
+        parametersPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {datalTypeLabel, defaultValueLabel, dependsOnLabel});
 
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        parametersPanelLayout.setVerticalGroup(
+            parametersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(parametersPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
+                .addGroup(parametersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(sequenceLabel)
                     .addComponent(sequenceTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8)
-                    .addComponent(paramControlComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(datalTypeLabel)
+                    .addComponent(paramDataTypeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
+                .addGroup(parametersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(paramNameLabel)
                     .addComponent(paramNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7)
-                    .addComponent(paramLabelTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(defaultValueLabel)
+                    .addComponent(defaultValueTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lovCommand))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
+                .addGroup(parametersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(paramLabel)
+                    .addComponent(paramLabelTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(enableParamCheckBox)
+                    .addComponent(dependsOnLabel)
+                    .addComponent(dependsOnTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(requiredCheckBox))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(parameterScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(parametersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(deleteParamCommand)
                     .addComponent(refreshParamCommand)
                     .addComponent(saveParamCommand)
                     .addComponent(newParamCommand)))
         );
 
-        javax.swing.GroupLayout parametersPanelLayout = new javax.swing.GroupLayout(parametersPanel);
-        parametersPanel.setLayout(parametersPanelLayout);
-        parametersPanelLayout.setHorizontalGroup(
-            parametersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(parametersPanelLayout.createSequentialGroup()
+        javax.swing.GroupLayout parametersTabLayout = new javax.swing.GroupLayout(parametersTab);
+        parametersTab.setLayout(parametersTabLayout);
+        parametersTabLayout.setHorizontalGroup(
+            parametersTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(parametersTabLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(parametersPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        parametersPanelLayout.setVerticalGroup(
-            parametersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(parametersPanelLayout.createSequentialGroup()
+        parametersTabLayout.setVerticalGroup(
+            parametersTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(parametersTabLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(parametersPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        reportTabbedPane.addTab("Parameters", parametersPanel);
+        reportTabbedPane.addTab("Parameters", parametersTab);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -675,46 +808,57 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
     private javax.swing.JLabel codeLabel;
     private javax.swing.JTextField codeTextField;
     private org.jw.service.gui.component.DefaultCrudPanel crudPanel;
+    private javax.swing.JLabel datalTypeLabel;
+    private javax.swing.JLabel defaultValueLabel;
+    private javax.swing.JTextField defaultValueTextField;
     private javax.swing.JButton deleteParamCommand;
+    private javax.swing.JLabel dependsOnLabel;
+    private javax.swing.JTextField dependsOnTextField;
     private javax.swing.JLabel descriptionLabel;
     private javax.swing.JTextField descriptionTextField;
     private javax.swing.JCheckBox enableCheckBox;
+    private javax.swing.JCheckBox enableParamCheckBox;
     private com.toedter.calendar.JDateChooser fileCreatedDateChooser;
     private com.toedter.calendar.JDateChooser fileModifiedDateChooser;
     private javax.swing.JTextField fileNameTextField;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel jasperCreatedLabel;
     private javax.swing.JLabel jasperModifiedLabel;
     private javax.swing.JLabel jasperNameLabel;
+    private javax.swing.JLabel lineLimitLabel;
+    private javax.swing.JTextField lineLimitTextField;
+    private javax.swing.JButton lovCommand;
     private javax.swing.JLabel nameLabel;
     private javax.swing.JTextField nameTextField;
     private javax.swing.JButton newParamCommand;
-    private javax.swing.JComboBox paramControlComboBox;
+    private javax.swing.JComboBox paramDataTypeComboBox;
+    private javax.swing.JLabel paramLabel;
     private javax.swing.JTextField paramLabelTextField;
+    private javax.swing.JLabel paramNameLabel;
     private javax.swing.JTextField paramNameTextField;
     private java.util.List<org.jw.service.entity.AppsReportParameter> parameterList;
+    private javax.swing.JScrollPane parameterScrollPane;
     private javax.swing.JTable parameterTable;
     private javax.swing.JPanel parametersPanel;
+    private javax.swing.JPanel parametersTab;
     private javax.swing.JLabel queryLabel;
     private javax.swing.JTextArea queryTextArea;
     private javax.swing.JButton refreshParamCommand;
     private com.toedter.calendar.JDateChooser reportDateChooser;
     private javax.swing.JLabel reportDateLabel;
-    private javax.swing.JPanel reportFilePanel;
+    private javax.swing.JPanel reportFileTab;
     private java.util.List<org.jw.service.entity.AppsReport> reportList;
-    private javax.swing.JPanel reportPanel;
     private javax.swing.JScrollPane reportScrollPane;
+    private javax.swing.JPanel reportTab;
     private javax.swing.JTabbedPane reportTabbedPane;
     private javax.swing.JTable reportTable;
+    private javax.swing.JComboBox reportTypeComboBox;
+    private javax.swing.JLabel reportTypeLabel;
+    private javax.swing.JCheckBox requiredCheckBox;
     private javax.swing.JButton saveParamCommand;
+    private javax.swing.JLabel sequenceLabel;
     private javax.swing.JTextField sequenceTextField;
     private org.jw.service.gui.component.TaskMonitorPanel taskMonitorPanel;
     private javax.swing.JPanel templatesPanel;
@@ -726,4 +870,6 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
 
     UtilityProperties taskMessageProperties = UtilityProperties.create(UtilityProperties.TASK_MESSAGE_PROPERTIES);        
     UtilityProperties controlTypesProperties = UtilityProperties.create(UtilityProperties.CONTROL_TYPES_PROPERTIES);
+    UtilityProperties dataTypesProperties = UtilityProperties.create(UtilityProperties.DATA_TYPE_PROPERTIES);        
+    UtilityProperties reportTypesProperties = UtilityProperties.create(UtilityProperties.REPORT_TYPE_PROPERTIES);        
 }

@@ -24,6 +24,8 @@ public class UtilityProperties extends UtilityDefault{
     public static final String SEX_PROPERTIES = "sex.properties";
     public static final String CONTROL_TYPES_PROPERTIES = "control_types.properties";
     public static final String TASK_MESSAGE_PROPERTIES = "task_message.properties";
+    public static final String DATA_TYPE_PROPERTIES = "data_type.properties";
+    public static final String REPORT_TYPE_PROPERTIES = "report_type.properties";
     private final Properties property;
     private final String propertyFile;
     

@@ -32,11 +32,27 @@ public class DefaultParameterListFactory {
         
         for(AppsReportParameter parameter : list){
             PrintParameter param = new PrintParameter();
+            param.setName(parameter.getName());
             param.setLabel(parameter.getLabel());
+            param.setDataType(parameter.getDataType());
+            if(parameter.getDefaultValue() != null)param.setValue(convert(parameter.getDefaultValue(), parameter.getDataType()));
             parameterList.add(param);
         }
         
         return parameterList;
+    }
+    
+    private Object convert(String value, String dataType){
+        Object newValue;
+        
+        switch(dataType){
+            case "String" : newValue = value;
+            case "Integer" : newValue = Integer.parseInt(value);
+            case "Doulbe" : newValue = Double.parseDouble(value);
+            default : newValue = value;
+        }
+        
+        return newValue;
     }
     
     public List<PrintParameter> getParameterList(){

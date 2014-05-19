@@ -46,6 +46,20 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "AppsReportParameter.findByCreatedDatetime", query = "SELECT a FROM AppsReportParameter a WHERE a.createdDatetime = :createdDatetime"),
     @NamedQuery(name = "AppsReportParameter.findByUpdatedDatetime", query = "SELECT a FROM AppsReportParameter a WHERE a.updatedDatetime = :updatedDatetime")})
 public class AppsReportParameter implements Serializable, ObservableEntity, SilentSetter {
+    public static final String PROP_DEFAULTVALUE = "PROP_DEFAULTVALUE";
+    @Column(name = "DEFAULT_VALUE")
+    private String defaultValue;
+    public static final String PROP_DATATYPE = "dataType";
+    public static final String PROP_ENABLE = "enable";
+    public static final String PROP_DEPENDSON = "dependsOn";
+    @Column(name = "DATA_TYPE")
+    private String dataType;
+    @Column(name = "ENABLE")
+    private Boolean enable;
+    @Column(name = "REQUIRED")
+    private Boolean required;
+    @Column(name = "DEPENDS_ON")
+    private Integer dependsOn;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -84,6 +98,9 @@ public class AppsReportParameter implements Serializable, ObservableEntity, Sile
         this.saveState = "";
         this.sequence = 0;
         this.updatedDatetime = new Date();
+        this.defaultValue = "";
+        this.dataType = "String";
+        this.enable = Boolean.TRUE;
     }
 
     public AppsReportParameter(Integer id) {
@@ -319,6 +336,62 @@ public class AppsReportParameter implements Serializable, ObservableEntity, Sile
             case "reportId" : this.reportId = (AppsReport) value; break;                 
             default : throw new UnsupportedOperationException("Property not Supported: " + name);
         }
+    }
+
+    public String getDataType() {
+        return dataType;
+    }
+
+    public void setDataType(String dataType) {
+        String oldDataType = this.dataType;
+        this.dataType = dataType;
+        propertyChangeSupport.firePropertyChange("dataType", oldDataType, dataType);
+    }
+
+    public Boolean getEnable() {
+        return enable;
+    }
+
+    public void setEnable(Boolean enable) {
+        Boolean oldEnable = this.enable;
+        this.enable = enable;
+        propertyChangeSupport.firePropertyChange("enable", oldEnable, enable);
+    }
+
+    public Integer getDependsOn() {
+        return dependsOn;
+    }
+
+    public void setDependsOn(Integer dependsOn) {
+        Integer oldDependsOn = this.dependsOn;
+        this.dependsOn = dependsOn;
+        propertyChangeSupport.firePropertyChange("dependsOn", oldDependsOn, dependsOn);
+    }
+
+    public String getDefaultValue() {
+        return defaultValue;
+    }
+
+    public void setDefaultValue(String defaultValue) {
+        String oldDefaultValue = this.defaultValue;
+        this.defaultValue = defaultValue;
+        propertyChangeSupport.firePropertyChange("defaultValue", oldDefaultValue, defaultValue);
+    }
+
+    /**
+     * @return the required
+     */
+    public Boolean getRequired() {
+        return required;
+    }
+
+    /**
+     * @param required the required to set
+     */
+    public void setRequired(Boolean required) {
+        Boolean oldRequired = this.required;
+        this.required = required;
+        propertyChangeSupport.firePropertyChange("required", oldRequired, required);
     }
     
 }

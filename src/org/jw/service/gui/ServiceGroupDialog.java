@@ -99,8 +99,8 @@ public class ServiceGroupDialog extends javax.swing.JDialog {
         serviceGroupsTable = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/jw/service/gui/resources/properties/gui"); // NOI18N
-        setTitle(bundle.getString("service.dialog.title")); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/jw/service/gui/resources/properties/dialog_titles"); // NOI18N
+        setTitle(bundle.getString("service.group.dialog.title")); // NOI18N
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowActivated(java.awt.event.WindowEvent evt) {
                 formWindowActivated(evt);

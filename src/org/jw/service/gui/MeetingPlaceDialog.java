@@ -48,8 +48,8 @@ public class MeetingPlaceDialog extends javax.swing.JDialog {
         jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/jw/service/gui/resources/properties/gui"); // NOI18N
-        setTitle(bundle.getString("meeting.places.dialog.title")); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/jw/service/gui/resources/properties/dialog_titles"); // NOI18N
+        setTitle(bundle.getString("meeting.place.dialog.title")); // NOI18N
 
         serviceGroupPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Service Group", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 

@@ -59,7 +59,8 @@ public class ReportPrintDialog extends javax.swing.JDialog {
         parametersTable = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Print Report");
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/jw/service/gui/resources/properties/dialog_titles"); // NOI18N
+        setTitle(bundle.getString("report.print.dialog.title")); // NOI18N
         setResizable(false);
 
         reportLabel.setText("Report:");
@@ -93,7 +94,7 @@ public class ReportPrintDialog extends javax.swing.JDialog {
         if (parametersTable.getColumnModel().getColumnCount() > 0) {
             parametersTable.getColumnModel().getColumn(0).setResizable(false);
             parametersTable.getColumnModel().getColumn(1).setResizable(false);
-            parametersTable.getColumnModel().getColumn(1).setCellEditor(null);
+            parametersTable.getColumnModel().getColumn(1).setCellEditor(org.jw.service.table.cell.editor.DefaultDataTypeCellEditor.create(printParametersList));
         }
 
         javax.swing.GroupLayout parametersPanelLayout = new javax.swing.GroupLayout(parametersPanel);

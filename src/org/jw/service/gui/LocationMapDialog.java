@@ -54,9 +54,11 @@ public class LocationMapDialog extends javax.swing.JDialog {
         mapCrudPanel1 = new org.jw.service.gui.component.MapCrudPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/jw/service/gui/resources/properties/dialog_titles"); // NOI18N
+        setTitle(bundle.getString("location.map.dialog.title")); // NOI18N
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/jw/service/gui/resources/properties/location_map_dialog"); // NOI18N
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, bundle.getString("location.map.propties.panel.title"), javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        java.util.ResourceBundle bundle1 = java.util.ResourceBundle.getBundle("org/jw/service/gui/resources/properties/location_map_dialog"); // NOI18N
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, bundle1.getString("location.map.propties.panel.title"), javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
         jLabel1.setText("Latitude:");
 
@@ -156,7 +158,7 @@ public class LocationMapDialog extends javax.swing.JDialog {
                 .addContainerGap())
         );
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, bundle.getString("location.map.image.panel"), javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, bundle1.getString("location.map.image.panel"), javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);

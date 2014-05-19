@@ -83,6 +83,10 @@ public class AppsReport implements Serializable, ObservableEntity, SilentSetter 
     private Date fileCreatedDatetime;
     @Column(name = "QUERY")
     private String query;
+    @Column(name = "REPORT_TYPE")
+    private String reportType;
+    @Column(name = "LINE_LIMIT")
+    private Integer lineLimit;
     @Column(name = "ENABLE")
     private Boolean enable;
     @Column(name = "VISIBLE")
@@ -103,9 +107,9 @@ public class AppsReport implements Serializable, ObservableEntity, SilentSetter 
         this.createdDatetime = new Date();
         this.description = "";
         this.enable = true;
-        this.fileCreatedDatetime = new Date();
+        this.fileCreatedDatetime = null;
         this.fileJasper = null;
-        this.fileModifiedDatetime = new Date();
+        this.fileModifiedDatetime = null;
         this.fileName = "";
         this.name = "";
         this.query = "";
@@ -463,6 +467,38 @@ public class AppsReport implements Serializable, ObservableEntity, SilentSetter 
         java.lang.String oldCode = this.code;
         this.code = code;
         propertyChangeSupport.firePropertyChange(PROP_CODE, oldCode, code);
+    }
+
+    /**
+     * @return the lineLimit
+     */
+    public Integer getLineLimit() {
+        return lineLimit;
+    }
+
+    /**
+     * @param lineLimit the lineLimit to set
+     */
+    public void setLineLimit(Integer lineLimit) {
+        Integer oldLineLimit = this.lineLimit;
+        this.lineLimit = lineLimit;
+        propertyChangeSupport.firePropertyChange("lineLimit", oldLineLimit, lineLimit);
+    }
+
+    /**
+     * @return the reportType
+     */
+    public String getReportType() {
+        return reportType;
+    }
+
+    /**
+     * @param reportType the reportType to set
+     */
+    public void setReportType(String reportType) {
+        String oldReportType = this.reportType;
+        this.reportType = reportType;
+        propertyChangeSupport.firePropertyChange("reportType", oldReportType, reportType);
     }
     
 }

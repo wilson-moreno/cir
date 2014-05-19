@@ -7,6 +7,7 @@
 package org.jw.service.gui;
 
 import javax.persistence.EntityManager;
+import org.jdesktop.observablecollections.ObservableList;
 import org.jw.service.action.DefaultCloseAction;
 import org.jw.service.action.DefaultDeleteAction;
 import org.jw.service.action.DefaultFileChooserOpenAction;
@@ -26,6 +27,7 @@ import org.jw.service.entity.ServiceGroup;
 import org.jw.service.file.filter.FileFilterImage;
 import org.jw.service.gui.component.DefaultCrudPanel;
 import org.jw.service.listener.combobox.DefaultComboBoxModelListListener;
+import org.jw.service.listener.list.DefaultTreeObservableListListener;
 import org.jw.service.util.UtilityProperties;
 
 /**
@@ -58,7 +60,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         taskMonitorPanel = new org.jw.service.gui.component.TaskMonitorPanel();
         mainCommandPanel = new org.jw.service.gui.component.MainCommandPanel();
         treeScrollPane = new javax.swing.JScrollPane();
-        contactsTree = new javax.swing.JTree();
+        contactTree = new javax.swing.JTree();
         contactsPanel = new javax.swing.JPanel();
         contactsScrollPane = new javax.swing.JScrollPane();
         contactsTable = new javax.swing.JTable();
@@ -100,6 +102,8 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         barangayTextField = new javax.swing.JTextField();
         areaLabel = new javax.swing.JLabel();
         areaTextField = new javax.swing.JTextField();
+        territoryLabel = new javax.swing.JLabel();
+        territoryComboBox = new javax.swing.JComboBox();
         backgroundTab = new javax.swing.JPanel();
         backgroundPanel = new javax.swing.JPanel();
         personalLabel = new javax.swing.JLabel();
@@ -141,14 +145,17 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         optionsMenu = new javax.swing.JMenu();
         serviceGroupsMenuItem = new javax.swing.JMenuItem();
         contactStatusMenuItem = new javax.swing.JMenuItem();
+        territoryMenuItem = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         reportTemplatesMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/jw/service/gui/resources/properties/gui"); // NOI18N
-        setTitle(bundle.getString("app.frame.title")); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/jw/service/gui/resources/properties/dialog_titles"); // NOI18N
+        setTitle(bundle.getString("main.frame.title")); // NOI18N
 
-        treeScrollPane.setViewportView(contactsTree);
+        javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("root");
+        contactTree.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        treeScrollPane.setViewportView(contactTree);
 
         contactsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Contacts", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
@@ -217,7 +224,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
 
         profilePicturePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Profile Picture", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
-        profilePictureLabel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        profilePictureLabel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.profilePicture}"), profilePictureLabel, org.jdesktop.beansbinding.BeanProperty.create("icon"));
         binding.setSourceNullValue(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.profile.picture.blank.png"))); // NOI18N
@@ -496,6 +503,13 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
+        territoryLabel.setText("Territory:");
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.territoryId}"), territoryComboBox, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
+
         javax.swing.GroupLayout addressPanelLayout = new javax.swing.GroupLayout(addressPanel);
         addressPanel.setLayout(addressPanelLayout);
         addressPanelLayout.setHorizontalGroup(
@@ -518,7 +532,12 @@ public final class ApplicationFrame extends javax.swing.JFrame {
                             .addComponent(streetTextField)
                             .addComponent(cityTextField)
                             .addComponent(barangayTextField)
-                            .addComponent(areaTextField))))
+                            .addGroup(addressPanelLayout.createSequentialGroup()
+                                .addComponent(areaTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(territoryLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(territoryComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
 
@@ -546,8 +565,10 @@ public final class ApplicationFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(addressPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(areaTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(areaLabel))
-                .addGap(0, 30, Short.MAX_VALUE))
+                    .addComponent(areaLabel)
+                    .addComponent(territoryLabel)
+                    .addComponent(territoryComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 12, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout addressTabLayout = new javax.swing.GroupLayout(addressTab);
@@ -906,17 +927,23 @@ public final class ApplicationFrame extends javax.swing.JFrame {
 
         optionsMenu.setText("Options");
 
+        serviceGroupsMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.service.groups.png"))); // NOI18N
         serviceGroupsMenuItem.setText("Service Groups");
         optionsMenu.add(serviceGroupsMenuItem);
 
+        contactStatusMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.contact.status.png"))); // NOI18N
         contactStatusMenuItem.setText("Contact Status");
         optionsMenu.add(contactStatusMenuItem);
+
+        territoryMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.territory.png"))); // NOI18N
+        territoryMenuItem.setText("Territories");
+        optionsMenu.add(territoryMenuItem);
 
         menuBar.add(optionsMenu);
 
         jMenu1.setText("Settings");
 
-        reportTemplatesMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.reports.setting.png"))); // NOI18N
+        reportTemplatesMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.report.templates.png"))); // NOI18N
         reportTemplatesMenuItem.setText("Reports Templates");
         jMenu1.add(reportTemplatesMenuItem);
 
@@ -980,17 +1007,22 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         contactCallsDialog = new ContactCallsDialog(this, true, em);
         appsReportDialog = new AppsReportTemplateDialog(this, true, em);
         reportPrintDialog = new ReportPrintDialog(this, true, em);
+        territoryDialog = new TerritoryDialog(this, true);
         openServiceGroupAction = new DefaultOpenAction(serviceGroupsMenuItem,this,serviceGroupDialog, null);        
         openContactStatusAction = new DefaultOpenAction(contactStatusMenuItem,this,contactStatusDialog, null);        
         openLocationMapAction = new DefaultOpenAction(openLocationMapCommand,this,locationMapDialog, null);        
         openContactCallsAction = new DefaultOpenAction(this.mainCommandPanel.getContactCallsCommand(),this,contactCallsDialog, null);        
         openReportTemplatesAction = new DefaultOpenAction(this.reportTemplatesMenuItem,this,appsReportDialog, null);        
         openReportPrintAction = new DefaultOpenAction(this.mainCommandPanel.getPrintCommand(),this,reportPrintDialog, null);        
+        openTerritoryAction = new DefaultOpenAction(this.territoryMenuItem, this, territoryDialog, null);
         fcOpenAction = new DefaultFileChooserOpenAction(this.setProfilePictureCommand, this, FileFilterImage.create(), null);
+        treeObservableListListener = new DefaultTreeObservableListListener(contactTree);        
         buildCrudTask();
     }
     
-    private void buildCrudTask(){        
+    private void buildCrudTask(){                
+        contactObservableList = (ObservableList) contactList;
+        contactObservableList.addObservableListListener(this.treeObservableListListener);
         contactList.addAll(contactDAO.readAll());
         DefaultTaskBuilder<ContactStatus> taskBuilder = new DefaultTaskBuilder<>();
         taskBuilder.setEntityName("contact");
@@ -1022,6 +1054,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         taskBuilder.getNewAction().addPostActionCommands("recordNumberPostDependency",recordNumberPostDependency);        
         taskBuilder.getCloseAction().addPreActionCommands("systemExitPreDependency", new DefaultSystemExitPreDependency(this, em));
         this.fcOpenAction.addPostActionCommands("profileSetPostDependency", profileSetPostDependency);
+        
     }
     
     /**
@@ -1046,10 +1079,10 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     private javax.swing.JPanel communicationTab;
     private java.util.List<org.jw.service.entity.Contact> contactList;
     private javax.swing.JMenuItem contactStatusMenuItem;
+    private javax.swing.JTree contactTree;
     private javax.swing.JPanel contactsPanel;
     private javax.swing.JScrollPane contactsScrollPane;
     private javax.swing.JTable contactsTable;
-    private javax.swing.JTree contactsTree;
     private javax.swing.JLabel emailAddressLabel;
     private javax.swing.JTextField emailAddressTextField;
     private javax.swing.JLabel facebookLabel;
@@ -1115,6 +1148,9 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     private javax.swing.JMenu systemMenu;
     private javax.swing.JTabbedPane tabbedPane;
     private org.jw.service.gui.component.TaskMonitorPanel taskMonitorPanel;
+    private javax.swing.JComboBox territoryComboBox;
+    private javax.swing.JLabel territoryLabel;
+    private javax.swing.JMenuItem territoryMenuItem;
     private javax.swing.JScrollPane treeScrollPane;
     private javax.swing.JComboBox treeViewComboBox;
     private javax.swing.JLabel workLabel;
@@ -1126,18 +1162,21 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     UtilityProperties sexProperties = UtilityProperties.create(UtilityProperties.SEX_PROPERTIES);
     DefaultComboBoxModelListListener<ServiceGroup> sgListListener;
     DefaultComboBoxModelListListener<ContactStatus> statusListListener;
+    DefaultTreeObservableListListener treeObservableListListener;
     ServiceGroupDialog serviceGroupDialog;
     ContactStatusDialog contactStatusDialog;
     LocationMapDialog locationMapDialog;
     ContactCallsDialog contactCallsDialog;
     AppsReportTemplateDialog appsReportDialog;
     ReportPrintDialog reportPrintDialog;
+    TerritoryDialog territoryDialog;
     DefaultOpenAction openServiceGroupAction;
     DefaultOpenAction openContactStatusAction;
     DefaultOpenAction openLocationMapAction;
     DefaultOpenAction openContactCallsAction;
     DefaultOpenAction openReportTemplatesAction;
     DefaultOpenAction openReportPrintAction;
+    DefaultOpenAction openTerritoryAction;
     DataAccessObject<Contact> contactDAO;
     DataAccessObject<ContactStatus> statusDAO;
     DataAccessObject<ServiceGroup> serviceGroupDAO;
@@ -1153,4 +1192,5 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     DefaultRefreshAction<Contact> refreshAction;
     DefaultSaveAction<Contact> saveAction;         
     DefaultFileChooserOpenAction fcOpenAction;
+    ObservableList contactObservableList;
 }

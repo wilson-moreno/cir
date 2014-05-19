@@ -97,8 +97,8 @@ public class ContactCallsDialog extends javax.swing.JDialog {
         contactInfoPanel1 = new org.jw.service.gui.component.ContactInfoPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/jw/service/gui/resources/properties/gui"); // NOI18N
-        setTitle(bundle.getString("call.dialog.title")); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/jw/service/gui/resources/properties/dialog_titles"); // NOI18N
+        setTitle(bundle.getString("calls.dialog.title")); // NOI18N
 
         contactCallPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Contact Call", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
@@ -126,36 +126,36 @@ public class ContactCallsDialog extends javax.swing.JDialog {
         stausLabel.setText("Status:");
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, callsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.status}"), statusTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "callStatus");
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue(null);
+        binding.setSourceNullValue("null");
+        binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
 
         callNotesLabel.setText("Notes:");
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, callsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.notes}"), callNotesTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "callNotes");
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue(null);
+        binding.setSourceNullValue("null");
+        binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
 
         scripturesLabel.setText("Scriptures:");
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, callsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.scriptures}"), scripturesTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "scriptures");
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue(null);
+        binding.setSourceNullValue("null");
+        binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
 
         literatureLabel.setText("Literature:");
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, callsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.literature}"), literatureTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "literature");
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue(null);
+        binding.setSourceNullValue("null");
+        binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
 
         publishersLabel.setText("Publishers:");
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, callsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.publishers}"), publishersTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "publishers");
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue(null);
+        binding.setSourceNullValue("null");
+        binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
 
         javax.swing.GroupLayout contactCallPanelLayout = new javax.swing.GroupLayout(contactCallPanel);
@@ -240,42 +240,41 @@ public class ContactCallsDialog extends javax.swing.JDialog {
         callsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Calls", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
         callsTable.setAutoCreateRowSorter(true);
-        callsTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Date", "Day", "Time", "Status", "Notes"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
+        callsTable.getTableHeader().setReorderingAllowed(false);
 
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactCallsList, callsTable);
-        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${callDate}"));
+        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${saveState}"));
+        columnBinding.setColumnName("");
+        columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${callDate}"));
         columnBinding.setColumnName("Call Date");
         columnBinding.setColumnClass(java.util.Date.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${callDay}"));
         columnBinding.setColumnName("Call Day");
         columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${callTime}"));
         columnBinding.setColumnName("Call Time");
         columnBinding.setColumnClass(java.util.Date.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${status}"));
         columnBinding.setColumnName("Status");
         columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${notes}"));
         columnBinding.setColumnName("Notes");
         columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
         callsScrollPane.setViewportView(callsTable);
+        if (callsTable.getColumnModel().getColumnCount() > 0) {
+            callsTable.getColumnModel().getColumn(0).setResizable(false);
+            callsTable.getColumnModel().getColumn(0).setPreferredWidth(10);
+            callsTable.getColumnModel().getColumn(0).setCellRenderer(org.jw.service.table.cell.renderer.DefaultStateCellRenderer.create());
+        }
 
         javax.swing.GroupLayout callsPanelLayout = new javax.swing.GroupLayout(callsPanel);
         callsPanel.setLayout(callsPanelLayout);

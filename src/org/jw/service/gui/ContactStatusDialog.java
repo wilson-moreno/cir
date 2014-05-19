@@ -11,12 +11,14 @@ import org.jdesktop.observablecollections.ObservableList;
 import org.jdesktop.observablecollections.ObservableListListener;
 import org.jw.service.action.DefaultCloseAction;
 import org.jw.service.action.DefaultDeleteAction;
+import org.jw.service.action.DefaultFileChooserOpenAction;
 import org.jw.service.action.DefaultNewAction;
 import org.jw.service.action.DefaultRefreshAction;
 import org.jw.service.action.DefaultSaveAction;
 import org.jw.service.builder.DefaultTaskBuilder;
 import org.jw.service.dao.DataAccessObject;
 import org.jw.service.entity.ContactStatus;
+import org.jw.service.file.filter.FileFilterImage;
 import org.jw.service.util.UtilityProperties;
 
 /**
@@ -57,6 +59,8 @@ public class ContactStatusDialog extends javax.swing.JDialog {
         taskBuilder.setWindow(this);
         taskBuilder.setDao(dao);
         taskBuilder.buildDefaultTasks();
+        
+        fcOpenAction = new DefaultFileChooserOpenAction(this.iconCommand, this, FileFilterImage.create(), null );
     }
     
     
@@ -71,6 +75,7 @@ public class ContactStatusDialog extends javax.swing.JDialog {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         statusList = org.jdesktop.observablecollections.ObservableCollections.observableList(new java.util.ArrayList<org.jw.service.entity.ContactStatus>());
+        byteArrayBean = new org.jw.service.beans.ByteArrayBean();
         taskMonitorPanel = new org.jw.service.gui.component.TaskMonitorPanel();
         crudPanel = new org.jw.service.gui.component.DefaultCrudPanel();
         contactStatusPanel = new javax.swing.JPanel();
@@ -85,9 +90,12 @@ public class ContactStatusDialog extends javax.swing.JDialog {
         scrollPane = new javax.swing.JScrollPane();
         statusTable = new javax.swing.JTable();
 
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, statusTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.icon}"), byteArrayBean, org.jdesktop.beansbinding.BeanProperty.create("byteArray"));
+        bindingGroup.addBinding(binding);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/jw/service/gui/resources/properties/gui"); // NOI18N
-        setTitle(bundle.getString("status.dialog.title")); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/jw/service/gui/resources/properties/dialog_titles"); // NOI18N
+        setTitle(bundle.getString("contact.status.dialog.title")); // NOI18N
         setResizable(false);
 
         contactStatusPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Contact Status", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
@@ -96,7 +104,7 @@ public class ContactStatusDialog extends javax.swing.JDialog {
 
         descriptionLabel.setText("Description:");
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, statusTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.name}"), nameTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "statusName");
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, statusTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.name}"), nameTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "statusName");
         binding.setSourceNullValue("");
         binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
@@ -241,6 +249,7 @@ public class ContactStatusDialog extends javax.swing.JDialog {
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private org.jw.service.beans.ByteArrayBean byteArrayBean;
     private javax.swing.JPanel contactStatusPanel;
     private org.jw.service.gui.component.DefaultCrudPanel crudPanel;
     private javax.swing.JLabel descriptionLabel;
@@ -264,5 +273,7 @@ public class ContactStatusDialog extends javax.swing.JDialog {
     DefaultDeleteAction<ContactStatus> deleteAction;
     DefaultRefreshAction<ContactStatus> refreshAction;
     DefaultSaveAction<ContactStatus> saveAction;        
+    DefaultFileChooserOpenAction fcOpenAction;           
     DataAccessObject<ContactStatus> dao;    
+    
 }

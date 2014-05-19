@@ -18,9 +18,13 @@ public class PrintParameter {
     public static final String PROP_NAME = "name";
     public static final String PROP_LABEL = "label";
     public static final String PROP_VALUE = "value";
+    public static final String PROP_DATATYPE = "dataType";
+    public static final String PROP_DEFAULTVALUE = "defaultValue";
     private String name;
     private String label;
-    private String value;
+    private Object value;
+    private String dataType;
+    private String defaultValue;
     private final transient PropertyChangeSupport propertyChangeSupport = new java.beans.PropertyChangeSupport(this);
         
     public PrintParameter(){
@@ -64,16 +68,50 @@ public class PrintParameter {
         /**
         * @return the value
         */
-        public String getValue() {
+        public Object getValue() {
             return value;
         }
 
         /**
         * @param value the value to set
         */
-        public void setValue(String value) {
-            java.lang.String oldValue = this.value;
+        public void setValue(Object value) {
+            Object oldValue = this.value;
             this.value = value;
             propertyChangeSupport.firePropertyChange(PROP_VALUE, oldValue, value);
         }
+
+    /**
+     * @return the dataType
+     */
+    public String getDataType() {
+        return dataType;
+    }
+
+    /**
+     * @param dataType the dataType to set
+     */
+    public void setDataType(String dataType) {
+        java.lang.String oldDataType = this.dataType;
+        this.dataType = dataType;
+        propertyChangeSupport.firePropertyChange(PROP_DATATYPE, oldDataType, dataType);
+    }
+
+    /**
+     * @return the defaultValue
+     */
+    public String getDefaultValue() {
+        return defaultValue;
+    }
+
+    /**
+     * @param defaultValue the defaultValue to set
+     */
+    public void setDefaultValue(String defaultValue) {
+        java.lang.String oldDefaultValue = this.defaultValue;
+        this.defaultValue = defaultValue;
+        propertyChangeSupport.firePropertyChange(PROP_DEFAULTVALUE, oldDefaultValue, defaultValue);
+    }
+        
+        
 }

@@ -216,6 +216,7 @@ public class PossibleValue implements Serializable, ObservableEntity, SilentSett
     /**
      * @return the saveState
      */
+    @Override
     public String getSaveState() {
         return saveState;
     }
@@ -223,6 +224,8 @@ public class PossibleValue implements Serializable, ObservableEntity, SilentSett
     /**
      * @param saveState the saveState to set
      */
+    @Override
+    @Transient
     public void setSaveState(String saveState) {
         java.lang.String oldSaveState = this.saveState;
         this.saveState = saveState;

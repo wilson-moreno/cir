@@ -68,7 +68,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Contact.findByFoundBy", query = "SELECT c FROM Contact c WHERE c.foundBy = :foundBy"),
     @NamedQuery(name = "Contact.findByCreatedDatetime", query = "SELECT c FROM Contact c WHERE c.createdDatetime = :createdDatetime"),
     @NamedQuery(name = "Contact.findByUpdatedDatetime", query = "SELECT c FROM Contact c WHERE c.updatedDatetime = :updatedDatetime")})
-public class Contact implements Serializable, ObservableEntity, SilentSetter {
+public class Contact implements Serializable, ObservableEntity, SilentSetter, TreeNodeEntity {
+    @Lob
+    @Column(name = "PROFILE_PICTURE")
+    private byte[] profilePicture;
     private static final long serialVersionUID = 1L;
     public static final String PROP_GUARDIANSNAME = "guardiansName";
     @Id
@@ -96,9 +99,6 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter {
     private String maritalStatus;
     @Column(name = "NATIONALITY")
     private String nationality;
-    @Lob
-    @Column(name = "PROFILE_PICTURE")
-    private byte[] profilePicture;
     @Column(name = "HOUSE_NUMBER")
     private String houseNumber;
     @Column(name = "STREET")
@@ -152,6 +152,9 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter {
     @JoinColumn(name = "STATUS_ID", referencedColumnName = "ID")
     @ManyToOne
     private ContactStatus statusId;
+    @JoinColumn(name = "TERRITORY_ID", referencedColumnName = "ID")
+    @ManyToOne
+    private Territory territoryId;
     private final transient PropertyChangeSupport propertyChangeSupport = new java.beans.PropertyChangeSupport(this);
     @Transient
     private String saveState;
@@ -191,7 +194,8 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter {
         this.statusId = null;
         this.street = "";
         this.updatedDatetime = new Date();
-        this.workBackground = "";        
+        this.workBackground = "";  
+        this.territoryId = null;
     }
 
     public Contact(Integer id) {
@@ -863,6 +867,37 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter {
             default : throw new UnsupportedOperationException("Property not Supported: " + name);
         }
     }
+
+    /**
+     * @return the territoryId
+     */
+    public Territory getTerritoryId() {
+        return territoryId;
+    }
+
+    /**
+     * @param territoryId the territoryId to set
+     */
+    public void setTerritoryId(Territory territoryId) {
+        Territory oldTerritoryId = this.territoryId;
+        this.territoryId = territoryId;
+        propertyChangeSupport.firePropertyChange("territory", oldTerritoryId, territoryId);
+    }
+
+    @Override
+    public String getDisplayString() {
+        String result = this.getRecordNumber();
+        
+        String lastNameDisplay = this.getLastName() == null ? "":this.getLastName();
+        String firstNameDisplay = this.getFirstName() == null ? "":this.getFirstName();
+        
+        if(!"".equals(lastNameDisplay) || !"".equals(firstNameDisplay)){
+            result = lastNameDisplay + ", " + firstNameDisplay;
+        }
+        
+        return result;
+    }
+    
 }
 
         

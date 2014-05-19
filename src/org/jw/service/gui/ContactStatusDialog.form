@@ -11,11 +11,16 @@
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;org.jw.service.entity.ContactStatus&gt;"/>
       </AuxValues>
     </Component>
+    <Component class="org.jw.service.beans.ByteArrayBean" name="byteArrayBean">
+      <BindingProperties>
+        <BindingProperty name="byteArray" source="statusTable" sourcePath="${selectedElement.icon}" target="byteArrayBean" targetPath="byteArray" updateStrategy="0" immediately="false"/>
+      </BindingProperties>
+    </Component>
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="2"/>
     <Property name="title" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-      <ResourceString bundle="org/jw/service/gui/resources/properties/gui.properties" key="status.dialog.title" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+      <ResourceString bundle="org/jw/service/gui/resources/properties/dialog_titles.properties" key="contact.status.dialog.title" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
     </Property>
     <Property name="resizable" type="boolean" value="false"/>
   </Properties>

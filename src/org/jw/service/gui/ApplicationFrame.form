@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.6" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+<Form version="1.7" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <NonVisualComponents>
     <Component class="java.util.List" name="contactList">
       <AuxValues>
@@ -22,12 +22,26 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="serviceGroupsMenuItem">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/org/jw/service/gui/resources/icon/default.service.groups.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Service Groups"/>
               </Properties>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="contactStatusMenuItem">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/org/jw/service/gui/resources/icon/default.contact.status.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Contact Status"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="territoryMenuItem">
+              <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/org/jw/service/gui/resources/icon/default.territory.png"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Territories"/>
               </Properties>
             </MenuItem>
           </SubComponents>
@@ -40,7 +54,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="reportTemplatesMenuItem">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/org/jw/service/gui/resources/icon/default.reports.setting.png"/>
+                  <Image iconType="3" name="/org/jw/service/gui/resources/icon/default.report.templates.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Reports Templates"/>
               </Properties>
@@ -53,7 +67,7 @@
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
     <Property name="title" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-      <ResourceString bundle="org/jw/service/gui/resources/properties/gui.properties" key="app.frame.title" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+      <ResourceString bundle="org/jw/service/gui/resources/properties/dialog_titles.properties" key="main.frame.title" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
     </Property>
   </Properties>
   <SyntheticProperties>
@@ -128,7 +142,12 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JTree" name="contactsTree">
+        <Component class="javax.swing.JTree" name="contactTree">
+          <Properties>
+            <Property name="model" type="javax.swing.tree.TreeModel" editor="org.netbeans.modules.form.editors2.TreeModelEditor">
+              <TreeModel code=""/>
+            </Property>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>
@@ -350,7 +369,7 @@
                   <Properties>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.BevelBorderInfo">
-                        <BevelBorder/>
+                        <BevelBorder bevelType="1"/>
                       </Border>
                     </Property>
                   </Properties>
@@ -770,7 +789,13 @@
                                       <Component id="streetTextField" max="32767" attributes="0"/>
                                       <Component id="cityTextField" max="32767" attributes="0"/>
                                       <Component id="barangayTextField" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="areaTextField" alignment="0" max="32767" attributes="0"/>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Component id="areaTextField" min="-2" pref="208" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="territoryLabel" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="territoryComboBox" max="32767" attributes="0"/>
+                                      </Group>
                                   </Group>
                               </Group>
                           </Group>
@@ -805,8 +830,10 @@
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="areaTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="areaLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="territoryLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="territoryComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="0" pref="30" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="12" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -884,6 +911,24 @@
                       <Property name="nullValue" type="java.lang.String" value=""/>
                       <Property name="incompletePathValue" type="java.lang.String" value=""/>
                       <Property name="name" type="java.lang.String" value="area"/>
+                    </BindingProperty>
+                  </BindingProperties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="territoryLabel">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Territory:"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JComboBox" name="territoryComboBox">
+                  <Properties>
+                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                      <StringArray count="0"/>
+                    </Property>
+                  </Properties>
+                  <BindingProperties>
+                    <BindingProperty name="selectedItem" source="contactsTable" sourcePath="${selectedElement.territoryId}" target="territoryComboBox" targetPath="selectedItem" updateStrategy="0" immediately="false">
+                      <Property name="nullValue" type="java.lang.Object" value="null"/>
+                      <Property name="incompletePathValue" type="java.lang.Object" value="null"/>
                     </BindingProperty>
                   </BindingProperties>
                 </Component>
