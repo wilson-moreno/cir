@@ -29,7 +29,7 @@ public class DefaultListSelectionListener<T> implements ListSelectionListener{
     
     private DefaultListSelectionListener(List<T> list, JTable table, AbstractAction saveAction, AbstractAction deleteAction){
         this.list = list;
-        this.utilTable = UtilityTable.create(table);
+        this.utilTable = new UtilityTable(table, list);
         this.saveAction = saveAction;
         this.deleteAction = deleteAction;
     }

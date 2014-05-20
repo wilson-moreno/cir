@@ -226,5 +226,12 @@ public class DefaultTaskBuilder<T> {
         this.dao = dao;
         propertyChangeSupport.firePropertyChange(PROP_DAO, oldDao, dao);
     }
+
+    /**
+     * @return the refreshAction
+     */
+    public DefaultRefreshAction getRefreshAction() {
+        return refreshAction;
+    }
 }
   

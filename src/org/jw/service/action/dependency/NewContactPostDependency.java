@@ -12,20 +12,23 @@ import org.jw.service.action.DependencyCommand;
 import org.jw.service.dao.DataAccessObject;
 import org.jw.service.entity.Contact;
 import org.jw.service.entity.ServiceGroup;
+import org.jw.service.util.UtilityTree;
 
 /**
  *
  * @author Wilson
  */
-public class RecordNumberPostDependency implements DependencyCommand{
+public class NewContactPostDependency implements DependencyCommand{
     private final JComboBox sgComboBox;
     private final DataAccessObject<ServiceGroup> serviceGroupDAO;    
-    private final DataAccessObject<Contact> contactDAO;    
+    private final DataAccessObject<Contact> contactDAO;   
+    private final UtilityTree utilTree;
     
-    public RecordNumberPostDependency(DataAccessObject<Contact> contactDAO, DataAccessObject<ServiceGroup> serviceGroupDAO, JComboBox sgComboBox){        
+    public NewContactPostDependency(DataAccessObject<Contact> contactDAO, DataAccessObject<ServiceGroup> serviceGroupDAO, JComboBox sgComboBox, UtilityTree utilTree){        
         this.sgComboBox = sgComboBox;
         this.serviceGroupDAO = serviceGroupDAO;
         this.contactDAO = contactDAO;
+        this.utilTree = utilTree;
     }
     
     
@@ -45,6 +48,7 @@ public class RecordNumberPostDependency implements DependencyCommand{
         contact.setSaveState("");
         ServiceGroup saveServiceGroup = serviceGroupDAO.save(serviceGroup);
         Contact saveContact = contactDAO.save(contact);
+        utilTree.addNode(contact);
     }
 
     @Override

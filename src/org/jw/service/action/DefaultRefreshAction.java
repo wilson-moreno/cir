@@ -23,7 +23,7 @@ import org.jw.service.worker.DefaultRefreshWorker;
  *
  * @author Wilson
  */
-public class DefaultRefreshAction<T> extends AbstractAction{
+public class DefaultRefreshAction<T> extends DependentAbstractAction{
     private final List<T> list;
     private final DataAccessObject<T> dao;
     private final DefaultTaskListener listener;
@@ -35,12 +35,12 @@ public class DefaultRefreshAction<T> extends AbstractAction{
         this.listener = listener;
         command.setAction(this);
     }
-    
-    
+
     @Override
-    public void actionPerformed(ActionEvent ae) {      
+    public boolean mainActionPerformed(ActionEvent ae) {
         DefaultRefreshWorker<T> worker = new DefaultRefreshWorker<>(dao, list, listener);
         worker.execute();
+        return true;
     }
     
 }

@@ -78,6 +78,9 @@
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
     <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
   </SyntheticProperties>
+  <Events>
+    <EventHandler event="windowActivated" listener="java.awt.event.WindowListener" parameters="java.awt.event.WindowEvent" handler="formWindowActivated"/>
+  </Events>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
@@ -137,6 +140,9 @@
     <Component class="org.jw.service.gui.component.TaskMonitorPanel" name="taskMonitorPanel">
     </Component>
     <Component class="org.jw.service.gui.component.MainCommandPanel" name="mainCommandPanel">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="&#xd;&#xa;"/>
+      </AuxValues>
     </Component>
     <Container class="javax.swing.JScrollPane" name="treeScrollPane">
       <AuxValues>
@@ -961,7 +967,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="backgroundPanel" min="-2" max="-2" attributes="0"/>
+                      <Component id="backgroundPanel" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -988,59 +994,52 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="personalLabel" linkSize="5" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="personalTextField" max="32767" attributes="0"/>
+                                  <Component id="personalTextField" pref="465" max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" attributes="0">
-                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="familyLabel" linkSize="5" max="32767" attributes="0"/>
-                                      <Component id="workLabel" linkSize="5" max="32767" attributes="0"/>
-                                  </Group>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" attributes="0">
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="familyTextField" max="32767" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" attributes="0">
-                                          <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
-                                          <Component id="workTextField" min="-2" pref="197" max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Component id="fatherLabel" linkSize="5" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="fatherTextField" pref="197" max="32767" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Component id="motherLabel" linkSize="5" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="motherTextField" max="32767" attributes="0"/>
-                                      </Group>
-                                  </Group>
+                                  <Component id="familyLabel" linkSize="5" max="32767" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="familyTextField" max="32767" attributes="0"/>
+                              </Group>
+                              <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" alignment="0" attributes="0">
-                                          <Component id="religionLabel" linkSize="6" min="-2" max="-2" attributes="0"/>
+                                          <Component id="mothersNameLabel" linkSize="5" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="foundByTextField" pref="211" max="32767" attributes="0"/>
+                                          <Component id="mothersNameTextField" max="32767" attributes="0"/>
                                       </Group>
                                       <Group type="102" alignment="0" attributes="0">
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="guardianLabel" linkSize="6" min="-2" max="-2" attributes="0"/>
-                                              <Component id="foundByLabel" linkSize="6" min="-2" pref="49" max="-2" attributes="0"/>
-                                          </Group>
+                                          <Component id="workBackgroundLabel" linkSize="5" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" max="-2" attributes="0"/>
+                                          <Component id="workBackgroundTextField" max="32767" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Component id="fathersNameLabel" linkSize="5" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="religionTextField" max="32767" attributes="0"/>
-                                              <Component id="guardianTextField" max="32767" attributes="0"/>
-                                          </Group>
+                                          <Component id="fathersNameTextField" max="32767" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Component id="guardiansNameLabel" linkSize="10" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="guardiansNameTextField" max="32767" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" attributes="0">
+                                          <Component id="foundByLabel" linkSize="10" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="foundByTextField" max="32767" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Component id="religionLabel" linkSize="10" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="religionTextField" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
                           </Group>
-                          <EmptySpace max="-2" attributes="0"/>
+                          <EmptySpace min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -1058,31 +1057,27 @@
                               <Component id="familyTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="workLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="workTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="103" alignment="1" groupAlignment="3" attributes="0">
-                                  <Component id="foundByLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="guardianTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="workBackgroundLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="workBackgroundTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="guardiansNameLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="guardiansNameTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="fatherLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="fatherTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="guardianLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="fathersNameLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="fathersNameTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="religionLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="religionTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="motherLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="motherTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="religionLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="mothersNameLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="mothersNameTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="foundByLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="foundByTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace max="-2" attributes="0"/>
+                          <EmptySpace pref="12" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -1108,11 +1103,6 @@
                     <Property name="text" type="java.lang.String" value="Family:"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="workLabel">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Work:"/>
-                  </Properties>
-                </Component>
                 <Component class="javax.swing.JTextField" name="familyTextField">
                   <BindingProperties>
                     <BindingProperty name="text" source="contactsTable" sourcePath="${selectedElement.familyBackground}" target="familyTextField" targetPath="text" updateStrategy="0" immediately="false">
@@ -1123,63 +1113,78 @@
                     </BindingProperty>
                   </BindingProperties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="workTextField">
+                <Component class="javax.swing.JLabel" name="workBackgroundLabel">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Work:"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="workBackgroundTextField">
                   <BindingProperties>
-                    <BindingProperty name="text" source="contactsTable" sourcePath="${selectedElement.workBackground}" target="workTextField" targetPath="text" updateStrategy="0" immediately="false">
+                    <BindingProperty name="text" source="contactsTable" sourcePath="${selectedElement.workBackground}" target="workBackgroundTextField" targetPath="text" updateStrategy="0" immediately="false">
                       <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
-                      <Property name="nullValue" type="java.lang.String" value=""/>
-                      <Property name="incompletePathValue" type="java.lang.String" value=""/>
-                      <Property name="name" type="java.lang.String" value="workBackground"/>
+                      <Property name="nullValue" type="java.lang.String" value="null"/>
+                      <Property name="incompletePathValue" type="java.lang.String" value="null"/>
                     </BindingProperty>
                   </BindingProperties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="fatherLabel">
+                <Component class="javax.swing.JLabel" name="guardiansNameLabel">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Guardian:"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="fathersNameLabel">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Father:"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="fatherTextField">
+                <Component class="javax.swing.JTextField" name="fathersNameTextField">
                   <BindingProperties>
-                    <BindingProperty name="text" source="contactsTable" sourcePath="${selectedElement.fathersName}" target="fatherTextField" targetPath="text" updateStrategy="0" immediately="false">
+                    <BindingProperty name="text" source="contactsTable" sourcePath="${selectedElement.fathersName}" target="fathersNameTextField" targetPath="text" updateStrategy="0" immediately="false">
                       <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
-                      <Property name="nullValue" type="java.lang.String" value=""/>
-                      <Property name="incompletePathValue" type="java.lang.String" value=""/>
-                      <Property name="name" type="java.lang.String" value="fathersName"/>
+                      <Property name="nullValue" type="java.lang.String" value="null"/>
+                      <Property name="incompletePathValue" type="java.lang.String" value="null"/>
                     </BindingProperty>
                   </BindingProperties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="motherLabel">
+                <Component class="javax.swing.JLabel" name="mothersNameLabel">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Mother:"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="motherTextField">
+                <Component class="javax.swing.JTextField" name="mothersNameTextField">
                   <BindingProperties>
-                    <BindingProperty name="text" source="contactsTable" sourcePath="${selectedElement.mothersName}" target="motherTextField" targetPath="text" updateStrategy="0" immediately="false">
+                    <BindingProperty name="text" source="contactsTable" sourcePath="${selectedElement.mothersName}" target="mothersNameTextField" targetPath="text" updateStrategy="0" immediately="false">
                       <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
-                      <Property name="nullValue" type="java.lang.String" value=""/>
-                      <Property name="incompletePathValue" type="java.lang.String" value=""/>
-                      <Property name="name" type="java.lang.String" value="mothersName"/>
+                      <Property name="nullValue" type="java.lang.String" value="null"/>
+                      <Property name="incompletePathValue" type="java.lang.String" value="null"/>
                     </BindingProperty>
                   </BindingProperties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="guardianLabel">
+                <Component class="javax.swing.JLabel" name="religionLabel">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Religion:"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="religionLabel">
+                <Component class="javax.swing.JLabel" name="foundByLabel">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Found by:"/>
                   </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="guardiansNameTextField">
+                  <BindingProperties>
+                    <BindingProperty name="text" source="contactsTable" sourcePath="${selectedElement.guardiansName}" target="guardiansNameTextField" targetPath="text" updateStrategy="0" immediately="false">
+                      <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+                      <Property name="nullValue" type="java.lang.String" value="null"/>
+                      <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+                    </BindingProperty>
+                  </BindingProperties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="religionTextField">
                   <BindingProperties>
                     <BindingProperty name="text" source="contactsTable" sourcePath="${selectedElement.religion}" target="religionTextField" targetPath="text" updateStrategy="0" immediately="false">
                       <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
-                      <Property name="nullValue" type="java.lang.String" value=""/>
-                      <Property name="incompletePathValue" type="java.lang.String" value=""/>
-                      <Property name="name" type="java.lang.String" value="religion"/>
+                      <Property name="nullValue" type="java.lang.String" value="null"/>
+                      <Property name="incompletePathValue" type="java.lang.String" value="null"/>
                     </BindingProperty>
                   </BindingProperties>
                 </Component>
@@ -1187,24 +1192,8 @@
                   <BindingProperties>
                     <BindingProperty name="text" source="contactsTable" sourcePath="${selectedElement.foundBy}" target="foundByTextField" targetPath="text" updateStrategy="0" immediately="false">
                       <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
-                      <Property name="nullValue" type="java.lang.String" value=""/>
-                      <Property name="incompletePathValue" type="java.lang.String" value=""/>
-                      <Property name="name" type="java.lang.String" value="foundBy"/>
-                    </BindingProperty>
-                  </BindingProperties>
-                </Component>
-                <Component class="javax.swing.JLabel" name="foundByLabel">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Guardian:"/>
-                  </Properties>
-                </Component>
-                <Component class="javax.swing.JTextField" name="guardianTextField">
-                  <BindingProperties>
-                    <BindingProperty name="text" source="contactsTable" sourcePath="${selectedElement.guardiansName}" target="guardianTextField" targetPath="text" updateStrategy="0" immediately="false">
-                      <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
-                      <Property name="nullValue" type="java.lang.String" value=""/>
-                      <Property name="incompletePathValue" type="java.lang.String" value=""/>
-                      <Property name="name" type="java.lang.String" value="guardiansName"/>
+                      <Property name="nullValue" type="java.lang.String" value="null"/>
+                      <Property name="incompletePathValue" type="java.lang.String" value="null"/>
                     </BindingProperty>
                   </BindingProperties>
                 </Component>

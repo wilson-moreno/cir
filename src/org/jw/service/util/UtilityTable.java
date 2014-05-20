@@ -6,21 +6,22 @@
 
 package org.jw.service.util;
 
+import java.util.List;
 import javax.swing.JTable;
+import org.jw.service.entity.Contact;
 
 /**
  *
  * @author Wilson
+ * @param <T>
  */
-public class UtilityTable {
-
-    public static UtilityTable create(JTable table) {
-        return new UtilityTable(table);
-    }
+public class UtilityTable<T> {
+    private final List<T> list;
     private final JTable table;
     
-    private UtilityTable(JTable table){
+    public UtilityTable(JTable table, List<T> list){
         this.table = table;
+        this.list = list;
     }
     
     public int getSelectedModelIndex(){
@@ -30,9 +31,14 @@ public class UtilityTable {
     }
     
     public void selectRow(int index){
-        int viewIndex = table.getRowSorter().convertRowIndexToView(0);
+        int viewIndex = table.getRowSorter().convertRowIndexToView(index);
         table.getSelectionModel().setSelectionInterval(viewIndex, viewIndex);                    
         table.scrollRectToVisible(table.getCellRect(viewIndex, 0, true));                                 
+    }
+    
+    public void selectItemRow(T item){
+        int modelIndex = list.indexOf(item);        
+        selectRow(modelIndex);
     }
     
     

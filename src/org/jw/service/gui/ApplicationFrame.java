@@ -17,8 +17,9 @@ import org.jw.service.action.DefaultRefreshAction;
 import org.jw.service.action.DefaultSaveAction;
 import org.jw.service.action.dependency.DefaultSystemExitPreDependency;
 import org.jw.service.action.dependency.ProfileSetPostDependency;
-import org.jw.service.action.dependency.RecordNumberPostDependency;
+import org.jw.service.action.dependency.NewContactPostDependency;
 import org.jw.service.action.dependency.RecordNumberPreDependency;
+import org.jw.service.action.dependency.RefreshContactListPostDependency;
 import org.jw.service.builder.DefaultTaskBuilder;
 import org.jw.service.dao.DataAccessObject;
 import org.jw.service.entity.Contact;
@@ -28,7 +29,9 @@ import org.jw.service.file.filter.FileFilterImage;
 import org.jw.service.gui.component.DefaultCrudPanel;
 import org.jw.service.listener.combobox.DefaultComboBoxModelListListener;
 import org.jw.service.listener.task.DefaultTaskListener;
+import org.jw.service.listener.tree.selection.DefaultTreeSelectionListener;
 import org.jw.service.util.UtilityProperties;
+import org.jw.service.util.UtilityTable;
 import org.jw.service.util.UtilityTree;
 
 /**
@@ -110,19 +113,19 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         personalLabel = new javax.swing.JLabel();
         personalTextField = new javax.swing.JTextField();
         familyLabel = new javax.swing.JLabel();
-        workLabel = new javax.swing.JLabel();
         familyTextField = new javax.swing.JTextField();
-        workTextField = new javax.swing.JTextField();
-        fatherLabel = new javax.swing.JLabel();
-        fatherTextField = new javax.swing.JTextField();
-        motherLabel = new javax.swing.JLabel();
-        motherTextField = new javax.swing.JTextField();
-        guardianLabel = new javax.swing.JLabel();
+        workBackgroundLabel = new javax.swing.JLabel();
+        workBackgroundTextField = new javax.swing.JTextField();
+        guardiansNameLabel = new javax.swing.JLabel();
+        fathersNameLabel = new javax.swing.JLabel();
+        fathersNameTextField = new javax.swing.JTextField();
+        mothersNameLabel = new javax.swing.JLabel();
+        mothersNameTextField = new javax.swing.JTextField();
         religionLabel = new javax.swing.JLabel();
+        foundByLabel = new javax.swing.JLabel();
+        guardiansNameTextField = new javax.swing.JTextField();
         religionTextField = new javax.swing.JTextField();
         foundByTextField = new javax.swing.JTextField();
-        foundByLabel = new javax.swing.JLabel();
-        guardianTextField = new javax.swing.JTextField();
         communicationTab = new javax.swing.JPanel();
         communicationPanel = new javax.swing.JPanel();
         phoneNumberLabel = new javax.swing.JLabel();
@@ -154,6 +157,11 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/jw/service/gui/resources/properties/dialog_titles"); // NOI18N
         setTitle(bundle.getString("main.frame.title")); // NOI18N
         setIconImages(null);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("root");
         contactTree.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
@@ -602,51 +610,51 @@ public final class ApplicationFrame extends javax.swing.JFrame {
 
         familyLabel.setText("Family:");
 
-        workLabel.setText("Work:");
-
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.familyBackground}"), familyTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "familyBackground");
         binding.setSourceNullValue("");
         binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.workBackground}"), workTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "workBackground");
-        binding.setSourceNullValue("");
-        binding.setSourceUnreadableValue("");
+        workBackgroundLabel.setText("Work:");
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.workBackground}"), workBackgroundTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("null");
+        binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
 
-        fatherLabel.setText("Father:");
+        guardiansNameLabel.setText("Guardian:");
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.fathersName}"), fatherTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "fathersName");
-        binding.setSourceNullValue("");
-        binding.setSourceUnreadableValue("");
+        fathersNameLabel.setText("Father:");
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.fathersName}"), fathersNameTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("null");
+        binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
 
-        motherLabel.setText("Mother:");
+        mothersNameLabel.setText("Mother:");
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.mothersName}"), motherTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "mothersName");
-        binding.setSourceNullValue("");
-        binding.setSourceUnreadableValue("");
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.mothersName}"), mothersNameTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("null");
+        binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
 
-        guardianLabel.setText("Religion:");
+        religionLabel.setText("Religion:");
 
-        religionLabel.setText("Found by:");
+        foundByLabel.setText("Found by:");
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.religion}"), religionTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "religion");
-        binding.setSourceNullValue("");
-        binding.setSourceUnreadableValue("");
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.guardiansName}"), guardiansNameTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("null");
+        binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.foundBy}"), foundByTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "foundBy");
-        binding.setSourceNullValue("");
-        binding.setSourceUnreadableValue("");
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.religion}"), religionTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("null");
+        binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
 
-        foundByLabel.setText("Guardian:");
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.guardiansName}"), guardianTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "guardiansName");
-        binding.setSourceNullValue("");
-        binding.setSourceUnreadableValue("");
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.foundBy}"), foundByTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("null");
+        binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
 
         javax.swing.GroupLayout backgroundPanelLayout = new javax.swing.GroupLayout(backgroundPanel);
@@ -659,48 +667,45 @@ public final class ApplicationFrame extends javax.swing.JFrame {
                     .addGroup(backgroundPanelLayout.createSequentialGroup()
                         .addComponent(personalLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(personalTextField))
+                        .addComponent(personalTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 465, Short.MAX_VALUE))
                     .addGroup(backgroundPanelLayout.createSequentialGroup()
-                        .addGroup(backgroundPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(familyLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(workLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGroup(backgroundPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(backgroundPanelLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(familyTextField))
-                            .addGroup(backgroundPanelLayout.createSequentialGroup()
-                                .addGap(4, 4, 4)
-                                .addComponent(workTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(familyLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(familyTextField))
                     .addGroup(backgroundPanelLayout.createSequentialGroup()
                         .addGroup(backgroundPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(backgroundPanelLayout.createSequentialGroup()
-                                .addComponent(fatherLabel)
+                                .addComponent(mothersNameLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(fatherTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE))
+                                .addComponent(mothersNameTextField))
                             .addGroup(backgroundPanelLayout.createSequentialGroup()
-                                .addComponent(motherLabel)
+                                .addComponent(workBackgroundLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(motherTextField)))
+                                .addComponent(workBackgroundTextField))
+                            .addGroup(backgroundPanelLayout.createSequentialGroup()
+                                .addComponent(fathersNameLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fathersNameTextField)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(backgroundPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(backgroundPanelLayout.createSequentialGroup()
+                                .addComponent(guardiansNameLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(guardiansNameTextField))
+                            .addGroup(backgroundPanelLayout.createSequentialGroup()
+                                .addComponent(foundByLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(foundByTextField))
+                            .addGroup(backgroundPanelLayout.createSequentialGroup()
                                 .addComponent(religionLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(foundByTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE))
-                            .addGroup(backgroundPanelLayout.createSequentialGroup()
-                                .addGroup(backgroundPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(guardianLabel)
-                                    .addComponent(foundByLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(backgroundPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(religionTextField)
-                                    .addComponent(guardianTextField))))))
+                                .addComponent(religionTextField)))))
                 .addContainerGap())
         );
 
-        backgroundPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {familyLabel, fatherLabel, motherLabel, personalLabel, workLabel});
+        backgroundPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {familyLabel, fathersNameLabel, mothersNameLabel, personalLabel, workBackgroundLabel});
 
-        backgroundPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {foundByLabel, guardianLabel, religionLabel});
+        backgroundPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {foundByLabel, guardiansNameLabel, religionLabel});
 
         backgroundPanelLayout.setVerticalGroup(
             backgroundPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -714,26 +719,24 @@ public final class ApplicationFrame extends javax.swing.JFrame {
                     .addComponent(familyLabel)
                     .addComponent(familyTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(backgroundPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(backgroundPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(workLabel)
-                        .addComponent(workTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backgroundPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(foundByLabel)
-                        .addComponent(guardianTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(backgroundPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(workBackgroundLabel)
+                    .addComponent(workBackgroundTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(guardiansNameLabel)
+                    .addComponent(guardiansNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(backgroundPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(fatherLabel)
-                    .addComponent(fatherTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(guardianLabel)
+                    .addComponent(fathersNameLabel)
+                    .addComponent(fathersNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(religionLabel)
                     .addComponent(religionTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(backgroundPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(motherLabel)
-                    .addComponent(motherTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(religionLabel)
+                    .addComponent(mothersNameLabel)
+                    .addComponent(mothersNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(foundByLabel)
                     .addComponent(foundByTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout backgroundTabLayout = new javax.swing.GroupLayout(backgroundTab);
@@ -749,7 +752,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
             backgroundTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(backgroundTabLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(backgroundPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(backgroundPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -996,6 +999,11 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_lastNameTextFieldActionPerformed
 
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        // TODO add your handling code here:
+        this.mainCommandPanel.getServiceGroupComboBox().addItemListener(new org.jw.service.listener.item.DefaultServiceGroupItemListener(this));
+    }//GEN-LAST:event_formWindowActivated
+
     private void initMyComponents(){
         sgListListener = DefaultComboBoxModelListListener.create(this.mainCommandPanel.getServiceGroupComboBox());
         statusListListener = DefaultComboBoxModelListListener.create(this.statusComboBox);
@@ -1019,6 +1027,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         fcOpenAction = new DefaultFileChooserOpenAction(this.setProfilePictureCommand, this, FileFilterImage.create(), null);        
         treeConstructListener = taskMonitorPanel.createDefaultTaskListener(taskMessageProperties.getProperty("tree.construct.start.message"),taskMessageProperties.getProperty("tree.construct.done.message"));
         utilTree = UtilityTree.create(contactTree, serviceGroupDAO.readAll(), treeConstructListener);        
+        utilTable = new UtilityTable(this.contactsTable, this.contactList);
         buildCrudTask();
     }
     
@@ -1047,13 +1056,18 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         taskBuilder.setDao(contactDAO);
         taskBuilder.buildDefaultTasks();
         
+        treeSelectionListener = new DefaultTreeSelectionListener(this.utilTree, this.utilTable);
+        contactTree.addTreeSelectionListener(treeSelectionListener);
+        
         // Set Dependencies
         RecordNumberPreDependency recordNumberPreDependency = new RecordNumberPreDependency(this, serviceGroupDAO, this.mainCommandPanel.getServiceGroupComboBox());        
-        RecordNumberPostDependency recordNumberPostDependency = new RecordNumberPostDependency(contactDAO, serviceGroupDAO, this.mainCommandPanel.getServiceGroupComboBox());                
+        NewContactPostDependency recordNumberPostDependency = new NewContactPostDependency(contactDAO, serviceGroupDAO, this.mainCommandPanel.getServiceGroupComboBox(), utilTree);                
         ProfileSetPostDependency profileSetPostDependency = new ProfileSetPostDependency(this.profilePictureLabel);
+        RefreshContactListPostDependency refreshContactListPostDependency = new RefreshContactListPostDependency(utilTree);
         taskBuilder.getNewAction().addPreActionCommands("recordNumberPreDependency",recordNumberPreDependency);        
         taskBuilder.getNewAction().addPostActionCommands("recordNumberPostDependency",recordNumberPostDependency);        
         taskBuilder.getCloseAction().addPreActionCommands("systemExitPreDependency", new DefaultSystemExitPreDependency(this, em));
+        taskBuilder.getRefreshAction().addPostActionCommands("refreshContactListPostDependency", refreshContactListPostDependency);
         this.fcOpenAction.addPostActionCommands("profileSetPostDependency", profileSetPostDependency);
         
     }
@@ -1090,14 +1104,14 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     private javax.swing.JTextField facebookTextField;
     private javax.swing.JLabel familyLabel;
     private javax.swing.JTextField familyTextField;
-    private javax.swing.JLabel fatherLabel;
-    private javax.swing.JTextField fatherTextField;
+    private javax.swing.JLabel fathersNameLabel;
+    private javax.swing.JTextField fathersNameTextField;
     private javax.swing.JLabel firstNameLabel;
     private javax.swing.JTextField firstNameTextField;
     private javax.swing.JLabel foundByLabel;
     private javax.swing.JTextField foundByTextField;
-    private javax.swing.JLabel guardianLabel;
-    private javax.swing.JTextField guardianTextField;
+    private javax.swing.JLabel guardiansNameLabel;
+    private javax.swing.JTextField guardiansNameTextField;
     private javax.swing.JLabel houseNumberLabel;
     private javax.swing.JTextField houseNumberTextField;
     private javax.swing.JMenu jMenu1;
@@ -1112,8 +1126,8 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JLabel mobileNumberLabel;
     private javax.swing.JTextField mobileNumberTextField;
-    private javax.swing.JLabel motherLabel;
-    private javax.swing.JTextField motherTextField;
+    private javax.swing.JLabel mothersNameLabel;
+    private javax.swing.JTextField mothersNameTextField;
     private javax.swing.JLabel nationalityLabel;
     private javax.swing.JTextField nationalityTextField;
     private javax.swing.JLabel nickNameLabel;
@@ -1154,8 +1168,8 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem territoryMenuItem;
     private javax.swing.JScrollPane treeScrollPane;
     private javax.swing.JComboBox treeViewComboBox;
-    private javax.swing.JLabel workLabel;
-    private javax.swing.JTextField workTextField;
+    private javax.swing.JLabel workBackgroundLabel;
+    private javax.swing.JTextField workBackgroundTextField;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
@@ -1187,6 +1201,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     DefaultCrudPanel surrogateCrudPanel;
     UtilityProperties taskMessageProperties = UtilityProperties.create(UtilityProperties.TASK_MESSAGE_PROPERTIES);            
     UtilityTree utilTree;
+    UtilityTable utilTable;
     DefaultCloseAction<Contact> closeAction;
     DefaultNewAction<Contact> newAction;
     DefaultDeleteAction<Contact> deleteAction;
@@ -1195,4 +1210,5 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     DefaultFileChooserOpenAction fcOpenAction;
     ObservableList contactObservableList;
     DefaultTaskListener treeConstructListener;
+    DefaultTreeSelectionListener treeSelectionListener;
 }

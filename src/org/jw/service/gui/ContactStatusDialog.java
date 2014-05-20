@@ -186,21 +186,34 @@ public class ContactStatusDialog extends javax.swing.JDialog {
         statusTable.setAutoCreateRowSorter(true);
 
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, statusList, statusTable);
-        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${name}"));
+        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${saveState}"));
+        columnBinding.setColumnName("");
+        columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${name}"));
         columnBinding.setColumnName("Name");
         columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${description}"));
         columnBinding.setColumnName("Description");
         columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${modifiable}"));
         columnBinding.setColumnName("Modifiable");
         columnBinding.setColumnClass(Boolean.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${printable}"));
         columnBinding.setColumnName("Printable");
         columnBinding.setColumnClass(Boolean.class);
+        columnBinding.setEditable(false);
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
         scrollPane.setViewportView(statusTable);
+        if (statusTable.getColumnModel().getColumnCount() > 0) {
+            statusTable.getColumnModel().getColumn(0).setResizable(false);
+            statusTable.getColumnModel().getColumn(0).setPreferredWidth(10);
+            statusTable.getColumnModel().getColumn(0).setCellRenderer(org.jw.service.table.cell.renderer.DefaultStateCellRenderer.create());
+        }
 
         javax.swing.GroupLayout statusPanelLayout = new javax.swing.GroupLayout(statusPanel);
         statusPanel.setLayout(statusPanelLayout);

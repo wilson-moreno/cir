@@ -252,20 +252,67 @@
             <Component class="javax.swing.JTable" name="statusTable">
               <Properties>
                 <Property name="autoCreateRowSorter" type="boolean" value="true"/>
+                <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
+                  <TableColumnModel selectionModel="0">
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="10" resizable="false">
+                      <Title/>
+                      <Editor/>
+                      <Renderer editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                        <Connection code="org.jw.service.table.cell.renderer.DefaultStateCellRenderer.create()" type="code"/>
+                      </Renderer>
+                    </Column>
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                      <Title/>
+                      <Editor/>
+                      <Renderer/>
+                    </Column>
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                      <Title/>
+                      <Editor/>
+                      <Renderer/>
+                    </Column>
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                      <Title/>
+                      <Editor/>
+                      <Renderer/>
+                    </Column>
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                      <Title/>
+                      <Editor/>
+                      <Renderer/>
+                    </Column>
+                  </TableColumnModel>
+                </Property>
+                <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
+                  <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
+                </Property>
               </Properties>
               <BindingProperties>
                 <BindingProperty name="elements" source="statusList" target="statusTable" targetPath="elements" updateStrategy="0" immediately="true">
-                  <Subbinding sourcePath="${name}">
+                  <Subbinding sourcePath="${saveState}">
+                    <BindingParameter name="NAME" value=""/>
                     <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
+                    <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
+                  </Subbinding>
+                  <Subbinding sourcePath="${name}">
+                    <BindingParameter name="NAME" value="Name"/>
+                    <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
+                    <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
                   </Subbinding>
                   <Subbinding sourcePath="${description}">
+                    <BindingParameter name="NAME" value="Description"/>
                     <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
+                    <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
                   </Subbinding>
                   <Subbinding sourcePath="${modifiable}">
+                    <BindingParameter name="NAME" value="Modifiable"/>
                     <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Boolean.class"/>
+                    <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
                   </Subbinding>
                   <Subbinding sourcePath="${printable}">
+                    <BindingParameter name="NAME" value="Printable"/>
                     <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Boolean.class"/>
+                    <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
                   </Subbinding>
                 </BindingProperty>
               </BindingProperties>

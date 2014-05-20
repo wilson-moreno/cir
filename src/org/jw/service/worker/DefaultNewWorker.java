@@ -31,7 +31,7 @@ public class DefaultNewWorker<T> extends SwingWorker<T, String>{
         this.list = list;
         this.addPropertyChangeListener(taskListener);
         this.stateListener = stateListener;
-        this.utilTable = UtilityTable.create(table);
+        this.utilTable = new UtilityTable(table, list);
     }
 
     @Override

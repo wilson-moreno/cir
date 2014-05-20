@@ -225,27 +225,42 @@ public class ServiceGroupDialog extends javax.swing.JDialog {
         serviceGroupsTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, serviceGroupList, serviceGroupsTable);
-        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${name}"));
+        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${saveState}"));
+        columnBinding.setColumnName("");
+        columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${name}"));
         columnBinding.setColumnName("Name");
         columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${overseer}"));
         columnBinding.setColumnName("Overseer");
         columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${assistant}"));
         columnBinding.setColumnName("Assistant");
         columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${prefix}"));
         columnBinding.setColumnName("Prefix");
         columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${startNumber}"));
         columnBinding.setColumnName("Start Number");
         columnBinding.setColumnClass(Integer.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${nextNumber}"));
         columnBinding.setColumnName("Next Number");
         columnBinding.setColumnClass(Integer.class);
+        columnBinding.setEditable(false);
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
         scrollPane.setViewportView(serviceGroupsTable);
+        if (serviceGroupsTable.getColumnModel().getColumnCount() > 0) {
+            serviceGroupsTable.getColumnModel().getColumn(0).setResizable(false);
+            serviceGroupsTable.getColumnModel().getColumn(0).setPreferredWidth(10);
+            serviceGroupsTable.getColumnModel().getColumn(0).setCellRenderer(org.jw.service.table.cell.renderer.DefaultStateCellRenderer.create());
+        }
 
         javax.swing.GroupLayout groupsPanelLayout = new javax.swing.GroupLayout(groupsPanel);
         groupsPanel.setLayout(groupsPanelLayout);
