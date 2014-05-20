@@ -41,5 +41,7 @@ public class UtilityTable<T> {
         selectRow(modelIndex);
     }
     
-    
+    public T getSelectedItem(){
+        return list.get(this.getSelectedModelIndex());
+    }
 }

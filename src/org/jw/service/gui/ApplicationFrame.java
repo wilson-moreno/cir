@@ -28,8 +28,11 @@ import org.jw.service.entity.ServiceGroup;
 import org.jw.service.file.filter.FileFilterImage;
 import org.jw.service.gui.component.DefaultCrudPanel;
 import org.jw.service.listener.combobox.DefaultComboBoxModelListListener;
+import org.jw.service.listener.list.ContactObservableListListener;
+import org.jw.service.listener.selection.ContactListSelectionListener;
 import org.jw.service.listener.task.DefaultTaskListener;
 import org.jw.service.listener.tree.selection.DefaultTreeSelectionListener;
+import org.jw.service.util.UtilityDatabase;
 import org.jw.service.util.UtilityProperties;
 import org.jw.service.util.UtilityTable;
 import org.jw.service.util.UtilityTree;
@@ -45,7 +48,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
      * @param em
      */
     public ApplicationFrame(EntityManager em) {        
-        this.em = em;
+        this.em = em;        
         initComponents();
         initMyComponents();        
     }
@@ -1022,12 +1025,14 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         openLocationMapAction = new DefaultOpenAction(openLocationMapCommand,this,locationMapDialog, null);        
         openContactCallsAction = new DefaultOpenAction(this.mainCommandPanel.getContactCallsCommand(),this,contactCallsDialog, null);        
         openReportTemplatesAction = new DefaultOpenAction(this.reportTemplatesMenuItem,this,appsReportDialog, null);        
-        openReportPrintAction = new DefaultOpenAction(this.mainCommandPanel.getPrintCommand(),this,reportPrintDialog, null);        
+        openReportPrintAction = new DefaultOpenAction(this.mainCommandPanel.getReportsCommand(),this,reportPrintDialog, null);        
         openTerritoryAction = new DefaultOpenAction(this.territoryMenuItem, this, territoryDialog, null);
         fcOpenAction = new DefaultFileChooserOpenAction(this.setProfilePictureCommand, this, FileFilterImage.create(), null);        
         treeConstructListener = taskMonitorPanel.createDefaultTaskListener(taskMessageProperties.getProperty("tree.construct.start.message"),taskMessageProperties.getProperty("tree.construct.done.message"));
         utilTree = UtilityTree.create(contactTree, serviceGroupDAO.readAll(), treeConstructListener);        
         utilTable = new UtilityTable(this.contactsTable, this.contactList);
+        openContactCallsAction.setEnabled(false);
+        openReportPrintAction.setEnabled(false);        
         buildCrudTask();
     }
     
@@ -1058,6 +1063,9 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         
         treeSelectionListener = new DefaultTreeSelectionListener(this.utilTree, this.utilTable);
         contactTree.addTreeSelectionListener(treeSelectionListener);
+        
+        contactObservableList.addObservableListListener(ContactObservableListListener.create(openContactCallsAction, openReportPrintAction));
+        contactsTable.getSelectionModel().addListSelectionListener(ContactListSelectionListener.create(openContactCallsAction, openReportPrintAction));
         
         // Set Dependencies
         RecordNumberPreDependency recordNumberPreDependency = new RecordNumberPreDependency(this, serviceGroupDAO, this.mainCommandPanel.getServiceGroupComboBox());        
@@ -1201,7 +1209,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     DefaultCrudPanel surrogateCrudPanel;
     UtilityProperties taskMessageProperties = UtilityProperties.create(UtilityProperties.TASK_MESSAGE_PROPERTIES);            
     UtilityTree utilTree;
-    UtilityTable utilTable;
+    UtilityTable utilTable;    
     DefaultCloseAction<Contact> closeAction;
     DefaultNewAction<Contact> newAction;
     DefaultDeleteAction<Contact> deleteAction;

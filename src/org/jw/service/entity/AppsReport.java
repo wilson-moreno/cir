@@ -52,6 +52,11 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "AppsReport.findByCreatedDatetime", query = "SELECT a FROM AppsReport a WHERE a.createdDatetime = :createdDatetime"),
     @NamedQuery(name = "AppsReport.findByUpdatedDatetime", query = "SELECT a FROM AppsReport a WHERE a.updatedDatetime = :updatedDatetime")})
 public class AppsReport implements Serializable, ObservableEntity, SilentSetter {
+    @Lob
+    @Column(name = "FILE_JASPER")
+    private byte[] fileJasper;
+    @Column(name = "DATASOURCE_TYPE")
+    private String datasourceType;        
     private static final long serialVersionUID = 1L;
     public static final String PROP_CODE = "code";
     @Id
@@ -70,9 +75,6 @@ public class AppsReport implements Serializable, ObservableEntity, SilentSetter 
     @Column(name = "REPORT_DATE")
     @Temporal(TemporalType.TIMESTAMP)
     private Date reportDate;
-    @Lob
-    @Column(name = "FILE_JASPER")
-    private byte[] fileJasper;
     @Column(name = "FILE_NAME")
     private String fileName;
     @Column(name = "FILE_MODIFIED_DATETIME")
@@ -500,5 +502,13 @@ public class AppsReport implements Serializable, ObservableEntity, SilentSetter 
         this.reportType = reportType;
         propertyChangeSupport.firePropertyChange("reportType", oldReportType, reportType);
     }
+
     
+    public String getDatasourceType() {
+        return datasourceType;
+    }
+
+    public void setDatasourceType(String datasourceType) {
+        this.datasourceType = datasourceType;
+    }
 }

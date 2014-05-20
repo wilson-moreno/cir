@@ -286,17 +286,6 @@
                                   <Component id="jScrollPane1" max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="titleLabel" linkSize="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="descriptionLabel" linkSize="3" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="descriptionTextField" max="32767" attributes="0"/>
-                                      <Component id="titleTextField" max="32767" attributes="0"/>
-                                  </Group>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
                                   <Group type="103" groupAlignment="1" max="-2" attributes="0">
                                       <Group type="102" alignment="0" attributes="0">
                                           <Component id="nameLabel" linkSize="3" min="-2" max="-2" attributes="0"/>
@@ -326,10 +315,21 @@
                                           <Component id="enableCheckBox" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
-                                  <EmptySpace max="32767" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="visibleCheckBox" pref="63" max="32767" attributes="0"/>
                                       <Component id="lineLimitTextField" max="32767" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <Group type="102" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="titleLabel" linkSize="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="descriptionLabel" linkSize="3" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="titleTextField" max="32767" attributes="0"/>
+                                      <Component id="descriptionTextField" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -534,8 +534,8 @@
                   <BindingProperties>
                     <BindingProperty name="text" source="reportTable" sourcePath="${selectedElement.lineLimit}" target="lineLimitTextField" targetPath="text" updateStrategy="0" immediately="false">
                       <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
-                      <Property name="nullValue" type="java.lang.String" value="null"/>
-                      <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+                      <Property name="nullValue" type="java.lang.String" value=""/>
+                      <Property name="incompletePathValue" type="java.lang.String" value=""/>
                     </BindingProperty>
                   </BindingProperties>
                 </Component>

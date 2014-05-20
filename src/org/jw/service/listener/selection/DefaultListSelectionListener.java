@@ -11,11 +11,13 @@ import javax.swing.AbstractAction;
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import org.jw.service.entity.ObservableEntity;
 import org.jw.service.util.UtilityTable;
 
 /**
  *
  * @author Wilson
+ * @param <T>
  */
 public class DefaultListSelectionListener<T> implements ListSelectionListener{
 
@@ -35,9 +37,15 @@ public class DefaultListSelectionListener<T> implements ListSelectionListener{
     }
     
     @Override
-    public void valueChanged(ListSelectionEvent lse) {        
-        if(!lse.getValueIsAdjusting()){
-            deleteAction.setEnabled(true);            
+    public void valueChanged(ListSelectionEvent lse) {          
+        if(!lse.getValueIsAdjusting()){            
+            deleteAction.setEnabled(true);
+            ObservableEntity entity = (ObservableEntity)utilTable.getSelectedItem();
+            if(entity.getSaveState().equalsIgnoreCase("*")){
+                saveAction.setEnabled(true);
+            }else{
+                saveAction.setEnabled(false);
+            }
         }
     }
     

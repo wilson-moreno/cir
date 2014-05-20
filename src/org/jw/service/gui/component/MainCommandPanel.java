@@ -41,6 +41,7 @@ public class MainCommandPanel extends javax.swing.JPanel {
         backupCommand = new javax.swing.JButton();
         searchCommand = new javax.swing.JButton();
         printCommand = new javax.swing.JButton();
+        reportsCommand = new javax.swing.JButton();
         serviceGroupComboBox = new javax.swing.JComboBox();
         separator = new javax.swing.JSeparator();
 
@@ -101,6 +102,12 @@ public class MainCommandPanel extends javax.swing.JPanel {
         printCommand.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         toolBar.add(printCommand);
 
+        reportsCommand.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.report.print.icon.png"))); // NOI18N
+        reportsCommand.setText("Reports");
+        reportsCommand.setFocusable(false);
+        reportsCommand.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        toolBar.add(reportsCommand);
+
         toolBar.add(serviceGroupComboBox);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -129,6 +136,7 @@ public class MainCommandPanel extends javax.swing.JPanel {
     private javax.swing.JButton newCommand;
     private javax.swing.JButton printCommand;
     private javax.swing.JButton refreshCommand;
+    private javax.swing.JButton reportsCommand;
     private javax.swing.JButton saveCommand;
     private javax.swing.JButton searchCommand;
     private javax.swing.JSeparator separator;
@@ -200,5 +208,9 @@ public class MainCommandPanel extends javax.swing.JPanel {
      */
     public javax.swing.JButton getSearchCommand() {
         return searchCommand;
+    }
+    
+    public javax.swing.JButton getReportsCommand(){
+        return reportsCommand;
     }
 }

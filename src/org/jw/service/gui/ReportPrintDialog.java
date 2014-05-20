@@ -10,10 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.swing.DefaultComboBoxModel;
+import org.jw.service.action.DefaultPrintAction;
 import org.jw.service.dao.DataAccessObject;
 import org.jw.service.entity.AppsReport;
 import org.jw.service.factory.DefaultParameterListFactory;
 import org.jw.service.print.PrintParameter;
+import org.jw.service.util.UtilityDatabase;
+import org.jw.service.util.UtilityReportPrint;
 
 /**
  *
@@ -29,6 +32,8 @@ public class ReportPrintDialog extends javax.swing.JDialog {
     public ReportPrintDialog(java.awt.Frame parent, boolean modal, EntityManager em) {
         super(parent, modal);
         this.em = em;
+        this.utilDB = UtilityDatabase.create(em);
+        this.utilPrint = UtilityReportPrint.create(utilDB, null);
         initComponents();
         initMyComponents();
     }
@@ -36,7 +41,8 @@ public class ReportPrintDialog extends javax.swing.JDialog {
     private void initMyComponents(){
         DataAccessObject<AppsReport> dao = DataAccessObject.create(em, AppsReport.class);
         List<AppsReport> list = dao.readAll();
-        this.reportsComboBox.setModel(new DefaultComboBoxModel(list.toArray()));        
+        this.reportsComboBox.setModel(new DefaultComboBoxModel(list.toArray()));                
+        this.printAction = new DefaultPrintAction(printCommand, reportsComboBox, utilPrint, printParametersList);
     }
 
     /**
@@ -174,6 +180,9 @@ public class ReportPrintDialog extends javax.swing.JDialog {
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
+    private UtilityDatabase utilDB;
+    private UtilityReportPrint utilPrint;
+    private DefaultPrintAction printAction;
 }
 
 
