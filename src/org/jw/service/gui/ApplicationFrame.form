@@ -52,9 +52,17 @@
                 <Property name="text" type="java.lang.String" value="Territories"/>
               </Properties>
             </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="meetingPlacesMenuItem">
+              <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/org/jw/service/gui/resources/icon/default.fsg.meeting.place.png"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Meeting Places"/>
+              </Properties>
+            </MenuItem>
           </SubComponents>
         </Menu>
-        <Menu class="javax.swing.JMenu" name="jMenu1">
+        <Menu class="javax.swing.JMenu" name="settingsMenu">
           <Properties>
             <Property name="text" type="java.lang.String" value="Settings"/>
           </Properties>

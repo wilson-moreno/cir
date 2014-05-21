@@ -157,7 +157,8 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         serviceGroupsMenuItem = new javax.swing.JMenuItem();
         contactStatusMenuItem = new javax.swing.JMenuItem();
         territoryMenuItem = new javax.swing.JMenuItem();
-        jMenu1 = new javax.swing.JMenu();
+        meetingPlacesMenuItem = new javax.swing.JMenuItem();
+        settingsMenu = new javax.swing.JMenu();
         reportTemplatesMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -956,15 +957,19 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         territoryMenuItem.setText("Territories");
         optionsMenu.add(territoryMenuItem);
 
+        meetingPlacesMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.fsg.meeting.place.png"))); // NOI18N
+        meetingPlacesMenuItem.setText("Meeting Places");
+        optionsMenu.add(meetingPlacesMenuItem);
+
         menuBar.add(optionsMenu);
 
-        jMenu1.setText("Settings");
+        settingsMenu.setText("Settings");
 
         reportTemplatesMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.report.templates.png"))); // NOI18N
         reportTemplatesMenuItem.setText("Reports Templates");
-        jMenu1.add(reportTemplatesMenuItem);
+        settingsMenu.add(reportTemplatesMenuItem);
 
-        menuBar.add(jMenu1);
+        menuBar.add(settingsMenu);
 
         setJMenuBar(menuBar);
 
@@ -1025,14 +1030,16 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         serviceGroupDAO = DataAccessObject.create(em, ServiceGroup.class);
         treeConstructListener = taskMonitorPanel.createDefaultTaskListener(taskMessageProperties.getProperty("tree.construct.start.message"),taskMessageProperties.getProperty("tree.construct.done.message"));
         utilTree = UtilityTree.create(contactTree, serviceGroupDAO, treeConstructListener);        
+        utilTable = UtilityTable.create(contactsTable, contactList, contactDAO);
         serviceGroupDialog = new ServiceGroupDialog(this, true, em, this.sgListListener, utilTree);
         contactStatusDialog = new ContactStatusDialog(this, true, em, this.statusListListener);
-        locationMapDialog = new LocationMapDialog(this, true);
+        locationMapDialog = new LocationMapDialog(this, true, em, utilTable);
         contactCallsDialog = new ContactCallsDialog(this, true, em);
         appsReportDialog = new AppsReportTemplateDialog(this, true, em);
         reportPrintDialog = new ReportPrintDialog(this, true, em);
         territoryDialog = new TerritoryDialog(this, true);
         congregationDialog = new CongregationDialog(this, true, em);
+        meetingPlaceDialog = new MeetingPlaceDialog(this, true, em);
         openServiceGroupAction = new DefaultOpenAction(serviceGroupsMenuItem,this,serviceGroupDialog, null);        
         openContactStatusAction = new DefaultOpenAction(contactStatusMenuItem,this,contactStatusDialog, null);        
         openLocationMapAction = new DefaultOpenAction(openLocationMapCommand,this,locationMapDialog, null);        
@@ -1042,9 +1049,10 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         openReportPrintAction = new DefaultOpenAction(this.mainCommandPanel.getReportsCommand(),this,reportPrintDialog, null);        
         openTerritoryAction = new DefaultOpenAction(this.territoryMenuItem, this, territoryDialog, null);
         openCongregationAction = new DefaultOpenAction(this.congregationMenuItem, this, congregationDialog, null);
+        openMeetingPlaceAction = new DefaultOpenAction(this.meetingPlacesMenuItem, this, meetingPlaceDialog, null);
         fcOpenAction = new DefaultFileChooserOpenAction(this.setProfilePictureCommand, this, FileFilterImage.create(), null);        
         contactPrintAction = new DefaultContactPrintAction(this.mainCommandPanel.getPrintCommand());        
-        utilTable = UtilityTable.create(contactsTable, contactList, contactDAO);
+        
         openContactCallsAction.setEnabled(false);
         contactPrintAction.setEnabled(false);       
         openLocationMapAction.setEnabled(false);
@@ -1153,7 +1161,6 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     private javax.swing.JTextField guardiansNameTextField;
     private javax.swing.JLabel houseNumberLabel;
     private javax.swing.JTextField houseNumberTextField;
-    private javax.swing.JMenu jMenu1;
     private javax.swing.JLabel lastNameLabel;
     private javax.swing.JTextField lastNameTextField;
     private org.jw.service.gui.component.MainCommandPanel mainCommandPanel;
@@ -1162,6 +1169,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     private javax.swing.JToolBar mapsToolBar;
     private javax.swing.JComboBox maritalStatusComboBox;
     private javax.swing.JLabel maritalStatusLabel;
+    private javax.swing.JMenuItem meetingPlacesMenuItem;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JLabel mobileNumberLabel;
     private javax.swing.JTextField mobileNumberTextField;
@@ -1191,6 +1199,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem reportTemplatesMenuItem;
     private javax.swing.JMenuItem serviceGroupsMenuItem;
     private javax.swing.JButton setProfilePictureCommand;
+    private javax.swing.JMenu settingsMenu;
     private javax.swing.JComboBox sexComboBox;
     private javax.swing.JLabel sexLabel;
     private javax.swing.JTextField skypeAccountTextField;
@@ -1223,8 +1232,9 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     ContactCallsDialog contactCallsDialog;
     AppsReportTemplateDialog appsReportDialog;
     ReportPrintDialog reportPrintDialog;
-    TerritoryDialog territoryDialog;
+    TerritoryDialog territoryDialog;    
     CongregationDialog congregationDialog;
+    MeetingPlaceDialog meetingPlaceDialog;
     DefaultOpenAction openServiceGroupAction;
     DefaultOpenAction openContactStatusAction;
     DefaultOpenAction openLocationMapAction;    
@@ -1234,6 +1244,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     DefaultOpenAction openReportPrintAction;
     DefaultOpenAction openTerritoryAction;
     DefaultOpenAction openCongregationAction;
+    DefaultOpenAction openMeetingPlaceAction;
     DefaultContactPrintAction contactPrintAction;
     DataAccessObject<Contact> contactDAO;
     DataAccessObject<ContactStatus> statusDAO;

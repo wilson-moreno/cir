@@ -6,17 +6,29 @@
 
 package org.jw.service.gui.component;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  *
  * @author Wilson
  */
 public class ContactInfoPanel extends javax.swing.JPanel {
-
+    private String recordNumber;
+    private String lastName;
+    private String firstName;
+    private Date recordDate;
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
+    
     /**
      * Creates new form ContactInfoPanel
      */
     public ContactInfoPanel() {
-        initComponents();
+        initComponents();      
+        this.recordNumber = "";
+        this.lastName = "";
+        this.firstName = "";
+        this.recordDate = null;
     }
 
     /**
@@ -28,32 +40,32 @@ public class ContactInfoPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        jTextField6 = new javax.swing.JTextField();
-        jTextField7 = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
-        jTextField8 = new javax.swing.JTextField();
+        recordNumberLabel = new javax.swing.JLabel();
+        lastNameLabel = new javax.swing.JLabel();
+        recordNumberTextField = new javax.swing.JTextField();
+        recordDateLabel = new javax.swing.JLabel();
+        recordDateTextField = new javax.swing.JTextField();
+        lastNameTextField = new javax.swing.JTextField();
+        firstNameLabel = new javax.swing.JLabel();
+        firstNameTextField = new javax.swing.JTextField();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Contact", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
-        jLabel1.setText("Record Number:");
+        recordNumberLabel.setText("Record Number:");
 
-        jLabel2.setText("Last Name:");
+        lastNameLabel.setText("Last Name:");
 
-        jTextField5.setEditable(false);
+        recordNumberTextField.setEditable(false);
 
-        jLabel5.setText("Record Date:");
+        recordDateLabel.setText("Record Date:");
 
-        jTextField6.setEditable(false);
+        recordDateTextField.setEditable(false);
 
-        jTextField7.setEditable(false);
+        lastNameTextField.setEditable(false);
 
-        jLabel6.setText("First Name:");
+        firstNameLabel.setText("First Name:");
 
-        jTextField8.setEditable(false);
+        firstNameTextField.setEditable(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -63,54 +75,105 @@ public class ContactInfoPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
+                        .addComponent(recordNumberLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField5))
+                        .addComponent(recordNumberTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
+                        .addComponent(lastNameLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField7)))
+                        .addComponent(lastNameTextField)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(recordDateLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(firstNameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField6)
-                    .addComponent(jTextField8))
+                    .addComponent(recordDateTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE)
+                    .addComponent(firstNameTextField))
                 .addContainerGap())
         );
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel1, jLabel2});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lastNameLabel, recordNumberLabel});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5)
-                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(recordNumberLabel)
+                    .addComponent(recordNumberTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(recordDateLabel)
+                    .addComponent(recordDateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6)
-                    .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lastNameLabel)
+                    .addComponent(lastNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(firstNameLabel)
+                    .addComponent(firstNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField8;
+    private javax.swing.JLabel firstNameLabel;
+    private javax.swing.JTextField firstNameTextField;
+    private javax.swing.JLabel lastNameLabel;
+    private javax.swing.JTextField lastNameTextField;
+    private javax.swing.JLabel recordDateLabel;
+    private javax.swing.JTextField recordDateTextField;
+    private javax.swing.JLabel recordNumberLabel;
+    private javax.swing.JTextField recordNumberTextField;
     // End of variables declaration//GEN-END:variables
+
+    public void setRecordNumber(String recordNumber){
+        this.recordNumberTextField.setText(recordNumber);
+    }
+    
+    public String getRecordNumber(){
+        return this.recordNumberTextField.getText();
+    }
+
+    /**
+     * @return the lastName
+     */
+    public String getLastName() {
+        return lastNameTextField.getText();
+    }
+
+    /**
+     * @param lastName the lastName to set
+     */
+    public void setLastName(String lastName) {
+        this.lastNameTextField.setText(lastName);
+    }
+
+    /**
+     * @return the firstName
+     */
+    public String getFirstName() {
+        return firstNameTextField.getText();
+    }
+
+    /**
+     * @param firstName the firstName to set
+     */
+    public void setFirstName(String firstName) {
+        this.firstNameTextField.setText(firstName);
+    }
+
+    /**
+     * @return the recordDate
+     */
+    public Date getRecordDate() {
+        return this.recordDate;
+    }
+
+    /**
+     * @param recordDate the recordDate to set
+     */
+    public void setRecordDate(Date recordDate) {
+        this.recordDate = recordDate;
+        this.recordDateTextField.setText(dateFormat.format(recordDate));
+    }
 }

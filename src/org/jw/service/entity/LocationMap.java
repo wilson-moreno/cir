@@ -84,6 +84,12 @@ public class LocationMap implements Serializable {
     private Collection<Contact> contactCollection;
 
     public LocationMap() {
+        this.scale = 4;
+        this.zoom = 16;
+        this.mapType = "roadmap";
+        this.imageFormat = "jpeg";
+        this.width = 400;
+        this.height = 400;
     }
 
     public LocationMap(Integer id) {

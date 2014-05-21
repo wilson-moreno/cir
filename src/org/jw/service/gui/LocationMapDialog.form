@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JDialogFormInfo">
+<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JDialogFormInfo">
+  <NonVisualComponents>
+    <Component class="org.jw.service.entity.Contact" name="contact">
+    </Component>
+    <Component class="org.jw.service.entity.LocationMap" name="locationMap">
+    </Component>
+    <Component class="org.jw.service.beans.ListBean" name="mapTypeListBean">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new org.jw.service.beans.ListBean(&quot;map_types.properties&quot;);&#xd;&#xa;"/>
+      </AuxValues>
+    </Component>
+    <Component class="org.jw.service.beans.ListBean" name="imageFormatListBean">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new org.jw.service.beans.ListBean(&quot;image_formats.properties&quot;);"/>
+      </AuxValues>
+    </Component>
+    <Component class="org.jw.service.beans.ListBean" name="scaleListBean">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new org.jw.service.beans.ListBean(new Integer[]{1, 2, 4})"/>
+      </AuxValues>
+    </Component>
+  </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="2"/>
     <Property name="title" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
@@ -11,6 +32,9 @@
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
     <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
   </SyntheticProperties>
+  <Events>
+    <EventHandler event="windowActivated" listener="java.awt.event.WindowListener" parameters="java.awt.event.WindowEvent" handler="formWindowActivated"/>
+  </Events>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
@@ -26,14 +50,14 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="taskMonitorPanel1" alignment="0" pref="0" max="32767" attributes="0"/>
+          <Component id="taskMonitorPanel" alignment="0" pref="0" max="32767" attributes="0"/>
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jPanel2" alignment="0" max="32767" attributes="0"/>
-                  <Component id="mapCrudPanel1" alignment="1" pref="478" max="32767" attributes="0"/>
-                  <Component id="jPanel1" alignment="0" max="32767" attributes="0"/>
-                  <Component id="contactInfoPanel1" alignment="0" max="32767" attributes="0"/>
+                  <Component id="mapImagePanel" alignment="0" max="32767" attributes="0"/>
+                  <Component id="mapCrudPanel" alignment="1" pref="478" max="32767" attributes="0"/>
+                  <Component id="locationMapPanel" alignment="0" max="32767" attributes="0"/>
+                  <Component id="contactInfoPanel" alignment="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -43,25 +67,37 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="contactInfoPanel1" min="-2" max="-2" attributes="0"/>
+              <Component id="contactInfoPanel" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
+              <Component id="locationMapPanel" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jPanel2" max="32767" attributes="0"/>
+              <Component id="mapImagePanel" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="mapCrudPanel1" min="-2" max="-2" attributes="0"/>
+              <Component id="mapCrudPanel" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="taskMonitorPanel1" min="-2" max="-2" attributes="0"/>
+              <Component id="taskMonitorPanel" min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="org.jw.service.gui.component.ContactInfoPanel" name="contactInfoPanel1">
+    <Component class="org.jw.service.gui.component.ContactInfoPanel" name="contactInfoPanel">
+      <BindingProperties>
+        <BindingProperty name="firstName" source="contact" sourcePath="${firstName}" target="contactInfoPanel" targetPath="firstName" updateStrategy="0" immediately="false">
+          <Property name="nullValue" type="java.lang.String" value="null"/>
+          <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+        </BindingProperty>
+        <BindingProperty name="lastName" source="contact" sourcePath="${lastName}" target="contactInfoPanel" targetPath="lastName" updateStrategy="0" immediately="false"/>
+        <BindingProperty name="recordDate" source="contact" sourcePath="${recordDate}" target="contactInfoPanel" targetPath="recordDate" updateStrategy="0" immediately="false">
+          <Property name="nullValue" type="java.util.Date" value="null"/>
+          <Property name="incompletePathValue" type="java.util.Date" value="null"/>
+        </BindingProperty>
+        <BindingProperty name="recordNumber" source="contact" sourcePath="${recordNumber}" target="contactInfoPanel" targetPath="recordNumber" updateStrategy="0" immediately="false"/>
+      </BindingProperties>
     </Component>
-    <Component class="org.jw.service.gui.component.TaskMonitorPanel" name="taskMonitorPanel1">
+    <Component class="org.jw.service.gui.component.TaskMonitorPanel" name="taskMonitorPanel">
     </Component>
-    <Container class="javax.swing.JPanel" name="jPanel1">
+    <Container class="javax.swing.JPanel" name="locationMapPanel">
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -80,47 +116,47 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="jLabel1" linkSize="7" min="-2" max="-2" attributes="0"/>
+                          <Component id="latitudeLabel" linkSize="7" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jTextField1" min="-2" pref="169" max="-2" attributes="0"/>
+                          <Component id="latitudeTextField" min="-2" pref="169" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="jLabel2" linkSize="7" min="-2" max="-2" attributes="0"/>
+                          <Component id="longitudeLabel" linkSize="7" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jTextField2" max="32767" attributes="0"/>
+                          <Component id="longitudeTextField" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="jLabel3" linkSize="7" min="-2" max="-2" attributes="0"/>
+                          <Component id="mapWidthLabel" linkSize="7" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jTextField3" max="32767" attributes="0"/>
+                          <Component id="mapWidthTextField" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="jLabel4" linkSize="7" min="-2" max="-2" attributes="0"/>
+                          <Component id="heightLabel" linkSize="7" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jTextField4" max="32767" attributes="0"/>
+                          <Component id="mapHeightTextField" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
-                          <Component id="jLabel5" linkSize="8" min="-2" max="-2" attributes="0"/>
+                          <Component id="scaleValueLabel" linkSize="8" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jSpinner1" max="32767" attributes="0"/>
+                          <Component id="scaleValueComboBox" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="jLabel6" linkSize="8" min="-2" max="-2" attributes="0"/>
+                          <Component id="zoomValueLabel" linkSize="8" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jSpinner2" max="32767" attributes="0"/>
+                          <Component id="zoomValueSpinner" pref="172" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" attributes="0">
-                          <Component id="jLabel8" linkSize="8" min="-2" max="-2" attributes="0"/>
+                          <Component id="imageFormatLabel" linkSize="8" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jComboBox2" max="32767" attributes="0"/>
+                          <Component id="imageFormatComboBox" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="jLabel7" linkSize="8" min="-2" max="-2" attributes="0"/>
+                          <Component id="mapTypeLabel" linkSize="8" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jComboBox1" max="32767" attributes="0"/>
+                          <Component id="mapTypeComboBox" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -132,31 +168,31 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jTextField1" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jSpinner1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="latitudeLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="latitudeTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="scaleValueLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="scaleValueComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jTextField2" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jSpinner2" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="longitudeLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="longitudeTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="zoomValueLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="zoomValueSpinner" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jTextField3" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jComboBox1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="mapWidthLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="mapWidthTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="mapTypeLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="mapTypeComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jTextField4" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jComboBox2" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="heightLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="mapHeightTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="imageFormatLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="imageFormatComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -164,85 +200,117 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JLabel" name="jLabel1">
+        <Component class="javax.swing.JLabel" name="latitudeLabel">
           <Properties>
             <Property name="text" type="java.lang.String" value="Latitude:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel2">
+        <Component class="javax.swing.JLabel" name="longitudeLabel">
           <Properties>
             <Property name="text" type="java.lang.String" value="Longitude:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel3">
+        <Component class="javax.swing.JLabel" name="mapWidthLabel">
           <Properties>
             <Property name="text" type="java.lang.String" value="Width:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel4">
+        <Component class="javax.swing.JLabel" name="heightLabel">
           <Properties>
             <Property name="text" type="java.lang.String" value="Height:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="jTextField1">
+        <Component class="javax.swing.JTextField" name="latitudeTextField">
+          <BindingProperties>
+            <BindingProperty name="text" source="locationMap" sourcePath="${latitude}" target="latitudeTextField" targetPath="text" updateStrategy="0" immediately="false">
+              <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+              <Property name="nullValue" type="java.lang.String" value=""/>
+              <Property name="incompletePathValue" type="java.lang.String" value=""/>
+            </BindingProperty>
+          </BindingProperties>
         </Component>
-        <Component class="javax.swing.JTextField" name="jTextField2">
+        <Component class="javax.swing.JTextField" name="longitudeTextField">
+          <BindingProperties>
+            <BindingProperty name="text" source="locationMap" sourcePath="${longitude}" target="longitudeTextField" targetPath="text" updateStrategy="0" immediately="false">
+              <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+              <Property name="nullValue" type="java.lang.String" value=""/>
+              <Property name="incompletePathValue" type="java.lang.String" value=""/>
+            </BindingProperty>
+          </BindingProperties>
         </Component>
-        <Component class="javax.swing.JTextField" name="jTextField3">
+        <Component class="javax.swing.JTextField" name="mapWidthTextField">
+          <BindingProperties>
+            <BindingProperty name="text" source="locationMap" sourcePath="${width}" target="mapWidthTextField" targetPath="text" updateStrategy="0" immediately="false">
+              <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+              <Property name="nullValue" type="java.lang.String" value=""/>
+              <Property name="incompletePathValue" type="java.lang.String" value=""/>
+            </BindingProperty>
+          </BindingProperties>
         </Component>
-        <Component class="javax.swing.JTextField" name="jTextField4">
+        <Component class="javax.swing.JTextField" name="mapHeightTextField">
+          <BindingProperties>
+            <BindingProperty name="text" source="locationMap" sourcePath="${height}" target="mapHeightTextField" targetPath="text" updateStrategy="0" immediately="false">
+              <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+              <Property name="nullValue" type="java.lang.String" value=""/>
+              <Property name="incompletePathValue" type="java.lang.String" value=""/>
+            </BindingProperty>
+          </BindingProperties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel5">
+        <Component class="javax.swing.JLabel" name="scaleValueLabel">
           <Properties>
             <Property name="text" type="java.lang.String" value="Scale:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel6">
+        <Component class="javax.swing.JLabel" name="zoomValueLabel">
           <Properties>
             <Property name="text" type="java.lang.String" value="Zoom:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel7">
+        <Component class="javax.swing.JLabel" name="mapTypeLabel">
           <Properties>
             <Property name="text" type="java.lang.String" value="Type:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel8">
+        <Component class="javax.swing.JLabel" name="imageFormatLabel">
           <Properties>
             <Property name="text" type="java.lang.String" value="Format:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JSpinner" name="jSpinner1">
+        <Component class="javax.swing.JSpinner" name="zoomValueSpinner">
+          <BindingProperties>
+            <BindingProperty name="value" source="locationMap" sourcePath="${zoom}" target="zoomValueSpinner" targetPath="value" updateStrategy="0" immediately="false">
+              <Property name="nullValue" type="java.lang.Object" value="null"/>
+              <Property name="incompletePathValue" type="java.lang.Object" value="null"/>
+            </BindingProperty>
+          </BindingProperties>
         </Component>
-        <Component class="javax.swing.JSpinner" name="jSpinner2">
+        <Component class="javax.swing.JComboBox" name="mapTypeComboBox">
+          <BindingProperties>
+            <BindingProperty name="elements" source="mapTypeListBean" sourcePath="${list}" target="mapTypeComboBox" targetPath="elements" updateStrategy="0" immediately="false"/>
+            <BindingProperty name="selectedItem" source="locationMap" sourcePath="${mapType}" target="mapTypeComboBox" targetPath="selectedItem" updateStrategy="0" immediately="false">
+              <Property name="nullValue" type="java.lang.Object" value="null"/>
+              <Property name="incompletePathValue" type="java.lang.Object" value="null"/>
+            </BindingProperty>
+          </BindingProperties>
         </Component>
-        <Component class="javax.swing.JComboBox" name="jComboBox1">
-          <Properties>
-            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="4">
-                <StringItem index="0" value="Item 1"/>
-                <StringItem index="1" value="Item 2"/>
-                <StringItem index="2" value="Item 3"/>
-                <StringItem index="3" value="Item 4"/>
-              </StringArray>
-            </Property>
-          </Properties>
+        <Component class="javax.swing.JComboBox" name="imageFormatComboBox">
+          <BindingProperties>
+            <BindingProperty name="elements" source="imageFormatListBean" sourcePath="${list}" target="imageFormatComboBox" targetPath="elements" updateStrategy="0" immediately="false"/>
+            <BindingProperty name="selectedItem" source="locationMap" sourcePath="${imageFormat}" target="imageFormatComboBox" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
+          </BindingProperties>
         </Component>
-        <Component class="javax.swing.JComboBox" name="jComboBox2">
-          <Properties>
-            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="4">
-                <StringItem index="0" value="Item 1"/>
-                <StringItem index="1" value="Item 2"/>
-                <StringItem index="2" value="Item 3"/>
-                <StringItem index="3" value="Item 4"/>
-              </StringArray>
-            </Property>
-          </Properties>
+        <Component class="javax.swing.JComboBox" name="scaleValueComboBox">
+          <BindingProperties>
+            <BindingProperty name="elements" source="scaleListBean" sourcePath="${list}" target="scaleValueComboBox" targetPath="elements" updateStrategy="0" immediately="false"/>
+            <BindingProperty name="selectedItem" source="locationMap" sourcePath="${scale}" target="scaleValueComboBox" targetPath="selectedItem" updateStrategy="0" immediately="false">
+              <Property name="nullValue" type="java.lang.Object" value="null"/>
+              <Property name="incompletePathValue" type="java.lang.Object" value="null"/>
+            </BindingProperty>
+          </BindingProperties>
         </Component>
       </SubComponents>
     </Container>
-    <Container class="javax.swing.JPanel" name="jPanel2">
+    <Container class="javax.swing.JPanel" name="mapImagePanel">
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -259,7 +327,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jScrollPane1" max="32767" attributes="0"/>
+                  <Component id="mapImageScrollPane" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -268,14 +336,14 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jScrollPane1" pref="178" max="32767" attributes="0"/>
+                  <Component id="mapImageScrollPane" pref="178" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Container class="javax.swing.JScrollPane" name="jScrollPane1">
+        <Container class="javax.swing.JScrollPane" name="mapImageScrollPane">
           <Properties>
             <Property name="horizontalScrollBarPolicy" type="int" value="32"/>
             <Property name="verticalScrollBarPolicy" type="int" value="22"/>
@@ -283,13 +351,20 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JLabel" name="jLabel9">
+            <Component class="javax.swing.JLabel" name="mapImageLabel">
+              <BindingProperties>
+                <BindingProperty name="icon" source="locationMap" sourcePath="${image}" target="mapImageLabel" targetPath="icon" updateStrategy="0" immediately="false">
+                  <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                    <Connection code="org.jw.service.beansbinding.converter.ByteToImageConverter.create()" type="code"/>
+                  </Property>
+                </BindingProperty>
+              </BindingProperties>
             </Component>
           </SubComponents>
         </Container>
       </SubComponents>
     </Container>
-    <Component class="org.jw.service.gui.component.MapCrudPanel" name="mapCrudPanel1">
+    <Component class="org.jw.service.gui.component.MapCrudPanel" name="mapCrudPanel">
     </Component>
   </SubComponents>
 </Form>

@@ -6,17 +6,22 @@
 
 package org.jw.service.gui;
 
+import javax.persistence.EntityManager;
+
 /**
  *
  * @author Wilson
  */
 public class MeetingPlaceDialog extends javax.swing.JDialog {
-
+    private final EntityManager em;
+    
+    
     /**
      * Creates new form MeetingPlaceDialog
      */
-    public MeetingPlaceDialog(java.awt.Frame parent, boolean modal) {
+    public MeetingPlaceDialog(java.awt.Frame parent, boolean modal, EntityManager em) {
         super(parent, modal);
+        this.em = em;
         initComponents();
     }
 
@@ -28,55 +33,27 @@ public class MeetingPlaceDialog extends javax.swing.JDialog {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        serviceGroupPanel = new javax.swing.JPanel();
-        serviceGroupNameLabel = new javax.swing.JLabel();
-        serviceGroupNameTextField = new javax.swing.JTextField();
+        meetingPlaceList = org.jdesktop.observablecollections.ObservableCollections.observableList(new java.util.ArrayList<org.jw.service.entity.MeetingPlace>());
         meetingPlacePanel = new javax.swing.JPanel();
         nameLabel = new javax.swing.JLabel();
         addressLabel = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        nameTextField = new javax.swing.JTextField();
+        addressTextField = new javax.swing.JTextField();
         latitudeLabel = new javax.swing.JLabel();
         longitudeLabel = new javax.swing.JLabel();
         latitudeTextField = new javax.swing.JTextField();
         longitudeTextField = new javax.swing.JTextField();
-        taskMonitorPanel1 = new org.jw.service.gui.component.TaskMonitorPanel();
-        cRUDPanel1 = new org.jw.service.gui.component.MultipleRecordCrudPanel();
+        taskMonitorPanel = new org.jw.service.gui.component.TaskMonitorPanel();
+        crudPanel = new org.jw.service.gui.component.MultipleRecordCrudPanel();
         meetingPlacesPanel = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        meetingPlaceScrollPane = new javax.swing.JScrollPane();
+        meetingPlaceTable = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/jw/service/gui/resources/properties/dialog_titles"); // NOI18N
         setTitle(bundle.getString("meeting.place.dialog.title")); // NOI18N
-
-        serviceGroupPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Service Group", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
-
-        serviceGroupNameLabel.setText("Name:");
-
-        serviceGroupNameTextField.setEditable(false);
-
-        javax.swing.GroupLayout serviceGroupPanelLayout = new javax.swing.GroupLayout(serviceGroupPanel);
-        serviceGroupPanel.setLayout(serviceGroupPanelLayout);
-        serviceGroupPanelLayout.setHorizontalGroup(
-            serviceGroupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(serviceGroupPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(serviceGroupNameLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(serviceGroupNameTextField)
-                .addContainerGap())
-        );
-        serviceGroupPanelLayout.setVerticalGroup(
-            serviceGroupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(serviceGroupPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(serviceGroupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(serviceGroupNameLabel)
-                    .addComponent(serviceGroupNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
-        );
 
         meetingPlacePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Meeting Place", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
@@ -84,9 +61,29 @@ public class MeetingPlaceDialog extends javax.swing.JDialog {
 
         addressLabel.setText("Address:");
 
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, meetingPlaceTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.name}"), nameTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
+        bindingGroup.addBinding(binding);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, meetingPlaceTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.address}"), addressTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
+        bindingGroup.addBinding(binding);
+
         latitudeLabel.setText("Latitude:");
 
         longitudeLabel.setText("Longitude:");
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, meetingPlaceTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.latitude}"), latitudeTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
+        bindingGroup.addBinding(binding);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, meetingPlaceTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.longitude}"), longitudeTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
+        bindingGroup.addBinding(binding);
 
         javax.swing.GroupLayout meetingPlacePanelLayout = new javax.swing.GroupLayout(meetingPlacePanel);
         meetingPlacePanel.setLayout(meetingPlacePanelLayout);
@@ -98,11 +95,11 @@ public class MeetingPlaceDialog extends javax.swing.JDialog {
                     .addGroup(meetingPlacePanelLayout.createSequentialGroup()
                         .addComponent(nameLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1))
+                        .addComponent(nameTextField))
                     .addGroup(meetingPlacePanelLayout.createSequentialGroup()
                         .addComponent(addressLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField2))
+                        .addComponent(addressTextField))
                     .addGroup(meetingPlacePanelLayout.createSequentialGroup()
                         .addComponent(longitudeLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -122,11 +119,11 @@ public class MeetingPlaceDialog extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(meetingPlacePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(nameLabel)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(meetingPlacePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(addressLabel)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(addressTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(meetingPlacePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(latitudeLabel)
@@ -140,18 +137,31 @@ public class MeetingPlaceDialog extends javax.swing.JDialog {
 
         meetingPlacesPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Places", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane1.setViewportView(jTable1);
+        org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, meetingPlaceList, meetingPlaceTable);
+        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${saveState}"));
+        columnBinding.setColumnName("");
+        columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${name}"));
+        columnBinding.setColumnName("Name");
+        columnBinding.setColumnClass(String.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${address}"));
+        columnBinding.setColumnName("Address");
+        columnBinding.setColumnClass(String.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${latitude}"));
+        columnBinding.setColumnName("Latitude");
+        columnBinding.setColumnClass(Double.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${longitude}"));
+        columnBinding.setColumnName("Longitude");
+        columnBinding.setColumnClass(Double.class);
+        bindingGroup.addBinding(jTableBinding);
+        jTableBinding.bind();
+        meetingPlaceScrollPane.setViewportView(meetingPlaceTable);
+        if (meetingPlaceTable.getColumnModel().getColumnCount() > 0) {
+            meetingPlaceTable.getColumnModel().getColumn(0).setResizable(false);
+            meetingPlaceTable.getColumnModel().getColumn(0).setPreferredWidth(10);
+            meetingPlaceTable.getColumnModel().getColumn(0).setCellRenderer(org.jw.service.table.cell.renderer.DefaultStateCellRenderer.create());
+        }
 
         javax.swing.GroupLayout meetingPlacesPanelLayout = new javax.swing.GroupLayout(meetingPlacesPanel);
         meetingPlacesPanel.setLayout(meetingPlacesPanelLayout);
@@ -159,14 +169,14 @@ public class MeetingPlaceDialog extends javax.swing.JDialog {
             meetingPlacesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(meetingPlacesPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 529, Short.MAX_VALUE)
+                .addComponent(meetingPlaceScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                 .addContainerGap())
         );
         meetingPlacesPanelLayout.setVerticalGroup(
             meetingPlacesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(meetingPlacesPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(meetingPlaceScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -175,33 +185,28 @@ public class MeetingPlaceDialog extends javax.swing.JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(taskMonitorPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(serviceGroupPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(meetingPlacePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cRUDPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(meetingPlacesPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(meetingPlacePanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(meetingPlacesPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(crudPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(taskMonitorPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(serviceGroupPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(meetingPlacePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(meetingPlacesPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(meetingPlacesPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cRUDPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(taskMonitorPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(crudPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(taskMonitorPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
+
+        bindingGroup.bind();
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -209,21 +214,20 @@ public class MeetingPlaceDialog extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel addressLabel;
-    private org.jw.service.gui.component.MultipleRecordCrudPanel cRUDPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField addressTextField;
+    private org.jw.service.gui.component.MultipleRecordCrudPanel crudPanel;
     private javax.swing.JLabel latitudeLabel;
     private javax.swing.JTextField latitudeTextField;
     private javax.swing.JLabel longitudeLabel;
     private javax.swing.JTextField longitudeTextField;
+    private java.util.List<org.jw.service.entity.MeetingPlace> meetingPlaceList;
     private javax.swing.JPanel meetingPlacePanel;
+    private javax.swing.JScrollPane meetingPlaceScrollPane;
+    private javax.swing.JTable meetingPlaceTable;
     private javax.swing.JPanel meetingPlacesPanel;
     private javax.swing.JLabel nameLabel;
-    private javax.swing.JLabel serviceGroupNameLabel;
-    private javax.swing.JTextField serviceGroupNameTextField;
-    private javax.swing.JPanel serviceGroupPanel;
-    private org.jw.service.gui.component.TaskMonitorPanel taskMonitorPanel1;
+    private javax.swing.JTextField nameTextField;
+    private org.jw.service.gui.component.TaskMonitorPanel taskMonitorPanel;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }
