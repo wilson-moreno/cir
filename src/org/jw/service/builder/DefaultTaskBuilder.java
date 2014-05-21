@@ -19,7 +19,7 @@ import org.jw.service.action.DefaultSaveAction;
 import org.jw.service.action.dependency.DefaultDeletePreDependency;
 import org.jw.service.dao.DataAccessObject;
 import org.jw.service.entity.ObservableEntity;
-import org.jw.service.gui.component.DefaultCrudPanel;
+import org.jw.service.gui.component.MultipleRecordCrudPanel;
 import org.jw.service.gui.component.TaskMonitorPanel;
 import org.jw.service.listener.list.DefaultObservableListListener;
 import org.jw.service.listener.selection.DefaultListSelectionListener;
@@ -46,7 +46,7 @@ public class DefaultTaskBuilder<T> {
     public static final String PROP_CLOSEACTION = "PROP_CLOSEACTION";
     public static final String PROP_DAO = "PROP_DAO";
     public static final String PROP_EM = "PROP_EM";
-    private DefaultCrudPanel crudPanel;
+    private MultipleRecordCrudPanel crudPanel;
     private TaskMonitorPanel taskMonitorPanel;
     private UtilityProperties properties;
     private String entityName;
@@ -74,8 +74,8 @@ public class DefaultTaskBuilder<T> {
     /**
      * @param crudPanel the crudPanel to set
      */
-    public void setCrudPanel(DefaultCrudPanel crudPanel) {
-        org.jw.service.gui.component.DefaultCrudPanel oldCrudPanel = this.crudPanel;
+    public void setMultipleRecordCrudPanel(MultipleRecordCrudPanel crudPanel) {
+        org.jw.service.gui.component.MultipleRecordCrudPanel oldCrudPanel = this.crudPanel;
         this.crudPanel = crudPanel;
         propertyChangeSupport.firePropertyChange(PROP_CRUDPANEL, oldCrudPanel, crudPanel);
     }
@@ -232,6 +232,10 @@ public class DefaultTaskBuilder<T> {
      */
     public DefaultRefreshAction getRefreshAction() {
         return refreshAction;
+    }
+    
+    public DefaultDeleteAction getDeleteAction(){
+        return deleteAction;
     }
 }
   

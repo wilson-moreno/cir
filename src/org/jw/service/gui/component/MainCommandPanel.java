@@ -213,4 +213,6 @@ public class MainCommandPanel extends javax.swing.JPanel {
     public javax.swing.JButton getReportsCommand(){
         return reportsCommand;
     }
+    
+    
 }

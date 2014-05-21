@@ -57,6 +57,17 @@ public class UtilityTree {
         }
     }
     
+    public void updateNode(Contact contact){
+        try {
+            TreePath treePath = findTreePath(contact);
+            if(treePath != null){
+                DefaultMutableTreeNode node = (DefaultMutableTreeNode) treePath.getLastPathComponent();
+            }
+        } catch (InterruptedException | ExecutionException ex) {
+            Logger.getLogger(UtilityTree.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public void addNode(Contact contact){
         try {        
             TreePath treePath = findTreePath(contact.getServiceGroupId());
@@ -71,6 +82,19 @@ public class UtilityTree {
         }
     }
     
+    public void removeNode(Contact contact){
+        try {
+            TreePath treePath = findTreePath(contact);
+            if(treePath != null){
+                DefaultMutableTreeNode node = (DefaultMutableTreeNode) treePath.getLastPathComponent();
+                model.removeNodeFromParent(node);
+                model.reload();
+            }
+        } catch (InterruptedException | ExecutionException ex) {
+            Logger.getLogger(UtilityTree.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public void refresh(){ constructTree(); }
     public Object getLastSelectedPathComponent(){ return tree.getLastSelectedPathComponent(); }
     
@@ -79,6 +103,12 @@ public class UtilityTree {
         serviceGroupSearchWorker.execute();
         return serviceGroupSearchWorker.get();
     } 
+    
+    private TreePath findTreePath(Contact contact) throws InterruptedException, ExecutionException{
+        contactSearchWorker = new DefaultSearchTreePathWorker(root, Contact.class, contact);
+        contactSearchWorker.execute();
+        return contactSearchWorker.get();
+    }
     
     
     DefaultSearchTreePathWorker<ServiceGroup> serviceGroupSearchWorker; 

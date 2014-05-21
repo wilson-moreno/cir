@@ -41,7 +41,7 @@ public class ContactCallsDialog extends javax.swing.JDialog {
         DefaultTaskBuilder<ContactCall> taskBuilder = new DefaultTaskBuilder();
         taskBuilder.setEntityName("calls");
         taskBuilder.setProperties(taskMessageProperties);
-        taskBuilder.setCrudPanel(crudPanel);
+        taskBuilder.setMultipleRecordCrudPanel(crudPanel);
         taskBuilder.setTaskMonitorPanel(taskMonitorPanel);
         taskBuilder.setCloseAction(closeAction);
         taskBuilder.setNewAction(newAction);
@@ -67,7 +67,7 @@ public class ContactCallsDialog extends javax.swing.JDialog {
 
         contactCallsList = org.jdesktop.observablecollections.ObservableCollections.observableList(new java.util.ArrayList<org.jw.service.entity.ContactCall>());
         taskMonitorPanel = new org.jw.service.gui.component.TaskMonitorPanel();
-        crudPanel = new org.jw.service.gui.component.DefaultCrudPanel();
+        crudPanel = new org.jw.service.gui.component.MultipleRecordCrudPanel();
         contactCallPanel = new javax.swing.JPanel();
         callDateLabel = new javax.swing.JLabel();
         callDateChooser = new com.toedter.calendar.JDateChooser();
@@ -343,7 +343,7 @@ public class ContactCallsDialog extends javax.swing.JDialog {
     private javax.swing.JPanel contactCallPanel;
     private java.util.List<org.jw.service.entity.ContactCall> contactCallsList;
     private org.jw.service.gui.component.ContactInfoPanel contactInfoPanel1;
-    private org.jw.service.gui.component.DefaultCrudPanel crudPanel;
+    private org.jw.service.gui.component.MultipleRecordCrudPanel crudPanel;
     private javax.swing.JComboBox dayComboBox;
     private javax.swing.JLabel literatureLabel;
     private javax.swing.JTextField literatureTextField;

@@ -14,12 +14,12 @@ import org.jw.service.listener.task.DefaultTaskListener;
  *
  * @author Wilson
  */
-public class DefaultCrudPanel extends javax.swing.JPanel {
+public class MultipleRecordCrudPanel extends javax.swing.JPanel {
 
     /**
      * Creates new form CRUDPanel
      */
-    public DefaultCrudPanel() {
+    public MultipleRecordCrudPanel() {
         initComponents();
     }
 

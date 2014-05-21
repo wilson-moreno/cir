@@ -64,7 +64,7 @@
               <Component id="taskMonitorPanel" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
           </Group>
-          <Group type="102" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="crudPanel" max="32767" attributes="0"/>
@@ -81,10 +81,10 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="reportTabbedPane" min="-2" pref="271" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="templatesPanel" max="32767" attributes="0"/>
+              <Component id="templatesPanel" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="crudPanel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace pref="12" max="32767" attributes="0"/>
               <Component id="taskMonitorPanel" min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -92,8 +92,6 @@
   </Layout>
   <SubComponents>
     <Component class="org.jw.service.gui.component.TaskMonitorPanel" name="taskMonitorPanel">
-    </Component>
-    <Component class="org.jw.service.gui.component.DefaultCrudPanel" name="crudPanel">
     </Component>
     <Container class="javax.swing.JPanel" name="templatesPanel">
       <Properties>
@@ -1072,5 +1070,7 @@
         </Container>
       </SubComponents>
     </Container>
+    <Component class="org.jw.service.gui.component.MultipleRecordCrudPanel" name="crudPanel">
+    </Component>
   </SubComponents>
 </Form>

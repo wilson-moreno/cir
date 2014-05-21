@@ -31,7 +31,7 @@ public class DefaultListSelectionListener<T> implements ListSelectionListener{
     
     private DefaultListSelectionListener(List<T> list, JTable table, AbstractAction saveAction, AbstractAction deleteAction){
         this.list = list;
-        this.utilTable = new UtilityTable(table, list);
+        this.utilTable = UtilityTable.create(table, list);
         this.saveAction = saveAction;
         this.deleteAction = deleteAction;
     }
@@ -41,7 +41,7 @@ public class DefaultListSelectionListener<T> implements ListSelectionListener{
         if(!lse.getValueIsAdjusting()){            
             deleteAction.setEnabled(true);
             ObservableEntity entity = (ObservableEntity)utilTable.getSelectedItem();
-            if(entity.getSaveState().equalsIgnoreCase("*")){
+            if(entity != null && entity.getSaveState().equalsIgnoreCase("*")){
                 saveAction.setEnabled(true);
             }else{
                 saveAction.setEnabled(false);

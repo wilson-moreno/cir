@@ -32,7 +32,7 @@ public class TerritoryDialog extends javax.swing.JDialog {
 
         territoryList = org.jdesktop.observablecollections.ObservableCollections.observableList(new java.util.ArrayList<org.jw.service.entity.Territory>());
         taskMonitorPanel1 = new org.jw.service.gui.component.TaskMonitorPanel();
-        defaultCrudPanel1 = new org.jw.service.gui.component.DefaultCrudPanel();
+        defaultCrudPanel1 = new org.jw.service.gui.component.MultipleRecordCrudPanel();
         territoryPanel = new javax.swing.JPanel();
         territoryNameLabel = new javax.swing.JLabel();
         descriptionLabel = new javax.swing.JLabel();
@@ -179,7 +179,7 @@ public class TerritoryDialog extends javax.swing.JDialog {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private org.jw.service.gui.component.DefaultCrudPanel defaultCrudPanel1;
+    private org.jw.service.gui.component.MultipleRecordCrudPanel defaultCrudPanel1;
     private javax.swing.JLabel descriptionLabel;
     private javax.swing.JTextField descriptionTextField;
     private javax.swing.JCheckBox enableCheckBox;

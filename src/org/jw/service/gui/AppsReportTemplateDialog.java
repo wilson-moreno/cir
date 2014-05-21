@@ -19,7 +19,7 @@ import org.jw.service.builder.DefaultTaskBuilder;
 import org.jw.service.dao.DataAccessObject;
 import org.jw.service.entity.AppsReport;
 import org.jw.service.entity.AppsReportParameter;
-import org.jw.service.gui.component.DefaultCrudPanel;
+import org.jw.service.gui.component.MultipleRecordCrudPanel;
 import org.jw.service.listener.selection.ReportListSelectionListener;
 import org.jw.service.util.UtilityProperties;
 import org.jw.service.action.dependency.ParameterNewPostDependency;
@@ -54,7 +54,7 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
         DefaultSaveAction<AppsReportParameter> saveAction = null;        
         DataAccessObject<AppsReportParameter> dao;    
         
-        DefaultCrudPanel paramCrudPanel = new DefaultCrudPanel();
+        MultipleRecordCrudPanel paramCrudPanel = new MultipleRecordCrudPanel();
         paramCrudPanel.setNewCommand(newParamCommand);
         paramCrudPanel.setDeleteCommand(deleteParamCommand);
         paramCrudPanel.setRefreshCommand(refreshParamCommand);
@@ -69,7 +69,7 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
         DefaultTaskBuilder<AppsReport> taskBuilder = new DefaultTaskBuilder();
         taskBuilder.setEntityName("report.parameter");
         taskBuilder.setProperties(taskMessageProperties);
-        taskBuilder.setCrudPanel(paramCrudPanel);
+        taskBuilder.setMultipleRecordCrudPanel(paramCrudPanel);
         taskBuilder.setTaskMonitorPanel(taskMonitorPanel);
         taskBuilder.setCloseAction(closeAction);
         taskBuilder.setNewAction(newAction);
@@ -101,7 +101,7 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
         DefaultTaskBuilder<AppsReport> taskBuilder = new DefaultTaskBuilder();
         taskBuilder.setEntityName("apps.report");
         taskBuilder.setProperties(taskMessageProperties);
-        taskBuilder.setCrudPanel(crudPanel);
+        taskBuilder.setMultipleRecordCrudPanel(crudPanel);
         taskBuilder.setTaskMonitorPanel(taskMonitorPanel);
         taskBuilder.setCloseAction(closeAction);
         taskBuilder.setNewAction(newAction);
@@ -138,7 +138,6 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
         parameterList = org.jdesktop.observablecollections.ObservableCollections.observableList(new java.util.ArrayList<org.jw.service.entity.AppsReportParameter>());
         byteArrayBean = new org.jw.service.beans.ByteArrayBean();
         taskMonitorPanel = new org.jw.service.gui.component.TaskMonitorPanel();
-        crudPanel = new org.jw.service.gui.component.DefaultCrudPanel();
         templatesPanel = new javax.swing.JPanel();
         reportScrollPane = new javax.swing.JScrollPane();
         reportTable = new javax.swing.JTable();
@@ -196,6 +195,7 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
         dependsOnTextField = new javax.swing.JTextField();
         requiredCheckBox = new javax.swing.JCheckBox();
         lovCommand = new javax.swing.JButton();
+        crudPanel = new org.jw.service.gui.component.MultipleRecordCrudPanel();
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, reportTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.fileJasper}"), byteArrayBean, org.jdesktop.beansbinding.BeanProperty.create("byteArray"), "jasperContent");
         binding.setSourceNullValue(null);
@@ -784,10 +784,10 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
                 .addContainerGap()
                 .addComponent(reportTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(templatesPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(templatesPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(crudPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
                 .addComponent(taskMonitorPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -807,7 +807,7 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
     private javax.swing.JButton chooseFileCommand;
     private javax.swing.JLabel codeLabel;
     private javax.swing.JTextField codeTextField;
-    private org.jw.service.gui.component.DefaultCrudPanel crudPanel;
+    private org.jw.service.gui.component.MultipleRecordCrudPanel crudPanel;
     private javax.swing.JLabel datalTypeLabel;
     private javax.swing.JLabel defaultValueLabel;
     private javax.swing.JTextField defaultValueTextField;

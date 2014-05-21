@@ -51,14 +51,18 @@ public class DataAccessObject<T> {
         return em.merge(entity);
     }
     
-    public T read(Long id){
+    public T read(Integer id){
         em.clear();
         return em.find(entityClass, id);
     }
     
     public List<T> readAll(){
+        List<T> list;
+        em.getTransaction().begin();
         Query query = em.createNamedQuery(entityClass.getSimpleName() + ".findAll", entityClass);
-        return query.getResultList();
+        list = query.getResultList();
+        em.getTransaction().commit();
+        return list;
     }
     
     public List<T> findBy(){

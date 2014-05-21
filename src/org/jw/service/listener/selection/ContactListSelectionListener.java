@@ -6,13 +6,11 @@
 
 package org.jw.service.listener.selection;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.AbstractAction;
-import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import org.jw.service.entity.ObservableEntity;
-import org.jw.service.util.UtilityTable;
 
 /**
  *
@@ -20,25 +18,30 @@ import org.jw.service.util.UtilityTable;
  * @param <T>
  */
 public class ContactListSelectionListener implements ListSelectionListener{
-
-    public static ContactListSelectionListener create(AbstractAction contactCallsAction, AbstractAction contactPrintAction) {
-        return new ContactListSelectionListener(contactCallsAction, contactPrintAction);
+    public final List<AbstractAction> actions = new ArrayList<>();
+        
+    
+    public static ContactListSelectionListener create() {
+        return new ContactListSelectionListener();
     }
     
-    private final AbstractAction contactCallsAction;
-    private final AbstractAction contactPrintAction;
-    
-    private ContactListSelectionListener(AbstractAction contactCallsAction, AbstractAction contactPrintAction){    
-        this.contactCallsAction = contactCallsAction;
-        this.contactPrintAction = contactPrintAction;
-    }
+    private ContactListSelectionListener(){}
     
     @Override
     public void valueChanged(ListSelectionEvent lse) {          
         if(!lse.getValueIsAdjusting()){            
-            contactCallsAction.setEnabled(true);
-            contactPrintAction.setEnabled(false);
+            for(AbstractAction action : actions){
+                action.setEnabled(true);
+            }
         }
     }
     
+    
+    public void addAction(AbstractAction action){
+        actions.add(action);
+    }
+    
+    public void removeAction(AbstractAction action){
+        actions.remove(action);
+    }
 }

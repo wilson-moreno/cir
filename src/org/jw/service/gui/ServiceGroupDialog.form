@@ -73,7 +73,7 @@
   <SubComponents>
     <Component class="org.jw.service.gui.component.TaskMonitorPanel" name="taskMonitorPanel">
     </Component>
-    <Component class="org.jw.service.gui.component.DefaultCrudPanel" name="crudPanel">
+    <Component class="org.jw.service.gui.component.MultipleRecordCrudPanel" name="crudPanel">
     </Component>
     <Container class="javax.swing.JPanel" name="serviceGroupPanel">
       <Properties>

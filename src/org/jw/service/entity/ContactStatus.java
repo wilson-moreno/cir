@@ -74,9 +74,11 @@ public class ContactStatus implements Serializable, ObservableEntity, SilentSett
     private String saveState;
     
     public ContactStatus() {
+        saveState = "";
     }
 
     public ContactStatus(Integer id) {
+        super();
         this.id = id;
     }
 

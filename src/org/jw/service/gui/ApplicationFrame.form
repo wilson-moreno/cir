@@ -20,6 +20,14 @@
             <Property name="text" type="java.lang.String" value="Options"/>
           </Properties>
           <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="congregationMenuItem">
+              <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/org/jw/service/gui/resources/icon/default.congregation.png"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Congregation"/>
+              </Properties>
+            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="serviceGroupsMenuItem">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
@@ -31,7 +39,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="contactStatusMenuItem">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/org/jw/service/gui/resources/icon/default.contact.status.png"/>
+                  <Image iconType="3" name="/org/jw/service/gui/resources/icon/default.status.icon.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Contact Status"/>
               </Properties>
@@ -39,7 +47,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="territoryMenuItem">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/org/jw/service/gui/resources/icon/default.territory.png"/>
+                  <Image iconType="3" name="/org/jw/service/gui/resources/icon/defaul.territory.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Territories"/>
               </Properties>
@@ -231,7 +239,7 @@
                       <Editor/>
                       <Renderer/>
                     </Column>
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="50" resizable="false">
                       <Title/>
                       <Editor/>
                       <Renderer/>
@@ -263,7 +271,7 @@
                     <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
                   </Subbinding>
                   <Subbinding sourcePath="${recordNumber}">
-                    <BindingParameter name="NAME" value="Record Number"/>
+                    <BindingParameter name="NAME" value="Record #"/>
                     <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
                     <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
                   </Subbinding>
@@ -1471,7 +1479,7 @@
                         <Property name="horizontalTextPosition" type="int" value="4"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JButton" name="openDirectionMapAction">
+                    <Component class="javax.swing.JButton" name="openDirectionMapCommand">
                       <Properties>
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                           <Image iconType="3" name="/org/jw/service/gui/resources/icon/default.direcion.png"/>

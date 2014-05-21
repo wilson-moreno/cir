@@ -31,7 +31,7 @@ public class DefaultNewWorker<T> extends SwingWorker<T, String>{
         this.list = list;
         this.addPropertyChangeListener(taskListener);
         this.stateListener = stateListener;
-        this.utilTable = new UtilityTable(table, list);
+        this.utilTable = UtilityTable.create(table, list, dao);
     }
 
     @Override
@@ -39,7 +39,7 @@ public class DefaultNewWorker<T> extends SwingWorker<T, String>{
         T entity = dao.create();        
         ((ObservableEntity)entity).addPropertyChangeListener(stateListener);
         list.add(0, entity);
-        utilTable.selectRow(0);
+        utilTable.selectRow(0);     
         return entity;                
     }
     

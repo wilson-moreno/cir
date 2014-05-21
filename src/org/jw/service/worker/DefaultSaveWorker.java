@@ -21,21 +21,23 @@ import org.jw.service.util.UtilityTable;
  */
 public class DefaultSaveWorker<T> extends SwingWorker<String, String>{
     private final DataAccessObject dao;
-    private final UtilityTable utilTable;
+    private final UtilityTable<T> utilTable;
     private final List<T> list;
     
     public DefaultSaveWorker(DataAccessObject dao, JTable table, List<T> list, DefaultTaskListener listener){
        this.dao = dao; 
        this.list = list;
-       this.utilTable = new UtilityTable(table, list);
+       this.utilTable = UtilityTable.create(table, list, dao);
        this.addPropertyChangeListener(listener);
     }
     
     @Override
     protected String doInBackground() throws Exception {
         int modelIndex = utilTable.getSelectedModelIndex();                                
-        ObservableEntity save = (ObservableEntity)dao.save(list.get(modelIndex));        
-        save.setSaveState("");
+        if(modelIndex >= 0){
+            ObservableEntity save = (ObservableEntity)dao.save(list.get(modelIndex));        
+            save.setSaveState("");
+        }
         return "";
     }
     

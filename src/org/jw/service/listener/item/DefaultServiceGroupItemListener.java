@@ -9,7 +9,6 @@ package org.jw.service.listener.item;
 import java.awt.Window;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import javax.swing.JOptionPane;
 import org.jw.service.entity.ServiceGroup;
 
 /**

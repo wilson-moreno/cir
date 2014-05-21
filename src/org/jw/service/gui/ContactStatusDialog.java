@@ -48,7 +48,7 @@ public class ContactStatusDialog extends javax.swing.JDialog {
         DefaultTaskBuilder<ContactStatus> taskBuilder = new DefaultTaskBuilder<>();
         taskBuilder.setEntityName("status");
         taskBuilder.setProperties(taskMessageProperties);
-        taskBuilder.setCrudPanel(crudPanel);
+        taskBuilder.setMultipleRecordCrudPanel(crudPanel);
         taskBuilder.setTaskMonitorPanel(taskMonitorPanel);
         taskBuilder.setCloseAction(closeAction);
         taskBuilder.setNewAction(newAction);
@@ -79,7 +79,7 @@ public class ContactStatusDialog extends javax.swing.JDialog {
 
         statusList = org.jdesktop.observablecollections.ObservableCollections.observableList(new java.util.ArrayList<org.jw.service.entity.ContactStatus>());
         taskMonitorPanel = new org.jw.service.gui.component.TaskMonitorPanel();
-        crudPanel = new org.jw.service.gui.component.DefaultCrudPanel();
+        crudPanel = new org.jw.service.gui.component.MultipleRecordCrudPanel();
         contactStatusPanel = new javax.swing.JPanel();
         statusNameLabel = new javax.swing.JLabel();
         descriptionLabel = new javax.swing.JLabel();
@@ -213,6 +213,8 @@ public class ContactStatusDialog extends javax.swing.JDialog {
             statusTable.getColumnModel().getColumn(0).setResizable(false);
             statusTable.getColumnModel().getColumn(0).setPreferredWidth(10);
             statusTable.getColumnModel().getColumn(0).setCellRenderer(org.jw.service.table.cell.renderer.DefaultStateCellRenderer.create());
+            statusTable.getColumnModel().getColumn(2).setResizable(false);
+            statusTable.getColumnModel().getColumn(2).setPreferredWidth(150);
         }
 
         javax.swing.GroupLayout statusPanelLayout = new javax.swing.GroupLayout(statusPanel);
@@ -267,7 +269,7 @@ public class ContactStatusDialog extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel contactStatusPanel;
-    private org.jw.service.gui.component.DefaultCrudPanel crudPanel;
+    private org.jw.service.gui.component.MultipleRecordCrudPanel crudPanel;
     private javax.swing.JLabel descriptionLabel;
     private javax.swing.JTextField descriptionTextField;
     private javax.swing.JButton iconCommand;

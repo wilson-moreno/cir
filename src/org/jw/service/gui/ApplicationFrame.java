@@ -9,6 +9,7 @@ package org.jw.service.gui;
 import javax.persistence.EntityManager;
 import org.jdesktop.observablecollections.ObservableList;
 import org.jw.service.action.DefaultCloseAction;
+import org.jw.service.action.DefaultContactPrintAction;
 import org.jw.service.action.DefaultDeleteAction;
 import org.jw.service.action.DefaultFileChooserOpenAction;
 import org.jw.service.action.DefaultNewAction;
@@ -16,6 +17,7 @@ import org.jw.service.action.DefaultOpenAction;
 import org.jw.service.action.DefaultRefreshAction;
 import org.jw.service.action.DefaultSaveAction;
 import org.jw.service.action.dependency.DefaultSystemExitPreDependency;
+import org.jw.service.action.dependency.DeleteContactPostDependency;
 import org.jw.service.action.dependency.ProfileSetPostDependency;
 import org.jw.service.action.dependency.NewContactPostDependency;
 import org.jw.service.action.dependency.RecordNumberPreDependency;
@@ -26,13 +28,12 @@ import org.jw.service.entity.Contact;
 import org.jw.service.entity.ContactStatus;
 import org.jw.service.entity.ServiceGroup;
 import org.jw.service.file.filter.FileFilterImage;
-import org.jw.service.gui.component.DefaultCrudPanel;
+import org.jw.service.gui.component.MultipleRecordCrudPanel;
 import org.jw.service.listener.combobox.DefaultComboBoxModelListListener;
 import org.jw.service.listener.list.ContactObservableListListener;
 import org.jw.service.listener.selection.ContactListSelectionListener;
 import org.jw.service.listener.task.DefaultTaskListener;
 import org.jw.service.listener.tree.selection.DefaultTreeSelectionListener;
-import org.jw.service.util.UtilityDatabase;
 import org.jw.service.util.UtilityProperties;
 import org.jw.service.util.UtilityTable;
 import org.jw.service.util.UtilityTree;
@@ -145,11 +146,12 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         mapsPanel = new javax.swing.JPanel();
         mapsToolBar = new javax.swing.JToolBar();
         openLocationMapCommand = new javax.swing.JButton();
-        openDirectionMapAction = new javax.swing.JButton();
+        openDirectionMapCommand = new javax.swing.JButton();
         treeViewComboBox = new javax.swing.JComboBox();
         menuBar = new javax.swing.JMenuBar();
         systemMenu = new javax.swing.JMenu();
         optionsMenu = new javax.swing.JMenu();
+        congregationMenuItem = new javax.swing.JMenuItem();
         serviceGroupsMenuItem = new javax.swing.JMenuItem();
         contactStatusMenuItem = new javax.swing.JMenuItem();
         territoryMenuItem = new javax.swing.JMenuItem();
@@ -182,7 +184,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         columnBinding.setColumnClass(String.class);
         columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${recordNumber}"));
-        columnBinding.setColumnName("Record Number");
+        columnBinding.setColumnName("Record #");
         columnBinding.setColumnClass(String.class);
         columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${lastName}"));
@@ -215,6 +217,8 @@ public final class ApplicationFrame extends javax.swing.JFrame {
             contactsTable.getColumnModel().getColumn(0).setResizable(false);
             contactsTable.getColumnModel().getColumn(0).setPreferredWidth(10);
             contactsTable.getColumnModel().getColumn(0).setCellRenderer(org.jw.service.table.cell.renderer.DefaultStateCellRenderer.create());
+            contactsTable.getColumnModel().getColumn(5).setResizable(false);
+            contactsTable.getColumnModel().getColumn(5).setPreferredWidth(50);
         }
 
         javax.swing.GroupLayout contactsPanelLayout = new javax.swing.GroupLayout(contactsPanel);
@@ -885,11 +889,11 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         openLocationMapCommand.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         mapsToolBar.add(openLocationMapCommand);
 
-        openDirectionMapAction.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.direcion.png"))); // NOI18N
-        openDirectionMapAction.setText("Direction");
-        openDirectionMapAction.setFocusable(false);
-        openDirectionMapAction.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        mapsToolBar.add(openDirectionMapAction);
+        openDirectionMapCommand.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.direcion.png"))); // NOI18N
+        openDirectionMapCommand.setText("Direction");
+        openDirectionMapCommand.setFocusable(false);
+        openDirectionMapCommand.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        mapsToolBar.add(openDirectionMapCommand);
 
         javax.swing.GroupLayout mapsPanelLayout = new javax.swing.GroupLayout(mapsPanel);
         mapsPanel.setLayout(mapsPanelLayout);
@@ -934,15 +938,19 @@ public final class ApplicationFrame extends javax.swing.JFrame {
 
         optionsMenu.setText("Options");
 
+        congregationMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.congregation.png"))); // NOI18N
+        congregationMenuItem.setText("Congregation");
+        optionsMenu.add(congregationMenuItem);
+
         serviceGroupsMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.service.groups.png"))); // NOI18N
         serviceGroupsMenuItem.setText("Service Groups");
         optionsMenu.add(serviceGroupsMenuItem);
 
-        contactStatusMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.contact.status.png"))); // NOI18N
+        contactStatusMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.status.icon.png"))); // NOI18N
         contactStatusMenuItem.setText("Contact Status");
         optionsMenu.add(contactStatusMenuItem);
 
-        territoryMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.territory.png"))); // NOI18N
+        territoryMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/defaul.territory.png"))); // NOI18N
         territoryMenuItem.setText("Territories");
         optionsMenu.add(territoryMenuItem);
 
@@ -1004,7 +1012,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         // TODO add your handling code here:
-        this.mainCommandPanel.getServiceGroupComboBox().addItemListener(new org.jw.service.listener.item.DefaultServiceGroupItemListener(this));
+        //this.mainCommandPanel.getServiceGroupComboBox().addItemListener(new org.jw.service.listener.item.DefaultServiceGroupItemListener(this));
     }//GEN-LAST:event_formWindowActivated
 
     private void initMyComponents(){
@@ -1020,19 +1028,25 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         appsReportDialog = new AppsReportTemplateDialog(this, true, em);
         reportPrintDialog = new ReportPrintDialog(this, true, em);
         territoryDialog = new TerritoryDialog(this, true);
+        congregationDialog = new CongregationDialog(this, true, em);
         openServiceGroupAction = new DefaultOpenAction(serviceGroupsMenuItem,this,serviceGroupDialog, null);        
         openContactStatusAction = new DefaultOpenAction(contactStatusMenuItem,this,contactStatusDialog, null);        
         openLocationMapAction = new DefaultOpenAction(openLocationMapCommand,this,locationMapDialog, null);        
+        openDirectionMapAction = new DefaultOpenAction(openDirectionMapCommand,this,directionMapDialog, null);        
         openContactCallsAction = new DefaultOpenAction(this.mainCommandPanel.getContactCallsCommand(),this,contactCallsDialog, null);        
         openReportTemplatesAction = new DefaultOpenAction(this.reportTemplatesMenuItem,this,appsReportDialog, null);        
         openReportPrintAction = new DefaultOpenAction(this.mainCommandPanel.getReportsCommand(),this,reportPrintDialog, null);        
         openTerritoryAction = new DefaultOpenAction(this.territoryMenuItem, this, territoryDialog, null);
+        openCongregationAction = new DefaultOpenAction(this.congregationMenuItem, this, congregationDialog, null);
         fcOpenAction = new DefaultFileChooserOpenAction(this.setProfilePictureCommand, this, FileFilterImage.create(), null);        
+        contactPrintAction = new DefaultContactPrintAction(this.mainCommandPanel.getPrintCommand());
         treeConstructListener = taskMonitorPanel.createDefaultTaskListener(taskMessageProperties.getProperty("tree.construct.start.message"),taskMessageProperties.getProperty("tree.construct.done.message"));
         utilTree = UtilityTree.create(contactTree, serviceGroupDAO.readAll(), treeConstructListener);        
-        utilTable = new UtilityTable(this.contactsTable, this.contactList);
+        utilTable = UtilityTable.create(contactsTable, contactList, contactDAO);
         openContactCallsAction.setEnabled(false);
-        openReportPrintAction.setEnabled(false);        
+        contactPrintAction.setEnabled(false);       
+        openLocationMapAction.setEnabled(false);
+        openDirectionMapAction.setEnabled(false);
         buildCrudTask();
     }
     
@@ -1042,13 +1056,13 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         DefaultTaskBuilder<ContactStatus> taskBuilder = new DefaultTaskBuilder<>();
         taskBuilder.setEntityName("contact");
         taskBuilder.setProperties(taskMessageProperties);        
-        surrogateCrudPanel = new DefaultCrudPanel();
+        surrogateCrudPanel = new MultipleRecordCrudPanel();
         surrogateCrudPanel.setNewCommand(this.mainCommandPanel.getNewCommand());
         surrogateCrudPanel.setRefreshCommand(this.mainCommandPanel.getRefreshCommand());
         surrogateCrudPanel.setDeleteCommand(this.mainCommandPanel.getDeleteCommand());
         surrogateCrudPanel.setSaveCommand(this.mainCommandPanel.getSaveCommand());                
         surrogateCrudPanel.setCloseCommand(this.mainCommandPanel.getExitCommand());                
-        taskBuilder.setCrudPanel(surrogateCrudPanel);
+        taskBuilder.setMultipleRecordCrudPanel(surrogateCrudPanel);
         taskBuilder.setTaskMonitorPanel(taskMonitorPanel);
         taskBuilder.setCloseAction(closeAction);
         taskBuilder.setNewAction(newAction);
@@ -1064,18 +1078,30 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         treeSelectionListener = new DefaultTreeSelectionListener(this.utilTree, this.utilTable);
         contactTree.addTreeSelectionListener(treeSelectionListener);
         
-        contactObservableList.addObservableListListener(ContactObservableListListener.create(openContactCallsAction, openReportPrintAction));
-        contactsTable.getSelectionModel().addListSelectionListener(ContactListSelectionListener.create(openContactCallsAction, openReportPrintAction));
+        ContactObservableListListener contactObservableListListener = ContactObservableListListener.create();
+        contactObservableListListener.addAction(openContactCallsAction);
+        contactObservableListListener.addAction(contactPrintAction);
+        contactObservableListListener.addAction(openLocationMapAction);
+        contactObservableListListener.addAction(openDirectionMapAction);
+        ContactListSelectionListener contactListSelectionListener = ContactListSelectionListener.create();
+        contactListSelectionListener.addAction(openContactCallsAction);
+        contactListSelectionListener.addAction(contactPrintAction);
+        contactListSelectionListener.addAction(openLocationMapAction);
+        contactListSelectionListener.addAction(openDirectionMapAction);                
+        contactObservableList.addObservableListListener(contactObservableListListener);
+        contactsTable.getSelectionModel().addListSelectionListener(contactListSelectionListener);
         
         // Set Dependencies
         RecordNumberPreDependency recordNumberPreDependency = new RecordNumberPreDependency(this, serviceGroupDAO, this.mainCommandPanel.getServiceGroupComboBox());        
         NewContactPostDependency recordNumberPostDependency = new NewContactPostDependency(contactDAO, serviceGroupDAO, this.mainCommandPanel.getServiceGroupComboBox(), utilTree);                
         ProfileSetPostDependency profileSetPostDependency = new ProfileSetPostDependency(this.profilePictureLabel);
         RefreshContactListPostDependency refreshContactListPostDependency = new RefreshContactListPostDependency(utilTree);
+        DeleteContactPostDependency deleteContactPostDependency = new DeleteContactPostDependency(utilTree);
         taskBuilder.getNewAction().addPreActionCommands("recordNumberPreDependency",recordNumberPreDependency);        
         taskBuilder.getNewAction().addPostActionCommands("recordNumberPostDependency",recordNumberPostDependency);        
         taskBuilder.getCloseAction().addPreActionCommands("systemExitPreDependency", new DefaultSystemExitPreDependency(this, em));
         taskBuilder.getRefreshAction().addPostActionCommands("refreshContactListPostDependency", refreshContactListPostDependency);
+        taskBuilder.getDeleteAction().addPostActionCommands("deleteContactPostDependency", deleteContactPostDependency);
         this.fcOpenAction.addPostActionCommands("profileSetPostDependency", profileSetPostDependency);
         
     }
@@ -1100,6 +1126,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     private javax.swing.JTextField cityTextField;
     private javax.swing.JPanel communicationPanel;
     private javax.swing.JPanel communicationTab;
+    private javax.swing.JMenuItem congregationMenuItem;
     private java.util.List<org.jw.service.entity.Contact> contactList;
     private javax.swing.JMenuItem contactStatusMenuItem;
     private javax.swing.JTree contactTree;
@@ -1140,7 +1167,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     private javax.swing.JTextField nationalityTextField;
     private javax.swing.JLabel nickNameLabel;
     private javax.swing.JTextField nickNameTextField;
-    private javax.swing.JButton openDirectionMapAction;
+    private javax.swing.JButton openDirectionMapCommand;
     private javax.swing.JButton openLocationMapCommand;
     private javax.swing.JMenu optionsMenu;
     private javax.swing.JLabel personalLabel;
@@ -1188,17 +1215,22 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     ServiceGroupDialog serviceGroupDialog;
     ContactStatusDialog contactStatusDialog;
     LocationMapDialog locationMapDialog;
+    DirectionMapDialog directionMapDialog;
     ContactCallsDialog contactCallsDialog;
     AppsReportTemplateDialog appsReportDialog;
     ReportPrintDialog reportPrintDialog;
     TerritoryDialog territoryDialog;
+    CongregationDialog congregationDialog;
     DefaultOpenAction openServiceGroupAction;
     DefaultOpenAction openContactStatusAction;
-    DefaultOpenAction openLocationMapAction;
+    DefaultOpenAction openLocationMapAction;    
+    DefaultOpenAction openDirectionMapAction;
     DefaultOpenAction openContactCallsAction;
     DefaultOpenAction openReportTemplatesAction;
     DefaultOpenAction openReportPrintAction;
     DefaultOpenAction openTerritoryAction;
+    DefaultOpenAction openCongregationAction;
+    DefaultContactPrintAction contactPrintAction;
     DataAccessObject<Contact> contactDAO;
     DataAccessObject<ContactStatus> statusDAO;
     DataAccessObject<ServiceGroup> serviceGroupDAO;
@@ -1206,7 +1238,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     
     
     // Create, Read, Update & Delete Task Components;
-    DefaultCrudPanel surrogateCrudPanel;
+    MultipleRecordCrudPanel surrogateCrudPanel;
     UtilityProperties taskMessageProperties = UtilityProperties.create(UtilityProperties.TASK_MESSAGE_PROPERTIES);            
     UtilityTree utilTree;
     UtilityTable utilTable;    

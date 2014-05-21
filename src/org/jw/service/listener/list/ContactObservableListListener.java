@@ -6,6 +6,7 @@
 
 package org.jw.service.listener.list;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.AbstractAction;
 import org.jdesktop.observablecollections.ObservableList;
@@ -16,28 +17,26 @@ import org.jdesktop.observablecollections.ObservableListListener;
  * @author Wilson
  */
 public class ContactObservableListListener implements ObservableListListener{
-
-    public static ContactObservableListListener create(AbstractAction callsAction, AbstractAction printAction) {
-        return new ContactObservableListListener(callsAction, printAction);
-    }
-    private final AbstractAction callsAction;
-    private final AbstractAction printAction;
+    private final List<AbstractAction> actions = new ArrayList<>();
+        
     
-    private ContactObservableListListener(AbstractAction callsAction, AbstractAction printAction){
-        this.callsAction = callsAction;
-        this.printAction = printAction;
+    public static ContactObservableListListener create() {
+        return new ContactObservableListListener();
     }
+    
+    
+    private ContactObservableListListener(){}
     
     @Override
-    public void listElementsAdded(ObservableList list, int index, int length) {
-        callsAction.setEnabled(true);
-        printAction.setEnabled(true);
-    }
+    public void listElementsAdded(ObservableList list, int index, int length) {        
+        for(AbstractAction action : actions)
+            action.setEnabled(false);
+    }       
 
     @Override
     public void listElementsRemoved(ObservableList list, int index, List oldElements) {
-        printAction.setEnabled(false);
-        callsAction.setEnabled(false);
+        for(AbstractAction action : actions)
+            action.setEnabled(false);
     }
 
     @Override
@@ -50,4 +49,11 @@ public class ContactObservableListListener implements ObservableListListener{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
+    public void addAction(AbstractAction action){
+        actions.add(action);
+    }
+    
+    public void removeAction(AbstractAction action){
+        actions.remove(action);
+    }
 }

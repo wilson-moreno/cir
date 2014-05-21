@@ -50,7 +50,7 @@ public class ServiceGroupDialog extends javax.swing.JDialog {
         DefaultTaskBuilder<ServiceGroup> taskBuilder = new DefaultTaskBuilder();
         taskBuilder.setEntityName("service");
         taskBuilder.setProperties(taskMessageProperties);
-        taskBuilder.setCrudPanel(crudPanel);
+        taskBuilder.setMultipleRecordCrudPanel(crudPanel);
         taskBuilder.setTaskMonitorPanel(taskMonitorPanel);
         taskBuilder.setCloseAction(closeAction);
         taskBuilder.setNewAction(newAction);
@@ -80,7 +80,7 @@ public class ServiceGroupDialog extends javax.swing.JDialog {
 
         serviceGroupList = org.jdesktop.observablecollections.ObservableCollections.observableList(new java.util.ArrayList<org.jw.service.entity.ServiceGroup>());
         taskMonitorPanel = new org.jw.service.gui.component.TaskMonitorPanel();
-        crudPanel = new org.jw.service.gui.component.DefaultCrudPanel();
+        crudPanel = new org.jw.service.gui.component.MultipleRecordCrudPanel();
         serviceGroupPanel = new javax.swing.JPanel();
         serviceGroupNameLabel = new javax.swing.JLabel();
         overseerLabel = new javax.swing.JLabel();
@@ -321,7 +321,7 @@ public class ServiceGroupDialog extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField assistantTextField;
     private javax.swing.JLabel assitantLabel;
-    private org.jw.service.gui.component.DefaultCrudPanel crudPanel;
+    private org.jw.service.gui.component.MultipleRecordCrudPanel crudPanel;
     private javax.swing.JPanel groupsPanel;
     private javax.swing.JTextField nameTextField;
     private javax.swing.JLabel nextNumberLabel;

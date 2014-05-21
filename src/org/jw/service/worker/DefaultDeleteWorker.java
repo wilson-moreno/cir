@@ -18,7 +18,7 @@ import org.jw.service.util.UtilityTable;
  * @author Wilson
  * @param <T>
  */
-public class DefaultDeleteWorker<T> extends SwingWorker<String, String>{
+public class DefaultDeleteWorker<T> extends SwingWorker<T, String>{
     private final DataAccessObject<T> dao;
     private final UtilityTable utilTable;
     private final List<T> list;
@@ -26,16 +26,21 @@ public class DefaultDeleteWorker<T> extends SwingWorker<String, String>{
     public DefaultDeleteWorker(DataAccessObject<T> dao, List<T> list, JTable table, DefaultTaskListener listener){
         this.dao = dao;
         this.list = list;
-        this.utilTable = new UtilityTable(table, list);
+        this.utilTable = UtilityTable.create(table, list, dao);
         this.addPropertyChangeListener(listener);
     }
     
     @Override
-    protected String doInBackground() throws Exception {
+    protected T doInBackground() throws Exception {
+        T remove = null;
+        
         int modelIndex = utilTable.getSelectedModelIndex();
-        T remove = list.remove(modelIndex);
-        dao.delete(remove);
-        return "";
+        if(modelIndex >= 0){
+            remove = list.remove(modelIndex);
+            dao.delete(remove);
+        }
+        
+        return remove;
     }
     
 }
