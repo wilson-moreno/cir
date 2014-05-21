@@ -10,6 +10,7 @@ import java.util.Enumeration;
 import javax.swing.SwingWorker;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
+import org.jw.service.entity.ObservableEntity;
 import org.jw.service.entity.ServiceGroup;
 
 /**
@@ -19,9 +20,9 @@ import org.jw.service.entity.ServiceGroup;
 public class DefaultSearchTreePathWorker<T> extends SwingWorker<TreePath, String> {
     private final DefaultMutableTreeNode root;
     private final Class entityClass;
-    private final Comparable key;
+    private final T key;
     
-    public DefaultSearchTreePathWorker(DefaultMutableTreeNode root, Class entityClass, Comparable key){
+    public DefaultSearchTreePathWorker(DefaultMutableTreeNode root, Class entityClass, T key){
         this.root = root;
         this.entityClass = entityClass;
         this.key = key;
@@ -35,9 +36,9 @@ public class DefaultSearchTreePathWorker<T> extends SwingWorker<TreePath, String
         
         while(e.hasMoreElements()){
             DefaultMutableTreeNode node = e.nextElement();
-            Object userObject = node.getUserObject();
+            T userObject = (T) node.getUserObject();
             
-            if(entityClass.isInstance(userObject) && key.compareTo((T)userObject) == 0){
+            if(entityClass.isInstance(userObject) && isEqual(key, userObject)){
                 result = new TreePath(node.getPath());
             }
         }        
@@ -45,4 +46,13 @@ public class DefaultSearchTreePathWorker<T> extends SwingWorker<TreePath, String
         return result;
     }
     
+    private boolean isEqual(T key, T userObject){
+        boolean result;
+        
+        ObservableEntity observableKey = (ObservableEntity) key;
+        ObservableEntity observableUserObject = (ObservableEntity) userObject;
+        result = observableKey.getId().equals(observableUserObject.getId());
+        
+        return result;
+    }
 }

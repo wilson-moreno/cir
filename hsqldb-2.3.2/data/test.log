@@ -1,112 +1,138 @@
-/*C68*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C69*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C70*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C71*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C72*/SET SCHEMA PUBLIC
-DISCONNECT
 /*C73*/SET SCHEMA PUBLIC
 DISCONNECT
 /*C74*/SET SCHEMA PUBLIC
 DISCONNECT
 /*C75*/SET SCHEMA PUBLIC
-DISCONNECT
+drop table "CIR"."APPS_REPORT_PAGE"
+SET SCHEMA CIR
+DELETE FROM CONTACT WHERE ID=78
+COMMIT
+DELETE FROM CONTACT_STATUS WHERE ID=6
+DELETE FROM CONTACT_STATUS WHERE ID=7
+DELETE FROM CONTACT_STATUS WHERE ID=8
+DELETE FROM CONTACT_STATUS WHERE ID=9
+COMMIT
+DELETE FROM SERVICE_GROUP WHERE ID=26
+DELETE FROM SERVICE_GROUP WHERE ID=27
+DELETE FROM SERVICE_GROUP WHERE ID=28
+DELETE FROM SERVICE_GROUP WHERE ID=29
+COMMIT
+DELETE FROM CONGREGATION WHERE ID=1
+COMMIT
+DELETE FROM APPS_REPORT_PARAMETER WHERE ID=8
+DELETE FROM APPS_REPORT_PARAMETER WHERE ID=9
+DELETE FROM APPS_REPORT_PARAMETER WHERE ID=10
+DELETE FROM APPS_REPORT_PARAMETER WHERE ID=11
+COMMIT
+DELETE FROM APPS_REPORT WHERE ID=1
+DELETE FROM APPS_REPORT WHERE ID=2
+COMMIT
 /*C76*/SET SCHEMA PUBLIC
 DISCONNECT
-/*C77*/SET SCHEMA PUBLIC
+/*C77*/SET SCHEMA CIR
+INSERT INTO CONGREGATION VALUES(2,'','','','','2014-05-21 21:15:38.312000','2014-05-21 21:15:38.312000',NULL,NULL)
+COMMIT
+SET SCHEMA PUBLIC
 DISCONNECT
 /*C78*/SET SCHEMA PUBLIC
 DISCONNECT
-/*C79*/SET SCHEMA PUBLIC
+/*C79*/SET SCHEMA CIR
+INSERT INTO CONGREGATION VALUES(3,'','','','','2014-05-21 21:26:42.453000','2014-05-21 21:26:42.453000',NULL,NULL)
+COMMIT
+SET SCHEMA PUBLIC
 DISCONNECT
 /*C80*/SET SCHEMA PUBLIC
 DISCONNECT
 /*C81*/SET SCHEMA CIR
-INSERT INTO CONTACT VALUES(77,NULL,NULL,NULL,'','2014-05-21 11:49:45.031000',NULL,'','','',NULL,NULL,'',NULL,'','','','','','','','','','','','','','','','','','2014-05-21 11:49:45.031000','2014-05-21 11:49:45.031000','',NULL)
-COMMIT
-DELETE FROM SERVICE_GROUP WHERE ID=26
-INSERT INTO SERVICE_GROUP VALUES(26,NULL,'FSG #1 - Valenzuela','Robert Gabriel','Jerric Manzano','VAL',1000,1048,NULL,'2014-05-09 20:24:32.031000','2014-05-21 11:49:45.156000')
-DELETE FROM CONTACT WHERE ID=77
-INSERT INTO CONTACT VALUES(77,26,NULL,NULL,'VAL1047','2014-05-21 11:49:45.031000',NULL,'','','',NULL,NULL,'',NULL,'','','','','','','','','','','','','','','','','','2014-05-21 11:49:45.031000','2014-05-21 11:49:45.031000','',NULL)
-COMMIT
-DELETE FROM CONTACT WHERE ID=77
-INSERT INTO CONTACT VALUES(77,26,NULL,NULL,'VAL1047','2014-05-21 11:49:45.031000',NULL,'','','',NULL,NULL,'',NULL,'','','','','','','','','','','','','','','','','','2014-05-21 11:49:45.031000','2014-05-21 11:49:45.171000','',NULL)
+INSERT INTO CONGREGATION VALUES(4,'','','','','2014-05-21 21:30:22.109000','2014-05-21 21:30:22.109000',NULL,NULL)
 COMMIT
 SET SCHEMA PUBLIC
 DISCONNECT
-/*C82*/SET SCHEMA CIR
-DELETE FROM CONTACT WHERE ID=58
-DELETE FROM CONTACT WHERE ID=59
-DELETE FROM CONTACT WHERE ID=60
-DELETE FROM CONTACT WHERE ID=61
-DELETE FROM CONTACT WHERE ID=62
-DELETE FROM CONTACT WHERE ID=63
-DELETE FROM CONTACT WHERE ID=64
-DELETE FROM CONTACT WHERE ID=65
-DELETE FROM CONTACT WHERE ID=66
-DELETE FROM CONTACT WHERE ID=77
+/*C82*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C83*/SET SCHEMA CIR
+INSERT INTO CONGREGATION VALUES(5,'','','','','2014-05-21 22:03:21.109000','2014-05-21 22:03:21.109000',NULL,NULL)
+COMMIT
+INSERT INTO CONGREGATION VALUES(6,'Sign Language - Caloocan City MM','','','','2014-05-21 22:03:21.109000','2014-05-21 22:04:00.906000',NULL,NULL)
+COMMIT
+/*C75*/DELETE FROM CONGREGATION WHERE ID=2
+DELETE FROM CONGREGATION WHERE ID=3
+DELETE FROM CONGREGATION WHERE ID=4
+DELETE FROM CONGREGATION WHERE ID=5
+DELETE FROM CONGREGATION WHERE ID=6
 COMMIT
 /*C83*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C84*/SET SCHEMA CIR
-DELETE FROM SERVICE_GROUP WHERE ID=26
-INSERT INTO SERVICE_GROUP VALUES(26,NULL,'FSG #1 - Valenzuela','Robert Gabriel','Jerric Manzano','VAL',1000,1048,NULL,'2014-05-09 20:24:32.031000','2014-05-21 11:51:56.046000')
-COMMIT
-SET SCHEMA PUBLIC
 DISCONNECT
 /*C85*/SET SCHEMA PUBLIC
 DISCONNECT
 /*C86*/SET SCHEMA CIR
-INSERT INTO CONTACT VALUES(78,NULL,NULL,NULL,'','2014-05-21 11:53:31.578000',NULL,'','','',NULL,NULL,'',NULL,'','','','','','','','','','','','','','','','','','2014-05-21 11:53:31.578000','2014-05-21 11:53:31.578000','',NULL)
+INSERT INTO CONGREGATION VALUES(7,'','','','','2014-05-21 22:06:03.328000','2014-05-21 22:06:03.328000',NULL,NULL)
 COMMIT
-DELETE FROM SERVICE_GROUP WHERE ID=27
-INSERT INTO SERVICE_GROUP VALUES(27,NULL,'FSG #2 - Caloocan','Dan Geremias','Joel Angelino','CAL',1000,1003,NULL,'2014-05-19 17:20:35.937000','2014-05-21 11:53:31.687000')
-DELETE FROM CONTACT WHERE ID=78
-INSERT INTO CONTACT VALUES(78,27,NULL,NULL,'CAL1002','2014-05-21 11:53:31.578000',NULL,'','','',NULL,NULL,'',NULL,'','','','','','','','','','','','','','','','','','2014-05-21 11:53:31.578000','2014-05-21 11:53:31.578000','',NULL)
+DELETE FROM CONGREGATION WHERE ID=7
+INSERT INTO CONGREGATION VALUES(7,'Sign Language - Caloocan City MM','','','','2014-05-21 22:06:03.328000','2014-05-21 22:06:18.500000',NULL,NULL)
 COMMIT
-DELETE FROM CONTACT WHERE ID=78
-INSERT INTO CONTACT VALUES(78,27,NULL,NULL,'CAL1002','2014-05-21 11:53:31.578000',NULL,'','','',NULL,NULL,'',NULL,'','','','','','','','','','','','','','','','','','2014-05-21 11:53:31.578000','2014-05-21 11:53:31.703000','',NULL)
-COMMIT
-DELETE FROM CONTACT WHERE ID=78
-INSERT INTO CONTACT VALUES(78,27,NULL,NULL,'CAL1002','2014-05-21 11:53:31.578000',NULL,'Palapar','Elisar','Ondo','Male','Single','',NULL,'','','','','','','','','','','','','','','','','','2014-05-21 11:53:31.578000','2014-05-21 11:53:53.890000','',NULL)
-COMMIT
-DELETE FROM CONTACT WHERE ID=78
-INSERT INTO CONTACT VALUES(78,27,6,NULL,'CAL1002','2014-05-21 11:53:31.578000',NULL,'Palapar','Elisar','Ondo','Male','Single','',NULL,'','','','','','','','','','','','','','','','','','2014-05-21 11:53:31.578000','2014-05-21 11:53:56.593000','',NULL)
-COMMIT
-DELETE FROM CONTACT WHERE ID=78
-INSERT INTO CONTACT VALUES(78,27,6,NULL,'CAL1002','2014-05-21 11:53:31.578000',NULL,'Palapar','Elisar','Ondo','Male','Single','Filipino',NULL,'','','','','','','','','','','','','','','','','','2014-05-21 11:53:31.578000','2014-05-21 11:54:02.703000','',NULL)
-COMMIT
-DELETE FROM CONTACT WHERE ID=78
-INSERT INTO CONTACT VALUES(78,27,6,NULL,'CAL1002','2014-05-21 11:53:31.578000','1979-12-16 00:00:00.000000','Palapar','Elisar','Ondo','Male','Single','Filipino',NULL,'','','','','','','','','','','','','','','','','','2014-05-21 11:53:31.578000','2014-05-21 11:54:43.859000','',NULL)
-COMMIT
-DELETE FROM CONTACT WHERE ID=78
-INSERT INTO CONTACT VALUES(78,27,6,NULL,'CAL1002','2014-05-21 11:53:31.578000','1979-12-16 00:00:00.000000','Palapar','Elisar','Ondo','Male','Single','Filipino',NULL,'','Salmon St. Blk. 5 Lot 2','8','Caloocan City','Sangandaan','','','','','','','','','','','','','2014-05-21 11:53:31.578000','2014-05-21 11:55:09.375000','',NULL)
-COMMIT
-DELETE FROM CONTACT WHERE ID=78
-INSERT INTO CONTACT VALUES(78,27,6,NULL,'CAL1002','2014-05-21 11:53:31.578000','1979-12-16 00:00:00.000000','Palapar','Elisar','Ondo','Male','Single','Filipino',NULL,'','Salmon St. Blk. 5 Lot 2','8','Caloocan City','Sangandaan','Unschooled','','','','','','','','','','','','2014-05-21 11:53:31.578000','2014-05-21 11:55:14.953000','',NULL)
-COMMIT
-DELETE FROM CONTACT WHERE ID=78
-INSERT INTO CONTACT VALUES(78,27,6,NULL,'CAL1002','2014-05-21 11:53:31.578000','1979-12-16 00:00:00.000000','Palapar','Elisar','Ondo','Male','Single','Filipino',NULL,'','Salmon St. Blk. 5 Lot 2','8','Caloocan City','Sangandaan','Unschooled','Niece: Nicole; Sister: Aileen','Employed by JW Sister','','','','','','','Susan Palapar','Born Again','Wilson Moreno','2014-05-21 11:53:31.578000','2014-05-21 11:55:51.671000','Susan Palapar',NULL)
-COMMIT
-DELETE FROM CONTACT WHERE ID=78
-INSERT INTO CONTACT VALUES(78,27,6,NULL,'CAL1002','2014-05-21 11:53:31.578000','1979-12-16 00:00:00.000000','Palapar','Elisar','Ondo','Male','Single','Filipino',NULL,'','Salmon St. Blk. 5 Lot 2','8','Caloocan City','Sangandaan','Unschooled','Niece: Nicole; Sister: Aileen','Employed by JW Sister','09074763904','','','','','','Susan Palapar','Born Again','Wilson Moreno','2014-05-21 11:53:31.578000','2014-05-21 11:56:09.968000','Susan Palapar',NULL)
+/*C75*/DELETE FROM CONGREGATION WHERE ID=7
 COMMIT
 SET SCHEMA PUBLIC
+alter table cir.apps_report_parameter alter column id restart with 1
+alter table cir.apps_report alter column id restart with 1
+alter table cir.congregation alter column id restart with 1
+alter table cir.contact alter column id restart with 1
+alter table cir.contact_call alter column id restart with 1
+alter table cir.contact_status alter column id restart with 1
+alter table cir.direction_map alter column id restart with 1
+alter table cir.location_map alter column id restart with 1
+alter table cir.meeting_place alter column id restart with 1
+alter table cir.possible_value alter column id restart with 1
+alter table cir.service_group alter column id restart with 1
+alter table cir.territory alter column id restart with 1
+alter table cir.apps_report_parameter alter column id restart with 1
+alter table cir.apps_report alter column id restart with 1
+alter table cir.congregation alter column id restart with 1
+alter table cir.contact alter column id restart with 1
+alter table cir.contact_call alter column id restart with 1
+alter table cir.contact_status alter column id restart with 1
+alter table cir.direction_map alter column id restart with 1
+alter table cir.location_map alter column id restart with 1
+alter table cir.meeting_place alter column id restart with 1
+alter table cir.possible_value alter column id restart with 1
+alter table cir.service_group alter column id restart with 1
+alter table cir.territory alter column id restart with 1
+/*C86*/SET SCHEMA PUBLIC
 DISCONNECT
 /*C87*/SET SCHEMA PUBLIC
 DISCONNECT
-/*C88*/SET SCHEMA PUBLIC
+/*C88*/SET SCHEMA CIR
+INSERT INTO CONGREGATION VALUES(1,'','','','','2014-05-21 22:10:00.765000','2014-05-21 22:10:00.765000',NULL,NULL)
+COMMIT
+SET SCHEMA PUBLIC
 DISCONNECT
 /*C89*/SET SCHEMA PUBLIC
 DISCONNECT
 /*C90*/SET SCHEMA PUBLIC
 DISCONNECT
+/*C75*/SET SCHEMA CIR
+DELETE FROM CONGREGATION WHERE ID=1
+COMMIT
+SET SCHEMA PUBLIC
+alter table cir.apps_report_parameter alter column id restart with 1
+alter table cir.apps_report alter column id restart with 1
+alter table cir.congregation alter column id restart with 1
+alter table cir.contact alter column id restart with 1
+alter table cir.contact_call alter column id restart with 1
+alter table cir.contact_status alter column id restart with 1
+alter table cir.direction_map alter column id restart with 1
+alter table cir.location_map alter column id restart with 1
+alter table cir.meeting_place alter column id restart with 1
+alter table cir.possible_value alter column id restart with 1
+alter table cir.service_group alter column id restart with 1
+alter table cir.territory alter column id restart with 1
 /*C91*/SET SCHEMA PUBLIC
 DISCONNECT
-/*C92*/SET SCHEMA PUBLIC
+/*C92*/SET SCHEMA CIR
+INSERT INTO CONGREGATION VALUES(1,'','','','','2014-05-21 22:11:42.343000','2014-05-21 22:11:42.343000',NULL,NULL)
+COMMIT
+SET SCHEMA PUBLIC
 DISCONNECT
 /*C93*/SET SCHEMA PUBLIC
 DISCONNECT
@@ -114,117 +140,657 @@ DISCONNECT
 DISCONNECT
 /*C95*/SET SCHEMA PUBLIC
 DISCONNECT
+/*C75*/SET SCHEMA CIR
+DELETE FROM CONGREGATION WHERE ID=1
+COMMIT
+SET SCHEMA PUBLIC
+alter table cir.apps_report_parameter alter column id restart with 1
+alter table cir.apps_report alter column id restart with 1
+alter table cir.congregation alter column id restart with 1
+alter table cir.contact alter column id restart with 1
+alter table cir.contact_call alter column id restart with 1
+alter table cir.contact_status alter column id restart with 1
+alter table cir.direction_map alter column id restart with 1
+alter table cir.location_map alter column id restart with 1
+alter table cir.meeting_place alter column id restart with 1
+alter table cir.possible_value alter column id restart with 1
+alter table cir.service_group alter column id restart with 1
+alter table cir.territory alter column id restart with 1
 /*C96*/SET SCHEMA PUBLIC
 DISCONNECT
 /*C97*/SET SCHEMA PUBLIC
 DISCONNECT
+/*C98*/SET SCHEMA CIR
+INSERT INTO CONGREGATION VALUES(1,'','','','','2014-05-21 22:14:18.703000','2014-05-21 22:14:18.703000',NULL,NULL)
+COMMIT
+/*C75*/SET SCHEMA CIR
+DELETE FROM CONGREGATION WHERE ID=1
+COMMIT
+SET SCHEMA PUBLIC
+alter table cir.apps_report_parameter alter column id restart with 1
+alter table cir.apps_report alter column id restart with 1
+alter table cir.congregation alter column id restart with 1
+alter table cir.contact alter column id restart with 1
+alter table cir.contact_call alter column id restart with 1
+alter table cir.contact_status alter column id restart with 1
+alter table cir.direction_map alter column id restart with 1
+alter table cir.location_map alter column id restart with 1
+alter table cir.meeting_place alter column id restart with 1
+alter table cir.possible_value alter column id restart with 1
+alter table cir.service_group alter column id restart with 1
+alter table cir.territory alter column id restart with 1
+alter table cir.apps_report_parameter alter column id restart with 1
+alter table cir.apps_report alter column id restart with 1
+alter table cir.congregation alter column id restart with 1
+alter table cir.contact alter column id restart with 1
+alter table cir.contact_call alter column id restart with 1
+alter table cir.contact_status alter column id restart with 1
+alter table cir.direction_map alter column id restart with 1
+alter table cir.location_map alter column id restart with 1
+alter table cir.meeting_place alter column id restart with 1
+alter table cir.possible_value alter column id restart with 1
+alter table cir.service_group alter column id restart with 1
+alter table cir.territory alter column id restart with 1
 /*C98*/SET SCHEMA PUBLIC
 DISCONNECT
 /*C99*/SET SCHEMA PUBLIC
 DISCONNECT
-/*C100*/SET SCHEMA PUBLIC
+/*C100*/SET SCHEMA CIR
+INSERT INTO CONGREGATION VALUES(1,'','','','','2014-05-21 22:15:12.296000','2014-05-21 22:15:12.296000',NULL,NULL)
+COMMIT
+INSERT INTO CONGREGATION VALUES(2,'Sign Language - Caloocan City MM','27 D. Aquino St. bet. 3rd and 4th Avenue','West Grace Park','Calooacan City','2014-05-21 22:15:12.296000','2014-05-21 22:16:35.546000',NULL,NULL)
+COMMIT
+INSERT INTO CONGREGATION VALUES(3,'Sign Language - Caloocan City MM','27 D. Aquino St. bet. 3rd and 4th Avenue','West Grace Park','Calooacan City','2014-05-21 22:15:12.296000','2014-05-21 22:16:36.312000',NULL,NULL)
+COMMIT
+SET SCHEMA PUBLIC
 DISCONNECT
+/*C75*/SET SCHEMA CIR
+DELETE FROM CONGREGATION WHERE ID=1
+DELETE FROM CONGREGATION WHERE ID=2
+DELETE FROM CONGREGATION WHERE ID=3
+COMMIT
+SET SCHEMA PUBLIC
+alter table cir.apps_report_parameter alter column id restart with 1
+alter table cir.apps_report alter column id restart with 1
+alter table cir.congregation alter column id restart with 1
+alter table cir.contact alter column id restart with 1
+alter table cir.contact_call alter column id restart with 1
+alter table cir.contact_status alter column id restart with 1
+alter table cir.direction_map alter column id restart with 1
+alter table cir.location_map alter column id restart with 1
+alter table cir.meeting_place alter column id restart with 1
+alter table cir.possible_value alter column id restart with 1
+alter table cir.service_group alter column id restart with 1
+alter table cir.territory alter column id restart with 1
 /*C101*/SET SCHEMA PUBLIC
 DISCONNECT
-/*C102*/SET SCHEMA PUBLIC
+/*C102*/SET SCHEMA CIR
+INSERT INTO CONGREGATION VALUES(1,'','','','','2014-05-21 22:18:44.203000','2014-05-21 22:18:44.203000',NULL,NULL)
+COMMIT
+DELETE FROM CONGREGATION WHERE ID=1
+INSERT INTO CONGREGATION VALUES(1,'','','','','2014-05-21 22:18:44.203000','2014-05-21 22:18:48.093000',NULL,NULL)
+COMMIT
+DELETE FROM CONGREGATION WHERE ID=1
+INSERT INTO CONGREGATION VALUES(1,'','','','','2014-05-21 22:18:44.203000','2014-05-21 22:18:48.359000',NULL,NULL)
+COMMIT
+DELETE FROM CONGREGATION WHERE ID=1
+INSERT INTO CONGREGATION VALUES(1,'','','','','2014-05-21 22:18:44.203000','2014-05-21 22:18:48.546000',NULL,NULL)
+COMMIT
+DELETE FROM CONGREGATION WHERE ID=1
+INSERT INTO CONGREGATION VALUES(1,'','','','','2014-05-21 22:18:44.203000','2014-05-21 22:18:48.718000',NULL,NULL)
+COMMIT
+DELETE FROM CONGREGATION WHERE ID=1
+INSERT INTO CONGREGATION VALUES(1,'','','','','2014-05-21 22:18:44.203000','2014-05-21 22:18:48.875000',NULL,NULL)
+COMMIT
+DELETE FROM CONGREGATION WHERE ID=1
+INSERT INTO CONGREGATION VALUES(1,'Sign Language - Caloocan City MM','','','','2014-05-21 22:18:44.203000','2014-05-21 22:19:10.453000',NULL,NULL)
+COMMIT
+DELETE FROM CONGREGATION WHERE ID=1
+INSERT INTO CONGREGATION VALUES(1,'Sign Language - Caloocan City MM','','','','2014-05-21 22:18:44.203000','2014-05-21 22:19:11.531000',NULL,NULL)
+COMMIT
+DELETE FROM CONGREGATION WHERE ID=1
+INSERT INTO CONGREGATION VALUES(1,'Sign Language - Caloocan City MM','','','','2014-05-21 22:18:44.203000','2014-05-21 22:19:11.718000',NULL,NULL)
+COMMIT
+DELETE FROM CONGREGATION WHERE ID=1
+INSERT INTO CONGREGATION VALUES(1,'Sign Language - Caloocan City MM','','','','2014-05-21 22:18:44.203000','2014-05-21 22:19:11.906000',NULL,NULL)
+COMMIT
+DELETE FROM CONGREGATION WHERE ID=1
+INSERT INTO CONGREGATION VALUES(1,'Sign Language - Caloocan City MM','','','','2014-05-21 22:18:44.203000','2014-05-21 22:19:12.093000',NULL,NULL)
+COMMIT
+DELETE FROM CONGREGATION WHERE ID=1
+INSERT INTO CONGREGATION VALUES(1,'Sign Language - Caloocan City MM','','','','2014-05-21 22:18:44.203000','2014-05-21 22:19:12.281000',NULL,NULL)
+COMMIT
+DELETE FROM CONGREGATION WHERE ID=1
+INSERT INTO CONGREGATION VALUES(1,'Sign Language - Caloocan City MM','','','','2014-05-21 22:18:44.203000','2014-05-21 22:19:15.625000',NULL,NULL)
+COMMIT
+DELETE FROM CONGREGATION WHERE ID=1
+INSERT INTO CONGREGATION VALUES(1,'Sign Language - Caloocan City MM','','','','2014-05-21 22:18:44.203000','2014-05-21 22:19:15.796000',NULL,NULL)
+COMMIT
+DELETE FROM CONGREGATION WHERE ID=1
+INSERT INTO CONGREGATION VALUES(1,'Sign Language - Caloocan City MM','','','','2014-05-21 22:18:44.203000','2014-05-21 22:19:15.984000',NULL,NULL)
+COMMIT
+DELETE FROM CONGREGATION WHERE ID=1
+INSERT INTO CONGREGATION VALUES(1,'Sign Language - Caloocan City MM','','','','2014-05-21 22:18:44.203000','2014-05-21 22:19:16.156000',NULL,NULL)
+COMMIT
+DELETE FROM CONGREGATION WHERE ID=1
+INSERT INTO CONGREGATION VALUES(1,'Sign Language - Caloocan City MM','27 D. Aquino St. bet. 3rd and 4th Avenue','West Grace Park','Caloocan City','2014-05-21 22:18:44.203000','2014-05-21 22:19:48.781000',NULL,NULL)
+COMMIT
+DELETE FROM CONGREGATION WHERE ID=1
+INSERT INTO CONGREGATION VALUES(1,'Sign Language - Caloocan City MM','27 D. Aquino St. bet. 3rd and 4th Avenue','West Grace Park','Caloocan City','2014-05-21 22:18:44.203000','2014-05-21 22:19:49.781000',NULL,NULL)
+COMMIT
+INSERT INTO SERVICE_GROUP VALUES(1,NULL,'','',NULL,'',0,0,NULL,'2014-05-21 22:20:07.968000','2014-05-21 22:20:07.968000')
+COMMIT
+INSERT INTO SERVICE_GROUP VALUES(2,NULL,'FSG #1 - Valenzuela','Robert Gabriel','Jerric Manzano','VAL',1000,1000,NULL,'2014-05-21 22:20:07.968000','2014-05-21 22:20:32.359000')
+COMMIT
+INSERT INTO CONTACT VALUES(1,NULL,NULL,NULL,'','2014-05-21 22:20:45.671000',NULL,'','','',NULL,NULL,'',NULL,'','','','','','','','','','','','','','','','','','2014-05-21 22:20:45.671000','2014-05-21 22:20:45.671000','',NULL)
+COMMIT
+DELETE FROM SERVICE_GROUP WHERE ID=2
+INSERT INTO SERVICE_GROUP VALUES(2,NULL,'FSG #1 - Valenzuela','Robert Gabriel','Jerric Manzano','VAL',1000,1001,NULL,'2014-05-21 22:20:07.968000','2014-05-21 22:20:45.765000')
+DELETE FROM CONTACT WHERE ID=1
+INSERT INTO CONTACT VALUES(1,2,NULL,NULL,'VAL1000','2014-05-21 22:20:45.671000',NULL,'','','',NULL,NULL,'',NULL,'','','','','','','','','','','','','','','','','','2014-05-21 22:20:45.671000','2014-05-21 22:20:45.671000','',NULL)
+COMMIT
+DELETE FROM CONTACT WHERE ID=1
+INSERT INTO CONTACT VALUES(1,2,NULL,NULL,'VAL1000','2014-05-21 22:20:45.671000',NULL,'','','',NULL,NULL,'',NULL,'','','','','','','','','','','','','','','','','','2014-05-21 22:20:45.671000','2014-05-21 22:20:45.781000','',NULL)
+COMMIT
+SET SCHEMA PUBLIC
 DISCONNECT
 /*C103*/SET SCHEMA PUBLIC
 DISCONNECT
-/*C104*/SET SCHEMA PUBLIC
+/*C104*/SET SCHEMA CIR
+DELETE FROM SERVICE_GROUP WHERE ID=1
+COMMIT
+INSERT INTO SERVICE_GROUP VALUES(3,NULL,'','',NULL,'',0,0,NULL,'2014-05-21 22:23:28.687000','2014-05-21 22:23:28.687000')
+COMMIT
+SET SCHEMA PUBLIC
 DISCONNECT
+/*C75*/SET SCHEMA CIR
+DELETE FROM CONTACT WHERE ID=1
+COMMIT
+DELETE FROM SERVICE_GROUP WHERE ID=2
+DELETE FROM SERVICE_GROUP WHERE ID=3
+COMMIT
+SET SCHEMA PUBLIC
+alter table cir.apps_report_parameter alter column id restart with 1
+alter table cir.apps_report alter column id restart with 1
+alter table cir.congregation alter column id restart with 1
+alter table cir.contact alter column id restart with 1
+alter table cir.contact_call alter column id restart with 1
+alter table cir.contact_status alter column id restart with 1
+alter table cir.direction_map alter column id restart with 1
+alter table cir.location_map alter column id restart with 1
+alter table cir.meeting_place alter column id restart with 1
+alter table cir.possible_value alter column id restart with 1
+alter table cir.service_group alter column id restart with 1
+alter table cir.territory alter column id restart with 1
+SET SCHEMA CIR
+DELETE FROM CONGREGATION WHERE ID=1
+COMMIT
+SET SCHEMA PUBLIC
+alter table cir.apps_report_parameter alter column id restart with 1
+alter table cir.apps_report alter column id restart with 1
+alter table cir.congregation alter column id restart with 1
+alter table cir.contact alter column id restart with 1
+alter table cir.contact_call alter column id restart with 1
+alter table cir.contact_status alter column id restart with 1
+alter table cir.direction_map alter column id restart with 1
+alter table cir.location_map alter column id restart with 1
+alter table cir.meeting_place alter column id restart with 1
+alter table cir.possible_value alter column id restart with 1
+alter table cir.service_group alter column id restart with 1
+alter table cir.territory alter column id restart with 1
 /*C105*/SET SCHEMA PUBLIC
 DISCONNECT
-/*C106*/SET SCHEMA PUBLIC
+/*C106*/SET SCHEMA CIR
+INSERT INTO CONGREGATION VALUES(1,'','','','','2014-05-21 22:27:00.703000','2014-05-21 22:27:00.703000',NULL,NULL)
+COMMIT
+DELETE FROM CONGREGATION WHERE ID=1
+INSERT INTO CONGREGATION VALUES(1,'Sign Language - Caloocan City MM','','','','2014-05-21 22:27:00.703000','2014-05-21 22:27:17.859000',NULL,NULL)
+COMMIT
+DELETE FROM CONGREGATION WHERE ID=1
+INSERT INTO CONGREGATION VALUES(1,'Sign Language - Caloocan City MM','','','','2014-05-21 22:27:00.703000','2014-05-21 22:27:19.531000',NULL,NULL)
+COMMIT
+DELETE FROM CONGREGATION WHERE ID=1
+INSERT INTO CONGREGATION VALUES(1,'Sign Language - Caloocan City MM','','','','2014-05-21 22:27:00.703000','2014-05-21 22:27:19.718000',NULL,NULL)
+COMMIT
+DELETE FROM CONGREGATION WHERE ID=1
+INSERT INTO CONGREGATION VALUES(1,'Sign Language - Caloocan City MM','','','','2014-05-21 22:27:00.703000','2014-05-21 22:27:19.921000',NULL,NULL)
+COMMIT
+DELETE FROM CONGREGATION WHERE ID=1
+INSERT INTO CONGREGATION VALUES(1,'Sign Language - Caloocan City MM','','','','2014-05-21 22:27:00.703000','2014-05-21 22:27:22.875000',NULL,NULL)
+COMMIT
+DELETE FROM CONGREGATION WHERE ID=1
+INSERT INTO CONGREGATION VALUES(1,'Sign Language - Caloocan City MM','','','','2014-05-21 22:27:00.703000','2014-05-21 22:27:23.062000',NULL,NULL)
+COMMIT
+DELETE FROM CONGREGATION WHERE ID=1
+INSERT INTO CONGREGATION VALUES(1,'Sign Language - Caloocan City MM','','','','2014-05-21 22:27:00.703000','2014-05-21 22:27:23.265000',NULL,NULL)
+COMMIT
+DELETE FROM CONGREGATION WHERE ID=1
+INSERT INTO CONGREGATION VALUES(1,'Sign Language - Caloocan City MM','','','','2014-05-21 22:27:00.703000','2014-05-21 22:27:25.218000',NULL,NULL)
+COMMIT
+DELETE FROM CONGREGATION WHERE ID=1
+INSERT INTO CONGREGATION VALUES(1,'Sign Language - Caloocan City MM','','','','2014-05-21 22:27:00.703000','2014-05-21 22:27:25.421000',NULL,NULL)
+COMMIT
+DELETE FROM CONGREGATION WHERE ID=1
+INSERT INTO CONGREGATION VALUES(1,'Sign Language - Caloocan City MM','','','','2014-05-21 22:27:00.703000','2014-05-21 22:27:25.609000',NULL,NULL)
+COMMIT
+DELETE FROM CONGREGATION WHERE ID=1
+INSERT INTO CONGREGATION VALUES(1,'Sign Language - Caloocan City MM','27 D. Aquino St. bet. 3rd and 4th Avenue','West Grace Park','Caloocan City','2014-05-21 22:27:00.703000','2014-05-21 22:28:11.343000',NULL,NULL)
+COMMIT
+INSERT INTO SERVICE_GROUP VALUES(1,NULL,'','',NULL,'',0,0,NULL,'2014-05-21 22:28:17.390000','2014-05-21 22:28:17.390000')
+COMMIT
+DELETE FROM SERVICE_GROUP WHERE ID=1
+INSERT INTO SERVICE_GROUP VALUES(1,NULL,'FSG #1 - Valenzuela','Robert Gabriel','Jerric Manzano','VAL',1000,1000,NULL,'2014-05-21 22:28:17.390000','2014-05-21 22:28:48.218000')
+COMMIT
+SET SCHEMA PUBLIC
 DISCONNECT
 /*C107*/SET SCHEMA PUBLIC
-alter table cir.congregation add column latitude double
-alter table cir.congregation add column longitude double
-/*C108*/SET SCHEMA PUBLIC
 DISCONNECT
+/*C108*/SET SCHEMA CIR
+INSERT INTO SERVICE_GROUP VALUES(2,NULL,'','',NULL,'',0,0,NULL,'2014-05-21 22:30:16.937000','2014-05-21 22:30:16.937000')
+COMMIT
+DELETE FROM SERVICE_GROUP WHERE ID=2
+INSERT INTO SERVICE_GROUP VALUES(2,NULL,'FSG #2 - Caloocan City','Dan Geremias','Joel Angelino','CAL',1000,1000,NULL,'2014-05-21 22:30:16.937000','2014-05-21 22:30:33.984000')
+COMMIT
+INSERT INTO CONTACT VALUES(1,NULL,NULL,NULL,'','2014-05-21 22:30:44.500000',NULL,'','','',NULL,NULL,'',NULL,'','','','','','','','','','','','','','','','','','2014-05-21 22:30:44.500000','2014-05-21 22:30:44.500000','',NULL)
+COMMIT
+DELETE FROM SERVICE_GROUP WHERE ID=2
+INSERT INTO SERVICE_GROUP VALUES(2,NULL,'FSG #2 - Caloocan City','Dan Geremias','Joel Angelino','CAL',1000,1001,NULL,'2014-05-21 22:30:16.937000','2014-05-21 22:30:44.593000')
+DELETE FROM CONTACT WHERE ID=1
+INSERT INTO CONTACT VALUES(1,2,NULL,NULL,'CAL1000','2014-05-21 22:30:44.500000',NULL,'','','',NULL,NULL,'',NULL,'','','','','','','','','','','','','','','','','','2014-05-21 22:30:44.500000','2014-05-21 22:30:44.500000','',NULL)
+COMMIT
+DELETE FROM CONTACT WHERE ID=1
+INSERT INTO CONTACT VALUES(1,2,NULL,NULL,'CAL1000','2014-05-21 22:30:44.500000',NULL,'','','',NULL,NULL,'',NULL,'','','','','','','','','','','','','','','','','','2014-05-21 22:30:44.500000','2014-05-21 22:30:44.609000','',NULL)
+COMMIT
+DELETE FROM CONTACT WHERE ID=1
+INSERT INTO CONTACT VALUES(1,2,NULL,NULL,'CAL1000','2014-05-21 22:30:44.500000',NULL,'Moreno','Wilson','',NULL,NULL,'',NULL,'','','','','','','','','','','','','','','','','','2014-05-21 22:30:44.500000','2014-05-21 22:30:58.546000','',NULL)
+COMMIT
+INSERT INTO CONTACT VALUES(2,NULL,NULL,NULL,'','2014-05-21 22:31:10.328000',NULL,'','','',NULL,NULL,'',NULL,'','','','','','','','','','','','','','','','','','2014-05-21 22:31:10.328000','2014-05-21 22:31:10.328000','',NULL)
+COMMIT
+DELETE FROM SERVICE_GROUP WHERE ID=1
+INSERT INTO SERVICE_GROUP VALUES(1,NULL,'FSG #1 - Valenzuela','Robert Gabriel','Jerric Manzano','VAL',1000,1001,NULL,'2014-05-21 22:28:17.390000','2014-05-21 22:31:10.406000')
+DELETE FROM CONTACT WHERE ID=2
+INSERT INTO CONTACT VALUES(2,1,NULL,NULL,'VAL1000','2014-05-21 22:31:10.328000',NULL,'','','',NULL,NULL,'',NULL,'','','','','','','','','','','','','','','','','','2014-05-21 22:31:10.328000','2014-05-21 22:31:10.328000','',NULL)
+COMMIT
+DELETE FROM CONTACT WHERE ID=2
+INSERT INTO CONTACT VALUES(2,1,NULL,NULL,'VAL1000','2014-05-21 22:31:10.328000',NULL,'','','',NULL,NULL,'',NULL,'','','','','','','','','','','','','','','','','','2014-05-21 22:31:10.328000','2014-05-21 22:31:10.421000','',NULL)
+COMMIT
+SET SCHEMA PUBLIC
+DISCONNECT
+/*C75*/SET SCHEMA CIR
+DELETE FROM CONTACT WHERE ID=1
+DELETE FROM CONTACT WHERE ID=2
+COMMIT
+DELETE FROM SERVICE_GROUP WHERE ID=1
+DELETE FROM SERVICE_GROUP WHERE ID=2
+COMMIT
+SET SCHEMA PUBLIC
+alter table cir.apps_report_parameter alter column id restart with 1
+alter table cir.apps_report alter column id restart with 1
+alter table cir.congregation alter column id restart with 1
+alter table cir.contact alter column id restart with 1
+alter table cir.contact_call alter column id restart with 1
+alter table cir.contact_status alter column id restart with 1
+alter table cir.direction_map alter column id restart with 1
+alter table cir.location_map alter column id restart with 1
+alter table cir.meeting_place alter column id restart with 1
+alter table cir.possible_value alter column id restart with 1
+alter table cir.service_group alter column id restart with 1
+alter table cir.territory alter column id restart with 1
 /*C109*/SET SCHEMA PUBLIC
 DISCONNECT
 /*C110*/SET SCHEMA PUBLIC
 DISCONNECT
+/*C75*/SET SCHEMA CIR
+DELETE FROM CONGREGATION WHERE ID=1
+COMMIT
+SET SCHEMA PUBLIC
+alter table cir.apps_report_parameter alter column id restart with 1
+alter table cir.apps_report alter column id restart with 1
+alter table cir.congregation alter column id restart with 1
+alter table cir.contact alter column id restart with 1
+alter table cir.contact_call alter column id restart with 1
+alter table cir.contact_status alter column id restart with 1
+alter table cir.direction_map alter column id restart with 1
+alter table cir.location_map alter column id restart with 1
+alter table cir.meeting_place alter column id restart with 1
+alter table cir.possible_value alter column id restart with 1
+alter table cir.service_group alter column id restart with 1
+alter table cir.territory alter column id restart with 1
 /*C111*/SET SCHEMA PUBLIC
 DISCONNECT
-/*C112*/SET SCHEMA PUBLIC
+/*C112*/SET SCHEMA CIR
+INSERT INTO CONGREGATION VALUES(1,'','','','','2014-05-21 22:32:35.265000','2014-05-21 22:32:35.265000',NULL,NULL)
+COMMIT
+DELETE FROM CONGREGATION WHERE ID=1
+INSERT INTO CONGREGATION VALUES(1,'Sign Language - Caloocan City MM','27 D. Aquino St. bet 3rd and 4th Avenue','West Grace Park','Caloocan City','2014-05-21 22:32:35.265000','2014-05-21 22:33:09.796000',NULL,NULL)
+COMMIT
+INSERT INTO SERVICE_GROUP VALUES(1,NULL,'','',NULL,'',0,0,NULL,'2014-05-21 22:33:17.593000','2014-05-21 22:33:17.593000')
+COMMIT
+SET SCHEMA PUBLIC
 DISCONNECT
+/*C75*/SET SCHEMA CIR
+DELETE FROM SERVICE_GROUP WHERE ID=1
+COMMIT
+SET SCHEMA PUBLIC
+alter table cir.apps_report_parameter alter column id restart with 1
+alter table cir.apps_report alter column id restart with 1
+alter table cir.congregation alter column id restart with 1
+alter table cir.contact alter column id restart with 1
+alter table cir.contact_call alter column id restart with 1
+alter table cir.contact_status alter column id restart with 1
+alter table cir.direction_map alter column id restart with 1
+alter table cir.location_map alter column id restart with 1
+alter table cir.meeting_place alter column id restart with 1
+alter table cir.possible_value alter column id restart with 1
+alter table cir.service_group alter column id restart with 1
+alter table cir.territory alter column id restart with 1
+SET SCHEMA CIR
+DELETE FROM CONGREGATION WHERE ID=1
+COMMIT
+SET SCHEMA PUBLIC
+alter table cir.apps_report_parameter alter column id restart with 1
+alter table cir.apps_report alter column id restart with 1
+alter table cir.congregation alter column id restart with 1
+alter table cir.contact alter column id restart with 1
+alter table cir.contact_call alter column id restart with 1
+alter table cir.contact_status alter column id restart with 1
+alter table cir.direction_map alter column id restart with 1
+alter table cir.location_map alter column id restart with 1
+alter table cir.meeting_place alter column id restart with 1
+alter table cir.possible_value alter column id restart with 1
+alter table cir.service_group alter column id restart with 1
+alter table cir.territory alter column id restart with 1
 /*C113*/SET SCHEMA PUBLIC
 DISCONNECT
-/*C114*/SET SCHEMA PUBLIC
+/*C114*/SET SCHEMA CIR
+INSERT INTO CONGREGATION VALUES(1,'','','','','2014-05-21 22:34:27.546000','2014-05-21 22:34:27.546000',NULL,NULL)
+COMMIT
+DELETE FROM CONGREGATION WHERE ID=1
+INSERT INTO CONGREGATION VALUES(1,'Sign Language - Caloocan City MM','27 D. Aquino St. bet. 3rd and 4th Avenue','West Grace Park','Caloocan City','2014-05-21 22:34:27.546000','2014-05-21 22:35:00.375000',NULL,NULL)
+COMMIT
+INSERT INTO SERVICE_GROUP VALUES(1,NULL,'','',NULL,'',0,0,NULL,'2014-05-21 22:35:04.453000','2014-05-21 22:35:04.453000')
+COMMIT
+DELETE FROM SERVICE_GROUP WHERE ID=1
+INSERT INTO SERVICE_GROUP VALUES(1,NULL,'FSG #1 - Valenzuela','Robert Gabriel','Jerric Manzano','VAL',1000,1000,NULL,'2014-05-21 22:35:04.453000','2014-05-21 22:35:42.656000')
+COMMIT
+SET SCHEMA PUBLIC
 DISCONNECT
-/*C107*/DISCONNECT
+/*C75*/SET SCHEMA CIR
+DELETE FROM SERVICE_GROUP WHERE ID=1
+COMMIT
+SET SCHEMA PUBLIC
+alter table cir.apps_report_parameter alter column id restart with 1
+alter table cir.apps_report alter column id restart with 1
+alter table cir.congregation alter column id restart with 1
+alter table cir.contact alter column id restart with 1
+alter table cir.contact_call alter column id restart with 1
+alter table cir.contact_status alter column id restart with 1
+alter table cir.direction_map alter column id restart with 1
+alter table cir.location_map alter column id restart with 1
+alter table cir.meeting_place alter column id restart with 1
+alter table cir.possible_value alter column id restart with 1
+alter table cir.service_group alter column id restart with 1
+alter table cir.territory alter column id restart with 1
 /*C115*/SET SCHEMA PUBLIC
 DISCONNECT
-/*C116*/SET SCHEMA PUBLIC
+/*C116*/SET SCHEMA CIR
+DELETE FROM CONGREGATION WHERE ID=1
+INSERT INTO CONGREGATION VALUES(1,'Sign Language - Caloocan City MM','27 D. Aquino St. bet. 3rd and 4th Avenue','West Grace Park','Caloocan City','2014-05-21 22:34:27.546000','2014-05-21 22:39:40.906000',NULL,NULL)
+COMMIT
+INSERT INTO SERVICE_GROUP VALUES(1,NULL,'','',NULL,'',0,0,NULL,'2014-05-21 22:40:03.843000','2014-05-21 22:40:03.843000')
+COMMIT
+DELETE FROM SERVICE_GROUP WHERE ID=1
+INSERT INTO SERVICE_GROUP VALUES(1,1,'','',NULL,'',0,0,NULL,'2014-05-21 22:40:03.843000','2014-05-21 22:40:03.875000')
+COMMIT
+DELETE FROM SERVICE_GROUP WHERE ID=1
+INSERT INTO SERVICE_GROUP VALUES(1,1,'FSG #1 - Valenzuela','Robert Gabriel','Jerric Manzano','VAL',1000,1000,NULL,'2014-05-21 22:40:03.843000','2014-05-21 22:40:24.578000')
+COMMIT
+INSERT INTO CONTACT VALUES(1,NULL,NULL,NULL,'','2014-05-21 22:40:27.000000',NULL,'','','',NULL,NULL,'',NULL,'','','','','','','','','','','','','','','','','','2014-05-21 22:40:27.000000','2014-05-21 22:40:27.000000','',NULL)
+COMMIT
+DELETE FROM SERVICE_GROUP WHERE ID=1
+INSERT INTO SERVICE_GROUP VALUES(1,1,'FSG #1 - Valenzuela','Robert Gabriel','Jerric Manzano','VAL',1000,1001,NULL,'2014-05-21 22:40:03.843000','2014-05-21 22:40:27.078000')
+DELETE FROM CONTACT WHERE ID=1
+INSERT INTO CONTACT VALUES(1,1,NULL,NULL,'VAL1000','2014-05-21 22:40:27.000000',NULL,'','','',NULL,NULL,'',NULL,'','','','','','','','','','','','','','','','','','2014-05-21 22:40:27.000000','2014-05-21 22:40:27.000000','',NULL)
+COMMIT
+DELETE FROM CONTACT WHERE ID=1
+INSERT INTO CONTACT VALUES(1,1,NULL,NULL,'VAL1000','2014-05-21 22:40:27.000000',NULL,'','','',NULL,NULL,'',NULL,'','','','','','','','','','','','','','','','','','2014-05-21 22:40:27.000000','2014-05-21 22:40:27.093000','',NULL)
+COMMIT
+DELETE FROM CONTACT WHERE ID=1
+INSERT INTO CONTACT VALUES(1,1,NULL,NULL,'VAL1000','2014-05-21 22:40:27.000000',NULL,'Moreno','Wilson','',NULL,NULL,'',NULL,'','','','','','','','','','','','','','','','','','2014-05-21 22:40:27.000000','2014-05-21 22:40:49.656000','',NULL)
+COMMIT
+SET SCHEMA PUBLIC
 DISCONNECT
 /*C117*/SET SCHEMA PUBLIC
 DISCONNECT
+/*C75*/SET SCHEMA CIR
+DELETE FROM CONTACT WHERE ID=1
+COMMIT
+DELETE FROM SERVICE_GROUP WHERE ID=1
+COMMIT
+SET SCHEMA PUBLIC
+alter table cir.apps_report_parameter alter column id restart with 1
+alter table cir.apps_report alter column id restart with 1
+alter table cir.congregation alter column id restart with 1
+alter table cir.contact alter column id restart with 1
+alter table cir.contact_call alter column id restart with 1
+alter table cir.contact_status alter column id restart with 1
+alter table cir.direction_map alter column id restart with 1
+alter table cir.location_map alter column id restart with 1
+alter table cir.meeting_place alter column id restart with 1
+alter table cir.possible_value alter column id restart with 1
+alter table cir.service_group alter column id restart with 1
+alter table cir.territory alter column id restart with 1
+SET SCHEMA CIR
+DELETE FROM CONGREGATION WHERE ID=1
+COMMIT
+SET SCHEMA PUBLIC
+alter table cir.apps_report_parameter alter column id restart with 1
+alter table cir.apps_report alter column id restart with 1
+alter table cir.congregation alter column id restart with 1
+alter table cir.contact alter column id restart with 1
+alter table cir.contact_call alter column id restart with 1
+alter table cir.contact_status alter column id restart with 1
+alter table cir.direction_map alter column id restart with 1
+alter table cir.location_map alter column id restart with 1
+alter table cir.meeting_place alter column id restart with 1
+alter table cir.possible_value alter column id restart with 1
+alter table cir.service_group alter column id restart with 1
+alter table cir.territory alter column id restart with 1
 /*C118*/SET SCHEMA PUBLIC
 DISCONNECT
-/*C119*/SET SCHEMA CIR
-INSERT INTO CONGREGATION VALUES(1,'','','','','2014-05-21 13:11:18.171000','2014-05-21 13:11:18.171000',NULL,NULL)
+/*C119*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C120*/SET SCHEMA CIR
+INSERT INTO CONGREGATION VALUES(1,'','','','','2014-05-21 22:51:14.953000','2014-05-21 22:51:14.953000',NULL,NULL)
+COMMIT
+DELETE FROM CONGREGATION WHERE ID=1
+INSERT INTO CONGREGATION VALUES(1,'Sign Language - Caloocan City MM','27 D. Aquino St. bet. 3rd & 4th','West Grace Park','Caloocan City','2014-05-21 22:51:14.953000','2014-05-21 22:52:10.859000',NULL,NULL)
+COMMIT
+INSERT INTO SERVICE_GROUP VALUES(1,NULL,'','',NULL,'',0,0,NULL,'2014-05-21 22:52:20.453000','2014-05-21 22:52:20.453000')
+COMMIT
+DELETE FROM SERVICE_GROUP WHERE ID=1
+INSERT INTO SERVICE_GROUP VALUES(1,1,'','',NULL,'',0,0,NULL,'2014-05-21 22:52:20.453000','2014-05-21 22:52:20.484000')
+COMMIT
+DELETE FROM SERVICE_GROUP WHERE ID=1
+INSERT INTO SERVICE_GROUP VALUES(1,1,'FSG #1 - Valenzuela','Robert Gabriel','Jerric Manzano','VAL',1000,1000,NULL,'2014-05-21 22:52:20.453000','2014-05-21 22:52:49.015000')
 COMMIT
 SET SCHEMA PUBLIC
 DISCONNECT
-/*C120*/SET SCHEMA PUBLIC
-DISCONNECT
+/*C75*/SET SCHEMA CIR
+DELETE FROM SERVICE_GROUP WHERE ID=1
+COMMIT
+SET SCHEMA PUBLIC
+alter table cir.apps_report_parameter alter column id restart with 1
+alter table cir.apps_report alter column id restart with 1
+alter table cir.contact alter column id restart with 1
+alter table cir.contact_call alter column id restart with 1
+alter table cir.contact_status alter column id restart with 1
+alter table cir.direction_map alter column id restart with 1
+alter table cir.location_map alter column id restart with 1
+alter table cir.meeting_place alter column id restart with 1
+alter table cir.possible_value alter column id restart with 1
+alter table cir.service_group alter column id restart with 1
+alter table cir.territory alter column id restart with 1
+alter table cir.apps_report_parameter alter column id restart with 1
+alter table cir.apps_report alter column id restart with 1
+alter table cir.contact alter column id restart with 1
+alter table cir.contact_call alter column id restart with 1
+alter table cir.contact_status alter column id restart with 1
+alter table cir.direction_map alter column id restart with 1
+alter table cir.location_map alter column id restart with 1
+alter table cir.meeting_place alter column id restart with 1
+alter table cir.possible_value alter column id restart with 1
+alter table cir.service_group alter column id restart with 1
+alter table cir.territory alter column id restart with 1
+alter table cir.apps_report_parameter alter column id restart with 1
+alter table cir.apps_report alter column id restart with 1
+alter table cir.contact alter column id restart with 1
+alter table cir.contact_call alter column id restart with 1
+alter table cir.contact_status alter column id restart with 1
+alter table cir.direction_map alter column id restart with 1
+alter table cir.location_map alter column id restart with 1
+alter table cir.meeting_place alter column id restart with 1
+alter table cir.possible_value alter column id restart with 1
+alter table cir.service_group alter column id restart with 1
+alter table cir.territory alter column id restart with 1
 /*C121*/SET SCHEMA PUBLIC
 DISCONNECT
-/*C122*/SET SCHEMA PUBLIC
+/*C122*/SET SCHEMA CIR
+INSERT INTO SERVICE_GROUP VALUES(1,NULL,'','',NULL,'',0,0,NULL,'2014-05-21 22:55:04.109000','2014-05-21 22:55:04.109000')
+COMMIT
+DELETE FROM SERVICE_GROUP WHERE ID=1
+INSERT INTO SERVICE_GROUP VALUES(1,1,'','',NULL,'',0,0,NULL,'2014-05-21 22:55:04.109000','2014-05-21 22:55:04.140000')
+COMMIT
+DELETE FROM SERVICE_GROUP WHERE ID=1
+INSERT INTO SERVICE_GROUP VALUES(1,1,'FSG #1 - Valenzuela','Robert Gabriel','Jerric Manzano','VAL',1000,1000,NULL,'2014-05-21 22:55:04.109000','2014-05-21 22:55:26.296000')
+COMMIT
+SET SCHEMA PUBLIC
 DISCONNECT
+/*C75*/SET SCHEMA CIR
+DELETE FROM SERVICE_GROUP WHERE ID=1
+COMMIT
+SET SCHEMA PUBLIC
+alter table cir.apps_report_parameter alter column id restart with 1
+alter table cir.apps_report alter column id restart with 1
+alter table cir.contact alter column id restart with 1
+alter table cir.contact_call alter column id restart with 1
+alter table cir.contact_status alter column id restart with 1
+alter table cir.direction_map alter column id restart with 1
+alter table cir.location_map alter column id restart with 1
+alter table cir.meeting_place alter column id restart with 1
+alter table cir.possible_value alter column id restart with 1
+alter table cir.service_group alter column id restart with 1
+alter table cir.territory alter column id restart with 1
+alter table cir.apps_report_parameter alter column id restart with 1
+alter table cir.apps_report alter column id restart with 1
+alter table cir.contact alter column id restart with 1
+alter table cir.contact_call alter column id restart with 1
+alter table cir.contact_status alter column id restart with 1
+alter table cir.direction_map alter column id restart with 1
+alter table cir.location_map alter column id restart with 1
+alter table cir.meeting_place alter column id restart with 1
+alter table cir.possible_value alter column id restart with 1
+alter table cir.service_group alter column id restart with 1
+alter table cir.territory alter column id restart with 1
+alter table cir.apps_report_parameter alter column id restart with 1
+alter table cir.apps_report alter column id restart with 1
+alter table cir.contact alter column id restart with 1
+alter table cir.contact_call alter column id restart with 1
+alter table cir.contact_status alter column id restart with 1
+alter table cir.direction_map alter column id restart with 1
+alter table cir.location_map alter column id restart with 1
+alter table cir.meeting_place alter column id restart with 1
+alter table cir.possible_value alter column id restart with 1
+alter table cir.service_group alter column id restart with 1
+alter table cir.territory alter column id restart with 1
 /*C123*/SET SCHEMA PUBLIC
 DISCONNECT
-/*C124*/SET SCHEMA PUBLIC
+/*C124*/SET SCHEMA CIR
+INSERT INTO SERVICE_GROUP VALUES(1,NULL,'','',NULL,'',0,0,NULL,'2014-05-21 23:02:02.296000','2014-05-21 23:02:02.296000')
+COMMIT
+DELETE FROM SERVICE_GROUP WHERE ID=1
+INSERT INTO SERVICE_GROUP VALUES(1,1,'','',NULL,'',0,0,NULL,'2014-05-21 23:02:02.296000','2014-05-21 23:02:02.343000')
+COMMIT
+DELETE FROM SERVICE_GROUP WHERE ID=1
+INSERT INTO SERVICE_GROUP VALUES(1,1,'FSG #1 - Valenzuela','Robert Gabriel','Jerric Manzano','VAL',1000,1000,NULL,'2014-05-21 23:02:02.296000','2014-05-21 23:02:23.765000')
+COMMIT
+SET SCHEMA PUBLIC
 DISCONNECT
 /*C125*/SET SCHEMA PUBLIC
 DISCONNECT
-/*C126*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C127*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C82*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C128*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C129*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C130*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C131*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C132*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C133*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C134*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C135*/SET SCHEMA CIR
-DELETE FROM CONGREGATION WHERE ID=1
-INSERT INTO CONGREGATION VALUES(1,'Sing Language - Caloocan City MM','','','','2014-05-21 13:11:18.171000','2014-05-21 14:06:38.281000',NULL,NULL)
+/*C126*/SET SCHEMA CIR
+INSERT INTO CONTACT VALUES(1,NULL,NULL,NULL,'','2014-05-21 23:14:55.140000',NULL,'','','',NULL,NULL,'',NULL,'','','','','','','','','','','','','','','','','','2014-05-21 23:14:55.140000','2014-05-21 23:14:55.140000','',NULL)
 COMMIT
-DELETE FROM CONGREGATION WHERE ID=1
-INSERT INTO CONGREGATION VALUES(1,'Sing Language - Caloocan City MM','','','','2014-05-21 13:11:18.171000','2014-05-21 14:06:42.671000',NULL,NULL)
+DELETE FROM SERVICE_GROUP WHERE ID=1
+INSERT INTO SERVICE_GROUP VALUES(1,1,'FSG #1 - Valenzuela','Robert Gabriel','Jerric Manzano','VAL',1000,1001,NULL,'2014-05-21 23:02:02.296000','2014-05-21 23:14:55.250000')
+DELETE FROM CONTACT WHERE ID=1
+INSERT INTO CONTACT VALUES(1,1,NULL,NULL,'VAL1000','2014-05-21 23:14:55.140000',NULL,'','','',NULL,NULL,'',NULL,'','','','','','','','','','','','','','','','','','2014-05-21 23:14:55.140000','2014-05-21 23:14:55.140000','',NULL)
 COMMIT
-DELETE FROM CONGREGATION WHERE ID=1
-INSERT INTO CONGREGATION VALUES(1,'Sing Language - Caloocan City MM','','','','2014-05-21 13:11:18.171000','2014-05-21 14:06:43.125000',NULL,NULL)
-COMMIT
-DELETE FROM CONGREGATION WHERE ID=1
-INSERT INTO CONGREGATION VALUES(1,'Sing Language - Caloocan City MM','27 D. Aquino St. bet. 3rd and 4th Ave.','West Grace Park','Caloocan City','2014-05-21 13:11:18.171000','2014-05-21 14:07:30.437000',NULL,NULL)
+DELETE FROM CONTACT WHERE ID=1
+INSERT INTO CONTACT VALUES(1,1,NULL,NULL,'VAL1000','2014-05-21 23:14:55.140000',NULL,'','','',NULL,NULL,'',NULL,'','','','','','','','','','','','','','','','','','2014-05-21 23:14:55.140000','2014-05-21 23:14:55.250000','',NULL)
 COMMIT
 SET SCHEMA PUBLIC
 DISCONNECT
-/*C137*/SET SCHEMA PUBLIC
+/*C75*/SET SCHEMA CIR
+DELETE FROM CONTACT WHERE ID=1
+COMMIT
+DELETE FROM SERVICE_GROUP WHERE ID=1
+COMMIT
+SET SCHEMA PUBLIC
+alter table cir.apps_report_parameter alter column id restart with 1
+alter table cir.apps_report alter column id restart with 1
+alter table cir.contact alter column id restart with 1
+alter table cir.contact_call alter column id restart with 1
+alter table cir.contact_status alter column id restart with 1
+alter table cir.direction_map alter column id restart with 1
+alter table cir.location_map alter column id restart with 1
+alter table cir.meeting_place alter column id restart with 1
+alter table cir.possible_value alter column id restart with 1
+alter table cir.service_group alter column id restart with 1
+alter table cir.territory alter column id restart with 1
+/*C127*/SET SCHEMA PUBLIC
 DISCONNECT
-/*C138*/SET SCHEMA CIR
-DELETE FROM CONGREGATION WHERE ID=1
-INSERT INTO CONGREGATION VALUES(1,'Sing Language - Caloocan City MM','27 D. Aquino St. bet. 3rd and 4th Ave.','West Grace Park','Caloocan City','2014-05-21 13:11:18.171000','2014-05-21 14:08:55.156000',NULL,NULL)
+/*C128*/SET SCHEMA CIR
+INSERT INTO SERVICE_GROUP VALUES(1,NULL,'','',NULL,'',1000,1000,NULL,'2014-05-21 23:26:42.390000','2014-05-21 23:26:42.390000')
 COMMIT
-DELETE FROM CONGREGATION WHERE ID=1
-INSERT INTO CONGREGATION VALUES(1,'Sing Language - Caloocan City MM','27 D. Aquino St. bet. 3rd and 4th Ave.','West Grace Park','Caloocan City','2014-05-21 13:11:18.171000','2014-05-21 14:09:07.343000',NULL,NULL)
+DELETE FROM SERVICE_GROUP WHERE ID=1
+INSERT INTO SERVICE_GROUP VALUES(1,1,'','',NULL,'',1000,1000,NULL,'2014-05-21 23:26:42.390000','2014-05-21 23:26:42.437000')
 COMMIT
-DELETE FROM CONGREGATION WHERE ID=1
-INSERT INTO CONGREGATION VALUES(1,'Sing Language - Caloocan City MM','27 D. Aquino St. bet. 3rd and 4th Ave.','West Grace Park','Caloocan City','2014-05-21 13:11:18.171000','2014-05-21 14:09:21.734000',14.2222E0,120.2222E0)
+DELETE FROM SERVICE_GROUP WHERE ID=1
+INSERT INTO SERVICE_GROUP VALUES(1,1,'FSG #1 - Valenzuela','Robert Gabriel','Jerric Manzano','VAL',1000,1000,NULL,'2014-05-21 23:26:42.390000','2014-05-21 23:27:03.703000')
+COMMIT
+DELETE FROM SERVICE_GROUP WHERE ID=1
+INSERT INTO SERVICE_GROUP VALUES(1,1,'FSG #1 - Caloocan','Robert Gabriel','Jerric Manzano','VAL',1000,1000,NULL,'2014-05-21 23:26:42.390000','2014-05-21 23:27:17.390000')
+COMMIT
+SET SCHEMA PUBLIC
+DISCONNECT
+/*C129*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C130*/SET SCHEMA CIR
+INSERT INTO CONTACT VALUES(1,NULL,NULL,NULL,'','2014-05-21 23:31:13.515000',NULL,'','','',NULL,NULL,'',NULL,'','','','','','','','','','','','','','','','','','2014-05-21 23:31:13.515000','2014-05-21 23:31:13.515000','',NULL)
+COMMIT
+DELETE FROM SERVICE_GROUP WHERE ID=1
+INSERT INTO SERVICE_GROUP VALUES(1,1,'FSG #1 - Caloocan','Robert Gabriel','Jerric Manzano','VAL',1000,1001,NULL,'2014-05-21 23:26:42.390000','2014-05-21 23:31:13.609000')
+DELETE FROM CONTACT WHERE ID=1
+INSERT INTO CONTACT VALUES(1,1,NULL,NULL,'VAL1000','2014-05-21 23:31:13.515000',NULL,'','','',NULL,NULL,'',NULL,'','','','','','','','','','','','','','','','','','2014-05-21 23:31:13.515000','2014-05-21 23:31:13.515000','',NULL)
+COMMIT
+DELETE FROM CONTACT WHERE ID=1
+INSERT INTO CONTACT VALUES(1,1,NULL,NULL,'VAL1000','2014-05-21 23:31:13.515000',NULL,'','','',NULL,NULL,'',NULL,'','','','','','','','','','','','','','','','','','2014-05-21 23:31:13.515000','2014-05-21 23:31:13.625000','',NULL)
+COMMIT
+DELETE FROM CONTACT WHERE ID=1
+INSERT INTO CONTACT VALUES(1,1,NULL,NULL,'VAL1000','2014-05-21 23:31:13.515000',NULL,'Moreno','Wilson','',NULL,NULL,'',NULL,'','','','','','','','','','','','','','','','','','2014-05-21 23:31:13.515000','2014-05-21 23:31:22.812000','',NULL)
+COMMIT
+DELETE FROM CONTACT WHERE ID=1
+INSERT INTO CONTACT VALUES(1,1,NULL,NULL,'VAL1000','2014-05-21 23:31:13.515000',NULL,'Moreno','Wilbert','',NULL,NULL,'',NULL,'','','','','','','','','','','','','','','','','','2014-05-21 23:31:13.515000','2014-05-21 23:31:36.281000','',NULL)
+COMMIT
+DELETE FROM SERVICE_GROUP WHERE ID=1
+INSERT INTO SERVICE_GROUP VALUES(1,1,'FSG #1 - Valenzuela','Robert Gabriel','Jerric Manzano','VAL',1000,1001,NULL,'2014-05-21 23:26:42.390000','2014-05-21 23:31:54.296000')
+COMMIT
+DELETE FROM CONTACT WHERE ID=1
+INSERT INTO CONTACT VALUES(1,1,NULL,NULL,'VAL1000','2014-05-21 23:31:13.515000',NULL,'Moreno','Wilbert','','Male',NULL,'',NULL,'','','','','','','','','','','','','','','','','','2014-05-21 23:31:13.515000','2014-05-21 23:32:03.312000','',NULL)
+COMMIT
+DELETE FROM CONTACT WHERE ID=1
+INSERT INTO CONTACT VALUES(1,1,NULL,NULL,'VAL1000','2014-05-21 23:31:13.515000',NULL,'Moreno','Wilbert','','Male','Single','',NULL,'','','','','','','','','','','','','','','','','','2014-05-21 23:31:13.515000','2014-05-21 23:32:08.046000','',NULL)
 COMMIT
 SET SCHEMA PUBLIC
 DISCONNECT

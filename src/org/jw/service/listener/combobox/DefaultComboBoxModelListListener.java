@@ -23,8 +23,9 @@ public class DefaultComboBoxModelListListener<T> implements ObservableListListen
     }
     private final JComboBox comboBox;
     
+    
     private DefaultComboBoxModelListListener(JComboBox comboBox){
-        this.comboBox = comboBox;
+        this.comboBox = comboBox;    
     }
 
     @Override

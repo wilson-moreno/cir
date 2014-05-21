@@ -93,11 +93,11 @@ public class ServiceGroup implements Serializable, ObservableEntity, SilentSette
         this.icon = null;
         this.meetingPlaceCollection = null;
         this.name = "";
-        this.nextNumber = new Integer(0);
+        this.nextNumber = new Integer(1000);
         this.overseer = "";
         this.prefix = "";
         this.saveState = "";
-        this.startNumber = new Integer(0);
+        this.startNumber = new Integer(1000);
         this.updatedDatetime = new Date();
     }
 
@@ -397,6 +397,7 @@ public class ServiceGroup implements Serializable, ObservableEntity, SilentSette
     public void silentSetProperty(String name, Object value) {
         switch(name){
             case "updatedDatetime" : this.updatedDatetime = (Date) value; break;
+            case "congregationId" : this.congregationId = (Congregation) value; break;
             default : throw new UnsupportedOperationException("Property not Supported: " + name);
         }
     }

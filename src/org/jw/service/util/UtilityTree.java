@@ -14,6 +14,7 @@ import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
+import org.jw.service.dao.DataAccessObject;
 import org.jw.service.entity.Contact;
 import org.jw.service.entity.ServiceGroup;
 import org.jw.service.listener.task.DefaultTaskListener;
@@ -26,25 +27,25 @@ import org.jw.service.worker.DefaultTreeConstructWorker;
  * @author Wilson
  */
 public class UtilityTree {
-    private final JTree tree;
-    private final List<ServiceGroup> list;          
+    private final JTree tree;        
+    private final DataAccessObject<ServiceGroup> dao;
     private final DefaultTaskListener listener;
     private DefaultMutableTreeNode root;
     private DefaultTreeModel model;
     
-    private UtilityTree(JTree tree, List<ServiceGroup> list, DefaultTaskListener listener){
-        this.tree = tree;
-        this.list = list;        
+    private UtilityTree(JTree tree, DataAccessObject<ServiceGroup> dao, DefaultTaskListener listener){
+        this.tree = tree;        
+        this.dao = dao;
         this.listener = listener;
         this.constructTree();
     }
     
-    public static UtilityTree create(JTree tree, List<ServiceGroup> list, DefaultTaskListener listener) {
-        return new UtilityTree(tree, list, listener);            
+    public static UtilityTree create(JTree tree, DataAccessObject<ServiceGroup> dao, DefaultTaskListener listener) {
+        return new UtilityTree(tree, dao, listener);            
     }
     
     private void constructTree(){
-        DefaultTreeConstructWorker worker = new DefaultTreeConstructWorker(list, listener);
+        DefaultTreeConstructWorker worker = new DefaultTreeConstructWorker(dao.readAll(), listener);
         worker.execute();
 
         try {
@@ -63,6 +64,38 @@ public class UtilityTree {
             if(treePath != null){
                 DefaultMutableTreeNode node = (DefaultMutableTreeNode) treePath.getLastPathComponent();
             }
+        } catch (InterruptedException | ExecutionException ex) {
+            Logger.getLogger(UtilityTree.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void addNode(ServiceGroup serviceGroup){
+        root.add(new DefaultMutableTreeNode(serviceGroup));
+        model.reload();
+    }
+    
+    public void refresh(ServiceGroup serviceGroup){
+        try {
+            TreePath treePath = findTreePath(serviceGroup);
+            if(treePath != null){
+                DefaultMutableTreeNode node = (DefaultMutableTreeNode) treePath.getLastPathComponent();
+                node.setUserObject(serviceGroup);
+                model.reload(node);
+            }
+                
+        } catch (InterruptedException | ExecutionException ex) {
+            Logger.getLogger(UtilityTree.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void refresh(Contact contact){
+        try {
+            TreePath treePath = findTreePath(contact);
+            if(treePath != null){
+                DefaultMutableTreeNode node = (DefaultMutableTreeNode) treePath.getLastPathComponent();
+                node.setUserObject(contact);
+                model.reload(node);
+            }                
         } catch (InterruptedException | ExecutionException ex) {
             Logger.getLogger(UtilityTree.class.getName()).log(Level.SEVERE, null, ex);
         }

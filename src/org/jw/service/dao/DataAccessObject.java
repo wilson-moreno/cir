@@ -48,12 +48,17 @@ public class DataAccessObject<T> {
     }
     
     public T merge(T entity){
-        return em.merge(entity);
+        em.getTransaction().begin();
+        T entityObject = em.merge(entity);
+        em.getTransaction().commit();
+        return entityObject;
     }
     
-    public T read(Integer id){
-        em.clear();
-        return em.find(entityClass, id);
+    public T read(Integer id){                
+        em.getTransaction().begin();
+        T entity = em.find(entityClass, id);
+        em.getTransaction().commit();
+        return entity;
     }
     
     public List<T> readAll(){

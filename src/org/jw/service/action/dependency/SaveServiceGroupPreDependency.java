@@ -14,13 +14,13 @@ import org.jw.service.action.DependencyCommand;
  *
  * @author Wilson
  */
-public class NextNumberPreDependency implements DependencyCommand{
-    public JTextField startNumber;
-    public JTextField nextNumber;
+public class SaveServiceGroupPreDependency implements DependencyCommand{
+    private final JTextField startNumber;
+    private final JTextField nextNumber;    
     
-    public NextNumberPreDependency(JTextField startNumber, JTextField nextNumber){
+    public SaveServiceGroupPreDependency(JTextField startNumber, JTextField nextNumber){
         this.startNumber = startNumber;
-        this.nextNumber = nextNumber;
+        this.nextNumber = nextNumber;    
     }
     
     @Override

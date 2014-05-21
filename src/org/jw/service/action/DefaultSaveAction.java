@@ -8,6 +8,9 @@ package org.jw.service.action;
 
 import java.awt.event.ActionEvent;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import org.jw.service.dao.DataAccessObject;
@@ -37,8 +40,13 @@ public class DefaultSaveAction<T> extends DependentAbstractAction {
 
     @Override
     public boolean mainActionPerformed(ActionEvent ae) {
-        DefaultSaveWorker worker = new DefaultSaveWorker(dao, table, list, listener);        
-        worker.execute();        
+        try {
+            DefaultSaveWorker worker = new DefaultSaveWorker(dao, table, list, listener);
+            worker.execute();
+            this.workerResult = worker.get();            
+        } catch (InterruptedException | ExecutionException ex) {
+            Logger.getLogger(DefaultSaveAction.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return true;
     }
 }

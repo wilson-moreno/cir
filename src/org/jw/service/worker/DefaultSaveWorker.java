@@ -19,7 +19,7 @@ import org.jw.service.util.UtilityTable;
  * @author Wilson
  * @param <T>
  */
-public class DefaultSaveWorker<T> extends SwingWorker<String, String>{
+public class DefaultSaveWorker<T> extends SwingWorker<T, String>{
     private final DataAccessObject dao;
     private final UtilityTable<T> utilTable;
     private final List<T> list;
@@ -32,13 +32,15 @@ public class DefaultSaveWorker<T> extends SwingWorker<String, String>{
     }
     
     @Override
-    protected String doInBackground() throws Exception {
+    protected T doInBackground() throws Exception {
         int modelIndex = utilTable.getSelectedModelIndex();                                
+        ObservableEntity entity = null;
         if(modelIndex >= 0){
-            ObservableEntity save = (ObservableEntity)dao.save(list.get(modelIndex));        
-            save.setSaveState("");
+            entity = (ObservableEntity)list.get(modelIndex);
+            entity.setSaveState("");            
+            entity = (ObservableEntity)dao.save(entity);                    
         }
-        return "";
+        return (T)entity;
     }
     
 }

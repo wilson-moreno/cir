@@ -14,11 +14,16 @@ import org.jw.service.action.DefaultDeleteAction;
 import org.jw.service.action.DefaultNewAction;
 import org.jw.service.action.DefaultRefreshAction;
 import org.jw.service.action.DefaultSaveAction;
-import org.jw.service.action.dependency.NextNumberPreDependency;
+import org.jw.service.action.dependency.NewServiceGroupPostDependency;
+import org.jw.service.action.dependency.NewServiceGroupPreDependency;
+import org.jw.service.action.dependency.SaveServiceGroupPostDependency;
+import org.jw.service.action.dependency.SaveServiceGroupPreDependency;
 import org.jw.service.builder.DefaultTaskBuilder;
 import org.jw.service.dao.DataAccessObject;
+import org.jw.service.entity.Congregation;
 import org.jw.service.entity.ServiceGroup;
 import org.jw.service.util.UtilityProperties;
+import org.jw.service.util.UtilityTree;
 
 /**
  *
@@ -27,6 +32,7 @@ import org.jw.service.util.UtilityProperties;
 public class ServiceGroupDialog extends javax.swing.JDialog {
     private final EntityManager em;    
     private final ObservableListListener listListener;
+    private final UtilityTree utilTree;
     
     /**
      * Creates new form ServiceGroupDialog
@@ -35,10 +41,11 @@ public class ServiceGroupDialog extends javax.swing.JDialog {
      * @param em
      * @param listListener
      */
-    public ServiceGroupDialog(java.awt.Frame parent, boolean modal, EntityManager em, ObservableListListener listListener) {
+    public ServiceGroupDialog(java.awt.Frame parent, boolean modal, EntityManager em, ObservableListListener listListener, UtilityTree utilTree) {
         super(parent, modal);
         this.em = em;        
         this.listListener = listListener;
+        this.utilTree = utilTree;
         initComponents();        
         initMyComponents();
     }
@@ -61,11 +68,17 @@ public class ServiceGroupDialog extends javax.swing.JDialog {
         taskBuilder.setTable(serviceGroupsTable);
         taskBuilder.setWindow(this);
         taskBuilder.setDao(dao);
-        taskBuilder.buildDefaultTasks();
+        taskBuilder.buildDefaultTasks();        
         
-        NextNumberPreDependency nextNumberDependency = new NextNumberPreDependency(this.startNumberTextField, this.nextNumberTextField);
-        taskBuilder.getSaveAction().addPreActionCommands("nextNumberDependency", nextNumberDependency);        
-     
+        DataAccessObject<Congregation> congregationDAO = DataAccessObject.create(em, Congregation.class);
+        SaveServiceGroupPreDependency saveServiceGroupPreDependency = new SaveServiceGroupPreDependency(this.startNumberTextField, this.nextNumberTextField);
+        SaveServiceGroupPostDependency saveServiceGroupPostDependency = new SaveServiceGroupPostDependency(utilTree);
+        NewServiceGroupPreDependency newServiceGroupPreDependency = new NewServiceGroupPreDependency(this, congregationDAO);        
+        NewServiceGroupPostDependency newServiceGroupPostDependency = new NewServiceGroupPostDependency(em, utilTree);
+        taskBuilder.getSaveAction().addPreActionCommands("saveServiceGroupPreDependency", saveServiceGroupPreDependency);        
+        taskBuilder.getSaveAction().addPostActionCommands("saveServiceGroupPostDependency", saveServiceGroupPostDependency);
+        taskBuilder.getNewAction().addPreActionCommands("newServiceGroupPreDependency", newServiceGroupPreDependency);        
+        taskBuilder.getNewAction().addPostActionCommands("newServiceGroupPostDependency", newServiceGroupPostDependency);
     }
 
     /**

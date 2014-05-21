@@ -22,6 +22,8 @@ import org.jw.service.action.dependency.ProfileSetPostDependency;
 import org.jw.service.action.dependency.NewContactPostDependency;
 import org.jw.service.action.dependency.RecordNumberPreDependency;
 import org.jw.service.action.dependency.RefreshContactListPostDependency;
+import org.jw.service.action.dependency.SaveContactPostDependency;
+import org.jw.service.action.dependency.SaveServiceGroupPostDependency;
 import org.jw.service.builder.DefaultTaskBuilder;
 import org.jw.service.dao.DataAccessObject;
 import org.jw.service.entity.Contact;
@@ -1021,7 +1023,9 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         contactDAO = DataAccessObject.create(em, Contact.class);
         statusDAO = DataAccessObject.create(em, ContactStatus.class);
         serviceGroupDAO = DataAccessObject.create(em, ServiceGroup.class);
-        serviceGroupDialog = new ServiceGroupDialog(this, true, em, this.sgListListener);
+        treeConstructListener = taskMonitorPanel.createDefaultTaskListener(taskMessageProperties.getProperty("tree.construct.start.message"),taskMessageProperties.getProperty("tree.construct.done.message"));
+        utilTree = UtilityTree.create(contactTree, serviceGroupDAO, treeConstructListener);        
+        serviceGroupDialog = new ServiceGroupDialog(this, true, em, this.sgListListener, utilTree);
         contactStatusDialog = new ContactStatusDialog(this, true, em, this.statusListListener);
         locationMapDialog = new LocationMapDialog(this, true);
         contactCallsDialog = new ContactCallsDialog(this, true, em);
@@ -1039,9 +1043,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         openTerritoryAction = new DefaultOpenAction(this.territoryMenuItem, this, territoryDialog, null);
         openCongregationAction = new DefaultOpenAction(this.congregationMenuItem, this, congregationDialog, null);
         fcOpenAction = new DefaultFileChooserOpenAction(this.setProfilePictureCommand, this, FileFilterImage.create(), null);        
-        contactPrintAction = new DefaultContactPrintAction(this.mainCommandPanel.getPrintCommand());
-        treeConstructListener = taskMonitorPanel.createDefaultTaskListener(taskMessageProperties.getProperty("tree.construct.start.message"),taskMessageProperties.getProperty("tree.construct.done.message"));
-        utilTree = UtilityTree.create(contactTree, serviceGroupDAO.readAll(), treeConstructListener);        
+        contactPrintAction = new DefaultContactPrintAction(this.mainCommandPanel.getPrintCommand());        
         utilTable = UtilityTable.create(contactsTable, contactList, contactDAO);
         openContactCallsAction.setEnabled(false);
         contactPrintAction.setEnabled(false);       
@@ -1097,11 +1099,13 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         ProfileSetPostDependency profileSetPostDependency = new ProfileSetPostDependency(this.profilePictureLabel);
         RefreshContactListPostDependency refreshContactListPostDependency = new RefreshContactListPostDependency(utilTree);
         DeleteContactPostDependency deleteContactPostDependency = new DeleteContactPostDependency(utilTree);
+        SaveContactPostDependency saveContactPostDependency = new SaveContactPostDependency(utilTree);
         taskBuilder.getNewAction().addPreActionCommands("recordNumberPreDependency",recordNumberPreDependency);        
         taskBuilder.getNewAction().addPostActionCommands("recordNumberPostDependency",recordNumberPostDependency);        
         taskBuilder.getCloseAction().addPreActionCommands("systemExitPreDependency", new DefaultSystemExitPreDependency(this, em));
         taskBuilder.getRefreshAction().addPostActionCommands("refreshContactListPostDependency", refreshContactListPostDependency);
         taskBuilder.getDeleteAction().addPostActionCommands("deleteContactPostDependency", deleteContactPostDependency);
+        taskBuilder.getSaveAction().addPostActionCommands("saveContactPostDependency", saveContactPostDependency);
         this.fcOpenAction.addPostActionCommands("profileSetPostDependency", profileSetPostDependency);
         
     }

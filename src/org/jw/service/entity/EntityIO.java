@@ -55,6 +55,7 @@ public class EntityIO<T> {
     public void read(){
         for(Field field : fields){
             try {
+                if(field.getName().trim().equalsIgnoreCase("id"))continue;
                 Object destinationValue = new PropertyDescriptor(field.getName(), entityClass).getReadMethod().invoke(destination);
                 Object invoke = (new PropertyDescriptor(field.getName(), entityClass)).getWriteMethod().invoke(source, destinationValue);
             } catch (    IntrospectionException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
@@ -65,6 +66,7 @@ public class EntityIO<T> {
     
     public void write(){
         for(Field field : fields){
+            if(field.getName().trim().equalsIgnoreCase("id"))continue;
             try {
                 Object sourceValue = new PropertyDescriptor(field.getName(), entityClass).getReadMethod().invoke(source);
                 Object invoke = (new PropertyDescriptor(field.getName(), entityClass)).getWriteMethod().invoke(destination, sourceValue);

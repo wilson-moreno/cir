@@ -14,6 +14,7 @@ import java.beans.PropertyChangeListener;
  */
 public interface ObservableEntity {
     public String getSaveState();
+    public Integer getId();
     public void setSaveState(String saveState);
     public void addPropertyChangeListener(PropertyChangeListener listener);
     public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener);
