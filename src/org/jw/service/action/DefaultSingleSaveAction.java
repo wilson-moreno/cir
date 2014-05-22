@@ -30,7 +30,7 @@ public class DefaultSingleSaveAction<T> extends DependentAbstractAction{
     @Override
     public boolean mainActionPerformed(ActionEvent ae) {
         entityIO.write();
-        T save = dao.save(entityIO.getDestinationEntity());
+        T save = dao.save(entityIO.getTarget());
         return true;
     }
     

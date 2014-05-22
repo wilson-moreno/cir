@@ -15,27 +15,41 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.jw.service.dao.DataAccessObject;
 
 /**
  *
  * @author Wilson
+ * @param <T>
  */
 public class EntityIO<T> {
-    private List<Field> fields;
-    private Class entityClass;
+    private final List<Field> fields;
+    private final Class entityClass;
     
-    public static <T> EntityIO<T> create(T source, T destination, Class entityClass) {
-        return new EntityIO<>(source, destination, entityClass);
+    public static <T> EntityIO<T> create(T source, T target, Class<T>entityClass) {
+        return new EntityIO<>(source, target, entityClass);
     }
-    public T source;
-    public T destination;
     
-    private EntityIO(T source, T destination, Class entityClass){
+    public static <T> EntityIO<T> create(Class<T> entityClass) {
+        return new EntityIO<>(entityClass);
+    }
+    
+    private T source;
+    private T target;
+    
+    private EntityIO(T source, T target, Class<T> entityClass){
         this.source = source;
-        this.destination = destination;
-        this.entityClass = entityClass;
-        this.fields = getAnnotatedFields(source);
+        this.target = target;
+        this.entityClass = entityClass;        
+        this.fields = getAnnotatedFields(instantiateEntity(entityClass));        
         read();
+    }
+    
+    private EntityIO(Class<T> entityClass){
+        this.entityClass = entityClass;
+        this.fields = getAnnotatedFields(instantiateEntity(entityClass));
+        this.source = instantiateEntity(entityClass);
+        this.target = instantiateEntity(entityClass);
     }
     
     private List<Field> getAnnotatedFields(T entity){
@@ -56,8 +70,8 @@ public class EntityIO<T> {
         for(Field field : fields){
             try {
                 if(field.getName().trim().equalsIgnoreCase("id"))continue;
-                Object destinationValue = new PropertyDescriptor(field.getName(), entityClass).getReadMethod().invoke(destination);
-                Object invoke = (new PropertyDescriptor(field.getName(), entityClass)).getWriteMethod().invoke(source, destinationValue);
+                Object targetValue = new PropertyDescriptor(field.getName(), entityClass).getReadMethod().invoke(target);
+                Object invoke = (new PropertyDescriptor(field.getName(), entityClass)).getWriteMethod().invoke(source, targetValue);
             } catch (    IntrospectionException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
                 Logger.getLogger(EntityIO.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -69,12 +83,48 @@ public class EntityIO<T> {
             if(field.getName().trim().equalsIgnoreCase("id"))continue;
             try {
                 Object sourceValue = new PropertyDescriptor(field.getName(), entityClass).getReadMethod().invoke(source);
-                Object invoke = (new PropertyDescriptor(field.getName(), entityClass)).getWriteMethod().invoke(destination, sourceValue);
+                Object invoke = (new PropertyDescriptor(field.getName(), entityClass)).getWriteMethod().invoke(target, sourceValue);
             } catch (    IntrospectionException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
                 Logger.getLogger(EntityIO.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
     
-    public T getDestinationEntity(){ return this.destination; }
+    private T instantiateEntity(Class<T> classEntity){
+        try {
+            return classEntity.newInstance();
+        } catch (InstantiationException | IllegalAccessException ex) {
+            Logger.getLogger(DataAccessObject.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return null;
+    }
+
+    /**
+     * @return the source
+     */
+    public T getSource() {
+        return source;
+    }
+
+    /**
+     * @param source the source to set
+     */
+    public void setSource(T source) {
+        this.source = source;
+    }
+
+    /**
+     * @return the target
+     */
+    public T getTarget() {
+        return target;
+    }
+
+    /**
+     * @param target the target to set
+     */
+    public void setTarget(T target) {
+        this.target = target;
+    }
 }

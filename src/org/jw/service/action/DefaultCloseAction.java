@@ -8,7 +8,6 @@ package org.jw.service.action;
 
 import java.awt.Window;
 import java.awt.event.ActionEvent;
-import javax.swing.AbstractAction;
 import javax.swing.JButton;
 
 /**

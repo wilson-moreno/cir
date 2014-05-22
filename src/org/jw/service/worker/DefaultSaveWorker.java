@@ -27,7 +27,7 @@ public class DefaultSaveWorker<T> extends SwingWorker<T, String>{
     public DefaultSaveWorker(DataAccessObject dao, JTable table, List<T> list, DefaultTaskListener listener){
        this.dao = dao; 
        this.list = list;
-       this.utilTable = UtilityTable.create(table, list, dao);
+       this.utilTable = UtilityTable.create(table, list);
        this.addPropertyChangeListener(listener);
     }
     

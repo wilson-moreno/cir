@@ -6,6 +6,16 @@
 
 package org.jw.service.util;
 
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import org.jw.service.entity.LocationMap;
 
 /**
@@ -31,8 +41,25 @@ public class UtilityDownload {
                             locationMap.getScale(),
                             locationMap.getMapType(),
                             locationMap.getImageFormat(),
-                            "red",
+                            locationMap.getMarkerColor(),
                             locationMap.getLatitude(),
                             locationMap.getLongitude());
+    }
+    
+    public ImageIcon downloadMap(String url){        
+        BufferedImage bufferedImage = null;
+        
+        try {
+            URLConnection connection = new URL(url).openConnection();
+            try (InputStream inputStream = connection.getInputStream()) {
+                bufferedImage = ImageIO.read(inputStream);
+            }
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(UtilityDownload.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(UtilityDownload.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return new ImageIcon(bufferedImage);
     }
 }

@@ -92,12 +92,16 @@ public class DataAccessObject<T> {
     }
     
     public void refresh(T entity, LockModeType lockMode) {
+        em.getTransaction().begin();
         em.refresh(entity);
+        em.getTransaction().commit();
     }
     
     
     public void refresh(T entity) {
+        em.getTransaction().begin();
         em.refresh(entity);
+        em.getTransaction().commit();
     }
     
     private T instantiateEntity(){

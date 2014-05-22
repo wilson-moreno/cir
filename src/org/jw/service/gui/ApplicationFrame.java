@@ -23,7 +23,6 @@ import org.jw.service.action.dependency.NewContactPostDependency;
 import org.jw.service.action.dependency.RecordNumberPreDependency;
 import org.jw.service.action.dependency.RefreshContactListPostDependency;
 import org.jw.service.action.dependency.SaveContactPostDependency;
-import org.jw.service.action.dependency.SaveServiceGroupPostDependency;
 import org.jw.service.builder.DefaultTaskBuilder;
 import org.jw.service.dao.DataAccessObject;
 import org.jw.service.entity.Contact;
@@ -1030,7 +1029,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         serviceGroupDAO = DataAccessObject.create(em, ServiceGroup.class);
         treeConstructListener = taskMonitorPanel.createDefaultTaskListener(taskMessageProperties.getProperty("tree.construct.start.message"),taskMessageProperties.getProperty("tree.construct.done.message"));
         utilTree = UtilityTree.create(contactTree, serviceGroupDAO, treeConstructListener);        
-        utilTable = UtilityTable.create(contactsTable, contactList, contactDAO);
+        utilTable = UtilityTable.create(contactsTable, contactList);
         serviceGroupDialog = new ServiceGroupDialog(this, true, em, this.sgListListener, utilTree);
         contactStatusDialog = new ContactStatusDialog(this, true, em, this.statusListListener);
         locationMapDialog = new LocationMapDialog(this, true, em, utilTable);

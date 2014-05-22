@@ -26,7 +26,7 @@ public class DefaultDeleteWorker<T> extends SwingWorker<T, String>{
     public DefaultDeleteWorker(DataAccessObject<T> dao, List<T> list, JTable table, DefaultTaskListener listener){
         this.dao = dao;
         this.list = list;
-        this.utilTable = UtilityTable.create(table, list, dao);
+        this.utilTable = UtilityTable.create(table, list);
         this.addPropertyChangeListener(listener);
     }
     

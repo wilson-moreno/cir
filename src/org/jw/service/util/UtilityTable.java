@@ -18,27 +18,17 @@ import org.jw.service.dao.DataAccessObject;
 public class UtilityTable<T> {
     private final List<T> list;
     private final JTable table;
-    private final DataAccessObject<T> dao;
     
-    public static <T> UtilityTable <T> create(JTable table, List<T> list, DataAccessObject<T> dao){
-        return new UtilityTable(table, list, dao);
-    }
     
     public static <T> UtilityTable <T> create(JTable table, List<T> list){
         return new UtilityTable(table, list);
     }
     
-    private UtilityTable(JTable table, List<T> list, DataAccessObject dao){
-        this.table = table;
-        this.list = list;    
-        this.dao = dao;
-    }
-    
     private UtilityTable(JTable table, List<T> list){
         this.table = table;
-        this.list = list;       
-        this.dao = null;
-    }
+        this.list = list;            
+    }    
+    
     
     public void refreshAll(){
         table.getRowSorter().allRowsChanged();

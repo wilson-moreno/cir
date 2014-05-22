@@ -119,6 +119,7 @@ public class LocationMap implements Serializable, ObservableEntity, SilentSetter
         this.saveState = "";
         this.createdDatetime = new Date();
         this.updatedDatetime = new Date();
+        this.markerColor = "red";
     }
 
     public LocationMap(Integer id) {
@@ -362,6 +363,7 @@ public class LocationMap implements Serializable, ObservableEntity, SilentSetter
     /**
      * @return the directionMapCollection
      */
+    @XmlTransient
     public Collection<DirectionMap> getDirectionMapCollection() {
         return directionMapCollection;
     }
@@ -398,7 +400,9 @@ public class LocationMap implements Serializable, ObservableEntity, SilentSetter
     }
 
     public void setMarkerColor(String markerColor) {
+        String oldMarkerColor = this.markerColor;
         this.markerColor = markerColor;
+        propertyChangeSupport.firePropertyChange("markerColor", oldMarkerColor, markerColor);
     }
 
     public Contact getContactId() {
@@ -406,7 +410,9 @@ public class LocationMap implements Serializable, ObservableEntity, SilentSetter
     }
 
     public void setContactId(Contact contactId) {
+        Contact oldContactId = this.contactId;
         this.contactId = contactId;
+        propertyChangeSupport.firePropertyChange("contactId", oldContactId, contactId);
     }
 
     public byte[] getImage() {
@@ -414,7 +420,9 @@ public class LocationMap implements Serializable, ObservableEntity, SilentSetter
     }
 
     public void setImage(byte[] image) {
+        byte[] oldImage = this.image;
         this.image = image;
+        propertyChangeSupport.firePropertyChange("image", oldImage, image);
     }
     
 }
