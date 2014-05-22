@@ -158,7 +158,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         contactStatusMenuItem = new javax.swing.JMenuItem();
         territoryMenuItem = new javax.swing.JMenuItem();
         meetingPlacesMenuItem = new javax.swing.JMenuItem();
-        settingsMenu = new javax.swing.JMenu();
+        toolsMenu = new javax.swing.JMenu();
         reportTemplatesMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -963,13 +963,13 @@ public final class ApplicationFrame extends javax.swing.JFrame {
 
         menuBar.add(optionsMenu);
 
-        settingsMenu.setText("Settings");
+        toolsMenu.setText("Tools");
 
         reportTemplatesMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.report.templates.png"))); // NOI18N
         reportTemplatesMenuItem.setText("Reports Templates");
-        settingsMenu.add(reportTemplatesMenuItem);
+        toolsMenu.add(reportTemplatesMenuItem);
 
-        menuBar.add(settingsMenu);
+        menuBar.add(toolsMenu);
 
         setJMenuBar(menuBar);
 
@@ -1199,7 +1199,6 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem reportTemplatesMenuItem;
     private javax.swing.JMenuItem serviceGroupsMenuItem;
     private javax.swing.JButton setProfilePictureCommand;
-    private javax.swing.JMenu settingsMenu;
     private javax.swing.JComboBox sexComboBox;
     private javax.swing.JLabel sexLabel;
     private javax.swing.JTextField skypeAccountTextField;
@@ -1214,6 +1213,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     private javax.swing.JComboBox territoryComboBox;
     private javax.swing.JLabel territoryLabel;
     private javax.swing.JMenuItem territoryMenuItem;
+    private javax.swing.JMenu toolsMenu;
     private javax.swing.JScrollPane treeScrollPane;
     private javax.swing.JComboBox treeViewComboBox;
     private javax.swing.JLabel workBackgroundLabel;

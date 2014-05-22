@@ -1,107 +1,479 @@
-/*C60*/SET SCHEMA PUBLIC
+/*C45*/SET SCHEMA PUBLIC
 DISCONNECT
-/*C61*/SET SCHEMA CIR
-DELETE FROM CONTACT WHERE ID=1
-INSERT INTO CONTACT VALUES(1,1,NULL,NULL,'VAL1000','2014-05-21 23:31:13.515000',NULL,'Moreno','Wilson','','Male','Single','',NULL,'','','','','','','','','','','','','','','','','','2014-05-21 23:31:13.515000','2014-05-22 05:57:54.531000','',NULL)
-COMMIT
-INSERT INTO CONTACT_STATUS VALUES(1,NULL,NULL,NULL,NULL,NULL,NULL,NULL)
-COMMIT
-DELETE FROM CONTACT_STATUS WHERE ID=1
-INSERT INTO CONTACT_STATUS VALUES(1,'Active','Active contact.','1','1','89504e470d0a1a0a0000000d49484452000000100000001008060000001ff3ff610000017a4944415478da6360a015080d5dc51cb7f0b04be6daf3517e13368a93a439a87f8764eeb6bb175337defe9fb0eee6ffacad77dfc72f3ba54db401c9ebaf2f8d5c71e53f324e5c776d31d106442cbbf02c64c9f9ffc83862d9c56b441b10b0e0d42b20fe8f86ef126d80f79ca387bd671ffd8f8a8f1c21da00b729bb33dda7efff8f8c3da6edaf21da0007870616a7c9bb773a4ddef51f8a6f99e74ee223292a9d276e8fb0ebdff61f849d26efac275aa363d72a7bef19bb573a4fdaf6cbb26be37f10769ab8edabefccdd339d7bd7f9a8e4e6b263ea6a686072e8dd18e33a79eb25dbde0dff4ddad660c5d6ddebffbb4cdcf2ce7dcaf65ee3e21e11b05ef1d8126e87fe8d874ddb56fd37685a4e14360462bbde0d4f54122b451974321a7c74ea16fdd7ae251d6ba436d933b4cc59e41bd4b1e00d107f0bee5cf00b88ff00f15f1c1824f70baaf64df7ac852e40ef37f0cc9a354b6de9d2a56640ecb86cd932dfc58b170780f092254ba28062d1303e480ea406a416a407a417002c86398363e646b00000000049454e44ae426082',NULL,'2014-05-22 05:58:57.593000')
-DELETE FROM CONTACT WHERE ID=1
-INSERT INTO CONTACT VALUES(1,1,1,NULL,'VAL1000','2014-05-21 23:31:13.515000',NULL,'Moreno','Wilson','','Male','Single','',NULL,'','','','','','','','','','','','','','','','','','2014-05-21 23:31:13.515000','2014-05-22 05:57:54.531000','',NULL)
-COMMIT
-DELETE FROM CONTACT WHERE ID=1
-INSERT INTO CONTACT VALUES(1,1,NULL,NULL,'VAL1000','2014-05-21 23:31:13.515000',NULL,'Moreno','Wilson','','Male','Single','',NULL,'','','','','','','','','','','','','','','','','','2014-05-21 23:31:13.515000','2014-05-22 05:57:54.531000','',NULL)
-COMMIT
-DELETE FROM CONTACT WHERE ID=1
-INSERT INTO CONTACT VALUES(1,1,1,NULL,'VAL1000','2014-05-21 23:31:13.515000',NULL,'Moreno','Wilson','','Male','Single','',NULL,'','','','','','','','','','','','','','','','','','2014-05-21 23:31:13.515000','2014-05-22 05:59:07.750000','',NULL)
-COMMIT
-DELETE FROM SERVICE_GROUP WHERE ID=1
-INSERT INTO SERVICE_GROUP VALUES(1,1,'FSG #2 - Caloocan','Robert Gabriel','Jerric Manzano','VAL',1000,1001,NULL,'2014-05-21 23:26:42.390000','2014-05-22 05:59:29.093000')
-COMMIT
-DELETE FROM SERVICE_GROUP WHERE ID=1
-INSERT INTO SERVICE_GROUP VALUES(1,1,'FSG #2 - Valenzuela','Robert Gabriel','Jerric Manzano','VAL',1000,1001,NULL,'2014-05-21 23:26:42.390000','2014-05-22 05:59:56.921000')
+/*C46*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C47*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C48*/SET SCHEMA CIR
+INSERT INTO LOCATION_MAP VALUES(1,NULL,NULL,NULL,400,400,4,16,'jpeg','roadmap',NULL,NULL)
 COMMIT
 SET SCHEMA PUBLIC
 DISCONNECT
-/*C62*/SET SCHEMA PUBLIC
+/*C49*/SET SCHEMA PUBLIC
 DISCONNECT
-/*C63*/SET SCHEMA PUBLIC
+/*C50*/SET SCHEMA CIR
+INSERT INTO LOCATION_MAP VALUES(2,NULL,NULL,NULL,400,400,4,16,'jpeg','roadmap',NULL,NULL)
+COMMIT
+DELETE FROM LOCATION_MAP WHERE ID=2
+INSERT INTO LOCATION_MAP VALUES(2,NULL,NULL,NULL,400,400,4,16,'jpeg','roadmap',NULL,'2014-05-22 19:03:31.437000')
+COMMIT
+/*C44*/SET SCHEMA PUBLIC
 DISCONNECT
-/*C64*/SET SCHEMA PUBLIC
+/*C50*/INSERT INTO LOCATION_MAP VALUES(3,NULL,NULL,NULL,400,400,4,16,'jpeg','roadmap',NULL,NULL)
+COMMIT
+DELETE FROM LOCATION_MAP WHERE ID=3
+INSERT INTO LOCATION_MAP VALUES(3,NULL,NULL,NULL,400,400,4,16,'jpeg','roadmap',NULL,'2014-05-22 19:03:45.750000')
+COMMIT
+SET SCHEMA PUBLIC
 DISCONNECT
-/*C65*/SET SCHEMA PUBLIC
+/*C51*/SET SCHEMA PUBLIC
+alter table cir.apps_report_parameter alter column id restart with 1
+alter table cir.apps_report alter column id restart with 1
+alter table cir.contact_call alter column id restart with 1
+alter table cir.contact_status alter column id restart with 1
+alter table cir.direction_map alter column id restart with 1
+alter table cir.location_map alter column id restart with 1
+alter table cir.meeting_place alter column id restart with 1
+alter table cir.possible_value alter column id restart with 1
+alter table cir.territory alter column id restart with 1
+SET SCHEMA CIR
+DELETE FROM CONTACT WHERE ID=1
+COMMIT
+DELETE FROM CONTACT_STATUS WHERE ID=1
+COMMIT
+DELETE FROM LOCATION_MAP WHERE ID=1
+DELETE FROM LOCATION_MAP WHERE ID=2
+DELETE FROM LOCATION_MAP WHERE ID=3
+COMMIT
+SET SCHEMA PUBLIC
+alter table cir.apps_report_parameter alter column id restart with 1
+alter table cir.apps_report alter column id restart with 1
+alter table cir.contact alter column id restart with 1
+alter table cir.contact_call alter column id restart with 1
+alter table cir.contact_status alter column id restart with 1
+alter table cir.direction_map alter column id restart with 1
+alter table cir.location_map alter column id restart with 1
+alter table cir.meeting_place alter column id restart with 1
+alter table cir.possible_value alter column id restart with 1
+alter table cir.territory alter column id restart with 1
+alter table cir.apps_report_parameter alter column id restart with 1
+alter table cir.apps_report alter column id restart with 1
+alter table cir.contact alter column id restart with 1
+alter table cir.contact_call alter column id restart with 1
+alter table cir.contact_status alter column id restart with 1
+alter table cir.direction_map alter column id restart with 1
+alter table cir.location_map alter column id restart with 1
+alter table cir.meeting_place alter column id restart with 1
+alter table cir.possible_value alter column id restart with 1
+alter table cir.territory alter column id restart with 1
+/*C52*/SET SCHEMA PUBLIC
 DISCONNECT
-/*C66*/SET SCHEMA PUBLIC
+/*C51*/SET SCHEMA CIR
+DELETE FROM SERVICE_GROUP WHERE ID=1
+COMMIT
+SET SCHEMA PUBLIC
+alter table cir.apps_report_parameter alter column id restart with 1
+alter table cir.apps_report alter column id restart with 1
+alter table cir.contact alter column id restart with 1
+alter table cir.contact_call alter column id restart with 1
+alter table cir.contact_status alter column id restart with 1
+alter table cir.direction_map alter column id restart with 1
+alter table cir.location_map alter column id restart with 1
+alter table cir.meeting_place alter column id restart with 1
+alter table cir.possible_value alter column id restart with 1
+alter table cir.service_group alter column id restart with 1
+alter table cir.territory alter column id restart with 1
+/*C53*/SET SCHEMA CIR
+INSERT INTO SERVICE_GROUP VALUES(1,NULL,'','',NULL,'',1000,1000,NULL,'2014-05-22 19:05:53.046000','2014-05-22 19:05:53.046000')
+COMMIT
+DELETE FROM SERVICE_GROUP WHERE ID=1
+INSERT INTO SERVICE_GROUP VALUES(1,1,'','',NULL,'',1000,1000,NULL,'2014-05-22 19:05:53.046000','2014-05-22 19:05:53.078000')
+COMMIT
+DELETE FROM SERVICE_GROUP WHERE ID=1
+INSERT INTO SERVICE_GROUP VALUES(1,1,'FSG #2 - Caloocan','Dan Geremias','Joel Angelino','CAL',1000,1000,NULL,'2014-05-22 19:05:53.046000','2014-05-22 19:06:07.343000')
+COMMIT
+INSERT INTO CONTACT VALUES(1,NULL,NULL,NULL,'','2014-05-22 19:06:11.937000',NULL,'','','',NULL,NULL,'',NULL,'','','','','','','','','','','','','','','','','','2014-05-22 19:06:11.937000','2014-05-22 19:06:11.937000','',NULL)
+COMMIT
+DELETE FROM SERVICE_GROUP WHERE ID=1
+INSERT INTO SERVICE_GROUP VALUES(1,1,'FSG #2 - Caloocan','Dan Geremias','Joel Angelino','CAL',1000,1001,NULL,'2014-05-22 19:05:53.046000','2014-05-22 19:06:12.031000')
+DELETE FROM CONTACT WHERE ID=1
+INSERT INTO CONTACT VALUES(1,1,NULL,NULL,'CAL1000','2014-05-22 19:06:11.937000',NULL,'','','',NULL,NULL,'',NULL,'','','','','','','','','','','','','','','','','','2014-05-22 19:06:11.937000','2014-05-22 19:06:11.937000','',NULL)
+COMMIT
+DELETE FROM CONTACT WHERE ID=1
+INSERT INTO CONTACT VALUES(1,1,NULL,NULL,'CAL1000','2014-05-22 19:06:11.937000',NULL,'','','',NULL,NULL,'',NULL,'','','','','','','','','','','','','','','','','','2014-05-22 19:06:11.937000','2014-05-22 19:06:12.046000','',NULL)
+COMMIT
+DELETE FROM CONTACT WHERE ID=1
+INSERT INTO CONTACT VALUES(1,1,NULL,NULL,'CAL1000','2014-05-22 19:06:11.937000',NULL,'Palapar','Elisar','Ondo','Male','Single','Filipino',NULL,'','','','','','','','','','','','','','','','','','2014-05-22 19:06:11.937000','2014-05-22 19:06:35.750000','',NULL)
+COMMIT
+INSERT INTO LOCATION_MAP VALUES(1,NULL,NULL,NULL,400,400,4,16,'jpeg','roadmap','2014-05-22 19:06:44.953000','2014-05-22 19:06:44.953000')
+COMMIT
+DELETE FROM LOCATION_MAP WHERE ID=1
+INSERT INTO LOCATION_MAP VALUES(1,NULL,NULL,NULL,400,400,4,16,'jpeg','roadmap','2014-05-22 19:06:44.953000','2014-05-22 19:06:44.968000')
+COMMIT
+INSERT INTO LOCATION_MAP VALUES(2,NULL,NULL,NULL,400,400,4,16,'jpeg','roadmap','2014-05-22 19:06:45.984000','2014-05-22 19:06:45.984000')
+COMMIT
+DELETE FROM LOCATION_MAP WHERE ID=2
+INSERT INTO LOCATION_MAP VALUES(2,NULL,NULL,NULL,400,400,4,16,'jpeg','roadmap','2014-05-22 19:06:45.984000','2014-05-22 19:06:46.000000')
+COMMIT
+INSERT INTO LOCATION_MAP VALUES(3,NULL,NULL,NULL,400,400,4,16,'jpeg','roadmap','2014-05-22 19:09:46.046000','2014-05-22 19:09:46.046000')
+COMMIT
+DELETE FROM LOCATION_MAP WHERE ID=3
+INSERT INTO LOCATION_MAP VALUES(3,NULL,NULL,NULL,400,400,4,16,'jpeg','roadmap','2014-05-22 19:09:46.046000','2014-05-22 19:09:46.062000')
+COMMIT
+SET SCHEMA PUBLIC
 DISCONNECT
-/*C67*/SET SCHEMA PUBLIC
+/*C54*/SET SCHEMA PUBLIC
+drop schema cir cascade
+/*C51*/CREATE SCHEMA CIR AUTHORIZATION SA
+SET SCHEMA CIR
+set schema cir
+drop table cir.congregation if exists
+drop table cir.service_group if exists
+drop table cir.meeting_place if exists
+drop table cir.configuration if exists
+drop table cir.contact_status if exists
+drop table cir.location_map if exists
+drop table cir.direction_map if exists
+drop table cir.contact_call if exists
+drop table cir.apps_report if exists
+drop table cir.apps_report_parameter if exists
+drop table cir.possible_value if exists
+drop table cir.territory if exists
+create table cir.territory(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    name varchar(30),\u000a    description varchar(100),\u000a    enable bit,\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.possible_value(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    parameter_id integer,\u000a    name varchar(30),\u000a    value varchar(100),\u000a    query longvarchar,\u000a    type varchar(15),\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.apps_report_parameter(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    report_id integer,\u000a    sequence integer,\u000a    name varchar(30),\u000a    label varchar(30),\u000a    control_type varchar(30),        \u000a    data_type varchar(30),\u000a    enable bit,\u000a    required bit,\u000a    depends_on integer,\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.congregation(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    name varchar(50),\u000a    address_1 varchar(100),\u000a    address_2 varchar(100),\u000a    city varchar(50),\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.service_group(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    congregation_id integer,\u000a    name varchar(50),\u000a    overseer varchar(75),\u000a    assistant varchar(75),\u000a    prefix varchar(5),\u000a    start_number integer,\u000a    next_number integer,\u000a    icon longvarbinary,\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.meeting_place(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    service_group_id integer,\u000a    name varchar(50),\u000a    address varchar(100),\u000a    latitude double,\u000a    longitude double,\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.contact_status(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    name varchar(50),\u000a    description varchar(100),\u000a    modifiable bit,\u000a    printable bit,\u000a    icon longvarbinary,\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.configuration(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    report_title varchar(50),\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.contact(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    service_group_id integer,\u000a    status_id integer,\u000a    territory_id integer,        \u000a    record_number varchar(15),\u000a    record_date datetime,\u000a    birthdate datetime,\u000a    last_name varchar(30),\u000a    first_name varchar(30),\u000a    nick_name varchar(30),\u000a    sex varchar(6),\u000a    marital_status varchar(15),\u000a    nationality varchar(30),\u000a    profile_picture longvarbinary,\u000a    house_number varchar(15),\u000a    street varchar(200),\u000a    barangay varchar(20),\u000a    city varchar(50),\u000a    area varchar(50),\u000a    personal_background varchar(150),\u000a    family_background varchar(150),\u000a    work_background varchar(150),\u000a    phone_number varchar(50),\u000a    mobile_number varchar(50),\u000a    email_address varchar(50),\u000a    skype_account varchar(50),\u000a    facebook_account varchar(50),\u000a    fathers_name varchar(50),\u000a    mothers_name varchar(50),\u000a    guardians_name varchar(50),\u000a    religion varchar(50),\u000a    found_by varchar(50),\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.location_map(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    contact_id integer,\u000a    image longvarbinary,\u000a    latitude double,\u000a    longitude double,\u000a    width integer,\u000a    height integer,\u000a    scale integer,\u000a    zoom integer,\u000a    image_format varchar(15),\u000a    map_type varchar(15),    \u000a    marker_color varchar(15),\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.direction_map(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    meeting_place_id integer,\u000a    location_map_id integer,\u000a    image longvarbinary,\u000a    direction longvarchar,    \u000a    travel_mode varchar(15),\u000a    width integer,\u000a    height integer,\u000a    zoom integer,\u000a    scale integer,\u000a    path_color varchar(10),\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.contact_call(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    contact_id integer,\u000a    call_date datetime,\u000a    call_day varchar(15),\u000a    call_time varchar(10),\u000a    status varchar(15),\u000a    scriptures varchar(75),\u000a    literature varchar(75),\u000a    publishers varchar(75),\u000a    notes longvarchar,\u000a    next_visit datetime,\u000a    next_topic longvarchar,\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+alter table cir.service_group add foreign key (congregation_id) references cir.congregation (id)
+alter table cir.meeting_place add foreign key (service_group_id) references cir.service_group (id)
+alter table cir.contact add foreign key (service_group_id) references cir.service_group (id)
+alter table cir.contact add foreign key (status_id) references cir.contact_status (id)
+alter table cir.location_map add foreign key (contact_id) references cir.contact (id)
+alter table cir.direction_map add foreign key (meeting_place_id) references cir.meeting_place (id)
+alter table cir.direction_map add foreign key (location_map_id) references cir.location_map (id)
+alter table cir.contact_call add foreign key (contact_id) references cir.contact(id)
+alter table cir.possible_value add foreign key (parameter_id) references cir.apps_report_parameter(id)
+alter table cir.contact add foreign key (territory_id) references cir.territory (id)
+/*C54*/drop schema cir cascade
+/*C51*/SET SCHEMA PUBLIC
+CREATE SCHEMA CIR AUTHORIZATION SA
+SET SCHEMA CIR
+set schema cir
+drop table cir.congregation if exists
+drop table cir.service_group if exists
+drop table cir.meeting_place if exists
+drop table cir.configuration if exists
+drop table cir.contact_status if exists
+drop table cir.location_map if exists
+drop table cir.direction_map if exists
+drop table cir.contact_call if exists
+drop table cir.apps_report if exists
+drop table cir.apps_report_parameter if exists
+drop table cir.possible_value if exists
+drop table cir.territory if exists
+create table cir.territory(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    name varchar(30),\u000a    description varchar(100),\u000a    enable bit,\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.possible_value(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    parameter_id integer,\u000a    name varchar(30),\u000a    value varchar(100),\u000a    query longvarchar,\u000a    type varchar(15),\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.apps_report_parameter(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    report_id integer,\u000a    sequence integer,\u000a    name varchar(30),\u000a    label varchar(30),\u000a    control_type varchar(30),        \u000a    data_type varchar(30),\u000a    enable bit,\u000a    required bit,\u000a    depends_on integer,\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.congregation(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    name varchar(50),\u000a    address_1 varchar(100),\u000a    address_2 varchar(100),\u000a    city varchar(50),\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.service_group(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    congregation_id integer,\u000a    name varchar(50),\u000a    overseer varchar(75),\u000a    assistant varchar(75),\u000a    prefix varchar(5),\u000a    start_number integer,\u000a    next_number integer,\u000a    icon longvarbinary,\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.meeting_place(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    service_group_id integer,\u000a    name varchar(50),\u000a    address varchar(100),\u000a    latitude double,\u000a    longitude double,\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.contact_status(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    name varchar(50),\u000a    description varchar(100),\u000a    modifiable bit,\u000a    printable bit,\u000a    icon longvarbinary,\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.configuration(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    report_title varchar(50),\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.contact(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    service_group_id integer,\u000a    status_id integer,\u000a    territory_id integer,        \u000a    record_number varchar(15),\u000a    record_date datetime,\u000a    birthdate datetime,\u000a    last_name varchar(30),\u000a    first_name varchar(30),\u000a    nick_name varchar(30),\u000a    sex varchar(6),\u000a    marital_status varchar(15),\u000a    nationality varchar(30),\u000a    profile_picture longvarbinary,\u000a    house_number varchar(15),\u000a    street varchar(200),\u000a    barangay varchar(20),\u000a    city varchar(50),\u000a    area varchar(50),\u000a    personal_background varchar(150),\u000a    family_background varchar(150),\u000a    work_background varchar(150),\u000a    phone_number varchar(50),\u000a    mobile_number varchar(50),\u000a    email_address varchar(50),\u000a    skype_account varchar(50),\u000a    facebook_account varchar(50),\u000a    fathers_name varchar(50),\u000a    mothers_name varchar(50),\u000a    guardians_name varchar(50),\u000a    religion varchar(50),\u000a    found_by varchar(50),\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.location_map(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    contact_id integer,\u000a    image longvarbinary,\u000a    latitude double,\u000a    longitude double,\u000a    width integer,\u000a    height integer,\u000a    scale integer,\u000a    zoom integer,\u000a    image_format varchar(15),\u000a    map_type varchar(15),    \u000a    marker_color varchar(15),\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.direction_map(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    meeting_place_id integer,\u000a    location_map_id integer,\u000a    image longvarbinary,\u000a    direction longvarchar,    \u000a    travel_mode varchar(15),\u000a    width integer,\u000a    height integer,\u000a    zoom integer,\u000a    scale integer,\u000a    path_color varchar(10),\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.contact_call(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    contact_id integer,\u000a    call_date datetime,\u000a    call_day varchar(15),\u000a    call_time varchar(10),\u000a    status varchar(15),\u000a    scriptures varchar(75),\u000a    literature varchar(75),\u000a    publishers varchar(75),\u000a    notes longvarchar,\u000a    next_visit datetime,\u000a    next_topic longvarchar,\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+alter table cir.service_group add foreign key (congregation_id) references cir.congregation (id)
+alter table cir.meeting_place add foreign key (service_group_id) references cir.service_group (id)
+alter table cir.contact add foreign key (service_group_id) references cir.service_group (id)
+alter table cir.contact add foreign key (status_id) references cir.contact_status (id)
+alter table cir.location_map add foreign key (contact_id) references cir.contact (id)
+alter table cir.direction_map add foreign key (meeting_place_id) references cir.meeting_place (id)
+alter table cir.direction_map add foreign key (location_map_id) references cir.location_map (id)
+alter table cir.contact_call add foreign key (contact_id) references cir.contact(id)
+alter table cir.possible_value add foreign key (parameter_id) references cir.apps_report_parameter(id)
+alter table cir.contact add foreign key (territory_id) references cir.territory (id)
+/*C54*/DISCONNECT
+/*C51*/set schema cir
+drop table cir.configuration if exists
+drop table cir.direction_map if exists
+drop table cir.contact_call if exists
+drop table cir.apps_report if exists
+drop table cir.possible_value if exists
+create table cir.possible_value(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    parameter_id integer,\u000a    name varchar(30),\u000a    value varchar(100),\u000a    query longvarchar,\u000a    type varchar(15),\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.configuration(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    report_title varchar(50),\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.direction_map(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    meeting_place_id integer,\u000a    location_map_id integer,\u000a    image longvarbinary,\u000a    direction longvarchar,    \u000a    travel_mode varchar(15),\u000a    width integer,\u000a    height integer,\u000a    zoom integer,\u000a    scale integer,\u000a    path_color varchar(10),\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.contact_call(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    contact_id integer,\u000a    call_date datetime,\u000a    call_day varchar(15),\u000a    call_time varchar(10),\u000a    status varchar(15),\u000a    scriptures varchar(75),\u000a    literature varchar(75),\u000a    publishers varchar(75),\u000a    notes longvarchar,\u000a    next_visit datetime,\u000a    next_topic longvarchar,\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+alter table cir.direction_map add foreign key (meeting_place_id) references cir.meeting_place (id)
+alter table cir.direction_map add foreign key (location_map_id) references cir.location_map (id)
+alter table cir.contact_call add foreign key (contact_id) references cir.contact(id)
+alter table cir.possible_value add foreign key (parameter_id) references cir.apps_report_parameter(id)
+set schema cir
+drop table cir.configuration if exists
+drop table cir.direction_map if exists
+drop table cir.contact_call if exists
+drop table cir.apps_report if exists
+drop table cir.possible_value if exists
+create table cir.possible_value(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    parameter_id integer,\u000a    name varchar(30),\u000a    value varchar(100),\u000a    query longvarchar,\u000a    type varchar(15),\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.configuration(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    report_title varchar(50),\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.direction_map(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    meeting_place_id integer,\u000a    location_map_id integer,\u000a    image longvarbinary,\u000a    direction longvarchar,    \u000a    travel_mode varchar(15),\u000a    width integer,\u000a    height integer,\u000a    zoom integer,\u000a    scale integer,\u000a    path_color varchar(10),\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.contact_call(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    contact_id integer,\u000a    call_date datetime,\u000a    call_day varchar(15),\u000a    call_time varchar(10),\u000a    status varchar(15),\u000a    scriptures varchar(75),\u000a    literature varchar(75),\u000a    publishers varchar(75),\u000a    notes longvarchar,\u000a    next_visit datetime,\u000a    next_topic longvarchar,\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+alter table cir.direction_map add foreign key (meeting_place_id) references cir.meeting_place (id)
+alter table cir.direction_map add foreign key (location_map_id) references cir.location_map (id)
+alter table cir.contact_call add foreign key (contact_id) references cir.contact(id)
+alter table cir.possible_value add foreign key (parameter_id) references cir.apps_report_parameter(id)
+SET SCHEMA PUBLIC
+drop schema cir cascade
+CREATE SCHEMA CIR AUTHORIZATION SA
+SET SCHEMA CIR
+set schema cir
+drop table cir.congregation if exists
+drop table cir.service_group if exists
+drop table cir.meeting_place if exists
+drop table cir.configuration if exists
+drop table cir.contact_status if exists
+drop table cir.location_map if exists
+drop table cir.direction_map if exists
+drop table cir.contact_call if exists
+drop table cir.apps_report if exists
+drop table cir.apps_report_parameter if exists
+drop table cir.possible_value if exists
+drop table cir.territory if exists
+create table cir.territory(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    name varchar(30),\u000a    description varchar(100),\u000a    enable bit,\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.possible_value(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    parameter_id integer,\u000a    name varchar(30),\u000a    value varchar(100),\u000a    query longvarchar,\u000a    type varchar(15),\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.apps_report_parameter(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    report_id integer,\u000a    sequence integer,\u000a    name varchar(30),\u000a    label varchar(30),\u000a    control_type varchar(30),        \u000a    data_type varchar(30),\u000a    enable bit,\u000a    required bit,\u000a    depends_on integer,\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.congregation(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    name varchar(50),\u000a    address_1 varchar(100),\u000a    address_2 varchar(100),\u000a    city varchar(50),\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.service_group(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    congregation_id integer,\u000a    name varchar(50),\u000a    overseer varchar(75),\u000a    assistant varchar(75),\u000a    prefix varchar(5),\u000a    start_number integer,\u000a    next_number integer,\u000a    icon longvarbinary,\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.meeting_place(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    service_group_id integer,\u000a    name varchar(50),\u000a    address varchar(100),\u000a    latitude double,\u000a    longitude double,\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.contact_status(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    name varchar(50),\u000a    description varchar(100),\u000a    modifiable bit,\u000a    printable bit,\u000a    icon longvarbinary,\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.configuration(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    report_title varchar(50),\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.contact(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    service_group_id integer,\u000a    status_id integer,\u000a    territory_id integer,        \u000a    record_number varchar(15),\u000a    record_date datetime,\u000a    birthdate datetime,\u000a    last_name varchar(30),\u000a    first_name varchar(30),\u000a    nick_name varchar(30),\u000a    sex varchar(6),\u000a    marital_status varchar(15),\u000a    nationality varchar(30),\u000a    profile_picture longvarbinary,\u000a    house_number varchar(15),\u000a    street varchar(200),\u000a    barangay varchar(20),\u000a    city varchar(50),\u000a    area varchar(50),\u000a    personal_background varchar(150),\u000a    family_background varchar(150),\u000a    work_background varchar(150),\u000a    phone_number varchar(50),\u000a    mobile_number varchar(50),\u000a    email_address varchar(50),\u000a    skype_account varchar(50),\u000a    facebook_account varchar(50),\u000a    fathers_name varchar(50),\u000a    mothers_name varchar(50),\u000a    guardians_name varchar(50),\u000a    religion varchar(50),\u000a    found_by varchar(50),\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.location_map(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    contact_id integer,\u000a    image longvarbinary,\u000a    latitude double,\u000a    longitude double,\u000a    width integer,\u000a    height integer,\u000a    scale integer,\u000a    zoom integer,\u000a    image_format varchar(15),\u000a    map_type varchar(15),    \u000a    marker_color varchar(15),\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.direction_map(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    meeting_place_id integer,\u000a    location_map_id integer,\u000a    image longvarbinary,\u000a    direction longvarchar,    \u000a    travel_mode varchar(15),\u000a    width integer,\u000a    height integer,\u000a    zoom integer,\u000a    scale integer,\u000a    path_color varchar(10),\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.contact_call(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    contact_id integer,\u000a    call_date datetime,\u000a    call_day varchar(15),\u000a    call_time varchar(10),\u000a    status varchar(15),\u000a    scriptures varchar(75),\u000a    literature varchar(75),\u000a    publishers varchar(75),\u000a    notes longvarchar,\u000a    next_visit datetime,\u000a    next_topic longvarchar,\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+alter table cir.service_group add foreign key (congregation_id) references cir.congregation (id)
+alter table cir.meeting_place add foreign key (service_group_id) references cir.service_group (id)
+alter table cir.contact add foreign key (service_group_id) references cir.service_group (id)
+alter table cir.contact add foreign key (status_id) references cir.contact_status (id)
+alter table cir.location_map add foreign key (contact_id) references cir.contact (id)
+alter table cir.direction_map add foreign key (meeting_place_id) references cir.meeting_place (id)
+alter table cir.direction_map add foreign key (location_map_id) references cir.location_map (id)
+alter table cir.contact_call add foreign key (contact_id) references cir.contact(id)
+alter table cir.possible_value add foreign key (parameter_id) references cir.apps_report_parameter(id)
+alter table cir.contact add foreign key (territory_id) references cir.territory (id)
+SET SCHEMA PUBLIC
+drop schema cir cascade
+CREATE SCHEMA CIR AUTHORIZATION SA
+SET SCHEMA CIR
+set schema cir
+drop table cir.congregation if exists
+drop table cir.service_group if exists
+drop table cir.meeting_place if exists
+drop table cir.configuration if exists
+drop table cir.contact_status if exists
+drop table cir.location_map if exists
+drop table cir.direction_map if exists
+drop table cir.contact_call if exists
+drop table cir.apps_report if exists
+drop table cir.apps_report_parameter if exists
+drop table cir.possible_value if exists
+drop table cir.territory if exists
+create table cir.territory(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    name varchar(30),\u000a    description varchar(100),\u000a    enable bit,\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.possible_value(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    parameter_id integer,\u000a    name varchar(30),\u000a    value varchar(100),\u000a    query longvarchar,\u000a    type varchar(15),\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.apps_report_parameter(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    report_id integer,\u000a    sequence integer,\u000a    name varchar(30),\u000a    label varchar(30),\u000a    control_type varchar(30),        \u000a    data_type varchar(30),\u000a    enable bit,\u000a    required bit,\u000a    depends_on integer,\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.apps_report(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    name varchar(30),\u000a    code varchar(30),\u000a    title varchar(50),\u000a    description varchar(150),\u000a    report_date datetime,\u000a    file_jasper longvarbinary,\u000a    file_name varchar(100),\u000a    file_modified_datetime datetime,\u000a    file_created_datetime datetime,\u000a    report_type varchar(10),\u000a    datasource_type varchar(30),\u000a    line_limit integer,\u000a    query longvarchar,\u000a    enable bit,    \u000a    visible bit,\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.congregation(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    name varchar(50),\u000a    address_1 varchar(100),\u000a    address_2 varchar(100),\u000a    city varchar(50),\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.service_group(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    congregation_id integer,\u000a    name varchar(50),\u000a    overseer varchar(75),\u000a    assistant varchar(75),\u000a    prefix varchar(5),\u000a    start_number integer,\u000a    next_number integer,\u000a    icon longvarbinary,\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.meeting_place(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    service_group_id integer,\u000a    name varchar(50),\u000a    address varchar(100),\u000a    latitude double,\u000a    longitude double,\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.contact_status(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    name varchar(50),\u000a    description varchar(100),\u000a    modifiable bit,\u000a    printable bit,\u000a    icon longvarbinary,\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.configuration(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    report_title varchar(50),\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.contact(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    service_group_id integer,\u000a    status_id integer,\u000a    territory_id integer,        \u000a    record_number varchar(15),\u000a    record_date datetime,\u000a    birthdate datetime,\u000a    last_name varchar(30),\u000a    first_name varchar(30),\u000a    nick_name varchar(30),\u000a    sex varchar(6),\u000a    marital_status varchar(15),\u000a    nationality varchar(30),\u000a    profile_picture longvarbinary,\u000a    house_number varchar(15),\u000a    street varchar(200),\u000a    barangay varchar(20),\u000a    city varchar(50),\u000a    area varchar(50),\u000a    personal_background varchar(150),\u000a    family_background varchar(150),\u000a    work_background varchar(150),\u000a    phone_number varchar(50),\u000a    mobile_number varchar(50),\u000a    email_address varchar(50),\u000a    skype_account varchar(50),\u000a    facebook_account varchar(50),\u000a    fathers_name varchar(50),\u000a    mothers_name varchar(50),\u000a    guardians_name varchar(50),\u000a    religion varchar(50),\u000a    found_by varchar(50),\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.location_map(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    contact_id integer,\u000a    image longvarbinary,\u000a    latitude double,\u000a    longitude double,\u000a    width integer,\u000a    height integer,\u000a    scale integer,\u000a    zoom integer,\u000a    image_format varchar(15),\u000a    map_type varchar(15),    \u000a    marker_color varchar(15),\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.direction_map(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    meeting_place_id integer,\u000a    location_map_id integer,\u000a    image longvarbinary,\u000a    direction longvarchar,    \u000a    travel_mode varchar(15),\u000a    width integer,\u000a    height integer,\u000a    zoom integer,\u000a    scale integer,\u000a    path_color varchar(10),\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.contact_call(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    contact_id integer,\u000a    call_date datetime,\u000a    call_day varchar(15),\u000a    call_time varchar(10),\u000a    status varchar(15),\u000a    scriptures varchar(75),\u000a    literature varchar(75),\u000a    publishers varchar(75),\u000a    notes longvarchar,\u000a    next_visit datetime,\u000a    next_topic longvarchar,\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+alter table cir.service_group add foreign key (congregation_id) references cir.congregation (id)
+alter table cir.meeting_place add foreign key (service_group_id) references cir.service_group (id)
+alter table cir.contact add foreign key (service_group_id) references cir.service_group (id)
+alter table cir.contact add foreign key (status_id) references cir.contact_status (id)
+alter table cir.location_map add foreign key (contact_id) references cir.contact (id)
+alter table cir.direction_map add foreign key (meeting_place_id) references cir.meeting_place (id)
+alter table cir.direction_map add foreign key (location_map_id) references cir.location_map (id)
+alter table cir.contact_call add foreign key (contact_id) references cir.contact(id)
+alter table cir.apps_report_parameter add foreign key (report_id) references cir.apps_report(id)
+alter table cir.possible_value add foreign key (parameter_id) references cir.apps_report_parameter(id)
+alter table cir.contact add foreign key (territory_id) references cir.territory (id)
+SET SCHEMA PUBLIC
+drop schema cir cascade
+CREATE SCHEMA CIR AUTHORIZATION SA
+SET SCHEMA CIR
+set schema cir
+drop table cir.congregation if exists
+drop table cir.service_group if exists
+drop table cir.meeting_place if exists
+drop table cir.configuration if exists
+drop table cir.contact_status if exists
+drop table cir.location_map if exists
+drop table cir.direction_map if exists
+drop table cir.contact_call if exists
+drop table cir.apps_report if exists
+drop table cir.apps_report_parameter if exists
+drop table cir.possible_value if exists
+drop table cir.territory if exists
+create table cir.territory(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    name varchar(30),\u000a    description varchar(100),\u000a    enable bit,\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.possible_value(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    parameter_id integer,\u000a    name varchar(30),\u000a    value varchar(100),\u000a    query longvarchar,\u000a    type varchar(15),\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.apps_report_parameter(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    report_id integer,\u000a    sequence integer,\u000a    name varchar(30),\u000a    label varchar(30),\u000a    control_type varchar(30),        \u000a    data_type varchar(30),\u000a    enable bit,\u000a    required bit,\u000a    depends_on integer,\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.apps_report(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    name varchar(30),\u000a    code varchar(30),\u000a    title varchar(50),\u000a    description varchar(150),\u000a    report_date datetime,\u000a    file_jasper longvarbinary,\u000a    file_name varchar(100),\u000a    file_modified_datetime datetime,\u000a    file_created_datetime datetime,\u000a    report_type varchar(10),\u000a    datasource_type varchar(30),\u000a    line_limit integer,\u000a    query longvarchar,\u000a    enable bit,    \u000a    visible bit,\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.congregation(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    name varchar(50),\u000a    address_1 varchar(100),\u000a    address_2 varchar(100),\u000a    city varchar(50),\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.service_group(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    congregation_id integer,\u000a    name varchar(50),\u000a    overseer varchar(75),\u000a    assistant varchar(75),\u000a    prefix varchar(5),\u000a    start_number integer,\u000a    next_number integer,\u000a    icon longvarbinary,\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.meeting_place(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    service_group_id integer,\u000a    name varchar(50),\u000a    address varchar(100),\u000a    latitude double,\u000a    longitude double,\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.contact_status(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    name varchar(50),\u000a    description varchar(100),\u000a    modifiable bit,\u000a    printable bit,\u000a    icon longvarbinary,\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.configuration(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    report_title varchar(50),\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.contact(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    service_group_id integer,\u000a    status_id integer,\u000a    territory_id integer,        \u000a    record_number varchar(15),\u000a    record_date datetime,\u000a    birthdate datetime,\u000a    last_name varchar(30),\u000a    first_name varchar(30),\u000a    nick_name varchar(30),\u000a    sex varchar(6),\u000a    marital_status varchar(15),\u000a    nationality varchar(30),\u000a    profile_picture longvarbinary,\u000a    house_number varchar(15),\u000a    street varchar(200),\u000a    barangay varchar(20),\u000a    city varchar(50),\u000a    area varchar(50),\u000a    personal_background varchar(150),\u000a    family_background varchar(150),\u000a    work_background varchar(150),\u000a    phone_number varchar(50),\u000a    mobile_number varchar(50),\u000a    email_address varchar(50),\u000a    skype_account varchar(50),\u000a    facebook_account varchar(50),\u000a    fathers_name varchar(50),\u000a    mothers_name varchar(50),\u000a    guardians_name varchar(50),\u000a    religion varchar(50),\u000a    found_by varchar(50),\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.location_map(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    contact_id integer,\u000a    image longvarbinary,\u000a    latitude double,\u000a    longitude double,\u000a    width integer,\u000a    height integer,\u000a    scale integer,\u000a    zoom integer,\u000a    image_format varchar(15),\u000a    map_type varchar(15),    \u000a    marker_color varchar(15),\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.direction_map(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    meeting_place_id integer,\u000a    location_map_id integer,\u000a    image longvarbinary,\u000a    direction longvarchar,    \u000a    travel_mode varchar(15),\u000a    width integer,\u000a    height integer,\u000a    zoom integer,\u000a    scale integer,\u000a    path_color varchar(10),\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.contact_call(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    contact_id integer,\u000a    call_date datetime,\u000a    call_day varchar(15),\u000a    call_time varchar(10),\u000a    status varchar(15),\u000a    scriptures varchar(75),\u000a    literature varchar(75),\u000a    publishers varchar(75),\u000a    notes longvarchar,\u000a    next_visit datetime,\u000a    next_topic longvarchar,\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+alter table cir.service_group add foreign key (congregation_id) references cir.congregation (id)
+alter table cir.meeting_place add foreign key (service_group_id) references cir.service_group (id)
+alter table cir.contact add foreign key (service_group_id) references cir.service_group (id)
+alter table cir.contact add foreign key (status_id) references cir.contact_status (id)
+alter table cir.location_map add foreign key (contact_id) references cir.contact (id)
+alter table cir.direction_map add foreign key (meeting_place_id) references cir.meeting_place (id)
+alter table cir.direction_map add foreign key (location_map_id) references cir.location_map (id)
+alter table cir.contact_call add foreign key (contact_id) references cir.contact(id)
+alter table cir.apps_report_parameter add foreign key (report_id) references cir.apps_report(id)
+alter table cir.possible_value add foreign key (parameter_id) references cir.apps_report_parameter(id)
+alter table cir.contact add foreign key (territory_id) references cir.territory (id)
+/*C55*/SET SCHEMA PUBLIC
 DISCONNECT
-/*C68*/SET SCHEMA PUBLIC
+/*C56*/SET SCHEMA PUBLIC
 DISCONNECT
-/*C69*/SET SCHEMA PUBLIC
+/*C51*/SET SCHEMA PUBLIC
+drop schema cir cascade
+CREATE SCHEMA CIR AUTHORIZATION SA
+SET SCHEMA CIR
+set schema cir
+drop table cir.congregation if exists
+drop table cir.service_group if exists
+drop table cir.meeting_place if exists
+drop table cir.configuration if exists
+drop table cir.contact_status if exists
+drop table cir.location_map if exists
+drop table cir.direction_map if exists
+drop table cir.contact_call if exists
+drop table cir.apps_report if exists
+drop table cir.apps_report_parameter if exists
+drop table cir.possible_value if exists
+drop table cir.territory if exists
+create table cir.territory(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    name varchar(30),\u000a    description varchar(100),\u000a    enable bit,\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.possible_value(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    parameter_id integer,\u000a    name varchar(30),\u000a    value varchar(100),\u000a    query longvarchar,\u000a    type varchar(15),\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.apps_report_parameter(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    report_id integer,\u000a    sequence integer,\u000a    name varchar(30),\u000a    label varchar(30),\u000a    control_type varchar(30),        \u000a    data_type varchar(30),\u000a    enable bit,\u000a    required bit,\u000a    depends_on integer,\u000a    default_value varchar(30),\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.apps_report(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    name varchar(30),\u000a    code varchar(30),\u000a    title varchar(50),\u000a    description varchar(150),\u000a    report_date datetime,\u000a    file_jasper longvarbinary,\u000a    file_name varchar(100),\u000a    file_modified_datetime datetime,\u000a    file_created_datetime datetime,\u000a    report_type varchar(10),\u000a    datasource_type varchar(30),\u000a    line_limit integer,\u000a    query longvarchar,\u000a    enable bit,    \u000a    visible bit,\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.congregation(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    name varchar(50),\u000a    address_1 varchar(100),\u000a    address_2 varchar(100),\u000a    city varchar(50),\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.service_group(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    congregation_id integer,\u000a    name varchar(50),\u000a    overseer varchar(75),\u000a    assistant varchar(75),\u000a    prefix varchar(5),\u000a    start_number integer,\u000a    next_number integer,\u000a    icon longvarbinary,\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.meeting_place(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    service_group_id integer,\u000a    name varchar(50),\u000a    address varchar(100),\u000a    latitude double,\u000a    longitude double,\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.contact_status(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    name varchar(50),\u000a    description varchar(100),\u000a    modifiable bit,\u000a    printable bit,\u000a    icon longvarbinary,\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.configuration(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    report_title varchar(50),\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.contact(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    service_group_id integer,\u000a    status_id integer,\u000a    territory_id integer,        \u000a    record_number varchar(15),\u000a    record_date datetime,\u000a    birthdate datetime,\u000a    last_name varchar(30),\u000a    first_name varchar(30),\u000a    nick_name varchar(30),\u000a    sex varchar(6),\u000a    marital_status varchar(15),\u000a    nationality varchar(30),\u000a    profile_picture longvarbinary,\u000a    house_number varchar(15),\u000a    street varchar(200),\u000a    barangay varchar(20),\u000a    city varchar(50),\u000a    area varchar(50),\u000a    personal_background varchar(150),\u000a    family_background varchar(150),\u000a    work_background varchar(150),\u000a    phone_number varchar(50),\u000a    mobile_number varchar(50),\u000a    email_address varchar(50),\u000a    skype_account varchar(50),\u000a    facebook_account varchar(50),\u000a    fathers_name varchar(50),\u000a    mothers_name varchar(50),\u000a    guardians_name varchar(50),\u000a    religion varchar(50),\u000a    found_by varchar(50),\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.location_map(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    contact_id integer,\u000a    image longvarbinary,\u000a    latitude double,\u000a    longitude double,\u000a    width integer,\u000a    height integer,\u000a    scale integer,\u000a    zoom integer,\u000a    image_format varchar(15),\u000a    map_type varchar(15),    \u000a    marker_color varchar(15),\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.direction_map(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    meeting_place_id integer,\u000a    location_map_id integer,\u000a    image longvarbinary,\u000a    direction longvarchar,    \u000a    travel_mode varchar(15),\u000a    width integer,\u000a    height integer,\u000a    zoom integer,\u000a    scale integer,\u000a    path_color varchar(10),\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.contact_call(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    contact_id integer,\u000a    call_date datetime,\u000a    call_day varchar(15),\u000a    call_time varchar(10),\u000a    status varchar(15),\u000a    scriptures varchar(75),\u000a    literature varchar(75),\u000a    publishers varchar(75),\u000a    notes longvarchar,\u000a    next_visit datetime,\u000a    next_topic longvarchar,\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+alter table cir.service_group add foreign key (congregation_id) references cir.congregation (id)
+alter table cir.meeting_place add foreign key (service_group_id) references cir.service_group (id)
+alter table cir.contact add foreign key (service_group_id) references cir.service_group (id)
+alter table cir.contact add foreign key (status_id) references cir.contact_status (id)
+alter table cir.location_map add foreign key (contact_id) references cir.contact (id)
+alter table cir.direction_map add foreign key (meeting_place_id) references cir.meeting_place (id)
+alter table cir.direction_map add foreign key (location_map_id) references cir.location_map (id)
+alter table cir.contact_call add foreign key (contact_id) references cir.contact(id)
+alter table cir.apps_report_parameter add foreign key (report_id) references cir.apps_report(id)
+alter table cir.possible_value add foreign key (parameter_id) references cir.apps_report_parameter(id)
+alter table cir.contact add foreign key (territory_id) references cir.territory (id)
+/*C57*/SET SCHEMA PUBLIC
 DISCONNECT
-/*C70*/SET SCHEMA PUBLIC
+/*C58*/SET SCHEMA PUBLIC
 DISCONNECT
-/*C71*/SET SCHEMA PUBLIC
+/*C51*/SET SCHEMA PUBLIC
+drop schema cir cascade
+CREATE SCHEMA CIR AUTHORIZATION SA
+SET SCHEMA CIR
+set schema cir
+drop table cir.congregation if exists
+drop table cir.service_group if exists
+drop table cir.meeting_place if exists
+drop table cir.configuration if exists
+drop table cir.contact_status if exists
+drop table cir.location_map if exists
+drop table cir.direction_map if exists
+drop table cir.contact_call if exists
+drop table cir.apps_report if exists
+drop table cir.apps_report_parameter if exists
+drop table cir.possible_value if exists
+drop table cir.territory if exists
+create table cir.territory(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    name varchar(30),\u000a    description varchar(100),\u000a    enable bit,\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.possible_value(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    parameter_id integer,\u000a    name varchar(30),\u000a    value varchar(100),\u000a    query longvarchar,\u000a    type varchar(15),\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.apps_report_parameter(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    report_id integer,\u000a    sequence integer,\u000a    name varchar(30),\u000a    label varchar(30),\u000a    control_type varchar(30),        \u000a    data_type varchar(30),\u000a    enable bit,\u000a    required bit,\u000a    depends_on integer,\u000a    default_value varchar(30),\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.apps_report(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    name varchar(30),\u000a    code varchar(30),\u000a    title varchar(50),\u000a    description varchar(150),\u000a    report_date datetime,\u000a    file_jasper longvarbinary,\u000a    file_name varchar(100),\u000a    file_modified_datetime datetime,\u000a    file_created_datetime datetime,\u000a    report_type varchar(10),\u000a    datasource_type varchar(30),\u000a    line_limit integer,\u000a    query longvarchar,\u000a    enable bit,    \u000a    visible bit,\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.congregation(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    name varchar(50),\u000a    address_1 varchar(100),\u000a    address_2 varchar(100),\u000a    city varchar(50),\u000a    latitude double,\u000a    longitude double,\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.service_group(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    congregation_id integer,\u000a    name varchar(50),\u000a    overseer varchar(75),\u000a    assistant varchar(75),\u000a    prefix varchar(5),\u000a    start_number integer,\u000a    next_number integer,\u000a    icon longvarbinary,\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.meeting_place(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    service_group_id integer,\u000a    name varchar(50),\u000a    address varchar(100),\u000a    latitude double,\u000a    longitude double,\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.contact_status(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    name varchar(50),\u000a    description varchar(100),\u000a    modifiable bit,\u000a    printable bit,\u000a    icon longvarbinary,\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.configuration(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    report_title varchar(50),\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.contact(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    service_group_id integer,\u000a    status_id integer,\u000a    territory_id integer,        \u000a    record_number varchar(15),\u000a    record_date datetime,\u000a    birthdate datetime,\u000a    last_name varchar(30),\u000a    first_name varchar(30),\u000a    nick_name varchar(30),\u000a    sex varchar(6),\u000a    marital_status varchar(15),\u000a    nationality varchar(30),\u000a    profile_picture longvarbinary,\u000a    house_number varchar(15),\u000a    street varchar(200),\u000a    barangay varchar(20),\u000a    city varchar(50),\u000a    area varchar(50),\u000a    personal_background varchar(150),\u000a    family_background varchar(150),\u000a    work_background varchar(150),\u000a    phone_number varchar(50),\u000a    mobile_number varchar(50),\u000a    email_address varchar(50),\u000a    skype_account varchar(50),\u000a    facebook_account varchar(50),\u000a    fathers_name varchar(50),\u000a    mothers_name varchar(50),\u000a    guardians_name varchar(50),\u000a    religion varchar(50),\u000a    found_by varchar(50),\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.location_map(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    contact_id integer,\u000a    image longvarbinary,\u000a    latitude double,\u000a    longitude double,\u000a    width integer,\u000a    height integer,\u000a    scale integer,\u000a    zoom integer,\u000a    image_format varchar(15),\u000a    map_type varchar(15),    \u000a    marker_color varchar(15),\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.direction_map(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    meeting_place_id integer,\u000a    location_map_id integer,\u000a    image longvarbinary,\u000a    direction longvarchar,    \u000a    travel_mode varchar(15),\u000a    width integer,\u000a    height integer,\u000a    zoom integer,\u000a    scale integer,\u000a    path_color varchar(10),\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+create table cir.contact_call(\u000a    id integer GENERATED BY DEFAULT AS IDENTITY (START WITH 1) primary key,\u000a    contact_id integer,\u000a    call_date datetime,\u000a    call_day varchar(15),\u000a    call_time varchar(10),\u000a    status varchar(15),\u000a    scriptures varchar(75),\u000a    literature varchar(75),\u000a    publishers varchar(75),\u000a    notes longvarchar,\u000a    next_visit datetime,\u000a    next_topic longvarchar,\u000a    created_datetime datetime,\u000a    updated_datetime datetime\u000a)
+alter table cir.service_group add foreign key (congregation_id) references cir.congregation (id)
+alter table cir.meeting_place add foreign key (service_group_id) references cir.service_group (id)
+alter table cir.contact add foreign key (service_group_id) references cir.service_group (id)
+alter table cir.contact add foreign key (status_id) references cir.contact_status (id)
+alter table cir.location_map add foreign key (contact_id) references cir.contact (id)
+alter table cir.direction_map add foreign key (meeting_place_id) references cir.meeting_place (id)
+alter table cir.direction_map add foreign key (location_map_id) references cir.location_map (id)
+alter table cir.contact_call add foreign key (contact_id) references cir.contact(id)
+alter table cir.apps_report_parameter add foreign key (report_id) references cir.apps_report(id)
+alter table cir.possible_value add foreign key (parameter_id) references cir.apps_report_parameter(id)
+alter table cir.contact add foreign key (territory_id) references cir.territory (id)
+/*C59*/SET SCHEMA PUBLIC
 DISCONNECT
-/*C72*/SET SCHEMA PUBLIC
+/*C60*/SET SCHEMA CIR
+INSERT INTO CONGREGATION VALUES(1,'','','','',NULL,NULL,'2014-05-22 19:29:16.390000','2014-05-22 19:29:16.390000')
+COMMIT
+SET SCHEMA PUBLIC
 DISCONNECT
-/*C73*/SET SCHEMA PUBLIC
+/*C61*/SET SCHEMA PUBLIC
 DISCONNECT
-/*C74*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C75*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C76*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C77*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C78*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C79*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C80*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C81*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C82*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C83*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C84*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C85*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C86*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C87*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C88*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C89*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C90*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C91*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C92*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C93*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C94*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C95*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C96*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C97*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C98*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C99*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C100*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C101*/SET SCHEMA PUBLIC
-DISCONNECT
+/*C62*/SET SCHEMA CIR
+DELETE FROM CONGREGATION WHERE ID=1
+INSERT INTO CONGREGATION VALUES(1,'Sign Language - Caloocan City MM','27 D. Aquino St. bet. 3rd and 4th Avenue','West Grace Park','Caloocan City',NULL,NULL,'2014-05-22 19:29:16.390000','2014-05-22 19:30:34.312000')
+COMMIT
+DELETE FROM CONGREGATION WHERE ID=1
+INSERT INTO CONGREGATION VALUES(1,'Sign Language - Caloocan City MM','27 D. Aquino St. bet. 3rd and 4th Avenue','West Grace Park','Caloocan City',NULL,NULL,'2014-05-22 19:29:16.390000','2014-05-22 19:30:45.859000')
+COMMIT
+INSERT INTO SERVICE_GROUP VALUES(1,NULL,'','',NULL,'',1000,1000,NULL,'2014-05-22 19:30:50.125000','2014-05-22 19:30:50.125000')
+COMMIT
+DELETE FROM SERVICE_GROUP WHERE ID=1
+INSERT INTO SERVICE_GROUP VALUES(1,1,'','',NULL,'',1000,1000,NULL,'2014-05-22 19:30:50.125000','2014-05-22 19:30:50.156000')
+COMMIT
+DELETE FROM SERVICE_GROUP WHERE ID=1
+INSERT INTO SERVICE_GROUP VALUES(1,1,'FSG #2 - Caloocan ','Dan Geremias','Joel Angelino','CAL',1000,1000,NULL,'2014-05-22 19:30:50.125000','2014-05-22 19:31:05.046000')
+COMMIT
+INSERT INTO CONTACT VALUES(1,NULL,NULL,NULL,'','2014-05-22 19:31:08.406000',NULL,'','','',NULL,NULL,'',NULL,'','','','','','','','','','','','','','','','','','','2014-05-22 19:31:08.406000','2014-05-22 19:31:08.406000')
+COMMIT
+DELETE FROM SERVICE_GROUP WHERE ID=1
+INSERT INTO SERVICE_GROUP VALUES(1,1,'FSG #2 - Caloocan ','Dan Geremias','Joel Angelino','CAL',1000,1001,NULL,'2014-05-22 19:30:50.125000','2014-05-22 19:31:08.500000')
+DELETE FROM CONTACT WHERE ID=1
+INSERT INTO CONTACT VALUES(1,1,NULL,NULL,'CAL1000','2014-05-22 19:31:08.406000',NULL,'','','',NULL,NULL,'',NULL,'','','','','','','','','','','','','','','','','','','2014-05-22 19:31:08.406000','2014-05-22 19:31:08.406000')
+COMMIT
+DELETE FROM CONTACT WHERE ID=1
+INSERT INTO CONTACT VALUES(1,1,NULL,NULL,'CAL1000','2014-05-22 19:31:08.406000',NULL,'','','',NULL,NULL,'',NULL,'','','','','','','','','','','','','','','','','','','2014-05-22 19:31:08.406000','2014-05-22 19:31:08.515000')
+COMMIT
+DELETE FROM CONTACT WHERE ID=1
+INSERT INTO CONTACT VALUES(1,1,NULL,NULL,'CAL1000','2014-05-22 19:31:08.406000',NULL,'Palapar','Elisar','Ondo','Male','Single','Filipino',NULL,'','','','','','','','','','','','','','','','','','','2014-05-22 19:31:08.406000','2014-05-22 19:31:26.562000')
+COMMIT

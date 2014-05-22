@@ -7,10 +7,13 @@
 package org.jw.service.gui;
 
 import javax.persistence.EntityManager;
+import org.jw.service.action.DefaultDownloadMapAction;
+import org.jw.service.action.DefaultSingleSaveAction;
 import org.jw.service.dao.DataAccessObject;
 import org.jw.service.entity.Contact;
 import org.jw.service.entity.EntityIO;
 import org.jw.service.entity.LocationMap;
+import org.jw.service.util.UtilityDownload;
 import org.jw.service.util.UtilityTable;
 
 /**
@@ -18,13 +21,18 @@ import org.jw.service.util.UtilityTable;
  * @author Wilson
  */
 public class LocationMapDialog extends javax.swing.JDialog {
-    private final UtilityTable utilTable;
+    private final UtilityTable<Contact> utilTable;
     private final DataAccessObject<LocationMap> dao;    
+    private LocationMap destinationLocationMap;
     
     /**
      * Creates new form LocationMapDialog
+     * @param parent
+     * @param modal
+     * @param utilTable
+     * @param em
      */
-    public LocationMapDialog(java.awt.Frame parent, boolean modal, EntityManager em, UtilityTable utilTable) {
+    public LocationMapDialog(java.awt.Frame parent, boolean modal, EntityManager em, UtilityTable<Contact> utilTable) {
         super(parent, modal);
         initComponents();
         this.utilTable = utilTable;                
@@ -32,7 +40,17 @@ public class LocationMapDialog extends javax.swing.JDialog {
         initMyComponents();
     }
     
-    private void initMyComponents(){}
+    private void initMyComponents(){
+        // Actions
+        downloadMapAction = new DefaultDownloadMapAction(this.mapCrudPanel.getDownlaodCommand(), utilTable, UtilityDownload.create());        
+    }
+    
+    private LocationMap getLocationMap(Contact destinationContact){                
+        System.out.println(destinationContact.getLocationMapCollection());        
+        return null;
+    }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -303,16 +321,14 @@ public class LocationMapDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-        Contact destinationContact = (Contact) utilTable.getSelectedItem();
-        if(destinationContact != null){
-            EntityIO.create(contact, destinationContact, Contact.class).read();
-        }
+        Contact destinationContact = utilTable.getSelectedItem();
+        destinationLocationMap = getLocationMap(destinationContact);
+        //EntityIO<LocationMap> entityIO = EntityIO.create(locationMap, destinationLocationMap, LocationMap.class);        
+        //entityIO.read();
+        //saveMapAction = new DefaultSingleSaveAction(this.mapCrudPanel.getSaveCommand(), dao, entityIO);
     }//GEN-LAST:event_formWindowActivated
 
-    private LocationMap getLocationMap(Contact contact){
-        
-        return null;
-    }
+    
     
     
 
@@ -347,4 +363,7 @@ public class LocationMapDialog extends javax.swing.JDialog {
     private javax.swing.JSpinner zoomValueSpinner;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
+
+    DefaultDownloadMapAction downloadMapAction;
+    DefaultSingleSaveAction<LocationMap> saveMapAction;
 }

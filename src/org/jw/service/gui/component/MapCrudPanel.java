@@ -31,7 +31,7 @@ public class MapCrudPanel extends javax.swing.JPanel {
         closeToolBar = new javax.swing.JToolBar();
         closeCommand = new javax.swing.JButton();
         crudToolBar = new javax.swing.JToolBar();
-        newCommand = new javax.swing.JButton();
+        downloadCommand = new javax.swing.JButton();
         refreshCommand = new javax.swing.JButton();
         saveCommand = new javax.swing.JButton();
 
@@ -46,11 +46,11 @@ public class MapCrudPanel extends javax.swing.JPanel {
         crudToolBar.setFloatable(false);
         crudToolBar.setRollover(true);
 
-        newCommand.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.download.png"))); // NOI18N
-        newCommand.setText("Download Map");
-        newCommand.setFocusable(false);
-        newCommand.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        crudToolBar.add(newCommand);
+        downloadCommand.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.download.png"))); // NOI18N
+        downloadCommand.setText("Download Map");
+        downloadCommand.setFocusable(false);
+        downloadCommand.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        crudToolBar.add(downloadCommand);
 
         refreshCommand.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.refresh.png"))); // NOI18N
         refreshCommand.setText("Refresh");
@@ -97,8 +97,36 @@ public class MapCrudPanel extends javax.swing.JPanel {
     private javax.swing.JButton closeCommand;
     private javax.swing.JToolBar closeToolBar;
     private javax.swing.JToolBar crudToolBar;
-    private javax.swing.JButton newCommand;
+    private javax.swing.JButton downloadCommand;
     private javax.swing.JButton refreshCommand;
     private javax.swing.JButton saveCommand;
     // End of variables declaration//GEN-END:variables
+
+    /**
+     * @return the closeCommand
+     */
+    public javax.swing.JButton getCloseCommand() {
+        return closeCommand;
+    }
+
+    /**
+     * @return the newCommand
+     */
+    public javax.swing.JButton getDownlaodCommand() {
+        return downloadCommand;
+    }
+
+    /**
+     * @return the refreshCommand
+     */
+    public javax.swing.JButton getRefreshCommand() {
+        return refreshCommand;
+    }
+
+    /**
+     * @return the saveCommand
+     */
+    public javax.swing.JButton getSaveCommand() {
+        return saveCommand;
+    }
 }

@@ -72,6 +72,8 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
     @Lob
     @Column(name = "PROFILE_PICTURE")
     private byte[] profilePicture;
+    @OneToMany(mappedBy = "contactId")
+    private Collection<LocationMap> locationMapCollection;
     private static final long serialVersionUID = 1L;
     public static final String PROP_GUARDIANSNAME = "guardiansName";
     @Id
@@ -145,10 +147,7 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
     private Collection<ContactCall> contactCallCollection;
     @JoinColumn(name = "SERVICE_GROUP_ID", referencedColumnName = "ID")
     @ManyToOne
-    private ServiceGroup serviceGroupId;
-    @JoinColumn(name = "LOCATION_MAP_ID", referencedColumnName = "ID")
-    @ManyToOne
-    private LocationMap locationMapId;
+    private ServiceGroup serviceGroupId;    
     @JoinColumn(name = "STATUS_ID", referencedColumnName = "ID")
     @ManyToOne
     private ContactStatus statusId;
@@ -174,8 +173,7 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
         this.foundBy = "";
         this.guardiansName = "";
         this.houseNumber = "";
-        this.lastName = "";
-        this.locationMapId = null;
+        this.lastName = "";        
         this.maritalStatus = null;
         this.mobileNumber = "";
         this.mothersName = "";
@@ -196,6 +194,7 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
         this.updatedDatetime = new Date();
         this.workBackground = "";  
         this.territoryId = null;
+        this.locationMapCollection = null;
     }
 
     public Contact(Integer id) {
@@ -717,22 +716,6 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
     }
 
     /**
-     * @return the locationMapId
-     */
-    public LocationMap getLocationMapId() {
-        return locationMapId;
-    }
-
-    /**
-     * @param locationMapId the locationMapId to set
-     */
-    public void setLocationMapId(LocationMap locationMapId) {
-        org.jw.service.entity.LocationMap oldLocationMapId = this.locationMapId;
-        this.locationMapId = locationMapId;
-        propertyChangeSupport.firePropertyChange(PROP_LOCATIONMAPID, oldLocationMapId, locationMapId);
-    }
-
-    /**
      * @return the statusId
      */
     public ContactStatus getStatusId() {
@@ -906,8 +889,15 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
         int lastCompare = lastName1.compareTo(lastName2);
         return (lastCompare != 0 ? lastCompare : firstName1.compareTo(firstName2));
     }
-    
 
+    @XmlTransient
+    public Collection<LocationMap> getLocationMapCollection() {
+        return locationMapCollection;
+    }
+
+    public void setLocationMapCollection(Collection<LocationMap> locationMapCollection) {
+        this.locationMapCollection = locationMapCollection;
+    }
     
     
 }

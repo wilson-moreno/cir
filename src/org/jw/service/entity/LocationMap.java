@@ -6,6 +6,8 @@
 
 package org.jw.service.entity;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
@@ -15,13 +17,16 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -45,16 +50,36 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "LocationMap.findByMapType", query = "SELECT l FROM LocationMap l WHERE l.mapType = :mapType"),
     @NamedQuery(name = "LocationMap.findByCreatedDatetime", query = "SELECT l FROM LocationMap l WHERE l.createdDatetime = :createdDatetime"),
     @NamedQuery(name = "LocationMap.findByUpdatedDatetime", query = "SELECT l FROM LocationMap l WHERE l.updatedDatetime = :updatedDatetime")})
-public class LocationMap implements Serializable {
+public class LocationMap implements Serializable, ObservableEntity, SilentSetter {
+    @Lob
+    @Column(name = "IMAGE")
+    private byte[] image;
+    @Column(name = "MARKER_COLOR")
+    private String markerColor;
+    @JoinColumn(name = "CONTACT_ID", referencedColumnName = "ID")
+    @ManyToOne
+    private Contact contactId;
     private static final long serialVersionUID = 1L;
+    public static final String PROP_ID = "id";
+    public static final String PROP_IMAGE = "image";
+    public static final String PROP_LATITUDE = "latitude";
+    public static final String PROP_LONGITUDE = "longitude";
+    public static final String PROP_WIDTH = "width";
+    public static final String PROP_HEIGHT = "height";
+    public static final String PROP_SCALE = "scale";
+    public static final String PROP_ZOOM = "zoom";
+    public static final String PROP_IMAGEFORMAT = "imageFormat";
+    public static final String PROP_MAPTYPE = "mapType";
+    public static final String PROP_CREATEDDATETIME = "createdDatetime";
+    public static final String PROP_UPDATEDDATETIME = "updatedDatetime";
+    public static final String PROP_DIRECTIONMAPCOLLECTION = "directionCollection";
+    public static final String PROP_CONTACTCOLLECTION = "contactCollection";
+    public static final String PROP_SAVESTATE = "saveState";
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
-    @Lob
-    @Column(name = "IMAGE")
-    private byte[] image;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "LATITUDE")
     private Double latitude;
@@ -79,9 +104,10 @@ public class LocationMap implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedDatetime;
     @OneToMany(mappedBy = "locationMapId")
-    private Collection<DirectionMap> directionMapCollection;
-    @OneToMany(mappedBy = "locationMapId")
-    private Collection<Contact> contactCollection;
+    private Collection<DirectionMap> directionMapCollection;    
+    @Transient
+    private String saveState;
+    private final transient PropertyChangeSupport propertyChangeSupport = new java.beans.PropertyChangeSupport(this);
 
     public LocationMap() {
         this.scale = 4;
@@ -90,125 +116,17 @@ public class LocationMap implements Serializable {
         this.imageFormat = "jpeg";
         this.width = 400;
         this.height = 400;
+        this.saveState = "";
+        this.createdDatetime = new Date();
+        this.updatedDatetime = new Date();
     }
 
     public LocationMap(Integer id) {
+        super();
         this.id = id;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public byte[] getImage() {
-        return image;
-    }
-
-    public void setImage(byte[] image) {
-        this.image = image;
-    }
-
-    public Double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
-    }
-
-    public Double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(Double longitude) {
-        this.longitude = longitude;
-    }
-
-    public Integer getWidth() {
-        return width;
-    }
-
-    public void setWidth(Integer width) {
-        this.width = width;
-    }
-
-    public Integer getHeight() {
-        return height;
-    }
-
-    public void setHeight(Integer height) {
-        this.height = height;
-    }
-
-    public Integer getScale() {
-        return scale;
-    }
-
-    public void setScale(Integer scale) {
-        this.scale = scale;
-    }
-
-    public Integer getZoom() {
-        return zoom;
-    }
-
-    public void setZoom(Integer zoom) {
-        this.zoom = zoom;
-    }
-
-    public String getImageFormat() {
-        return imageFormat;
-    }
-
-    public void setImageFormat(String imageFormat) {
-        this.imageFormat = imageFormat;
-    }
-
-    public String getMapType() {
-        return mapType;
-    }
-
-    public void setMapType(String mapType) {
-        this.mapType = mapType;
-    }
-
-    public Date getCreatedDatetime() {
-        return createdDatetime;
-    }
-
-    public void setCreatedDatetime(Date createdDatetime) {
-        this.createdDatetime = createdDatetime;
-    }
-
-    public Date getUpdatedDatetime() {
-        return updatedDatetime;
-    }
-
-    public void setUpdatedDatetime(Date updatedDatetime) {
-        this.updatedDatetime = updatedDatetime;
-    }
-
-    @XmlTransient
-    public Collection<DirectionMap> getDirectionMapCollection() {
-        return directionMapCollection;
-    }
-
-    public void setDirectionMapCollection(Collection<DirectionMap> directionMapCollection) {
-        this.directionMapCollection = directionMapCollection;
-    }
-
-    @XmlTransient
-    public Collection<Contact> getContactCollection() {
-        return contactCollection;
-    }
-
-    public void setContactCollection(Collection<Contact> contactCollection) {
-        this.contactCollection = contactCollection;
-    }
+    
 
     @Override
     public int hashCode() {
@@ -233,6 +151,270 @@ public class LocationMap implements Serializable {
     @Override
     public String toString() {
         return "org.jw.service.entity.LocationMap[ id=" + id + " ]";
+    }
+
+    
+
+    @Override
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        propertyChangeSupport.addPropertyChangeListener(listener);
+    }
+
+    @Override
+    public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
+        propertyChangeSupport.addPropertyChangeListener(propertyName, listener);
+    }
+
+    @Override
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        propertyChangeSupport.removePropertyChangeListener(listener);
+    }
+
+    @Override
+    public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
+        propertyChangeSupport.removePropertyChangeListener(propertyName, listener);
+    }
+
+    @Override
+    public void silentSetProperty(String name, Object value) {
+        switch(name){
+            case "updatedDatetime" : this.updatedDatetime = (Date) value; break;
+            default : throw new UnsupportedOperationException("Property not Supported: " + name);
+        }
+    }
+
+    /**
+     * @return the id
+     */
+    public Integer getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(Integer id) {
+        java.lang.Integer oldId = this.id;
+        this.id = id;
+        propertyChangeSupport.firePropertyChange(PROP_ID, oldId, id);
+    }
+
+    /**
+     * @return the latitude
+     */
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    /**
+     * @param latitude the latitude to set
+     */
+    public void setLatitude(Double latitude) {
+        java.lang.Double oldLatitude = this.latitude;
+        this.latitude = latitude;
+        propertyChangeSupport.firePropertyChange(PROP_LATITUDE, oldLatitude, latitude);
+    }
+
+    /**
+     * @return the longitude
+     */
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    /**
+     * @param longitude the longitude to set
+     */
+    public void setLongitude(Double longitude) {
+        java.lang.Double oldLongitude = this.longitude;
+        this.longitude = longitude;
+        propertyChangeSupport.firePropertyChange(PROP_LONGITUDE, oldLongitude, longitude);
+    }
+
+    /**
+     * @return the width
+     */
+    public Integer getWidth() {
+        return width;
+    }
+
+    /**
+     * @param width the width to set
+     */
+    public void setWidth(Integer width) {
+        java.lang.Integer oldWidth = this.width;
+        this.width = width;
+        propertyChangeSupport.firePropertyChange(PROP_WIDTH, oldWidth, width);
+    }
+
+    /**
+     * @return the height
+     */
+    public Integer getHeight() {
+        return height;
+    }
+
+    /**
+     * @param height the height to set
+     */
+    public void setHeight(Integer height) {
+        java.lang.Integer oldHeight = this.height;
+        this.height = height;
+        propertyChangeSupport.firePropertyChange(PROP_HEIGHT, oldHeight, height);
+    }
+
+    /**
+     * @return the scale
+     */
+    public Integer getScale() {
+        return scale;
+    }
+
+    /**
+     * @param scale the scale to set
+     */
+    public void setScale(Integer scale) {
+        java.lang.Integer oldScale = this.scale;
+        this.scale = scale;
+        propertyChangeSupport.firePropertyChange(PROP_SCALE, oldScale, scale);
+    }
+
+    /**
+     * @return the zoom
+     */
+    public Integer getZoom() {
+        return zoom;
+    }
+
+    /**
+     * @param zoom the zoom to set
+     */
+    public void setZoom(Integer zoom) {
+        java.lang.Integer oldZoom = this.zoom;
+        this.zoom = zoom;
+        propertyChangeSupport.firePropertyChange(PROP_ZOOM, oldZoom, zoom);
+    }
+
+    /**
+     * @return the imageFormat
+     */
+    public String getImageFormat() {
+        return imageFormat;
+    }
+
+    /**
+     * @param imageFormat the imageFormat to set
+     */
+    public void setImageFormat(String imageFormat) {
+        java.lang.String oldImageFormat = this.imageFormat;
+        this.imageFormat = imageFormat;
+        propertyChangeSupport.firePropertyChange(PROP_IMAGEFORMAT, oldImageFormat, imageFormat);
+    }
+
+    /**
+     * @return the mapType
+     */
+    public String getMapType() {
+        return mapType;
+    }
+
+    /**
+     * @param mapType the mapType to set
+     */
+    public void setMapType(String mapType) {
+        java.lang.String oldMapType = this.mapType;
+        this.mapType = mapType;
+        propertyChangeSupport.firePropertyChange(PROP_MAPTYPE, oldMapType, mapType);
+    }
+
+    /**
+     * @return the createdDatetime
+     */
+    public Date getCreatedDatetime() {
+        return createdDatetime;
+    }
+
+    /**
+     * @param createdDatetime the createdDatetime to set
+     */
+    public void setCreatedDatetime(Date createdDatetime) {
+        java.util.Date oldCreatedDatetime = this.createdDatetime;
+        this.createdDatetime = createdDatetime;
+        propertyChangeSupport.firePropertyChange(PROP_CREATEDDATETIME, oldCreatedDatetime, createdDatetime);
+    }
+
+    /**
+     * @return the updatedDatetime
+     */
+    public Date getUpdatedDatetime() {
+        return updatedDatetime;
+    }
+
+    /**
+     * @param updatedDatetime the updatedDatetime to set
+     */
+    public void setUpdatedDatetime(Date updatedDatetime) {
+        java.util.Date oldUpdatedDatetime = this.updatedDatetime;
+        this.updatedDatetime = updatedDatetime;
+        propertyChangeSupport.firePropertyChange(PROP_UPDATEDDATETIME, oldUpdatedDatetime, updatedDatetime);
+    }
+
+    /**
+     * @return the directionMapCollection
+     */
+    public Collection<DirectionMap> getDirectionMapCollection() {
+        return directionMapCollection;
+    }
+
+    /**
+     * @param directionMapCollection the directionMapCollection to set
+     */
+    public void setDirectionMapCollection(Collection<DirectionMap> directionMapCollection) {
+        java.util.Collection<org.jw.service.entity.DirectionMap> oldDirectionMapCollection = this.directionMapCollection;
+        this.directionMapCollection = directionMapCollection;
+        propertyChangeSupport.firePropertyChange(PROP_DIRECTIONMAPCOLLECTION, oldDirectionMapCollection, directionMapCollection);
+    }
+
+    /**
+     * @return the saveState
+     */
+    @Override
+    public String getSaveState() {
+        return saveState;
+    }
+
+    /**
+     * @param saveState the saveState to set
+     */
+    @Override
+    public void setSaveState(String saveState) {
+        java.lang.String oldSaveState = this.saveState;
+        this.saveState = saveState;
+        propertyChangeSupport.firePropertyChange(PROP_SAVESTATE, oldSaveState, saveState);
+    }
+
+    public String getMarkerColor() {
+        return markerColor;
+    }
+
+    public void setMarkerColor(String markerColor) {
+        this.markerColor = markerColor;
+    }
+
+    public Contact getContactId() {
+        return contactId;
+    }
+
+    public void setContactId(Contact contactId) {
+        this.contactId = contactId;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
     }
     
 }
