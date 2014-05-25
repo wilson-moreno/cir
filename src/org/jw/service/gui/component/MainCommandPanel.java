@@ -41,6 +41,7 @@ public class MainCommandPanel extends javax.swing.JPanel {
         backupCommand = new javax.swing.JButton();
         searchCommand = new javax.swing.JButton();
         printCommand = new javax.swing.JButton();
+        proximityCommand = new javax.swing.JButton();
         reportsCommand = new javax.swing.JButton();
         serviceGroupComboBox = new javax.swing.JComboBox();
         separator = new javax.swing.JSeparator();
@@ -102,6 +103,12 @@ public class MainCommandPanel extends javax.swing.JPanel {
         printCommand.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         toolBar.add(printCommand);
 
+        proximityCommand.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.compass.icon.png"))); // NOI18N
+        proximityCommand.setText("Proximity");
+        proximityCommand.setFocusable(false);
+        proximityCommand.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        toolBar.add(proximityCommand);
+
         reportsCommand.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.report.print.icon.png"))); // NOI18N
         reportsCommand.setText("Reports");
         reportsCommand.setFocusable(false);
@@ -135,6 +142,7 @@ public class MainCommandPanel extends javax.swing.JPanel {
     private javax.swing.JButton exitCommand;
     private javax.swing.JButton newCommand;
     private javax.swing.JButton printCommand;
+    private javax.swing.JButton proximityCommand;
     private javax.swing.JButton refreshCommand;
     private javax.swing.JButton reportsCommand;
     private javax.swing.JButton saveCommand;

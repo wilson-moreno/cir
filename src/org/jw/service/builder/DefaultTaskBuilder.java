@@ -122,8 +122,11 @@ public class DefaultTaskBuilder<T> {
         refreshAction = new DefaultRefreshAction(crudPanel.getRefreshCommand(), dao, this.list, refreshTaskListener);
         
         selectionListener = DefaultListSelectionListener.create(list, table, saveAction, deleteAction);
-        listListener = DefaultObservableListListener.create(deleteAction, saveAction);
-
+        listListener = DefaultObservableListListener.create();
+        listListener.addEnableAdded(saveAction);
+        listListener.addDisableRemoved(saveAction);
+        listListener.addDisableRemoved(deleteAction);
+        
         table.getSelectionModel().addListSelectionListener(selectionListener);
         ((ObservableList)list).addObservableListListener(listListener);
         
@@ -176,6 +179,10 @@ public class DefaultTaskBuilder<T> {
 
     public DefaultSaveAction getSaveAction(){
         return this.saveAction;
+    }
+    
+    public DefaultObservableListListener getListListener(){
+        return this.listListener;
     }
     
     /**

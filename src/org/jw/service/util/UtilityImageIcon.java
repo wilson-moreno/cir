@@ -8,12 +8,15 @@ package org.jw.service.util;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
 
 /**
  *
@@ -55,6 +58,18 @@ public class UtilityImageIcon {
         g2.dispose();
         
         return new ImageIcon(destination);
+    }
+    
+    public ImageIcon fitImageToLabel(JLabel label, ImageIcon source){
+        int width = label.getWidth();
+        int height = label.getHeight();
+        int type = BufferedImage.TYPE_INT_ARGB;
+        BufferedImage target = new BufferedImage(width, height, type);
+        Graphics2D g2 = target.createGraphics();
+        g2.drawImage(source.getImage(), 0, 0, width, height, null);
+        g2.dispose();
+        
+        return new ImageIcon(target);
     }
     
     public ImageIcon getIcon(String iconName){

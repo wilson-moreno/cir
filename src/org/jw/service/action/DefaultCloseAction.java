@@ -18,6 +18,7 @@ import javax.swing.JButton;
 public class DefaultCloseAction<T> extends DependentAbstractAction{
     private final Window window;
     
+        
     public DefaultCloseAction(JButton command, Window window){
         super(command.getText(), command.getIcon());        
         this.window = window;

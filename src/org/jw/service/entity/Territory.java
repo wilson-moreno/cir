@@ -16,6 +16,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -40,6 +43,12 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Territory.findByCreatedDatetime", query = "SELECT t FROM Territory t WHERE t.createdDatetime = :createdDatetime"),
     @NamedQuery(name = "Territory.findByUpdatedDatetime", query = "SELECT t FROM Territory t WHERE t.updatedDatetime = :updatedDatetime")})
 public class Territory implements Serializable, ObservableEntity, SilentSetter {
+    @Lob
+    @Column(name = "MAP_IMAGE")
+    private byte[] mapImage;
+    @JoinColumn(name = "SERVICE_GROUP_ID", referencedColumnName = "ID")
+    @ManyToOne
+    private ServiceGroup serviceGroupId;
     private static final long serialVersionUID = 1L;
     public static final String PROP_ID = "id";
     public static final String PROP_NAME = "name";
@@ -237,6 +246,22 @@ public class Territory implements Serializable, ObservableEntity, SilentSetter {
             case "updatedDatetime" : this.updatedDatetime = (Date) value; break;
             default : throw new UnsupportedOperationException("Property not Supported: " + name);
         }
+    }
+
+    public byte[] getMapImage() {
+        return mapImage;
+    }
+
+    public void setMapImage(byte[] mapImage) {
+        this.mapImage = mapImage;
+    }
+
+    public ServiceGroup getServiceGroupId() {
+        return serviceGroupId;
+    }
+
+    public void setServiceGroupId(ServiceGroup serviceGroupId) {
+        this.serviceGroupId = serviceGroupId;
     }
     
 }

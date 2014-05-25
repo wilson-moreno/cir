@@ -35,7 +35,9 @@ import org.jw.service.listener.list.ContactObservableListListener;
 import org.jw.service.listener.selection.ContactListSelectionListener;
 import org.jw.service.listener.task.DefaultTaskListener;
 import org.jw.service.listener.tree.selection.DefaultTreeSelectionListener;
+import org.jw.service.util.UtilityDatabase;
 import org.jw.service.util.UtilityProperties;
+import org.jw.service.util.UtilityReportPrint;
 import org.jw.service.util.UtilityTable;
 import org.jw.service.util.UtilityTree;
 
@@ -148,6 +150,8 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         mapsToolBar = new javax.swing.JToolBar();
         openLocationMapCommand = new javax.swing.JButton();
         openDirectionMapCommand = new javax.swing.JButton();
+        relativesTab = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
         treeViewComboBox = new javax.swing.JComboBox();
         menuBar = new javax.swing.JMenuBar();
         systemMenu = new javax.swing.JMenu();
@@ -159,6 +163,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         meetingPlacesMenuItem = new javax.swing.JMenuItem();
         toolsMenu = new javax.swing.JMenu();
         reportTemplatesMenuItem = new javax.swing.JMenuItem();
+        proximityCheckerMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/jw/service/gui/resources/properties/dialog_titles"); // NOI18N
@@ -933,6 +938,38 @@ public final class ApplicationFrame extends javax.swing.JFrame {
 
         tabbedPane.addTab("Maps", mapsTab);
 
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Relatives", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 534, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 147, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout relativesTabLayout = new javax.swing.GroupLayout(relativesTab);
+        relativesTab.setLayout(relativesTabLayout);
+        relativesTabLayout.setHorizontalGroup(
+            relativesTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(relativesTabLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        relativesTabLayout.setVerticalGroup(
+            relativesTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(relativesTabLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        tabbedPane.addTab("Relatives", relativesTab);
+
         treeViewComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Service Group View", "Territory View", "Alphabetical View" }));
 
         systemMenu.setText("System");
@@ -967,6 +1004,9 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         reportTemplatesMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.report.templates.png"))); // NOI18N
         reportTemplatesMenuItem.setText("Reports Templates");
         toolsMenu.add(reportTemplatesMenuItem);
+
+        proximityCheckerMenuItem.setText("Proximity Checker");
+        toolsMenu.add(proximityCheckerMenuItem);
 
         menuBar.add(toolsMenu);
 
@@ -1030,15 +1070,19 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         treeConstructListener = taskMonitorPanel.createDefaultTaskListener(taskMessageProperties.getProperty("tree.construct.start.message"),taskMessageProperties.getProperty("tree.construct.done.message"));
         utilTree = UtilityTree.create(contactTree, serviceGroupDAO, treeConstructListener);        
         utilTable = UtilityTable.create(contactsTable, contactList);
+        utilDB = UtilityDatabase.create(em);
+        utilPrint = UtilityReportPrint.create(utilDB, this.taskMonitorPanel.createDefaultTaskListener("", ""));
         serviceGroupDialog = new ServiceGroupDialog(this, true, em, this.sgListListener, utilTree);
         contactStatusDialog = new ContactStatusDialog(this, true, em, this.statusListListener);
         locationMapDialog = new LocationMapDialog(this, true, em, utilTable);
+        directionMapDialog = new DirectionMapDialog(this, true);
         contactCallsDialog = new ContactCallsDialog(this, true, em);
         appsReportDialog = new AppsReportTemplateDialog(this, true, em);
         reportPrintDialog = new ReportPrintDialog(this, true, em);
         territoryDialog = new TerritoryDialog(this, true);
         congregationDialog = new CongregationDialog(this, true, em);
         meetingPlaceDialog = new MeetingPlaceDialog(this, true, em);
+        proximityMapDialog = new ProximityMapDialog(this, true);
         openServiceGroupAction = new DefaultOpenAction(serviceGroupsMenuItem,this,serviceGroupDialog, null);        
         openContactStatusAction = new DefaultOpenAction(contactStatusMenuItem,this,contactStatusDialog, null);        
         openLocationMapAction = new DefaultOpenAction(openLocationMapCommand,this,locationMapDialog, null);        
@@ -1050,7 +1094,8 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         openCongregationAction = new DefaultOpenAction(this.congregationMenuItem, this, congregationDialog, null);
         openMeetingPlaceAction = new DefaultOpenAction(this.meetingPlacesMenuItem, this, meetingPlaceDialog, null);
         fcOpenAction = new DefaultFileChooserOpenAction(this.setProfilePictureCommand, this, FileFilterImage.create(), null);        
-        contactPrintAction = new DefaultContactPrintAction(this.mainCommandPanel.getPrintCommand());        
+        openProximityMapAction = new DefaultOpenAction(this.proximityCheckerMenuItem, this, proximityMapDialog, null);
+        contactPrintAction = new DefaultContactPrintAction(this.mainCommandPanel.getPrintCommand(), utilTable, utilPrint);        
         
         openContactCallsAction.setEnabled(false);
         contactPrintAction.setEnabled(false);       
@@ -1087,18 +1132,30 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         treeSelectionListener = new DefaultTreeSelectionListener(this.utilTree, this.utilTable);
         contactTree.addTreeSelectionListener(treeSelectionListener);
         
-        ContactObservableListListener contactObservableListListener = ContactObservableListListener.create();
-        contactObservableListListener.addAction(openContactCallsAction);
-        contactObservableListListener.addAction(contactPrintAction);
-        contactObservableListListener.addAction(openLocationMapAction);
-        contactObservableListListener.addAction(openDirectionMapAction);
+        //ContactObservableListListener contactObservableListListener = ContactObservableListListener.create();
+        //contactObservableListListener.addAction(openContactCallsAction);
+        //contactObservableListListener.addAction(contactPrintAction);
+        //contactObservableListListener.addAction(openLocationMapAction);
+        //contactObservableListListener.addAction(openDirectionMapAction);
         ContactListSelectionListener contactListSelectionListener = ContactListSelectionListener.create();
         contactListSelectionListener.addAction(openContactCallsAction);
         contactListSelectionListener.addAction(contactPrintAction);
         contactListSelectionListener.addAction(openLocationMapAction);
         contactListSelectionListener.addAction(openDirectionMapAction);                
-        contactObservableList.addObservableListListener(contactObservableListListener);
+        //contactObservableList.addObservableListListener(contactObservableListListener);
         contactsTable.getSelectionModel().addListSelectionListener(contactListSelectionListener);
+        
+        
+        taskBuilder.getListListener().addEnableAdded(openContactCallsAction);
+        taskBuilder.getListListener().addEnableAdded(contactPrintAction);
+        taskBuilder.getListListener().addEnableAdded(openLocationMapAction);
+        taskBuilder.getListListener().addEnableAdded(openDirectionMapAction);
+        taskBuilder.getListListener().addDisableRemoved(openContactCallsAction);
+        taskBuilder.getListListener().addDisableRemoved(contactPrintAction);
+        taskBuilder.getListListener().addDisableRemoved(openLocationMapAction);
+        taskBuilder.getListListener().addDisableRemoved(openDirectionMapAction);
+        
+        
         
         // Set Dependencies
         RecordNumberPreDependency recordNumberPreDependency = new RecordNumberPreDependency(this, serviceGroupDAO, this.mainCommandPanel.getServiceGroupComboBox());        
@@ -1160,6 +1217,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     private javax.swing.JTextField guardiansNameTextField;
     private javax.swing.JLabel houseNumberLabel;
     private javax.swing.JTextField houseNumberTextField;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lastNameLabel;
     private javax.swing.JTextField lastNameTextField;
     private org.jw.service.gui.component.MainCommandPanel mainCommandPanel;
@@ -1189,10 +1247,12 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     private javax.swing.JTextField phoneNumberTextField;
     private javax.swing.JLabel profilePictureLabel;
     private javax.swing.JPanel profilePicturePanel;
+    private javax.swing.JMenuItem proximityCheckerMenuItem;
     private com.toedter.calendar.JDateChooser recordDateChooser;
     private javax.swing.JLabel recordDateLabel;
     private javax.swing.JLabel recordNumberLabel;
     private javax.swing.JTextField recordNumberTextField;
+    private javax.swing.JPanel relativesTab;
     private javax.swing.JLabel religionLabel;
     private javax.swing.JTextField religionTextField;
     private javax.swing.JMenuItem reportTemplatesMenuItem;
@@ -1234,6 +1294,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     TerritoryDialog territoryDialog;    
     CongregationDialog congregationDialog;
     MeetingPlaceDialog meetingPlaceDialog;
+    ProximityMapDialog proximityMapDialog;
     DefaultOpenAction openServiceGroupAction;
     DefaultOpenAction openContactStatusAction;
     DefaultOpenAction openLocationMapAction;    
@@ -1244,6 +1305,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     DefaultOpenAction openTerritoryAction;
     DefaultOpenAction openCongregationAction;
     DefaultOpenAction openMeetingPlaceAction;
+    DefaultOpenAction openProximityMapAction;
     DefaultContactPrintAction contactPrintAction;
     DataAccessObject<Contact> contactDAO;
     DataAccessObject<ContactStatus> statusDAO;
@@ -1256,6 +1318,8 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     UtilityProperties taskMessageProperties = UtilityProperties.create(UtilityProperties.TASK_MESSAGE_PROPERTIES);            
     UtilityTree utilTree;
     UtilityTable utilTable;    
+    UtilityReportPrint utilPrint;
+    UtilityDatabase utilDB;
     DefaultCloseAction<Contact> closeAction;
     DefaultNewAction<Contact> newAction;
     DefaultDeleteAction<Contact> deleteAction;

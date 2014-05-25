@@ -37,11 +37,11 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="taskMonitorPanel1" alignment="0" pref="425" max="32767" attributes="0"/>
+          <Component id="taskMonitorPanel1" alignment="0" pref="0" max="32767" attributes="0"/>
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="defaultCrudPanel1" pref="405" max="32767" attributes="0"/>
+                  <Component id="defaultCrudPanel1" pref="0" max="32767" attributes="0"/>
                   <Component id="territoryListPanel" max="32767" attributes="0"/>
                   <Component id="territoryPanel" max="32767" attributes="0"/>
               </Group>
@@ -53,9 +53,9 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="territoryPanel" min="-2" max="-2" attributes="0"/>
+              <Component id="territoryPanel" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="territoryListPanel" max="32767" attributes="0"/>
+              <Component id="territoryListPanel" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="defaultCrudPanel1" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
@@ -87,13 +87,19 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
+                          <Component id="serviceGroupLabel" linkSize="1" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="serviceGroupComboBox" max="32767" attributes="0"/>
+                      </Group>
+                      <Group type="102" attributes="0">
                           <Component id="territoryNameLabel" linkSize="1" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="nameTextField" pref="249" max="32767" attributes="0"/>
+                          <Component id="nameTextField" min="-2" pref="249" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="enableCheckBox" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
-                      <Group type="102" alignment="0" attributes="0">
+                      <Group type="102" attributes="0">
                           <Component id="descriptionLabel" linkSize="1" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="descriptionTextField" max="32767" attributes="0"/>
@@ -116,6 +122,11 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="descriptionLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="descriptionTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="serviceGroupLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="serviceGroupComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -154,6 +165,18 @@
           <BindingProperties>
             <BindingProperty name="selected" source="territoryTable" sourcePath="${selectedElement.enable}" target="enableCheckBox" targetPath="selected" updateStrategy="0" immediately="false"/>
           </BindingProperties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="serviceGroupLabel">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Service Group:"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JComboBox" name="serviceGroupComboBox">
+          <Properties>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="0"/>
+            </Property>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>
@@ -222,6 +245,11 @@
                       <Editor/>
                       <Renderer/>
                     </Column>
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                      <Title/>
+                      <Editor/>
+                      <Renderer/>
+                    </Column>
                   </TableColumnModel>
                 </Property>
                 <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
@@ -243,6 +271,11 @@
                   <Subbinding sourcePath="${description}">
                     <BindingParameter name="NAME" value="Description"/>
                     <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
+                    <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
+                  </Subbinding>
+                  <Subbinding sourcePath="${serviceGroupId}">
+                    <BindingParameter name="NAME" value="Service Group"/>
+                    <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="org.jw.service.entity.ServiceGroup.class"/>
                     <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
                   </Subbinding>
                   <Subbinding sourcePath="${enable}">

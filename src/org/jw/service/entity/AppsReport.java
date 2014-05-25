@@ -109,6 +109,7 @@ public class AppsReport implements Serializable, ObservableEntity, SilentSetter 
         this.createdDatetime = new Date();
         this.description = "";
         this.enable = true;
+        this.visible = true;
         this.fileCreatedDatetime = null;
         this.fileJasper = null;
         this.fileModifiedDatetime = null;
@@ -117,6 +118,7 @@ public class AppsReport implements Serializable, ObservableEntity, SilentSetter 
         this.query = "";
         this.reportDate = new Date();
         this.updatedDatetime = new Date();
+        this.saveState = "*";
     }
 
     public AppsReport(Integer id) {

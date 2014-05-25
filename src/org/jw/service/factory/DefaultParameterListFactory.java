@@ -46,9 +46,9 @@ public class DefaultParameterListFactory {
         Object newValue;
         
         switch(dataType){
-            case "String" : newValue = value;
-            case "Integer" : newValue = Integer.parseInt(value);
-            case "Doulbe" : newValue = Double.parseDouble(value);
+            case "String" : newValue = value; break;
+            case "Integer" : newValue = Integer.parseInt(value); break;
+            case "Doulbe" : newValue = Double.parseDouble(value); break;
             default : newValue = value;
         }
         

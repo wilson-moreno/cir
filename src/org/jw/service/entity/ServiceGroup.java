@@ -28,6 +28,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -48,6 +49,11 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ServiceGroup.findByCreatedDatetime", query = "SELECT s FROM ServiceGroup s WHERE s.createdDatetime = :createdDatetime"),
     @NamedQuery(name = "ServiceGroup.findByUpdatedDatetime", query = "SELECT s FROM ServiceGroup s WHERE s.updatedDatetime = :updatedDatetime")})
 public class ServiceGroup implements Serializable, ObservableEntity, SilentSetter, Comparable<ServiceGroup> {
+    @Lob
+    @Column(name = "ICON")
+    private byte[] icon;
+    @OneToMany(mappedBy = "serviceGroupId")
+    private Collection<Territory> territoryCollection;
     private static final long serialVersionUID = 1L;
     public static final String PROP_SAVESTATE = "saveState";
     @Id
@@ -67,9 +73,6 @@ public class ServiceGroup implements Serializable, ObservableEntity, SilentSette
     private Integer startNumber;
     @Column(name = "NEXT_NUMBER")
     private Integer nextNumber;
-    @Lob
-    @Column(name = "ICON")
-    private byte[] icon;
     @Column(name = "CREATED_DATETIME")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDatetime;
@@ -216,22 +219,6 @@ public class ServiceGroup implements Serializable, ObservableEntity, SilentSette
         java.lang.Integer oldNextNumber = this.nextNumber;
         this.nextNumber = nextNumber;
         propertyChangeSupport.firePropertyChange(PROP_NEXTNUMBER, oldNextNumber, nextNumber);
-    }
-
-    /**
-     * @return the icon
-     */
-    public byte[] getIcon() {
-        return icon;
-    }
-
-    /**
-     * @param icon the icon to set
-     */
-    public void setIcon(byte[] icon) {
-        byte[] oldIcon = this.icon;
-        this.icon = icon;
-        propertyChangeSupport.firePropertyChange(PROP_ICON, oldIcon, icon);
     }
 
     /**
@@ -412,5 +399,22 @@ public class ServiceGroup implements Serializable, ObservableEntity, SilentSette
     @Override
     public int compareTo(ServiceGroup t) {
         return this.toString().compareTo(t.toString());
+    }
+
+    public byte[] getIcon() {
+        return icon;
+    }
+
+    public void setIcon(byte[] icon) {
+        this.icon = icon;
+    }
+
+    @XmlTransient
+    public Collection<Territory> getTerritoryCollection() {
+        return territoryCollection;
+    }
+
+    public void setTerritoryCollection(Collection<Territory> territoryCollection) {
+        this.territoryCollection = territoryCollection;
     }
 }

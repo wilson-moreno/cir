@@ -56,11 +56,11 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="taskMonitorPanel" alignment="0" pref="0" max="32767" attributes="0"/>
+          <Component id="taskMonitorPanel" alignment="0" max="32767" attributes="0"/>
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="mapCrudPanel" alignment="1" pref="629" max="32767" attributes="0"/>
+                  <Component id="mapCrudPanel" alignment="1" max="32767" attributes="0"/>
                   <Component id="contactInfoPanel" alignment="0" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="mapImagePanel" max="32767" attributes="0"/>
@@ -79,8 +79,8 @@
               <Component id="contactInfoPanel" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="mapImagePanel" max="32767" attributes="0"/>
                   <Component id="locationMapPanel" max="32767" attributes="0"/>
+                  <Component id="mapImagePanel" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="mapCrudPanel" min="-2" max="-2" attributes="0"/>
@@ -111,7 +111,7 @@
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder title="Location Map Properties">
+            <TitledBorder title="Properties">
               <ResourceString PropertyName="titleX" bundle="org/jw/service/gui/resources/properties/location_map_dialog.properties" key="location.map.propties.panel.title" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
               <Font PropertyName="font" name="Tahoma" size="11" style="1"/>
             </TitledBorder>
@@ -220,7 +220,7 @@
                       <Component id="imageFormatLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="imageFormatComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="111" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -371,7 +371,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="mapImageScrollPane" max="32767" attributes="0"/>
+                  <Component id="mapImageLabel" min="-2" pref="353" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -380,32 +380,29 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="mapImageScrollPane" max="32767" attributes="0"/>
+                  <Component id="mapImageLabel" min="-2" pref="353" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Container class="javax.swing.JScrollPane" name="mapImageScrollPane">
+        <Component class="javax.swing.JLabel" name="mapImageLabel">
           <Properties>
-            <Property name="horizontalScrollBarPolicy" type="int" value="32"/>
-            <Property name="verticalScrollBarPolicy" type="int" value="22"/>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="org.netbeans.modules.form.compat2.border.BevelBorderInfo">
+                <BevelBorder bevelType="1"/>
+              </Border>
+            </Property>
           </Properties>
-
-          <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-          <SubComponents>
-            <Component class="javax.swing.JLabel" name="mapImageLabel">
-              <BindingProperties>
-                <BindingProperty name="icon" source="mapSource" sourcePath="${image}" target="mapImageLabel" targetPath="icon" updateStrategy="0" immediately="false">
-                  <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                    <Connection code="org.jw.service.beansbinding.converter.ByteToImageConverter.create()" type="code"/>
-                  </Property>
-                </BindingProperty>
-              </BindingProperties>
-            </Component>
-          </SubComponents>
-        </Container>
+          <BindingProperties>
+            <BindingProperty name="icon" source="mapSource" sourcePath="${image}" target="mapImageLabel" targetPath="icon" updateStrategy="0" immediately="false">
+              <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                <Connection code="org.jw.service.beansbinding.converter.ByteToImageConverter.create(mapImageLabel)" type="code"/>
+              </Property>
+            </BindingProperty>
+          </BindingProperties>
+        </Component>
       </SubComponents>
     </Container>
     <Component class="org.jw.service.gui.component.MapCrudPanel" name="mapCrudPanel">

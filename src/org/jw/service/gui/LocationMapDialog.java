@@ -11,6 +11,7 @@ import javax.persistence.EntityManager;
 import org.jw.service.action.DefaultCloseAction;
 import org.jw.service.action.DefaultDownloadMapAction;
 import org.jw.service.action.DefaultSingleSaveAction;
+import org.jw.service.action.dependency.DownloadMapPreDependency;
 import org.jw.service.dao.DataAccessObject;
 import org.jw.service.entity.Contact;
 import org.jw.service.entity.EntityIO;
@@ -32,6 +33,7 @@ public class LocationMapDialog extends javax.swing.JDialog {
     private Contact contactTarget;
     private final EntityIO<LocationMap> mapIO;
     private final EntityIO<Contact> contactIO;
+    private final UtilityDownload utilDownload;
     
     /**
      * Creates new form LocationMapDialog
@@ -43,6 +45,7 @@ public class LocationMapDialog extends javax.swing.JDialog {
     public LocationMapDialog(java.awt.Frame parent, boolean modal, EntityManager em, UtilityTable<Contact> utilTable) {
         super(parent, modal);
         this.utilTable = utilTable;                
+        this.utilDownload = UtilityDownload.create();
         this.mapDAO = DataAccessObject.create(em, LocationMap.class);        
         this.contactDAO = DataAccessObject.create(em, Contact.class);    
         this.contactIO = EntityIO.create(Contact.class);
@@ -53,10 +56,14 @@ public class LocationMapDialog extends javax.swing.JDialog {
     
     private void initMyComponents(){
         DefaultTaskListener mapDownloadListener = this.taskMonitorPanel.createDefaultTaskListener(utilProperties.getProperty("map.download.start.message"), utilProperties.getProperty("map.download.done.message"));
+        DefaultTaskListener connectionCheckListener = this.taskMonitorPanel.createDefaultTaskListener("Checking for internet connection...", "Checking connection finished...");
         
         closeAction = new DefaultCloseAction(this.mapCrudPanel.getCloseCommand(), this);
         saveAction = new DefaultSingleSaveAction(this.mapCrudPanel.getSaveCommand(), mapDAO, mapIO);
-        downloadMapAction = new DefaultDownloadMapAction(this.mapCrudPanel.getDownlaodCommand(),mapImageLabel, mapIO, UtilityDownload.create(), mapDownloadListener);        
+        downloadMapAction = new DefaultDownloadMapAction(this.mapCrudPanel.getDownlaodCommand(),mapImageLabel, mapIO,utilDownload, mapDownloadListener);        
+        
+        downloadMapPreDependency = new DownloadMapPreDependency(this, utilDownload, connectionCheckListener);
+        downloadMapAction.addPreActionCommands("downloadMapPreDependency", downloadMapPreDependency);
     }
     
     
@@ -100,7 +107,6 @@ public class LocationMapDialog extends javax.swing.JDialog {
         markerColorLabel = new javax.swing.JLabel();
         markerColorsComboBox = new javax.swing.JComboBox();
         mapImagePanel = new javax.swing.JPanel();
-        mapImageScrollPane = new javax.swing.JScrollPane();
         mapImageLabel = new javax.swing.JLabel();
         mapCrudPanel = new org.jw.service.gui.component.MapCrudPanel();
 
@@ -288,19 +294,16 @@ public class LocationMapDialog extends javax.swing.JDialog {
                 .addGroup(locationMapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(imageFormatLabel)
                     .addComponent(imageFormatComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(111, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         mapImagePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, bundle1.getString("location.map.image.panel"), javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
-        mapImageScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-        mapImageScrollPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        mapImageLabel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, mapSource, org.jdesktop.beansbinding.ELProperty.create("${image}"), mapImageLabel, org.jdesktop.beansbinding.BeanProperty.create("icon"));
-        binding.setConverter(org.jw.service.beansbinding.converter.ByteToImageConverter.create());
+        binding.setConverter(org.jw.service.beansbinding.converter.ByteToImageConverter.create(mapImageLabel));
         bindingGroup.addBinding(binding);
-
-        mapImageScrollPane.setViewportView(mapImageLabel);
 
         javax.swing.GroupLayout mapImagePanelLayout = new javax.swing.GroupLayout(mapImagePanel);
         mapImagePanel.setLayout(mapImagePanelLayout);
@@ -308,14 +311,14 @@ public class LocationMapDialog extends javax.swing.JDialog {
             mapImagePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mapImagePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(mapImageScrollPane)
+                .addComponent(mapImageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         mapImagePanelLayout.setVerticalGroup(
             mapImagePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mapImagePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(mapImageScrollPane)
+                .addComponent(mapImageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -323,11 +326,11 @@ public class LocationMapDialog extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(taskMonitorPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addComponent(taskMonitorPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(mapCrudPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 629, Short.MAX_VALUE)
+                    .addComponent(mapCrudPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(contactInfoPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(mapImagePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -342,8 +345,8 @@ public class LocationMapDialog extends javax.swing.JDialog {
                 .addComponent(contactInfoPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(mapImagePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(locationMapPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(locationMapPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(mapImagePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(mapCrudPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -405,7 +408,6 @@ public class LocationMapDialog extends javax.swing.JDialog {
     private javax.swing.JTextField mapHeightTextField;
     private javax.swing.JLabel mapImageLabel;
     private javax.swing.JPanel mapImagePanel;
-    private javax.swing.JScrollPane mapImageScrollPane;
     private org.jw.service.entity.LocationMap mapSource;
     private javax.swing.JComboBox mapTypeComboBox;
     private javax.swing.JLabel mapTypeLabel;
@@ -429,4 +431,5 @@ public class LocationMapDialog extends javax.swing.JDialog {
     DefaultSingleSaveAction<LocationMap> saveMapAction;
     DefaultCloseAction<LocationMap> closeAction;
     DefaultSingleSaveAction<LocationMap> saveAction;
+    DownloadMapPreDependency downloadMapPreDependency;
 }

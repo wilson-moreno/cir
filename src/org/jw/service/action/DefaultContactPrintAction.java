@@ -7,23 +7,29 @@
 package org.jw.service.action;
 
 import java.awt.event.ActionEvent;
-import javax.swing.Icon;
 import javax.swing.JButton;
+import org.jw.service.util.UtilityReportPrint;
+import org.jw.service.util.UtilityTable;
 
 /**
  *
  * @author Wilson
  */
 public class DefaultContactPrintAction extends DependentAbstractAction{
-
-    public DefaultContactPrintAction(JButton command) {
+    private final UtilityTable utilTable;
+    private final UtilityReportPrint utilPrint;
+    
+    public DefaultContactPrintAction(JButton command, UtilityTable utilTable, UtilityReportPrint utilPrint) {
         super(command.getText(), command.getIcon());
+        this.utilTable = utilTable;
+        this.utilPrint = utilPrint;
         command.setAction(this);
     }
 
     @Override
     public boolean mainActionPerformed(ActionEvent ae) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        return true;
     }
     
 }

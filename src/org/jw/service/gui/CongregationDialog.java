@@ -8,6 +8,7 @@ package org.jw.service.gui;
 
 import java.util.Date;
 import javax.persistence.EntityManager;
+import org.jw.service.action.DefaultCloseAction;
 import org.jw.service.action.DefaultSingleSaveAction;
 import org.jw.service.dao.DataAccessObject;
 import org.jw.service.entity.Congregation;
@@ -19,7 +20,7 @@ import org.jw.service.entity.EntityIO;
  */
 public class CongregationDialog extends javax.swing.JDialog {
     private final DataAccessObject<Congregation> dao;
-   
+    private Congregation target;
     
     /**
      * Creates new form CongregationDialog
@@ -33,10 +34,11 @@ public class CongregationDialog extends javax.swing.JDialog {
     }
 
     private void initMyComponents(){
-        Congregation entityCongregation = getCongregation();    
-        EntityIO<Congregation> entityIO = EntityIO.create(congregation, entityCongregation, Congregation.class);
+        target = getCongregation();    
+        EntityIO<Congregation> entityIO = EntityIO.create(source, target, Congregation.class);
         entityIO.read();
         saveAction = new DefaultSingleSaveAction(this.singleRecordCrudPanel.getSaveCommand(), dao, entityIO);
+        closeAction = new DefaultCloseAction(this.singleRecordCrudPanel.getCloseCommand(), this);
     }
     
     private Congregation getCongregation(){
@@ -55,7 +57,7 @@ public class CongregationDialog extends javax.swing.JDialog {
     private void initComponents() {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        congregation = new org.jw.service.entity.Congregation();
+        source = new org.jw.service.entity.Congregation();
         congregationPanel = new javax.swing.JPanel();
         nameLabel = new javax.swing.JLabel();
         address1Label = new javax.swing.JLabel();
@@ -88,22 +90,22 @@ public class CongregationDialog extends javax.swing.JDialog {
 
         longitudeLabel.setText("Longitude:");
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, congregation, org.jdesktop.beansbinding.ELProperty.create("${name}"), nameTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, source, org.jdesktop.beansbinding.ELProperty.create("${name}"), nameTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, congregation, org.jdesktop.beansbinding.ELProperty.create("${address1}"), address1TextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, source, org.jdesktop.beansbinding.ELProperty.create("${address1}"), address1TextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, congregation, org.jdesktop.beansbinding.ELProperty.create("${address2}"), address2TextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, source, org.jdesktop.beansbinding.ELProperty.create("${address2}"), address2TextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, congregation, org.jdesktop.beansbinding.ELProperty.create("${city}"), cityTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, source, org.jdesktop.beansbinding.ELProperty.create("${city}"), cityTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, congregation, org.jdesktop.beansbinding.ELProperty.create("${latitude}"), latitudeTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, source, org.jdesktop.beansbinding.ELProperty.create("${latitude}"), latitudeTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, congregation, org.jdesktop.beansbinding.ELProperty.create("${longitude}"), longitudeTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, source, org.jdesktop.beansbinding.ELProperty.create("${longitude}"), longitudeTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         javax.swing.GroupLayout congregationPanelLayout = new javax.swing.GroupLayout(congregationPanel);
@@ -214,7 +216,6 @@ public class CongregationDialog extends javax.swing.JDialog {
     private javax.swing.JTextField address2TextField;
     private javax.swing.JLabel cityLabel;
     private javax.swing.JTextField cityTextField;
-    private org.jw.service.entity.Congregation congregation;
     private javax.swing.JPanel congregationPanel;
     private javax.swing.JLabel latitudeLabel;
     private javax.swing.JTextField latitudeTextField;
@@ -223,9 +224,11 @@ public class CongregationDialog extends javax.swing.JDialog {
     private javax.swing.JLabel nameLabel;
     private javax.swing.JTextField nameTextField;
     private org.jw.service.gui.component.SingleRecordCrudPanel singleRecordCrudPanel;
+    private org.jw.service.entity.Congregation source;
     private org.jw.service.gui.component.TaskMonitorPanel taskMonitorPanel;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
     DefaultSingleSaveAction<Congregation> saveAction;
+    DefaultCloseAction closeAction;
 }

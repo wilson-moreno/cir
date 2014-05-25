@@ -6,6 +6,7 @@
 
 package org.jw.service.listener.list;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.AbstractAction;
 import org.jdesktop.observablecollections.ObservableList;
@@ -16,27 +17,28 @@ import org.jdesktop.observablecollections.ObservableListListener;
  * @author Wilson
  */
 public class DefaultObservableListListener implements ObservableListListener{
-
-    public static DefaultObservableListListener create(AbstractAction deleteAction, AbstractAction saveAction) {
-        return new DefaultObservableListListener(deleteAction, saveAction);
-    }
-    private final AbstractAction deleteAction;
-    private final AbstractAction saveAction;
+    private final List<AbstractAction> addedEnable = new ArrayList<>();
+    private final List<AbstractAction> addedDisable = new ArrayList<>();
+    private final List<AbstractAction> removedEnable = new ArrayList<>();
+    private final List<AbstractAction> removedDisable = new ArrayList<>();
     
-    private DefaultObservableListListener(AbstractAction deleteAction, AbstractAction saveAction){
-        this.deleteAction = deleteAction;
-        this.saveAction = saveAction;
-    }
+    public static DefaultObservableListListener create() {
+        return new DefaultObservableListListener();
+    }    
+    
+    private DefaultObservableListListener(){}
     
     @Override
     public void listElementsAdded(ObservableList list, int index, int length) {
-        saveAction.setEnabled(false);
+        enableAdded();
+        disableAdded();
+        //saveAction.setEnabled(false);
     }
 
     @Override
     public void listElementsRemoved(ObservableList list, int index, List oldElements) {
-        saveAction.setEnabled(false);
-        deleteAction.setEnabled(false);
+        enableRemoved();
+        disableRemoved();        
     }
 
     @Override
@@ -47,6 +49,42 @@ public class DefaultObservableListListener implements ObservableListListener{
     @Override
     public void listElementPropertyChanged(ObservableList list, int index) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    public void addEnableAdded(AbstractAction action){
+        addedEnable.add(action);        
+    }
+    
+    public void addDisableAdded(AbstractAction action){
+        addedDisable.add(action);        
+    }
+    
+    public void addEnableRemoved(AbstractAction action){
+        removedEnable.add(action);        
+    }
+    
+    public void addDisableRemoved(AbstractAction action){
+        removedDisable.add(action);        
+    }
+ 
+    private void enableAdded(){
+        for(AbstractAction action : addedEnable)
+            action.setEnabled(true);
+    }
+    
+    private void disableAdded(){
+        for(AbstractAction action : addedDisable)
+            action.setEnabled(false);
+    }
+    
+    private void enableRemoved(){
+        for(AbstractAction action : removedEnable)
+            action.setEnabled(true);
+    }
+    
+    private void disableRemoved(){
+        for(AbstractAction action : removedDisable)
+            action.setEnabled(false);
     }
     
 }

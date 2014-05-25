@@ -101,6 +101,7 @@ public class AppsReportParameter implements Serializable, ObservableEntity, Sile
         this.defaultValue = "";
         this.dataType = "String";
         this.enable = Boolean.TRUE;
+        this.required = Boolean.TRUE;
     }
 
     public AppsReportParameter(Integer id) {

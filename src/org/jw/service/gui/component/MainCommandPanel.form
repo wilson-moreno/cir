@@ -130,6 +130,16 @@
             <Property name="horizontalTextPosition" type="int" value="4"/>
           </Properties>
         </Component>
+        <Component class="javax.swing.JButton" name="proximityCommand">
+          <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/org/jw/service/gui/resources/icon/default.compass.icon.png"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Proximity"/>
+            <Property name="focusable" type="boolean" value="false"/>
+            <Property name="horizontalTextPosition" type="int" value="4"/>
+          </Properties>
+        </Component>
         <Component class="javax.swing.JButton" name="reportsCommand">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">

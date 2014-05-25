@@ -13,6 +13,7 @@ import org.jw.service.entity.EntityIO;
 import org.jw.service.entity.LocationMap;
 import org.jw.service.listener.task.DefaultTaskListener;
 import org.jw.service.util.UtilityDownload;
+import org.jw.service.util.UtilityImageIcon;
 
 /**
  *
@@ -22,6 +23,7 @@ public class DefaultMapDownloadWorker extends SwingWorker<ImageIcon, String> {
     public final UtilityDownload utilDownload;
     public final EntityIO<LocationMap> mapIO;
     public final JLabel label;
+    public final UtilityImageIcon utilImage;
     
     public DefaultMapDownloadWorker(JLabel label,
                                     UtilityDownload utilDownload,
@@ -29,6 +31,7 @@ public class DefaultMapDownloadWorker extends SwingWorker<ImageIcon, String> {
                                     DefaultTaskListener listener){
         this.label = label;
         this.utilDownload = utilDownload;
+        this.utilImage = UtilityImageIcon.create();
         this.mapIO = mapIO;
         this.addPropertyChangeListener(listener);
     }
@@ -37,7 +40,8 @@ public class DefaultMapDownloadWorker extends SwingWorker<ImageIcon, String> {
     protected ImageIcon doInBackground() throws Exception {
         mapIO.write();
         String url = utilDownload.createUrl(mapIO.getTarget());
-        label.setIcon(utilDownload.downloadMap(url));
+        byte[] imageBytes = utilDownload.downloadMapAsBytes(url);
+        mapIO.getSource().setImage(imageBytes);
         return null;
     }
     

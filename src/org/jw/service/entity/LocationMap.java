@@ -110,12 +110,12 @@ public class LocationMap implements Serializable, ObservableEntity, SilentSetter
     private final transient PropertyChangeSupport propertyChangeSupport = new java.beans.PropertyChangeSupport(this);
 
     public LocationMap() {
-        this.scale = 4;
+        this.scale = 1;
         this.zoom = 16;
         this.mapType = "roadmap";
         this.imageFormat = "jpeg";
-        this.width = 400;
-        this.height = 400;
+        this.width = 353;
+        this.height = 353;
         this.saveState = "";
         this.createdDatetime = new Date();
         this.updatedDatetime = new Date();
