@@ -22,6 +22,9 @@
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
     <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
   </SyntheticProperties>
+  <Events>
+    <EventHandler event="windowActivated" listener="java.awt.event.WindowListener" parameters="java.awt.event.WindowEvent" handler="formWindowActivated"/>
+  </Events>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
@@ -37,11 +40,11 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="taskMonitorPanel1" alignment="0" pref="0" max="32767" attributes="0"/>
+          <Component id="taskMonitorPanel" alignment="0" pref="0" max="32767" attributes="0"/>
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="defaultCrudPanel1" pref="0" max="32767" attributes="0"/>
+                  <Component id="crudPanel" pref="0" max="32767" attributes="0"/>
                   <Component id="territoryListPanel" max="32767" attributes="0"/>
                   <Component id="territoryPanel" max="32767" attributes="0"/>
               </Group>
@@ -57,17 +60,17 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="territoryListPanel" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="defaultCrudPanel1" min="-2" max="-2" attributes="0"/>
+              <Component id="crudPanel" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="taskMonitorPanel1" min="-2" max="-2" attributes="0"/>
+              <Component id="taskMonitorPanel" min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="org.jw.service.gui.component.TaskMonitorPanel" name="taskMonitorPanel1">
+    <Component class="org.jw.service.gui.component.TaskMonitorPanel" name="taskMonitorPanel">
     </Component>
-    <Component class="org.jw.service.gui.component.MultipleRecordCrudPanel" name="defaultCrudPanel1">
+    <Component class="org.jw.service.gui.component.MultipleRecordCrudPanel" name="crudPanel">
     </Component>
     <Container class="javax.swing.JPanel" name="territoryPanel">
       <Properties>
@@ -148,6 +151,8 @@
           <BindingProperties>
             <BindingProperty name="text" source="territoryTable" sourcePath="${selectedElement.name}" target="nameTextField" targetPath="text" updateStrategy="0" immediately="false">
               <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+              <Property name="nullValue" type="java.lang.String" value="null"/>
+              <Property name="incompletePathValue" type="java.lang.String" value="null"/>
             </BindingProperty>
           </BindingProperties>
         </Component>
@@ -155,6 +160,8 @@
           <BindingProperties>
             <BindingProperty name="text" source="territoryTable" sourcePath="${selectedElement.description}" target="descriptionTextField" targetPath="text" updateStrategy="0" immediately="false">
               <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+              <Property name="nullValue" type="java.lang.String" value="null"/>
+              <Property name="incompletePathValue" type="java.lang.String" value="null"/>
             </BindingProperty>
           </BindingProperties>
         </Component>
@@ -163,7 +170,10 @@
             <Property name="text" type="java.lang.String" value="Enable"/>
           </Properties>
           <BindingProperties>
-            <BindingProperty name="selected" source="territoryTable" sourcePath="${selectedElement.enable}" target="enableCheckBox" targetPath="selected" updateStrategy="0" immediately="false"/>
+            <BindingProperty name="selected" source="territoryTable" sourcePath="${selectedElement.enable}" target="enableCheckBox" targetPath="selected" updateStrategy="0" immediately="false">
+              <Property name="nullValue" type="boolean" value="false"/>
+              <Property name="incompletePathValue" type="boolean" value="false"/>
+            </BindingProperty>
           </BindingProperties>
         </Component>
         <Component class="javax.swing.JLabel" name="serviceGroupLabel">
@@ -177,6 +187,12 @@
               <StringArray count="0"/>
             </Property>
           </Properties>
+          <BindingProperties>
+            <BindingProperty name="selectedItem" source="territoryTable" sourcePath="${selectedElement.serviceGroupId}" target="serviceGroupComboBox" targetPath="selectedItem" updateStrategy="0" immediately="false">
+              <Property name="nullValue" type="java.lang.Object" value="null"/>
+              <Property name="incompletePathValue" type="java.lang.Object" value="null"/>
+            </BindingProperty>
+          </BindingProperties>
         </Component>
       </SubComponents>
     </Container>
@@ -221,6 +237,7 @@
           <SubComponents>
             <Component class="javax.swing.JTable" name="territoryTable">
               <Properties>
+                <Property name="autoCreateRowSorter" type="boolean" value="true"/>
                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                   <TableColumnModel selectionModel="0">
                     <Column maxWidth="-1" minWidth="-1" prefWidth="10" resizable="false">

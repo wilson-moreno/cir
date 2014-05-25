@@ -6,18 +6,64 @@
 
 package org.jw.service.gui;
 
+import javax.persistence.EntityManager;
+import org.jdesktop.observablecollections.ObservableList;
+import org.jdesktop.observablecollections.ObservableListListener;
+import org.jw.service.action.DefaultCloseAction;
+import org.jw.service.action.DefaultDeleteAction;
+import org.jw.service.action.DefaultNewAction;
+import org.jw.service.action.DefaultRefreshAction;
+import org.jw.service.action.DefaultSaveAction;
+import org.jw.service.builder.DefaultTaskBuilder;
+import org.jw.service.dao.DataAccessObject;
+import org.jw.service.entity.ServiceGroup;
+import org.jw.service.entity.Territory;
+import org.jw.service.util.UtilityProperties;
+
 /**
  *
  * @author Wilson
  */
 public class TerritoryDialog extends javax.swing.JDialog {
-
+    private final DataAccessObject<Territory> territoryDAO;
+    private final DataAccessObject<ServiceGroup> sgDAO;
+    private final ObservableListListener listListener;
+    
+    
     /**
      * Creates new form TerritoryDialog
+     * @param parent
+     * @param modal
+     * @param em
      */
-    public TerritoryDialog(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    public TerritoryDialog(java.awt.Frame parent, boolean modal, EntityManager em, ObservableListListener listListener) {
+        super(parent, modal);        
+        this.territoryDAO = DataAccessObject.create(em, Territory.class);
+        this.sgDAO = DataAccessObject.create(em, ServiceGroup.class);
+        this.listListener = listListener;
         initComponents();
+        initMyComponents();
+    }
+    
+    private void initMyComponents(){
+        ((ObservableList)territoryList).addObservableListListener(listListener);
+        territoryList.clear();
+        territoryList.addAll(territoryDAO.readAll());
+        DefaultTaskBuilder<Territory> taskBuilder = new DefaultTaskBuilder<>();
+        taskBuilder.setEntityName("status");
+        taskBuilder.setProperties(taskMessageProperties);
+        taskBuilder.setMultipleRecordCrudPanel(crudPanel);
+        taskBuilder.setTaskMonitorPanel(taskMonitorPanel);
+        taskBuilder.setCloseAction(closeAction);
+        taskBuilder.setNewAction(newAction);
+        taskBuilder.setDeleteAction(deleteAction);
+        taskBuilder.setRefreshAction(refreshAction);
+        taskBuilder.setSaveAction(saveAction);        
+        taskBuilder.setList(territoryList);
+        taskBuilder.setTable(territoryTable);
+        taskBuilder.setWindow(this);
+        taskBuilder.setDao(territoryDAO);
+        taskBuilder.buildDefaultTasks();
     }
 
     /**
@@ -31,8 +77,8 @@ public class TerritoryDialog extends javax.swing.JDialog {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         territoryList = org.jdesktop.observablecollections.ObservableCollections.observableList(new java.util.ArrayList<org.jw.service.entity.Territory>());
-        taskMonitorPanel1 = new org.jw.service.gui.component.TaskMonitorPanel();
-        defaultCrudPanel1 = new org.jw.service.gui.component.MultipleRecordCrudPanel();
+        taskMonitorPanel = new org.jw.service.gui.component.TaskMonitorPanel();
+        crudPanel = new org.jw.service.gui.component.MultipleRecordCrudPanel();
         territoryPanel = new javax.swing.JPanel();
         territoryNameLabel = new javax.swing.JLabel();
         descriptionLabel = new javax.swing.JLabel();
@@ -48,6 +94,11 @@ public class TerritoryDialog extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/jw/service/gui/resources/properties/dialog_titles"); // NOI18N
         setTitle(bundle.getString("territory.dialog.title")); // NOI18N
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
         territoryPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Territory", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
@@ -56,17 +107,28 @@ public class TerritoryDialog extends javax.swing.JDialog {
         descriptionLabel.setText("Description:");
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, territoryTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.name}"), nameTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
         bindingGroup.addBinding(binding);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, territoryTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.description}"), descriptionTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
         bindingGroup.addBinding(binding);
 
         enableCheckBox.setText("Enable");
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, territoryTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.enable}"), enableCheckBox, org.jdesktop.beansbinding.BeanProperty.create("selected"));
+        binding.setSourceNullValue(false);
+        binding.setSourceUnreadableValue(false);
         bindingGroup.addBinding(binding);
 
         serviceGroupLabel.setText("Service Group:");
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, territoryTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.serviceGroupId}"), serviceGroupComboBox, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
 
         javax.swing.GroupLayout territoryPanelLayout = new javax.swing.GroupLayout(territoryPanel);
         territoryPanel.setLayout(territoryPanelLayout);
@@ -115,6 +177,8 @@ public class TerritoryDialog extends javax.swing.JDialog {
         );
 
         territoryListPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Territories", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+
+        territoryTable.setAutoCreateRowSorter(true);
 
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, territoryList, territoryTable);
         org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${saveState}"));
@@ -167,11 +231,11 @@ public class TerritoryDialog extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(taskMonitorPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addComponent(taskMonitorPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(defaultCrudPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(crudPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(territoryListPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(territoryPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -184,9 +248,9 @@ public class TerritoryDialog extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(territoryListPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(defaultCrudPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(crudPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(taskMonitorPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(taskMonitorPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         bindingGroup.bind();
@@ -194,16 +258,22 @@ public class TerritoryDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        // TODO add your handling code here:
+        for(ServiceGroup serviceGroup : sgDAO.readAll())
+            this.serviceGroupComboBox.addItem(serviceGroup);
+    }//GEN-LAST:event_formWindowActivated
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private org.jw.service.gui.component.MultipleRecordCrudPanel defaultCrudPanel1;
+    private org.jw.service.gui.component.MultipleRecordCrudPanel crudPanel;
     private javax.swing.JLabel descriptionLabel;
     private javax.swing.JTextField descriptionTextField;
     private javax.swing.JCheckBox enableCheckBox;
     private javax.swing.JTextField nameTextField;
     private javax.swing.JComboBox serviceGroupComboBox;
     private javax.swing.JLabel serviceGroupLabel;
-    private org.jw.service.gui.component.TaskMonitorPanel taskMonitorPanel1;
+    private org.jw.service.gui.component.TaskMonitorPanel taskMonitorPanel;
     private java.util.List<org.jw.service.entity.Territory> territoryList;
     private javax.swing.JPanel territoryListPanel;
     private javax.swing.JLabel territoryNameLabel;
@@ -212,4 +282,11 @@ public class TerritoryDialog extends javax.swing.JDialog {
     private javax.swing.JTable territoryTable;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
+
+    UtilityProperties taskMessageProperties = UtilityProperties.create(UtilityProperties.TASK_MESSAGE_PROPERTIES);        
+    DefaultCloseAction closeAction;
+    DefaultNewAction<Territory> newAction;
+    DefaultDeleteAction<Territory> deleteAction;
+    DefaultRefreshAction<Territory> refreshAction;
+    DefaultSaveAction<Territory> saveAction;
 }

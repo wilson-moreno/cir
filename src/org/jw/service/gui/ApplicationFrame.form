@@ -75,9 +75,12 @@
                 <Property name="text" type="java.lang.String" value="Reports Templates"/>
               </Properties>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="proximityCheckerMenuItem">
+            <MenuItem class="javax.swing.JMenuItem" name="proximityMapMenuItem">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Proximity Checker"/>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/org/jw/service/gui/resources/icon/default.proximity.map.png"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Proximity Map"/>
               </Properties>
             </MenuItem>
           </SubComponents>
@@ -411,7 +414,7 @@
                         <Image iconType="3" name="/org/jw/service/gui/resources/icon/default.profile.picture.blank.png"/>
                       </Property>
                       <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                        <Connection code="org.jw.service.beansbinding.converter.ByteToImageConverter.create()" type="code"/>
+                        <Connection code="org.jw.service.beansbinding.converter.ByteToImageConverter.create(this.profilePictureLabel)" type="code"/>
                       </Property>
                     </BindingProperty>
                   </BindingProperties>

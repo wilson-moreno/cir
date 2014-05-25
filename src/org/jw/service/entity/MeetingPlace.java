@@ -76,7 +76,12 @@ public class MeetingPlace implements Serializable, ObservableEntity, SilentSette
     private String saveState;
 
     public MeetingPlace() {
-        
+        this.address = "";
+        this.createdDatetime = new Date();
+        this.latitude = null;
+        this.longitude = null;
+        this.name = "";
+        this.saveState = "";        
     }
 
     public MeetingPlace(Integer id) {
@@ -263,7 +268,8 @@ public class MeetingPlace implements Serializable, ObservableEntity, SilentSette
 
     @Override
     public String toString() {
-        return "org.jw.service.entity.MeetingPlace[ id=" + id + " ]";
+        //return "org.jw.service.entity.MeetingPlace[ id=" + id + " ]";
+        return name;
     }
 
     @Override
@@ -280,22 +286,22 @@ public class MeetingPlace implements Serializable, ObservableEntity, SilentSette
 
     @Override
     public void addPropertyChangeListener(PropertyChangeListener listener) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        propertyChangeSupport.addPropertyChangeListener(listener);
     }
 
     @Override
     public void removePropertyChangeListener(PropertyChangeListener listener) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        propertyChangeSupport.removePropertyChangeListener(listener);
     }
 
     @Override
     public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        propertyChangeSupport.addPropertyChangeListener(propertyName, listener);
     }
 
     @Override
     public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        propertyChangeSupport.removePropertyChangeListener(propertyName, listener);
     }
 
     @Override

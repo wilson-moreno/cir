@@ -7,13 +7,23 @@
 package org.jw.service.gui;
 
 import javax.persistence.EntityManager;
+import org.jw.service.action.DefaultCloseAction;
+import org.jw.service.action.DefaultDeleteAction;
+import org.jw.service.action.DefaultNewAction;
+import org.jw.service.action.DefaultRefreshAction;
+import org.jw.service.action.DefaultSaveAction;
+import org.jw.service.builder.DefaultTaskBuilder;
+import org.jw.service.dao.DataAccessObject;
+import org.jw.service.entity.MeetingPlace;
+import org.jw.service.entity.Territory;
+import org.jw.service.util.UtilityProperties;
 
 /**
  *
  * @author Wilson
  */
 public class MeetingPlaceDialog extends javax.swing.JDialog {
-    private final EntityManager em;
+    private final DataAccessObject<MeetingPlace> dao;
     
     
     /**
@@ -21,8 +31,29 @@ public class MeetingPlaceDialog extends javax.swing.JDialog {
      */
     public MeetingPlaceDialog(java.awt.Frame parent, boolean modal, EntityManager em) {
         super(parent, modal);
-        this.em = em;
+        this.dao = DataAccessObject.create(em, MeetingPlace.class);
         initComponents();
+        initMyComponents();
+    }
+    
+    private void initMyComponents(){
+        meetingPlaceList.clear();
+        meetingPlaceList.addAll(dao.readAll());
+        DefaultTaskBuilder<Territory> taskBuilder = new DefaultTaskBuilder<>();
+        taskBuilder.setEntityName("meeting.place");
+        taskBuilder.setProperties(taskMessageProperties);
+        taskBuilder.setMultipleRecordCrudPanel(crudPanel);
+        taskBuilder.setTaskMonitorPanel(taskMonitorPanel);
+        taskBuilder.setCloseAction(closeAction);
+        taskBuilder.setNewAction(newAction);
+        taskBuilder.setDeleteAction(deleteAction);
+        taskBuilder.setRefreshAction(refreshAction);
+        taskBuilder.setSaveAction(saveAction);        
+        taskBuilder.setList(meetingPlaceList);
+        taskBuilder.setTable(meetingPlaceTable);
+        taskBuilder.setWindow(this);
+        taskBuilder.setDao(dao);
+        taskBuilder.buildDefaultTasks();
     }
 
     /**
@@ -137,6 +168,8 @@ public class MeetingPlaceDialog extends javax.swing.JDialog {
 
         meetingPlacesPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Places", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
+        meetingPlaceTable.setAutoCreateRowSorter(true);
+
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, meetingPlaceList, meetingPlaceTable);
         org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${saveState}"));
         columnBinding.setColumnName("");
@@ -230,4 +263,11 @@ public class MeetingPlaceDialog extends javax.swing.JDialog {
     private org.jw.service.gui.component.TaskMonitorPanel taskMonitorPanel;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
+
+    UtilityProperties taskMessageProperties = UtilityProperties.create(UtilityProperties.TASK_MESSAGE_PROPERTIES);        
+    DefaultCloseAction closeAction;
+    DefaultNewAction<MeetingPlace> newAction;
+    DefaultDeleteAction<MeetingPlace> deleteAction;
+    DefaultRefreshAction<MeetingPlace> refreshAction;
+    DefaultSaveAction<MeetingPlace> saveAction;
 }

@@ -78,9 +78,17 @@ public class Territory implements Serializable, ObservableEntity, SilentSetter {
     private String saveState;
 
     public Territory() {
+        this.createdDatetime = new Date();
+        this.description = "";
+        this.enable = true;
+        this.name = "";
+        this.saveState = "";
+        this.serviceGroupId = null;
+        this.updatedDatetime = new Date();
     }
 
     public Territory(Integer id) {
+        super();
         this.id = id;
     }
 
@@ -261,7 +269,9 @@ public class Territory implements Serializable, ObservableEntity, SilentSetter {
     }
 
     public void setServiceGroupId(ServiceGroup serviceGroupId) {
+        ServiceGroup oldServiceGroupId = this.serviceGroupId;
         this.serviceGroupId = serviceGroupId;
+        propertyChangeSupport.firePropertyChange("serviceGroupId", oldServiceGroupId, serviceGroupId);
     }
     
 }

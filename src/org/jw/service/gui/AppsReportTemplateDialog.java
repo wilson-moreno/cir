@@ -137,6 +137,7 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
         reportList = org.jdesktop.observablecollections.ObservableCollections.observableList(new java.util.ArrayList<org.jw.service.entity.AppsReport>());
         parameterList = org.jdesktop.observablecollections.ObservableCollections.observableList(new java.util.ArrayList<org.jw.service.entity.AppsReportParameter>());
         byteArrayBean = new org.jw.service.beans.ByteArrayBean();
+        datasourceTypeListBean = new org.jw.service.beans.ListBean("datasource_types.properties");
         taskMonitorPanel = new org.jw.service.gui.component.TaskMonitorPanel();
         templatesPanel = new javax.swing.JPanel();
         reportScrollPane = new javax.swing.JScrollPane();
@@ -163,6 +164,10 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
         reportTypeComboBox = new javax.swing.JComboBox();
         lineLimitLabel = new javax.swing.JLabel();
         lineLimitTextField = new javax.swing.JTextField();
+        datasourceTab = new javax.swing.JPanel();
+        datasourcePanel = new javax.swing.JPanel();
+        datasourceTypeLabel = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox();
         reportFileTab = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jasperNameLabel = new javax.swing.JLabel();
@@ -457,6 +462,56 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
         );
 
         reportTabbedPane.addTab("Report", reportTab);
+
+        datasourcePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Datasource", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+
+        datasourceTypeLabel.setText("Datasource Type:");
+
+        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${list}");
+        org.jdesktop.swingbinding.JComboBoxBinding jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, datasourceTypeListBean, eLProperty, jComboBox1);
+        bindingGroup.addBinding(jComboBoxBinding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, reportTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.datasourceType}"), jComboBox1, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        bindingGroup.addBinding(binding);
+
+        javax.swing.GroupLayout datasourcePanelLayout = new javax.swing.GroupLayout(datasourcePanel);
+        datasourcePanel.setLayout(datasourcePanelLayout);
+        datasourcePanelLayout.setHorizontalGroup(
+            datasourcePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(datasourcePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(datasourceTypeLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jComboBox1, 0, 381, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        datasourcePanelLayout.setVerticalGroup(
+            datasourcePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(datasourcePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(datasourcePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(datasourceTypeLabel)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(166, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout datasourceTabLayout = new javax.swing.GroupLayout(datasourceTab);
+        datasourceTab.setLayout(datasourceTabLayout);
+        datasourceTabLayout.setHorizontalGroup(
+            datasourceTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(datasourceTabLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(datasourcePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        datasourceTabLayout.setVerticalGroup(
+            datasourceTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(datasourceTabLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(datasourcePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        reportTabbedPane.addTab("Datasource", datasourceTab);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Jasper Report", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
@@ -809,6 +864,10 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
     private javax.swing.JTextField codeTextField;
     private org.jw.service.gui.component.MultipleRecordCrudPanel crudPanel;
     private javax.swing.JLabel datalTypeLabel;
+    private javax.swing.JPanel datasourcePanel;
+    private javax.swing.JPanel datasourceTab;
+    private javax.swing.JLabel datasourceTypeLabel;
+    private org.jw.service.beans.ListBean datasourceTypeListBean;
     private javax.swing.JLabel defaultValueLabel;
     private javax.swing.JTextField defaultValueTextField;
     private javax.swing.JButton deleteParamCommand;
@@ -821,6 +880,7 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
     private com.toedter.calendar.JDateChooser fileCreatedDateChooser;
     private com.toedter.calendar.JDateChooser fileModifiedDateChooser;
     private javax.swing.JTextField fileNameTextField;
+    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;

@@ -118,7 +118,7 @@ public class AppsReport implements Serializable, ObservableEntity, SilentSetter 
         this.query = "";
         this.reportDate = new Date();
         this.updatedDatetime = new Date();
-        this.saveState = "*";
+        this.saveState = "";
     }
 
     public AppsReport(Integer id) {
@@ -511,6 +511,8 @@ public class AppsReport implements Serializable, ObservableEntity, SilentSetter 
     }
 
     public void setDatasourceType(String datasourceType) {
+        String oldDatasourceType = this.datasourceType;
         this.datasourceType = datasourceType;
+        propertyChangeSupport.firePropertyChange("datasourceType", oldDatasourceType, datasourceType);
     }
 }

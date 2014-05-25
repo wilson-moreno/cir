@@ -6,6 +6,9 @@
 
 package org.jw.service.worker;
 
+import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.SwingWorker;
@@ -19,7 +22,7 @@ import org.jw.service.util.UtilityImageIcon;
  *
  * @author Wilson
  */
-public class DefaultMapDownloadWorker extends SwingWorker<ImageIcon, String> {
+public class DefaultMapDownloadWorker extends SwingWorker<byte[], String> {
     public final UtilityDownload utilDownload;
     public final EntityIO<LocationMap> mapIO;
     public final JLabel label;
@@ -37,12 +40,20 @@ public class DefaultMapDownloadWorker extends SwingWorker<ImageIcon, String> {
     }
     
     @Override
-    protected ImageIcon doInBackground() throws Exception {
+    protected byte[] doInBackground() throws Exception {
         mapIO.write();
         String url = utilDownload.createUrl(mapIO.getTarget());
-        byte[] imageBytes = utilDownload.downloadMapAsBytes(url);
-        mapIO.getSource().setImage(imageBytes);
-        return null;
+        byte[] imageBytes = utilDownload.downloadMapAsBytes(url);        
+        return imageBytes;
+    }
+    
+    @Override
+    protected void done(){
+        try {
+            mapIO.getSource().setImage(this.get());
+        } catch (InterruptedException | ExecutionException ex) {
+            Logger.getLogger(DefaultMapDownloadWorker.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     

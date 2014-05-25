@@ -10,10 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.swing.DefaultComboBoxModel;
+import org.jw.service.action.DefaultCloseAction;
 import org.jw.service.action.DefaultPrintAction;
 import org.jw.service.dao.DataAccessObject;
 import org.jw.service.entity.AppsReport;
 import org.jw.service.factory.DefaultParameterListFactory;
+import org.jw.service.listener.task.DefaultTaskListener;
 import org.jw.service.print.PrintParameter;
 import org.jw.service.util.UtilityDatabase;
 import org.jw.service.util.UtilityReportPrint;
@@ -26,14 +28,15 @@ public class ReportPrintDialog extends javax.swing.JDialog {
 
     private final EntityManager em;
     
+    
     /**
      * Creates new form ReportPrintDialog
      */
-    public ReportPrintDialog(java.awt.Frame parent, boolean modal, EntityManager em) {
+    public ReportPrintDialog(java.awt.Frame parent, boolean modal, EntityManager em, UtilityReportPrint utilPrint) {
         super(parent, modal);
         this.em = em;
         this.utilDB = UtilityDatabase.create(em);
-        this.utilPrint = UtilityReportPrint.create(utilDB, null);
+        this.utilPrint = utilPrint;
         initComponents();
         initMyComponents();
     }
@@ -43,6 +46,7 @@ public class ReportPrintDialog extends javax.swing.JDialog {
         List<AppsReport> list = dao.readAll();
         this.reportsComboBox.setModel(new DefaultComboBoxModel(list.toArray()));                
         this.printAction = new DefaultPrintAction(printCommand, reportsComboBox, utilPrint, printParametersList);
+        this.closeAction = new DefaultCloseAction(cancelCommand, this);
     }
 
     /**
@@ -183,6 +187,7 @@ public class ReportPrintDialog extends javax.swing.JDialog {
     private UtilityDatabase utilDB;
     private UtilityReportPrint utilPrint;
     private DefaultPrintAction printAction;
+    private DefaultCloseAction closeAction;
 }
 
 

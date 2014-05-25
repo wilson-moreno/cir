@@ -11,6 +11,7 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import org.jw.service.entity.AppsReport;
+import org.jw.service.listener.task.DefaultTaskListener;
 import org.jw.service.print.PrintParameter;
 import org.jw.service.util.UtilityReportPrint;
 
@@ -21,24 +22,21 @@ import org.jw.service.util.UtilityReportPrint;
 public class DefaultPrintAction  extends DependentAbstractAction{
     private final UtilityReportPrint utilPrint;
     private final JComboBox comboBox;
-    private final List<PrintParameter> list;
+    private final List<PrintParameter> paramList;
     
-    public DefaultPrintAction(JButton command, JComboBox comboBox, UtilityReportPrint utilPrint, List<PrintParameter> list) {
+    
+    public DefaultPrintAction(JButton command, JComboBox comboBox, UtilityReportPrint utilPrint, List<PrintParameter> paramList) {
         super(command.getText(), command.getIcon());
         this.utilPrint = utilPrint;
         this.comboBox = comboBox;
-        this.list = list;
+        this.paramList = paramList;
         command.setAction(this);
     }
 
     @Override
     public boolean mainActionPerformed(ActionEvent ae) {
         AppsReport report = (AppsReport) comboBox.getSelectedItem();
-        
-        for(PrintParameter param : list){
-            System.out.println(param.getName());
-        }
-        
+        utilPrint.printReport(report, paramList);        
         return true;
     }
     

@@ -123,7 +123,7 @@ public class DefaultTaskBuilder<T> {
         
         selectionListener = DefaultListSelectionListener.create(list, table, saveAction, deleteAction);
         listListener = DefaultObservableListListener.create();
-        listListener.addEnableAdded(saveAction);
+        listListener.addDisableAdded(saveAction);
         listListener.addDisableRemoved(saveAction);
         listListener.addDisableRemoved(deleteAction);
         

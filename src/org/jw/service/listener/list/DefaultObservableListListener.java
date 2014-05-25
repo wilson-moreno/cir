@@ -68,8 +68,9 @@ public class DefaultObservableListListener implements ObservableListListener{
     }
  
     private void enableAdded(){
-        for(AbstractAction action : addedEnable)
+        for(AbstractAction action : addedEnable){            
             action.setEnabled(true);
+        }    
     }
     
     private void disableAdded(){
@@ -83,8 +84,9 @@ public class DefaultObservableListListener implements ObservableListListener{
     }
     
     private void disableRemoved(){
-        for(AbstractAction action : removedDisable)
-            action.setEnabled(false);
+        for(AbstractAction action : removedDisable){
+            action.setEnabled(false);                    
+        }    
     }
     
 }
