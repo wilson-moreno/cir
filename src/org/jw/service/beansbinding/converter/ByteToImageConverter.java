@@ -16,7 +16,7 @@ import org.jw.service.util.UtilityImageIcon;
  * @author Wilson
  */
 public class ByteToImageConverter extends Converter<byte[], ImageIcon>{
-    private static JLabel label;
+    private final JLabel label;
     
     public static ByteToImageConverter create() {
         return new ByteToImageConverter();

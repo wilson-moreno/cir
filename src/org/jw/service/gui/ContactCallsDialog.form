@@ -11,6 +11,8 @@
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;org.jw.service.entity.ContactCall&gt;"/>
       </AuxValues>
     </Component>
+    <Component class="org.jw.service.entity.Contact" name="contactSource">
+    </Component>
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="2"/>
@@ -242,8 +244,8 @@
           <BindingProperties>
             <BindingProperty name="text" source="callsTable" sourcePath="${selectedElement.status}" target="statusTextField" targetPath="text" updateStrategy="0" immediately="false">
               <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
-              <Property name="nullValue" type="java.lang.String" value="null"/>
-              <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+              <Property name="nullValue" type="java.lang.String" value=""/>
+              <Property name="incompletePathValue" type="java.lang.String" value=""/>
               <Property name="name" type="java.lang.String" value="callStatus"/>
             </BindingProperty>
           </BindingProperties>
@@ -257,8 +259,8 @@
           <BindingProperties>
             <BindingProperty name="text" source="callsTable" sourcePath="${selectedElement.notes}" target="callNotesTextField" targetPath="text" updateStrategy="0" immediately="false">
               <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
-              <Property name="nullValue" type="java.lang.String" value="null"/>
-              <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+              <Property name="nullValue" type="java.lang.String" value=""/>
+              <Property name="incompletePathValue" type="java.lang.String" value=""/>
               <Property name="name" type="java.lang.String" value="callNotes"/>
             </BindingProperty>
           </BindingProperties>
@@ -272,8 +274,8 @@
           <BindingProperties>
             <BindingProperty name="text" source="callsTable" sourcePath="${selectedElement.scriptures}" target="scripturesTextField" targetPath="text" updateStrategy="0" immediately="false">
               <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
-              <Property name="nullValue" type="java.lang.String" value="null"/>
-              <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+              <Property name="nullValue" type="java.lang.String" value=""/>
+              <Property name="incompletePathValue" type="java.lang.String" value=""/>
               <Property name="name" type="java.lang.String" value="scriptures"/>
             </BindingProperty>
           </BindingProperties>
@@ -287,8 +289,8 @@
           <BindingProperties>
             <BindingProperty name="text" source="callsTable" sourcePath="${selectedElement.literature}" target="literatureTextField" targetPath="text" updateStrategy="0" immediately="false">
               <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
-              <Property name="nullValue" type="java.lang.String" value="null"/>
-              <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+              <Property name="nullValue" type="java.lang.String" value=""/>
+              <Property name="incompletePathValue" type="java.lang.String" value=""/>
               <Property name="name" type="java.lang.String" value="literature"/>
             </BindingProperty>
           </BindingProperties>
@@ -302,8 +304,8 @@
           <BindingProperties>
             <BindingProperty name="text" source="callsTable" sourcePath="${selectedElement.publishers}" target="publishersTextField" targetPath="text" updateStrategy="0" immediately="false">
               <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
-              <Property name="nullValue" type="java.lang.String" value="null"/>
-              <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+              <Property name="nullValue" type="java.lang.String" value=""/>
+              <Property name="incompletePathValue" type="java.lang.String" value=""/>
               <Property name="name" type="java.lang.String" value="publishers"/>
             </BindingProperty>
           </BindingProperties>
@@ -432,6 +434,24 @@
       </SubComponents>
     </Container>
     <Component class="org.jw.service.gui.component.ContactInfoPanel" name="contactInfoPanel1">
+      <BindingProperties>
+        <BindingProperty name="firstName" source="contactSource" sourcePath="${firstName}" target="contactInfoPanel1" targetPath="firstName" updateStrategy="0" immediately="false">
+          <Property name="nullValue" type="java.lang.String" value="null"/>
+          <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+        </BindingProperty>
+        <BindingProperty name="lastName" source="contactSource" sourcePath="${lastName}" target="contactInfoPanel1" targetPath="lastName" updateStrategy="0" immediately="false">
+          <Property name="nullValue" type="java.lang.String" value="null"/>
+          <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+        </BindingProperty>
+        <BindingProperty name="recordDate" source="contactSource" sourcePath="${recordDate}" target="contactInfoPanel1" targetPath="recordDate" updateStrategy="0" immediately="false">
+          <Property name="nullValue" type="java.util.Date" value="null"/>
+          <Property name="incompletePathValue" type="java.util.Date" value="null"/>
+        </BindingProperty>
+        <BindingProperty name="recordNumber" source="contactSource" sourcePath="${recordNumber}" target="contactInfoPanel1" targetPath="recordNumber" updateStrategy="0" immediately="false">
+          <Property name="nullValue" type="java.lang.String" value="null"/>
+          <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+        </BindingProperty>
+      </BindingProperties>
     </Component>
   </SubComponents>
 </Form>

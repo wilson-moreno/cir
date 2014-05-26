@@ -84,7 +84,7 @@ public class ReportPrintDialog extends javax.swing.JDialog {
 
         cancelCommand.setText("Cancel");
 
-        printCommand.setText("Print");
+        printCommand.setText("Print Preview");
 
         parametersPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Parameters", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 

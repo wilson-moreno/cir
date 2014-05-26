@@ -105,7 +105,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="printCommand">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Print"/>
+        <Property name="text" type="java.lang.String" value="Print Preview"/>
       </Properties>
     </Component>
     <Container class="javax.swing.JPanel" name="parametersPanel">

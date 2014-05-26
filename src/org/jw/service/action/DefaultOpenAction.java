@@ -12,6 +12,7 @@ import javax.swing.AbstractButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import org.jw.service.listener.task.DefaultTaskListener;
+import org.jw.service.util.UtilityDialog;
 import org.jw.service.worker.DefaultOpenWorker;
 
 /**
@@ -19,24 +20,22 @@ import org.jw.service.worker.DefaultOpenWorker;
  * @author Wilson
  * @param <T>
  */
-public class DefaultOpenAction<T> extends AbstractAction{
-    private final JFrame parent;
-    private final JDialog dialog;
+public class DefaultOpenAction<T> extends AbstractAction{    
+    private final String dialogName;
+    private final UtilityDialog utilDialog;
     private final DefaultTaskListener listener;
     
-    public DefaultOpenAction(AbstractButton command, JFrame parent, JDialog dialog, DefaultTaskListener listener){
-        super(command.getText(), command.getIcon());
-        this.parent = parent;
-        this.dialog = dialog;
+    public DefaultOpenAction(AbstractButton command, String dialogName, UtilityDialog utilDialog, DefaultTaskListener listener){
+        super(command.getText(), command.getIcon());        
+        this.dialogName = dialogName;
         this.listener = listener;
+        this.utilDialog = utilDialog;
         command.setAction(this);
-        
     }
     
     @Override
     public void actionPerformed(ActionEvent ae) {
-        dialog.setLocationRelativeTo(parent);
-        dialog.setModal(true);
+        JDialog dialog = utilDialog.createDialog(dialogName);        
         DefaultOpenWorker worker = new DefaultOpenWorker(dialog, listener);
         worker.execute();
     }

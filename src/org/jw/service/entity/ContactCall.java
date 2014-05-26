@@ -400,12 +400,12 @@ public class ContactCall implements Serializable, ObservableEntity, SilentSetter
 
     @Override
     public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        propertyChangeSupport.addPropertyChangeListener(propertyName, listener);
     }
 
     @Override
     public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        propertyChangeSupport.removePropertyChangeListener(propertyName, listener);
     } 
 
     @Override

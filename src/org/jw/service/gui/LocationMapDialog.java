@@ -52,6 +52,8 @@ public class LocationMapDialog extends javax.swing.JDialog {
         this.mapIO = EntityIO.create(LocationMap.class);
         initComponents();        
         initMyComponents();
+        setSelectedContact();
+        setContactLocationMap();
     }
     
     private void initMyComponents(){
@@ -114,11 +116,6 @@ public class LocationMapDialog extends javax.swing.JDialog {
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/jw/service/gui/resources/properties/dialog_titles"); // NOI18N
         setTitle(bundle.getString("location.map.dialog.title")); // NOI18N
         setResizable(false);
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowActivated(java.awt.event.WindowEvent evt) {
-                formWindowActivated(evt);
-            }
-        });
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactSource, org.jdesktop.beansbinding.ELProperty.create("${firstName}"), contactInfoPanel, org.jdesktop.beansbinding.BeanProperty.create("firstName"));
         binding.setSourceNullValue("null");
@@ -357,11 +354,6 @@ public class LocationMapDialog extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-        setSelectedContact();
-        setContactLocationMap();
-    }//GEN-LAST:event_formWindowActivated
 
     private void setContactLocationMap(){
         contactDAO.refresh(contactTarget);        

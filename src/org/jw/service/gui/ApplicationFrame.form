@@ -404,6 +404,7 @@
                         <BevelBorder bevelType="1"/>
                       </Border>
                     </Property>
+                    <Property name="name" type="java.lang.String" value="Profile Picture" noResource="true"/>
                   </Properties>
                   <BindingProperties>
                     <BindingProperty name="icon" source="contactsTable" sourcePath="${selectedElement.profilePicture}" target="profilePictureLabel" targetPath="icon" updateStrategy="0" immediately="false">

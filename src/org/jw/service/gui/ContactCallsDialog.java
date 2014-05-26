@@ -7,38 +7,59 @@
 package org.jw.service.gui;
 
 import javax.persistence.EntityManager;
-import org.jdesktop.observablecollections.ObservableList;
 import org.jw.service.action.DefaultCloseAction;
 import org.jw.service.action.DefaultDeleteAction;
 import org.jw.service.action.DefaultNewAction;
 import org.jw.service.action.DefaultRefreshAction;
 import org.jw.service.action.DefaultSaveAction;
+import org.jw.service.action.dependency.NewCallPostDependency;
 import org.jw.service.builder.DefaultTaskBuilder;
 import org.jw.service.dao.DataAccessObject;
+import org.jw.service.entity.Contact;
 import org.jw.service.entity.ContactCall;
+import org.jw.service.entity.EntityIO;
 import org.jw.service.util.UtilityProperties;
+import org.jw.service.util.UtilityTable;
 
 /**
  *
  * @author Wilson
  */
-public class ContactCallsDialog extends javax.swing.JDialog {
-    private final EntityManager em;
+public class ContactCallsDialog extends javax.swing.JDialog {    
+    private final UtilityTable<Contact> utilTable;
+    private final EntityIO<Contact> contactIO;
+    private final DataAccessObject<Contact> contactDAO;
+    private final DataAccessObject<ContactCall> callDAO;
+    private final DefaultTaskBuilder<ContactCall> taskBuilder;
+    private Contact contactTarget;
     
     /**
      * Creates new form ContactCallDialog
      */
-    public ContactCallsDialog(java.awt.Frame parent, boolean modal, EntityManager em) {
+    public ContactCallsDialog(java.awt.Frame parent, boolean modal, EntityManager em, UtilityTable<Contact> utilTable) {
         super(parent, modal);
-        this.em = em;
+        this.contactDAO = DataAccessObject.create(em, Contact.class);
+        this.callDAO = DataAccessObject.create(em, ContactCall.class);
+        this.utilTable = utilTable;
+        this.contactIO = EntityIO.create(Contact.class);
+        this.taskBuilder = new DefaultTaskBuilder();
         initComponents();
         initMyComponents();
+        setSelectedContact();
+        setContactCalls();
     }
     
-    private void initMyComponents(){                
-        dao = DataAccessObject.create(em, ContactCall.class);    
-        contactCallsList.addAll(dao.readAll());
-        DefaultTaskBuilder<ContactCall> taskBuilder = new DefaultTaskBuilder();
+    private void setSelectedContact(){        
+        contactTarget = utilTable.getSelectedItem();
+        contactIO.setSource(contactSource);
+        contactIO.setTarget(contactTarget);
+        contactIO.read();
+        NewCallPostDependency newCallPostDependency = new NewCallPostDependency(callDAO, contactTarget);
+        taskBuilder.getNewAction().addPostActionCommands("newCallPostDependency", newCallPostDependency);
+    }
+    
+    private void initMyComponents(){                        
+         
         taskBuilder.setEntityName("calls");
         taskBuilder.setProperties(taskMessageProperties);
         taskBuilder.setMultipleRecordCrudPanel(crudPanel);
@@ -50,9 +71,12 @@ public class ContactCallsDialog extends javax.swing.JDialog {
         taskBuilder.setSaveAction(saveAction);        
         taskBuilder.setList(contactCallsList);
         taskBuilder.setTable(callsTable);
-        taskBuilder.setWindow(this);
-        taskBuilder.setDao(dao);
+        taskBuilder.setWindow(this); 
+        taskBuilder.setDao(callDAO);
         taskBuilder.buildDefaultTasks();
+        
+        // Command Dependcies
+        
     }
 
     /**
@@ -66,6 +90,7 @@ public class ContactCallsDialog extends javax.swing.JDialog {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         contactCallsList = org.jdesktop.observablecollections.ObservableCollections.observableList(new java.util.ArrayList<org.jw.service.entity.ContactCall>());
+        contactSource = new org.jw.service.entity.Contact();
         taskMonitorPanel = new org.jw.service.gui.component.TaskMonitorPanel();
         crudPanel = new org.jw.service.gui.component.MultipleRecordCrudPanel();
         contactCallPanel = new javax.swing.JPanel();
@@ -126,36 +151,36 @@ public class ContactCallsDialog extends javax.swing.JDialog {
         stausLabel.setText("Status:");
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, callsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.status}"), statusTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "callStatus");
-        binding.setSourceNullValue("null");
-        binding.setSourceUnreadableValue("null");
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
         callNotesLabel.setText("Notes:");
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, callsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.notes}"), callNotesTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "callNotes");
-        binding.setSourceNullValue("null");
-        binding.setSourceUnreadableValue("null");
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
         scripturesLabel.setText("Scriptures:");
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, callsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.scriptures}"), scripturesTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "scriptures");
-        binding.setSourceNullValue("null");
-        binding.setSourceUnreadableValue("null");
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
         literatureLabel.setText("Literature:");
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, callsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.literature}"), literatureTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "literature");
-        binding.setSourceNullValue("null");
-        binding.setSourceUnreadableValue("null");
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
         publishersLabel.setText("Publishers:");
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, callsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.publishers}"), publishersTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "publishers");
-        binding.setSourceNullValue("null");
-        binding.setSourceUnreadableValue("null");
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
         javax.swing.GroupLayout contactCallPanelLayout = new javax.swing.GroupLayout(contactCallPanel);
@@ -293,6 +318,23 @@ public class ContactCallsDialog extends javax.swing.JDialog {
                 .addContainerGap())
         );
 
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactSource, org.jdesktop.beansbinding.ELProperty.create("${firstName}"), contactInfoPanel1, org.jdesktop.beansbinding.BeanProperty.create("firstName"));
+        binding.setSourceNullValue("null");
+        binding.setSourceUnreadableValue("null");
+        bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactSource, org.jdesktop.beansbinding.ELProperty.create("${lastName}"), contactInfoPanel1, org.jdesktop.beansbinding.BeanProperty.create("lastName"));
+        binding.setSourceNullValue("null");
+        binding.setSourceUnreadableValue("null");
+        bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactSource, org.jdesktop.beansbinding.ELProperty.create("${recordDate}"), contactInfoPanel1, org.jdesktop.beansbinding.BeanProperty.create("recordDate"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactSource, org.jdesktop.beansbinding.ELProperty.create("${recordNumber}"), contactInfoPanel1, org.jdesktop.beansbinding.BeanProperty.create("recordNumber"));
+        binding.setSourceNullValue("null");
+        binding.setSourceUnreadableValue("null");
+        bindingGroup.addBinding(binding);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -327,6 +369,11 @@ public class ContactCallsDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void setContactCalls(){
+        contactDAO.refresh(contactTarget);
+        contactCallsList.clear();
+        contactCallsList.addAll(contactTarget.getContactCallCollection());
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -343,6 +390,7 @@ public class ContactCallsDialog extends javax.swing.JDialog {
     private javax.swing.JPanel contactCallPanel;
     private java.util.List<org.jw.service.entity.ContactCall> contactCallsList;
     private org.jw.service.gui.component.ContactInfoPanel contactInfoPanel1;
+    private org.jw.service.entity.Contact contactSource;
     private org.jw.service.gui.component.MultipleRecordCrudPanel crudPanel;
     private javax.swing.JComboBox dayComboBox;
     private javax.swing.JLabel literatureLabel;
@@ -362,7 +410,6 @@ public class ContactCallsDialog extends javax.swing.JDialog {
     DefaultNewAction<ContactCall> newAction;
     DefaultDeleteAction<ContactCall> deleteAction;
     DefaultRefreshAction<ContactCall> refreshAction;
-    DefaultSaveAction<ContactCall> saveAction;        
-    DataAccessObject<ContactCall> dao;    
+    DefaultSaveAction<ContactCall> saveAction;            
 
 }

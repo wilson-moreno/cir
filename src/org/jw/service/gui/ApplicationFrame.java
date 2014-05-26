@@ -36,6 +36,7 @@ import org.jw.service.listener.selection.ContactListSelectionListener;
 import org.jw.service.listener.task.DefaultTaskListener;
 import org.jw.service.listener.tree.selection.DefaultTreeSelectionListener;
 import org.jw.service.util.UtilityDatabase;
+import org.jw.service.util.UtilityDialog;
 import org.jw.service.util.UtilityProperties;
 import org.jw.service.util.UtilityReportPrint;
 import org.jw.service.util.UtilityTable;
@@ -248,6 +249,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         profilePicturePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Profile Picture", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
         profilePictureLabel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        profilePictureLabel.setName("Profile Picture"); // NOI18N
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.profilePicture}"), profilePictureLabel, org.jdesktop.beansbinding.BeanProperty.create("icon"));
         binding.setSourceNullValue(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.profile.picture.blank.png"))); // NOI18N
@@ -1074,29 +1076,24 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         utilTable = UtilityTable.create(contactsTable, contactList);
         utilDB = UtilityDatabase.create(em);
         utilPrint = UtilityReportPrint.create(this, utilDB, this.taskMonitorPanel.createDefaultTaskListener("", ""));
-        serviceGroupDialog = new ServiceGroupDialog(this, true, em, this.sgListListener, utilTree);
-        contactStatusDialog = new ContactStatusDialog(this, true, em, this.statusListListener);
-        locationMapDialog = new LocationMapDialog(this, true, em, utilTable);
-        directionMapDialog = new DirectionMapDialog(this, true);
-        contactCallsDialog = new ContactCallsDialog(this, true, em);
-        appsReportDialog = new AppsReportTemplateDialog(this, true, em);
-        reportPrintDialog = new ReportPrintDialog(this, true, em, utilPrint);
-        territoryDialog = new TerritoryDialog(this, true, em, territoryListListener);
-        congregationDialog = new CongregationDialog(this, true, em);
-        meetingPlaceDialog = new MeetingPlaceDialog(this, true, em);
-        proximityMapDialog = new ProximityMapDialog(this, true);
-        openServiceGroupAction = new DefaultOpenAction(serviceGroupsMenuItem,this,serviceGroupDialog, null);        
-        openContactStatusAction = new DefaultOpenAction(contactStatusMenuItem,this,contactStatusDialog, null);        
-        openLocationMapAction = new DefaultOpenAction(openLocationMapCommand,this,locationMapDialog, null);        
-        openDirectionMapAction = new DefaultOpenAction(openDirectionMapCommand,this,directionMapDialog, null);        
-        openContactCallsAction = new DefaultOpenAction(this.mainCommandPanel.getContactCallsCommand(),this,contactCallsDialog, null);        
-        openReportTemplatesAction = new DefaultOpenAction(this.reportTemplatesMenuItem,this,appsReportDialog, null);        
-        openReportPrintAction = new DefaultOpenAction(this.mainCommandPanel.getReportsCommand(),this,reportPrintDialog, null);        
-        openTerritoryAction = new DefaultOpenAction(this.territoryMenuItem, this, territoryDialog, null);
-        openCongregationAction = new DefaultOpenAction(this.congregationMenuItem, this, congregationDialog, null);
-        openMeetingPlaceAction = new DefaultOpenAction(this.meetingPlacesMenuItem, this, meetingPlaceDialog, null);
+        utilDialog = UtilityDialog.create(this, true, em, utilTree, utilTable, utilPrint);
+        utilDialog.addComboBoxModelListListener("service.group.model.list.listener", sgListListener);
+        utilDialog.addComboBoxModelListListener("status.model.list.listener", statusListListener);
+        utilDialog.addComboBoxModelListListener("territory.model.list.listener", territoryListListener);
+        
+        openServiceGroupAction = new DefaultOpenAction(serviceGroupsMenuItem, UtilityDialog.SERVICE_GROUP , utilDialog, null);        
+        openContactStatusAction = new DefaultOpenAction(contactStatusMenuItem, UtilityDialog.CONTACT_STATUS, utilDialog, null);        
+        openLocationMapAction = new DefaultOpenAction(openLocationMapCommand, UtilityDialog.LOCATION_MAP, utilDialog, null);        
+        openDirectionMapAction = new DefaultOpenAction(openDirectionMapCommand, UtilityDialog.DIRECTION_MAP, utilDialog, null);        
+        openContactCallsAction = new DefaultOpenAction(this.mainCommandPanel.getContactCallsCommand(), UtilityDialog.CONTACT_CALLS, utilDialog, null);        
+        openReportTemplatesAction = new DefaultOpenAction(this.reportTemplatesMenuItem, UtilityDialog.APPS_REPORT_TEMPLATE, utilDialog, null);        
+        openReportPrintAction = new DefaultOpenAction(this.mainCommandPanel.getReportsCommand(), UtilityDialog.REPORT_PRINT, utilDialog, null);        
+        openTerritoryAction = new DefaultOpenAction(this.territoryMenuItem, UtilityDialog.TERRITORY, utilDialog, null);
+        openCongregationAction = new DefaultOpenAction(this.congregationMenuItem, UtilityDialog.CONGREGATION, utilDialog, null);
+        openMeetingPlaceAction = new DefaultOpenAction(this.meetingPlacesMenuItem, UtilityDialog.MEETING_PLACE, utilDialog, null);        
+        openProximityMapAction = new DefaultOpenAction(this.proximityMapMenuItem, UtilityDialog.PROXIMITY_MAP, utilDialog, null);
+        
         fcOpenAction = new DefaultFileChooserOpenAction(this.setProfilePictureCommand, this, FileFilterImage.create(), null);        
-        openProximityMapAction = new DefaultOpenAction(this.proximityMapMenuItem, this, proximityMapDialog, null);
         contactPrintAction = new DefaultContactPrintAction(this.mainCommandPanel.getPrintCommand(), utilTable, utilPrint);        
         
         openContactCallsAction.setEnabled(false);
@@ -1286,15 +1283,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     UtilityProperties sexProperties = UtilityProperties.create(UtilityProperties.SEX_PROPERTIES);
     DefaultComboBoxModelListListener<ServiceGroup> sgListListener;
     DefaultComboBoxModelListListener<ContactStatus> statusListListener;    
-    DefaultComboBoxModelListListener<Territory> territoryListListener;
-    ServiceGroupDialog serviceGroupDialog;
-    ContactStatusDialog contactStatusDialog;
-    LocationMapDialog locationMapDialog;
-    DirectionMapDialog directionMapDialog;
-    ContactCallsDialog contactCallsDialog;
-    AppsReportTemplateDialog appsReportDialog;
-    ReportPrintDialog reportPrintDialog;
-    TerritoryDialog territoryDialog;    
+    DefaultComboBoxModelListListener<Territory> territoryListListener;    
     CongregationDialog congregationDialog;
     MeetingPlaceDialog meetingPlaceDialog;
     ProximityMapDialog proximityMapDialog;
@@ -1323,6 +1312,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     UtilityTable utilTable;    
     UtilityReportPrint utilPrint;
     UtilityDatabase utilDB;
+    UtilityDialog utilDialog;
     DefaultCloseAction<Contact> closeAction;
     DefaultNewAction<Contact> newAction;
     DefaultDeleteAction<Contact> deleteAction;
