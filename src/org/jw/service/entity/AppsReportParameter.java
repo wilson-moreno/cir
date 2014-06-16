@@ -45,8 +45,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "AppsReportParameter.findByControlType", query = "SELECT a FROM AppsReportParameter a WHERE a.controlType = :controlType"),
     @NamedQuery(name = "AppsReportParameter.findByCreatedDatetime", query = "SELECT a FROM AppsReportParameter a WHERE a.createdDatetime = :createdDatetime"),
     @NamedQuery(name = "AppsReportParameter.findByUpdatedDatetime", query = "SELECT a FROM AppsReportParameter a WHERE a.updatedDatetime = :updatedDatetime")})
-public class AppsReportParameter implements Serializable, ObservableEntity, SilentSetter {
-    public static final String PROP_DEFAULTVALUE = "PROP_DEFAULTVALUE";
+public class AppsReportParameter implements Serializable, ObservableEntity, SilentSetter, Comparable<AppsReportParameter> {
+    public static final String PROP_DEFAULTVALUE = "defaultValue";
+    public static final String PROP_PARAMETERTYPE = "parameterType";
     @Column(name = "DEFAULT_VALUE")
     private String defaultValue;
     public static final String PROP_DATATYPE = "dataType";
@@ -87,6 +88,8 @@ public class AppsReportParameter implements Serializable, ObservableEntity, Sile
     private Collection<PossibleValue> possibleValueCollection;
     @Transient
     private String saveState;
+    @Column (name = "PARAMETER_TYPE")
+    private String parameterType;
 
     public AppsReportParameter() {
         this.controlType = "";
@@ -102,6 +105,7 @@ public class AppsReportParameter implements Serializable, ObservableEntity, Sile
         this.dataType = "String";
         this.enable = Boolean.TRUE;
         this.required = Boolean.TRUE;
+        this.parameterType = "";
     }
 
     public AppsReportParameter(Integer id) {
@@ -393,6 +397,40 @@ public class AppsReportParameter implements Serializable, ObservableEntity, Sile
         Boolean oldRequired = this.required;
         this.required = required;
         propertyChangeSupport.firePropertyChange("required", oldRequired, required);
+    }
+
+    @Override
+    public int compareTo(AppsReportParameter t) {
+        return this.sequence.compareTo(t.sequence);
+    }
+
+    @Override
+    public boolean hasDependentEntities() {
+        return !getPossibleValueCollection().isEmpty();
+    }
+
+    @Override
+    public boolean isMissingRequiredFields() {
+        return getSequence() == null ||
+               getName().trim().equals("") ||
+               getLabel().trim().equals("");
+        
+    }
+
+    /**
+     * @return the parameterType
+     */
+    public String getParameterType() {
+        return parameterType;
+    }
+
+    /**
+     * @param parameterType the parameterType to set
+     */
+    public void setParameterType(String parameterType) {
+        java.lang.String oldParameterType = this.parameterType;
+        this.parameterType = parameterType;
+        propertyChangeSupport.firePropertyChange(PROP_PARAMETERTYPE, oldParameterType, parameterType);
     }
     
 }

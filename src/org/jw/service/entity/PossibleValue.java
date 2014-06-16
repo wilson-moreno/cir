@@ -42,8 +42,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "PossibleValue.findByType", query = "SELECT p FROM PossibleValue p WHERE p.type = :type"),
     @NamedQuery(name = "PossibleValue.findByCreatedDatetime", query = "SELECT p FROM PossibleValue p WHERE p.createdDatetime = :createdDatetime"),
     @NamedQuery(name = "PossibleValue.findByUpdatedDatetime", query = "SELECT p FROM PossibleValue p WHERE p.updatedDatetime = :updatedDatetime")})
-public class PossibleValue implements Serializable, ObservableEntity, SilentSetter {
-    private static final long serialVersionUID = 1L;
+public class PossibleValue implements Serializable, ObservableEntity, SilentSetter, Comparable<PossibleValue> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -68,16 +67,17 @@ public class PossibleValue implements Serializable, ObservableEntity, SilentSett
     private AppsReportParameter parameterId;
     @Transient
     private String saveState;
+    private static final long serialVersionUID = 1L;
 
     public PossibleValue() {
-        this.createdDatetime = new Date();
-        this.name = "";
-        this.parameterId = null;
-        this.query = "";
-        this.saveState = "";
-        this.type = "";
-        this.updatedDatetime = new Date();
-        this.value = "";
+        createdDatetime = new Date();
+        name = "";
+        parameterId = null;
+        query = "";
+        saveState = "*";
+        type = "";
+        updatedDatetime = new Date();
+        value = "";
     }
 
     public PossibleValue(Integer id) {
@@ -104,6 +104,7 @@ public class PossibleValue implements Serializable, ObservableEntity, SilentSett
     /**
      * @return the name
      */
+    @Override
     public String getName() {
         return name;
     }
@@ -296,6 +297,22 @@ public class PossibleValue implements Serializable, ObservableEntity, SilentSett
             case "updatedDatetime" : this.updatedDatetime = (Date) value; break;
             default : throw new UnsupportedOperationException("Property not Supported: " + name);
         }
+    }
+
+    @Override
+    public boolean hasDependentEntities() {
+        return false;
+    }
+
+    @Override
+    public boolean isMissingRequiredFields() {
+        return getName().trim().equals("") ||
+               getValue().trim().equals("");
+    }
+
+    @Override
+    public int compareTo(PossibleValue t) {
+        return this.getName().compareTo(t.getName());
     }
     
 }

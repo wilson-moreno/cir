@@ -6,6 +6,7 @@
 
 package org.jw.service.action.dependency;
 
+import org.jw.service.action.DependencyCommand;
 import com.toedter.calendar.JDateChooser;
 import java.awt.event.ActionEvent;
 import java.io.File;
@@ -19,7 +20,6 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JTextField;
-import org.jw.service.action.DependencyCommand;
 import org.jw.service.beans.ByteArrayBean;
 
 /**

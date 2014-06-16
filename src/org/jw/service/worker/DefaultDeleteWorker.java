@@ -32,7 +32,7 @@ public class DefaultDeleteWorker<T> extends SwingWorker<T, String>{
     
     @Override
     protected T doInBackground() throws Exception {
-        T remove = null;
+        T remove = null;        
         
         int modelIndex = utilTable.getSelectedModelIndex();
         if(modelIndex >= 0){

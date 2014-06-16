@@ -130,8 +130,7 @@ public class LocationMapDialog extends javax.swing.JDialog {
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactSource, org.jdesktop.beansbinding.ELProperty.create("${recordNumber}"), contactInfoPanel, org.jdesktop.beansbinding.BeanProperty.create("recordNumber"));
         bindingGroup.addBinding(binding);
 
-        java.util.ResourceBundle bundle1 = java.util.ResourceBundle.getBundle("org/jw/service/gui/resources/properties/location_map_dialog"); // NOI18N
-        locationMapPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, bundle1.getString("location.map.propties.panel.title"), javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        locationMapPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Properties", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
         latitudeLabel.setText("Latitude:");
 
@@ -294,7 +293,7 @@ public class LocationMapDialog extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        mapImagePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, bundle1.getString("location.map.image.panel"), javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        mapImagePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Location Map", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
         mapImageLabel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
 
@@ -360,7 +359,7 @@ public class LocationMapDialog extends javax.swing.JDialog {
         if(contactTarget.getLocationMapCollection().isEmpty()){
             LocationMap map = mapDAO.create();
             map.setContactId(contactTarget);
-            mapTarget = mapDAO.save(map);    
+            mapTarget = mapDAO.persist(map);    
             mapIO.setSource(mapSource);
             mapIO.setTarget(mapTarget);
             mapIO.read();

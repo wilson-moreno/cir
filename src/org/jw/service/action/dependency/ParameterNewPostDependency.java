@@ -6,10 +6,10 @@
 
 package org.jw.service.action.dependency;
 
+import org.jw.service.action.DependencyCommand;
 import java.awt.event.ActionEvent;
 import java.util.List;
 import javax.swing.JTable;
-import org.jw.service.action.DependencyCommand;
 import org.jw.service.dao.DataAccessObject;
 import org.jw.service.entity.AppsReport;
 import org.jw.service.entity.AppsReportParameter;
@@ -43,7 +43,7 @@ public class ParameterNewPostDependency implements DependencyCommand{
         AppsReportParameter parameter = (AppsReportParameter) workerResult;
         AppsReport report = (AppsReport) list.get(utilTable.getSelectedModelIndex());
         parameter.silentSetProperty("reportId", report);
-        dao.save(parameter);
+        dao.persist(parameter);
     }
 
     @Override

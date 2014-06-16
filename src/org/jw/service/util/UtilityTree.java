@@ -17,6 +17,7 @@ import javax.swing.tree.TreePath;
 import org.jw.service.dao.DataAccessObject;
 import org.jw.service.entity.Contact;
 import org.jw.service.entity.ServiceGroup;
+import org.jw.service.entity.Territory;
 import org.jw.service.listener.task.DefaultTaskListener;
 import org.jw.service.tree.cell.renderer.AppsTreeCellRenderer;
 import org.jw.service.worker.DefaultSearchTreePathWorker;
@@ -44,13 +45,19 @@ public class UtilityTree {
         return new UtilityTree(tree, dao, listener);            
     }
     
-    private void constructTree(){
-        DefaultTreeConstructWorker worker = new DefaultTreeConstructWorker(dao.readAll(), listener);
+    private void constructTree(){           
+        List<ServiceGroup> serviceGroupList = dao.runQuery("SELECT s FROM ServiceGroup s");
+        DefaultTreeConstructWorker worker = new DefaultTreeConstructWorker(serviceGroupList, listener);
         worker.execute();
 
         try {
+            if(root != null)root.removeAllChildren();
             root = worker.get();
-            model = new DefaultTreeModel(root);
+            if(model == null)model = new DefaultTreeModel(root);
+            else {
+                model.setRoot(root);
+                model.reload(root);
+            }
             tree.setCellRenderer(AppsTreeCellRenderer.create());
             tree.setModel(model);
         } catch (InterruptedException | ExecutionException ex) {
@@ -88,18 +95,75 @@ public class UtilityTree {
         }
     }
     
-    public void refresh(Contact contact){
+    public void refresh(Contact contact){                
         try {
             TreePath treePath = findTreePath(contact);
             if(treePath != null){
-                DefaultMutableTreeNode node = (DefaultMutableTreeNode) treePath.getLastPathComponent();
+                DefaultMutableTreeNode node = (DefaultMutableTreeNode) treePath.getLastPathComponent();                
                 node.setUserObject(contact);
+                updateParent(node);
                 model.reload(node);
             }                
         } catch (InterruptedException | ExecutionException ex) {
             Logger.getLogger(UtilityTree.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    private void updateParent(DefaultMutableTreeNode node) throws InterruptedException, ExecutionException{
+        Contact userObject = (Contact) node.getUserObject();
+        
+        // Contacts node parent can either be a Service Group or Territory
+        
+        // Test if Territory is not null, if null do nothing
+        
+        if(userObject.getTerritoryId() != null){ // Territory is not null
+            // Test if parent is Service Group
+            if(isParentServiceGroup(node)){
+                // If yes test if territory is in service group
+                DefaultMutableTreeNode serviceGroupNode = (DefaultMutableTreeNode) node.getParent();
+                changeParentNode(serviceGroupNode, node);
+            } else { // Parent is Territory
+                if(territoryChanged(node)){
+                    DefaultMutableTreeNode serviceGroupNode = findNode(userObject.getServiceGroupId());
+                    if(serviceGroupNode != null)changeParentNode(serviceGroupNode, node);
+                }
+            }
+        } 
+    }
+    
+    private void changeParentNode(DefaultMutableTreeNode serviceGroupNode, DefaultMutableTreeNode contactNode) throws InterruptedException, ExecutionException{
+        Contact userObject = (Contact) contactNode.getUserObject();
+        TreePath territoryTreePath = findTreePath(serviceGroupNode, userObject.getTerritoryId());        
+        if(territoryTreePath != null){ // Territory is in the tree
+            DefaultMutableTreeNode territoryNode = (DefaultMutableTreeNode) territoryTreePath.getLastPathComponent();
+            DefaultMutableTreeNode parentNode = (DefaultMutableTreeNode)contactNode.getParent();
+            model.removeNodeFromParent(contactNode);
+            model.insertNodeInto(contactNode, territoryNode, 0);
+            if(parentNode.isLeaf())model.removeNodeFromParent(parentNode);
+        } else { // Territory is not yet in the tree
+            DefaultMutableTreeNode territoryNode = new DefaultMutableTreeNode(userObject.getTerritoryId());                    
+            DefaultMutableTreeNode parentNode = (DefaultMutableTreeNode)contactNode.getParent();
+            model.removeNodeFromParent(contactNode);
+            model.insertNodeInto(contactNode, territoryNode, 0);
+            model.insertNodeInto(territoryNode, serviceGroupNode, 0);
+            if(parentNode.isLeaf())model.removeNodeFromParent(parentNode);
+        }
+    }
+    
+    private boolean territoryChanged(DefaultMutableTreeNode node){
+        DefaultMutableTreeNode parent = (DefaultMutableTreeNode) node.getParent();
+        Territory territoryParent = (Territory)parent.getUserObject();
+        Territory territoryCurrent = ((Contact)node.getUserObject()).getTerritoryId();
+        return territoryParent.getId() != territoryCurrent.getId();
+    }
+    
+    private boolean isParentServiceGroup(DefaultMutableTreeNode node){
+        DefaultMutableTreeNode parentNode = (DefaultMutableTreeNode) node.getParent();
+        return ServiceGroup.class.isInstance(parentNode.getUserObject());
+    }
+   
+    
+    
     
     public void addNode(Contact contact){
         try {        
@@ -120,8 +184,14 @@ public class UtilityTree {
             TreePath treePath = findTreePath(contact);
             if(treePath != null){
                 DefaultMutableTreeNode node = (DefaultMutableTreeNode) treePath.getLastPathComponent();
+                DefaultMutableTreeNode parent = (DefaultMutableTreeNode)node.getParent();
                 model.removeNodeFromParent(node);
-                model.reload();
+                model.reload(parent);
+                if(parent.isLeaf() && !parent.isRoot()){
+                    DefaultMutableTreeNode grandParent = (DefaultMutableTreeNode) parent.getParent();
+                    model.removeNodeFromParent(parent);
+                    model.reload(grandParent);
+                }
             }
         } catch (InterruptedException | ExecutionException ex) {
             Logger.getLogger(UtilityTree.class.getName()).log(Level.SEVERE, null, ex);
@@ -131,19 +201,40 @@ public class UtilityTree {
     public void refresh(){ constructTree(); }
     public Object getLastSelectedPathComponent(){ return tree.getLastSelectedPathComponent(); }
     
+    private TreePath findTreePath(DefaultMutableTreeNode parent, Territory territory) throws InterruptedException, ExecutionException{
+        if(territory == null)return null;
+        DefaultSearchTreePathWorker<Territory> territorySearchWorker = new DefaultSearchTreePathWorker(parent, Territory.class, territory);
+        territorySearchWorker.execute();        
+        return territorySearchWorker.get();
+    }
+    
+    private DefaultMutableTreeNode findNode(ServiceGroup serviceGroup) throws InterruptedException, ExecutionException{
+        DefaultMutableTreeNode node = null;        
+        
+        TreePath treePath = findTreePath(serviceGroup);
+        if(treePath == null) return null;
+        
+        return (DefaultMutableTreeNode) treePath.getLastPathComponent();
+    }
+    
     private TreePath findTreePath(ServiceGroup serviceGroup) throws InterruptedException, ExecutionException{        
-        serviceGroupSearchWorker = new DefaultSearchTreePathWorker(root, ServiceGroup.class, serviceGroup);
+        if(serviceGroup == null)return null;
+        DefaultSearchTreePathWorker<ServiceGroup> serviceGroupSearchWorker = new DefaultSearchTreePathWorker(root, ServiceGroup.class, serviceGroup);
         serviceGroupSearchWorker.execute();
         return serviceGroupSearchWorker.get();
     } 
     
-    private TreePath findTreePath(Contact contact) throws InterruptedException, ExecutionException{
-        contactSearchWorker = new DefaultSearchTreePathWorker(root, Contact.class, contact);
+    private TreePath findTreePath(Contact contact) throws InterruptedException, ExecutionException{        
+        if(contact ==  null)return null;
+        DefaultSearchTreePathWorker<Contact> contactSearchWorker = new DefaultSearchTreePathWorker(root, Contact.class, contact);
         contactSearchWorker.execute();
         return contactSearchWorker.get();
     }
     
-    
-    DefaultSearchTreePathWorker<ServiceGroup> serviceGroupSearchWorker; 
-    DefaultSearchTreePathWorker<Contact> contactSearchWorker; 
+    private TreePath findTreePath(Territory territory) throws InterruptedException, ExecutionException{        
+        if(territory == null)return null;
+        DefaultSearchTreePathWorker<Territory> territorySearchWorker = new DefaultSearchTreePathWorker(root, Territory.class, territory);
+        territorySearchWorker.execute();        
+        return territorySearchWorker.get();
+    }
 }

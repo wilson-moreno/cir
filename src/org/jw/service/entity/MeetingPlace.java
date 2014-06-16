@@ -311,4 +311,17 @@ public class MeetingPlace implements Serializable, ObservableEntity, SilentSette
             default : throw new UnsupportedOperationException("Property not Supported: " + name);
         }
     }
+
+    @Override
+    public boolean hasDependentEntities() {
+        return !getDirectionMapCollection().isEmpty();
+    }
+
+    @Override
+    public boolean isMissingRequiredFields() {
+        return getName().trim().equals("") ||
+               getAddress().trim().equals("") ||
+               getLatitude() == null ||
+               getLongitude() == null;
+    }
 }

@@ -9,6 +9,7 @@ package org.jw.service.entity;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -49,9 +50,11 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ContactCall.findByCreatedDatetime", query = "SELECT c FROM ContactCall c WHERE c.createdDatetime = :createdDatetime"),
     @NamedQuery(name = "ContactCall.findByUpdatedDatetime", query = "SELECT c FROM ContactCall c WHERE c.updatedDatetime = :updatedDatetime")})
 public class ContactCall implements Serializable, ObservableEntity, SilentSetter {
-    @Column(name = "CALL_TIME")
-    @Temporal(TemporalType.TIME)
-    private Date callTime;
+    @JoinColumn(name = "CALL_STATUS_ID", referencedColumnName = "ID")
+    @ManyToOne
+    private CallStatus callStatusId;
+    @Column(name = "CALL_TIME")    
+    private String callTime;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -91,19 +94,18 @@ public class ContactCall implements Serializable, ObservableEntity, SilentSetter
     private String saveState;
 
     public ContactCall() {
-        this.callDate = new Date();
-        this.callDay = "";
-        this.callTime = new Date();
+        this.setCallDate(new Date());        
+        this.callTime = "10:00 AM";
         this.contactId = null;
         this.createdDatetime = new Date();
-        this.literature = "";
+        this.literature = "No Literature";
         this.nextTopic = "";
-        this.nextVisit = new Date();
+        this.nextVisit = null;
         this.notes = "";
         this.publishers = "";
         this.saveState = "";
-        this.scriptures = "";
-        this.status = "";
+        this.scriptures = "No Scriptures";
+        this.status = "Visit";
         this.updatedDatetime = new Date();
     }
 
@@ -140,8 +142,12 @@ public class ContactCall implements Serializable, ObservableEntity, SilentSetter
      */
     public void setCallDate(Date callDate) {
         java.util.Date oldCallDate = this.callDate;
-        this.callDate = callDate;
-        propertyChangeSupport.firePropertyChange(PROP_CALLDATE, oldCallDate, callDate);
+        this.callDate = callDate;                
+        propertyChangeSupport.firePropertyChange(PROP_CALLDATE, oldCallDate, callDate); 
+        if(callDate != null){
+            SimpleDateFormat formatter = new SimpleDateFormat("EEEEE");
+            this.setCallDay(formatter.format(callDate));
+        }        
     }
 
     /**
@@ -163,15 +169,15 @@ public class ContactCall implements Serializable, ObservableEntity, SilentSetter
     /**
      * @return the callTime
      */
-    public Date getCallTime() {
+    public String getCallTime() {
         return callTime;
     }
 
     /**
      * @param callTime the callTime to set
      */
-    public void setCallTime(Date callTime) {
-        Date oldCallTime = this.callTime;
+    public void setCallTime(String callTime) {
+        String oldCallTime = this.callTime;
         this.callTime = callTime;
         propertyChangeSupport.firePropertyChange(PROP_CALLTIME, oldCallTime, callTime);
     }
@@ -415,4 +421,33 @@ public class ContactCall implements Serializable, ObservableEntity, SilentSetter
             default : throw new UnsupportedOperationException("Property not Supported: " + name);
         }
     }
+    
+    public String getName(){ return ""; }
+
+    @Override
+    public boolean hasDependentEntities() {
+        return false;
+    }
+
+    @Override
+    public boolean isMissingRequiredFields() {
+        return (getCallDate() == null) ||
+               getCallDay().trim().equals("") ||
+               getCallTime().trim().equals("") ||
+               getStatus().trim().equals("") ||
+               getNotes().trim().equals("") ||
+               getPublishers().trim().equals("");
+    }
+
+    public CallStatus getCallStatusId() {
+        return callStatusId;
+    }
+
+    public void setCallStatusId(CallStatus callStatusId) {
+        CallStatus oldCallStatusId = this.callStatusId;
+        this.callStatusId = callStatusId;
+        propertyChangeSupport.firePropertyChange("callStatusId", oldCallStatusId, callStatusId);
+    }
+    
+    
 }

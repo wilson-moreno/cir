@@ -9,6 +9,7 @@ package org.jw.service.entity;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -21,11 +22,13 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -42,10 +45,12 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Territory.findByEnable", query = "SELECT t FROM Territory t WHERE t.enable = :enable"),
     @NamedQuery(name = "Territory.findByCreatedDatetime", query = "SELECT t FROM Territory t WHERE t.createdDatetime = :createdDatetime"),
     @NamedQuery(name = "Territory.findByUpdatedDatetime", query = "SELECT t FROM Territory t WHERE t.updatedDatetime = :updatedDatetime")})
-public class Territory implements Serializable, ObservableEntity, SilentSetter {
+public class Territory implements Serializable, ObservableEntity, SilentSetter, Comparable<Territory> {
     @Lob
     @Column(name = "MAP_IMAGE")
     private byte[] mapImage;
+    @OneToMany(mappedBy = "territoryId")
+    private Collection<Contact> contactCollection;
     @JoinColumn(name = "SERVICE_GROUP_ID", referencedColumnName = "ID")
     @ManyToOne
     private ServiceGroup serviceGroupId;
@@ -123,6 +128,7 @@ public class Territory implements Serializable, ObservableEntity, SilentSetter {
     /**
      * @return the id
      */
+    @Override
     public Integer getId() {
         return id;
     }
@@ -273,5 +279,33 @@ public class Territory implements Serializable, ObservableEntity, SilentSetter {
         this.serviceGroupId = serviceGroupId;
         propertyChangeSupport.firePropertyChange("serviceGroupId", oldServiceGroupId, serviceGroupId);
     }
+
+    @Override
+    public int compareTo(Territory t) {
+        return this.name.compareTo(t.getName());
+    }
+    
+
+    @XmlTransient
+    public Collection<Contact> getContactCollection() {
+        return contactCollection;
+    }
+
+    public void setContactCollection(Collection<Contact> contactCollection) {
+        this.contactCollection = contactCollection;
+    }
+
+    @Override
+    public boolean hasDependentEntities() {
+        return !getContactCollection().isEmpty();
+    }
+
+    @Override
+    public boolean isMissingRequiredFields() {
+        return getName().trim().equals("") ||
+               getDescription().trim().equalsIgnoreCase("") ||
+               getServiceGroupId() == null;
+    }
+
     
 }

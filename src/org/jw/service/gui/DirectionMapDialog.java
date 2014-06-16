@@ -87,14 +87,14 @@ public class DirectionMapDialog extends javax.swing.JDialog {
             directionMapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(directionMapPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(directionMapImageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(directionMapImageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 522, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         directionMapPanelLayout.setVerticalGroup(
             directionMapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(directionMapPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(directionMapImageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(directionMapImageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 

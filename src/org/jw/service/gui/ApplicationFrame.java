@@ -7,31 +7,42 @@
 package org.jw.service.gui;
 
 import javax.persistence.EntityManager;
+import javax.swing.JFileChooser;
 import org.jdesktop.observablecollections.ObservableList;
 import org.jw.service.action.DefaultCloseAction;
 import org.jw.service.action.DefaultContactPrintAction;
 import org.jw.service.action.DefaultDeleteAction;
-import org.jw.service.action.DefaultFileChooserOpenAction;
+import org.jw.service.action.DefaultFileChooserAction;
 import org.jw.service.action.DefaultNewAction;
 import org.jw.service.action.DefaultOpenAction;
 import org.jw.service.action.DefaultRefreshAction;
 import org.jw.service.action.DefaultSaveAction;
+import org.jw.service.action.dependency.BackupPostDependency;
+import org.jw.service.action.dependency.BackupPreDependency;
 import org.jw.service.action.dependency.DefaultSystemExitPreDependency;
 import org.jw.service.action.dependency.DeleteContactPostDependency;
 import org.jw.service.action.dependency.ProfileSetPostDependency;
 import org.jw.service.action.dependency.NewContactPostDependency;
+import org.jw.service.action.dependency.PrintContactPostDependency;
 import org.jw.service.action.dependency.RecordNumberPreDependency;
 import org.jw.service.action.dependency.RefreshContactListPostDependency;
 import org.jw.service.action.dependency.SaveContactPostDependency;
+import org.jw.service.action.validator.DefaultCloseActionValidator;
+import org.jw.service.action.validator.DefaultRequiredFieldsSaveActionValidator;
+import org.jw.service.action.validator.DefaultUniqueFieldsSaveActionValidator;
 import org.jw.service.builder.DefaultTaskBuilder;
 import org.jw.service.dao.DataAccessObject;
 import org.jw.service.entity.Contact;
 import org.jw.service.entity.ContactStatus;
 import org.jw.service.entity.ServiceGroup;
 import org.jw.service.entity.Territory;
+import org.jw.service.file.filter.FileFilterDirectory;
 import org.jw.service.file.filter.FileFilterImage;
 import org.jw.service.gui.component.MultipleRecordCrudPanel;
+import org.jw.service.gui.focus.DefaultFocusTraversalPolicy;
+import org.jw.service.list.ContactMatcher;
 import org.jw.service.listener.combobox.DefaultComboBoxModelListListener;
+import org.jw.service.listener.item.DefaultServiceGroupItemListener;
 import org.jw.service.listener.selection.ContactListSelectionListener;
 import org.jw.service.listener.task.DefaultTaskListener;
 import org.jw.service.listener.tree.selection.DefaultTreeSelectionListener;
@@ -41,6 +52,7 @@ import org.jw.service.util.UtilityProperties;
 import org.jw.service.util.UtilityReportPrint;
 import org.jw.service.util.UtilityTable;
 import org.jw.service.util.UtilityTree;
+
 
 /**
  *
@@ -54,8 +66,23 @@ public final class ApplicationFrame extends javax.swing.JFrame {
      */
     public ApplicationFrame(EntityManager em) {        
         this.em = em;        
+        this.contactDAO = DataAccessObject.create(em, Contact.class);
+        this.statusDAO = DataAccessObject.create(em, ContactStatus.class);
+        this.serviceGroupDAO = DataAccessObject.create(em, ServiceGroup.class);
+        this.territoryDAO = DataAccessObject.create(em, Territory.class);
         initComponents();
         initMyComponents();        
+        //initFocusTraversalPolicy();
+    }
+    
+    public void initFocusTraversalPolicy(){
+        DefaultFocusTraversalPolicy focusTraversalPolicy = DefaultFocusTraversalPolicy.create();
+        
+        focusTraversalPolicy.addComponent(this.recordNumberTextField);
+        focusTraversalPolicy.addComponent(this.recordDateChooser);
+        focusTraversalPolicy.addComponent(this.lastNameTextField);
+        focusTraversalPolicy.addComponent(this.firstNameTextField);
+        this.personalTab.setFocusTraversalPolicy(focusTraversalPolicy);
     }
 
     /**
@@ -69,6 +96,9 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         contactList = org.jdesktop.observablecollections.ObservableCollections.observableList(new java.util.ArrayList<org.jw.service.entity.Contact>());
+        territoryListBean = new org.jw.service.beans.ListBean(territoryDAO);
+        statusListBean = new org.jw.service.beans.ListBean(statusDAO);
+        serviceGroupListBean = new org.jw.service.beans.ListBean(serviceGroupDAO);
         taskMonitorPanel = new org.jw.service.gui.component.TaskMonitorPanel();
         mainCommandPanel = new org.jw.service.gui.component.MainCommandPanel();
         treeScrollPane = new javax.swing.JScrollPane();
@@ -152,8 +182,11 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         openLocationMapCommand = new javax.swing.JButton();
         openDirectionMapCommand = new javax.swing.JButton();
         relativesTab = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
-        treeViewComboBox = new javax.swing.JComboBox();
+        relativesPanel = new javax.swing.JPanel();
+        otherTab = new javax.swing.JPanel();
+        otherPanel = new javax.swing.JPanel();
+        printedCheckBox = new javax.swing.JCheckBox();
+        viewModeComboBox = new javax.swing.JComboBox();
         menuBar = new javax.swing.JMenuBar();
         systemMenu = new javax.swing.JMenu();
         optionsMenu = new javax.swing.JMenu();
@@ -162,9 +195,11 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         contactStatusMenuItem = new javax.swing.JMenuItem();
         territoryMenuItem = new javax.swing.JMenuItem();
         meetingPlacesMenuItem = new javax.swing.JMenuItem();
+        callStatusMenuItem = new javax.swing.JMenuItem();
         toolsMenu = new javax.swing.JMenu();
         reportTemplatesMenuItem = new javax.swing.JMenuItem();
         proximityMapMenuItem = new javax.swing.JMenuItem();
+        excelImportExportMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/jw/service/gui/resources/properties/dialog_titles"); // NOI18N
@@ -176,6 +211,9 @@ public final class ApplicationFrame extends javax.swing.JFrame {
             }
         });
 
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, serviceGroupListBean, org.jdesktop.beansbinding.ELProperty.create("${defaultComboBoxModel}"), mainCommandPanel, org.jdesktop.beansbinding.BeanProperty.create("defaultComboBoxModel"));
+        bindingGroup.addBinding(binding);
+
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("root");
         contactTree.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
         treeScrollPane.setViewportView(contactTree);
@@ -184,6 +222,8 @@ public final class ApplicationFrame extends javax.swing.JFrame {
 
         contactsTable.setAutoCreateRowSorter(true);
         contactsTable.setIntercellSpacing(new java.awt.Dimension(2, 2));
+        contactsTable.setRowHeight(18);
+        contactsTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         contactsTable.getTableHeader().setReorderingAllowed(false);
 
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactList, contactsTable);
@@ -214,18 +254,21 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${maritalStatus}"));
         columnBinding.setColumnName("Marital Status");
         columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${statusId}"));
         columnBinding.setColumnName("Status");
         columnBinding.setColumnClass(org.jw.service.entity.ContactStatus.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${printed}"));
+        columnBinding.setColumnName("Printed");
+        columnBinding.setColumnClass(Boolean.class);
         columnBinding.setEditable(false);
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
         contactsScrollPane.setViewportView(contactsTable);
         if (contactsTable.getColumnModel().getColumnCount() > 0) {
-            contactsTable.getColumnModel().getColumn(0).setResizable(false);
             contactsTable.getColumnModel().getColumn(0).setPreferredWidth(10);
             contactsTable.getColumnModel().getColumn(0).setCellRenderer(org.jw.service.table.cell.renderer.DefaultStateCellRenderer.create());
-            contactsTable.getColumnModel().getColumn(5).setResizable(false);
             contactsTable.getColumnModel().getColumn(5).setPreferredWidth(50);
         }
 
@@ -251,7 +294,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         profilePictureLabel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         profilePictureLabel.setName("Profile Picture"); // NOI18N
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.profilePicture}"), profilePictureLabel, org.jdesktop.beansbinding.BeanProperty.create("icon"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.profilePicture}"), profilePictureLabel, org.jdesktop.beansbinding.BeanProperty.create("icon"));
         binding.setSourceNullValue(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.profile.picture.blank.png"))); // NOI18N
         binding.setSourceUnreadableValue(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.profile.picture.blank.png"))); // NOI18N
         binding.setConverter(org.jw.service.beansbinding.converter.ByteToImageConverter.create(this.profilePictureLabel));
@@ -274,15 +317,18 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         recordNumberLabel.setText("Record Number:");
 
         recordNumberTextField.setEditable(false);
+        recordNumberTextField.setNextFocusableComponent(recordDateChooser);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.recordNumber}"), recordNumberTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "recordNumber");
         binding.setSourceNullValue("");
         binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
+        lastNameLabel.setLabelFor(lastNameTextField);
         lastNameLabel.setText("Last Name:");
+        lastNameLabel.setNextFocusableComponent(firstNameLabel);
 
-        lastNameTextField.setNextFocusableComponent(nickNameTextField);
+        lastNameTextField.setNextFocusableComponent(firstNameTextField);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.lastName}"), lastNameTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "lastName");
         binding.setSourceNullValue("");
@@ -295,71 +341,85 @@ public final class ApplicationFrame extends javax.swing.JFrame {
             }
         });
 
+        nickNameLabel.setLabelFor(nickNameTextField);
         nickNameLabel.setText("Nick Name:");
 
-        nickNameTextField.setNextFocusableComponent(sexComboBox);
+        nickNameTextField.setNextFocusableComponent(birthDateChooser);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.nickName}"), nickNameTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "nickName");
         binding.setSourceNullValue("");
         binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
+        sexLabel.setLabelFor(sexComboBox);
         sexLabel.setText("Sex:");
 
+        recordDateLabel.setLabelFor(recordDateChooser);
         recordDateLabel.setText("Record Date:");
 
+        firstNameLabel.setLabelFor(firstNameTextField);
         firstNameLabel.setText("First Name:");
 
+        birthdateLabel.setLabelFor(birthDateChooser);
         birthdateLabel.setText("Birthdate:");
 
+        statusLabel.setLabelFor(statusComboBox);
         statusLabel.setText("Status:");
 
-        firstNameTextField.setNextFocusableComponent(birthDateChooser);
+        firstNameTextField.setNextFocusableComponent(nickNameTextField);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.firstName}"), firstNameTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "firstName");
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.firstName}"), firstNameTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "First Name");
         binding.setSourceNullValue("");
         binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
-        statusComboBox.setNextFocusableComponent(nationalityTextField);
+        statusComboBox.setNextFocusableComponent(maritalStatusComboBox);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.statusId}"), statusComboBox, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"), "status");
         binding.setSourceNullValue(null);
         binding.setSourceUnreadableValue(null);
         bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, statusListBean, org.jdesktop.beansbinding.ELProperty.create("${defaultComboBoxModel}"), statusComboBox, org.jdesktop.beansbinding.BeanProperty.create("model"));
+        bindingGroup.addBinding(binding);
 
         sexComboBox.setModel(new javax.swing.DefaultComboBoxModel(sexProperties.getValues().toArray()));
-        sexComboBox.setNextFocusableComponent(maritalStatusComboBox);
+        sexComboBox.setNextFocusableComponent(statusComboBox);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.sex}"), sexComboBox, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"), "sex");
         binding.setSourceNullValue(null);
         binding.setSourceUnreadableValue(null);
         bindingGroup.addBinding(binding);
 
+        maritalStatusLabel.setLabelFor(maritalStatusComboBox);
         maritalStatusLabel.setText("Marital Status:");
 
         maritalStatusComboBox.setModel(new javax.swing.DefaultComboBoxModel(maritalStatusProperties.getValues().toArray()));
-        maritalStatusComboBox.setNextFocusableComponent(recordDateChooser);
+        maritalStatusComboBox.setNextFocusableComponent(nationalityTextField);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.maritalStatus}"), maritalStatusComboBox, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"), "maritalStatus");
         binding.setSourceNullValue(null);
         binding.setSourceUnreadableValue(null);
         bindingGroup.addBinding(binding);
 
+        nationalityLabel.setLabelFor(nationalityTextField);
         nationalityLabel.setText("Nationality:");
+
+        nationalityTextField.setNextFocusableComponent(guardiansNameTextField);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.nationality}"), nationalityTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "nationality");
         binding.setSourceNullValue("");
         binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
-        birthDateChooser.setNextFocusableComponent(statusComboBox);
+        birthDateChooser.setDateFormatString("MMM d, yyyy");
+        birthDateChooser.setNextFocusableComponent(sexComboBox);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.birthdate}"), birthDateChooser, org.jdesktop.beansbinding.BeanProperty.create("date"), "birthdate");
         binding.setSourceNullValue(null);
         binding.setSourceUnreadableValue(null);
         bindingGroup.addBinding(binding);
 
+        recordDateChooser.setDateFormatString("MMM d, yyyy");
         recordDateChooser.setNextFocusableComponent(firstNameTextField);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.recordDate}"), recordDateChooser, org.jdesktop.beansbinding.BeanProperty.create("date"), "recordDate");
@@ -381,7 +441,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
                     .addGroup(personalPanelLayout.createSequentialGroup()
                         .addComponent(nickNameLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(nickNameTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE))
+                        .addComponent(nickNameTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE))
                     .addGroup(personalPanelLayout.createSequentialGroup()
                         .addComponent(sexLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -414,7 +474,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
                             .addComponent(statusLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(personalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(statusComboBox, 0, 117, Short.MAX_VALUE)
+                            .addComponent(statusComboBox, 0, 107, Short.MAX_VALUE)
                             .addComponent(nationalityTextField))))
                 .addContainerGap())
         );
@@ -493,46 +553,66 @@ public final class ApplicationFrame extends javax.swing.JFrame {
 
         addressPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Address", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
+        houseNumberLabel.setLabelFor(houseNumberTextField);
         houseNumberLabel.setText("House Number:");
+
+        houseNumberTextField.setNextFocusableComponent(streetTextField);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.houseNumber}"), houseNumberTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "houseNumber");
         binding.setSourceNullValue("");
         binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
+        barangayLabel.setLabelFor(barangayTextField);
         barangayLabel.setText("Barangay:");
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.city}"), cityTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "city");
+        cityTextField.setNextFocusableComponent(barangayTextField);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.city}"), cityTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "City");
         binding.setSourceNullValue("");
         binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
+        streetLabel.setLabelFor(streetTextField);
         streetLabel.setText("Street:");
 
+        cityLabel.setLabelFor(cityTextField);
         cityLabel.setText("City:");
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.street}"), streetTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "street");
+        streetTextField.setNextFocusableComponent(cityTextField);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.street}"), streetTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "Street");
         binding.setSourceNullValue("");
         binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
+
+        barangayTextField.setNextFocusableComponent(areaTextField);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.barangay}"), barangayTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "barangay");
         binding.setSourceNullValue("");
         binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
+        areaLabel.setLabelFor(areaTextField);
         areaLabel.setText("Area:");
+
+        areaTextField.setNextFocusableComponent(territoryComboBox);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.area}"), areaTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "area");
         binding.setSourceNullValue("");
         binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
+        territoryLabel.setLabelFor(territoryComboBox);
         territoryLabel.setText("Territory:");
+
+        territoryComboBox.setNextFocusableComponent(personalTextField);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.territoryId}"), territoryComboBox, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         binding.setSourceNullValue(null);
         binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, territoryListBean, org.jdesktop.beansbinding.ELProperty.create("${defaultComboBoxModel}"), territoryComboBox, org.jdesktop.beansbinding.BeanProperty.create("model"));
         bindingGroup.addBinding(binding);
 
         javax.swing.GroupLayout addressPanelLayout = new javax.swing.GroupLayout(addressPanel);
@@ -545,7 +625,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
                     .addGroup(addressPanelLayout.createSequentialGroup()
                         .addComponent(houseNumberLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(houseNumberTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 436, Short.MAX_VALUE))
+                        .addComponent(houseNumberTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE))
                     .addGroup(addressPanelLayout.createSequentialGroup()
                         .addGroup(addressPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(barangayLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -617,60 +697,84 @@ public final class ApplicationFrame extends javax.swing.JFrame {
 
         backgroundPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Background", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
+        personalLabel.setLabelFor(personalTextField);
         personalLabel.setText("Personal:");
+
+        personalTextField.setNextFocusableComponent(familyTextField);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.personalBackground}"), personalTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "personalBackground");
         binding.setSourceNullValue("");
         binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
+        familyLabel.setLabelFor(familyTextField);
         familyLabel.setText("Family:");
+
+        familyTextField.setNextFocusableComponent(workBackgroundTextField);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.familyBackground}"), familyTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "familyBackground");
         binding.setSourceNullValue("");
         binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
+        workBackgroundLabel.setLabelFor(workBackgroundTextField);
         workBackgroundLabel.setText("Work:");
 
+        workBackgroundTextField.setNextFocusableComponent(guardiansNameTextField);
+
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.workBackground}"), workBackgroundTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("null");
-        binding.setSourceUnreadableValue("null");
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
+        guardiansNameLabel.setLabelFor(guardiansNameTextField);
         guardiansNameLabel.setText("Guardian:");
 
+        fathersNameLabel.setLabelFor(fathersNameTextField);
         fathersNameLabel.setText("Father:");
 
+        fathersNameTextField.setNextFocusableComponent(religionTextField);
+
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.fathersName}"), fathersNameTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("null");
-        binding.setSourceUnreadableValue("null");
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
+        mothersNameLabel.setLabelFor(mothersNameTextField);
         mothersNameLabel.setText("Mother:");
 
+        mothersNameTextField.setNextFocusableComponent(foundByTextField);
+
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.mothersName}"), mothersNameTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("null");
-        binding.setSourceUnreadableValue("null");
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
+        religionLabel.setLabelFor(religionTextField);
         religionLabel.setText("Religion:");
 
+        foundByLabel.setLabelFor(foundByTextField);
         foundByLabel.setText("Found by:");
 
+        guardiansNameTextField.setNextFocusableComponent(fathersNameTextField);
+
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.guardiansName}"), guardiansNameTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("null");
-        binding.setSourceUnreadableValue("null");
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
+
+        religionTextField.setNextFocusableComponent(mothersNameTextField);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.religion}"), religionTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("null");
-        binding.setSourceUnreadableValue("null");
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
+        foundByTextField.setNextFocusableComponent(phoneNumberTextField);
+
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.foundBy}"), foundByTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("null");
-        binding.setSourceUnreadableValue("null");
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
         javax.swing.GroupLayout backgroundPanelLayout = new javax.swing.GroupLayout(backgroundPanel);
@@ -683,7 +787,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
                     .addGroup(backgroundPanelLayout.createSequentialGroup()
                         .addComponent(personalLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(personalTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 465, Short.MAX_VALUE))
+                        .addComponent(personalTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 444, Short.MAX_VALUE))
                     .addGroup(backgroundPanelLayout.createSequentialGroup()
                         .addComponent(familyLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -776,34 +880,47 @@ public final class ApplicationFrame extends javax.swing.JFrame {
 
         communicationPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Communication", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
+        phoneNumberLabel.setLabelFor(phoneNumberTextField);
         phoneNumberLabel.setText("Phone Number:");
+
+        phoneNumberTextField.setNextFocusableComponent(mobileNumberTextField);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.phoneNumber}"), phoneNumberTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "phoneNumber");
         binding.setSourceNullValue("");
         binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
+        mobileNumberLabel.setLabelFor(mobileNumberTextField);
         mobileNumberLabel.setText("Mobile Number:");
+
+        mobileNumberTextField.setNextFocusableComponent(emailAddressTextField);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.mobileNumber}"), mobileNumberTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "mobileNumber");
         binding.setSourceNullValue("");
         binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
+        emailAddressLabel.setLabelFor(emailAddressTextField);
         emailAddressLabel.setText("Email:");
+
+        emailAddressTextField.setNextFocusableComponent(skypeAccountTextField);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.emailAddress}"), emailAddressTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "emailAddress");
         binding.setSourceNullValue("");
         binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
+        skypeLabel.setLabelFor(skypeAccountTextField);
         skypeLabel.setText("Skype:");
+
+        skypeAccountTextField.setNextFocusableComponent(facebookTextField);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.skypeAccount}"), skypeAccountTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "skypeAccount");
         binding.setSourceNullValue("");
         binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
+        facebookLabel.setLabelFor(facebookTextField);
         facebookLabel.setText("Facebook:");
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.facebookAccount}"), facebookTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "facebookAccount");
@@ -825,7 +942,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
                             .addComponent(emailAddressLabel))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(communicationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(mobileNumberTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 436, Short.MAX_VALUE)
+                            .addComponent(mobileNumberTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE)
                             .addComponent(phoneNumberTextField)
                             .addComponent(emailAddressTextField)))
                     .addGroup(communicationPanelLayout.createSequentialGroup()
@@ -911,7 +1028,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
             .addGroup(mapsPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(mapsToolBar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(424, Short.MAX_VALUE))
+                .addContainerGap(403, Short.MAX_VALUE))
         );
         mapsPanelLayout.setVerticalGroup(
             mapsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -940,16 +1057,16 @@ public final class ApplicationFrame extends javax.swing.JFrame {
 
         tabbedPane.addTab("Maps", mapsTab);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Relatives", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        relativesPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Relatives", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 534, Short.MAX_VALUE)
+        javax.swing.GroupLayout relativesPanelLayout = new javax.swing.GroupLayout(relativesPanel);
+        relativesPanel.setLayout(relativesPanelLayout);
+        relativesPanelLayout.setHorizontalGroup(
+            relativesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 513, Short.MAX_VALUE)
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        relativesPanelLayout.setVerticalGroup(
+            relativesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 147, Short.MAX_VALUE)
         );
 
@@ -959,20 +1076,65 @@ public final class ApplicationFrame extends javax.swing.JFrame {
             relativesTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(relativesTabLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(relativesPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         relativesTabLayout.setVerticalGroup(
             relativesTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(relativesTabLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(relativesPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         tabbedPane.addTab("Relatives", relativesTab);
 
-        treeViewComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Service Group View", "Territory View", "Alphabetical View" }));
+        otherPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Other", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+
+        printedCheckBox.setText("Printed");
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.printed}"), printedCheckBox, org.jdesktop.beansbinding.BeanProperty.create("selected"));
+        binding.setSourceNullValue(false);
+        binding.setSourceUnreadableValue(false);
+        bindingGroup.addBinding(binding);
+
+        javax.swing.GroupLayout otherPanelLayout = new javax.swing.GroupLayout(otherPanel);
+        otherPanel.setLayout(otherPanelLayout);
+        otherPanelLayout.setHorizontalGroup(
+            otherPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(otherPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(printedCheckBox)
+                .addContainerGap(448, Short.MAX_VALUE))
+        );
+        otherPanelLayout.setVerticalGroup(
+            otherPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(otherPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(printedCheckBox)
+                .addContainerGap(117, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout otherTabLayout = new javax.swing.GroupLayout(otherTab);
+        otherTab.setLayout(otherTabLayout);
+        otherTabLayout.setHorizontalGroup(
+            otherTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(otherTabLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(otherPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        otherTabLayout.setVerticalGroup(
+            otherTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(otherTabLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(otherPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        tabbedPane.addTab("Other", otherTab);
+
+        viewModeComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Show All", "Show Active Only" }));
 
         systemMenu.setText("System");
         menuBar.add(systemMenu);
@@ -999,6 +1161,9 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         meetingPlacesMenuItem.setText("Meeting Places");
         optionsMenu.add(meetingPlacesMenuItem);
 
+        callStatusMenuItem.setText("Call Status");
+        optionsMenu.add(callStatusMenuItem);
+
         menuBar.add(optionsMenu);
 
         toolsMenu.setText("Tools");
@@ -1010,6 +1175,10 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         proximityMapMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.proximity.map.png"))); // NOI18N
         proximityMapMenuItem.setText("Proximity Map");
         toolsMenu.add(proximityMapMenuItem);
+
+        excelImportExportMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.excel.icon.png"))); // NOI18N
+        excelImportExportMenuItem.setText("Excel Import/Export");
+        toolsMenu.add(excelImportExportMenuItem);
 
         menuBar.add(toolsMenu);
 
@@ -1025,7 +1194,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(treeScrollPane)
-                    .addComponent(treeViewComboBox, 0, 202, Short.MAX_VALUE))
+                    .addComponent(viewModeComboBox, 0, 223, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(contactsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1037,13 +1206,13 @@ public final class ApplicationFrame extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(mainCommandPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(tabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(contactsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(treeViewComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(viewModeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(treeScrollPane)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1065,18 +1234,18 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowActivated
 
     private void initMyComponents(){
+        this.mainCommandPanel.getServiceGroupComboBox().setSelectedIndex(-1);
         sgListListener = DefaultComboBoxModelListListener.create(this.mainCommandPanel.getServiceGroupComboBox());
         statusListListener = DefaultComboBoxModelListListener.create(this.statusComboBox);
         territoryListListener = DefaultComboBoxModelListListener.create(this.territoryComboBox);
-        contactDAO = DataAccessObject.create(em, Contact.class);
-        statusDAO = DataAccessObject.create(em, ContactStatus.class);
-        serviceGroupDAO = DataAccessObject.create(em, ServiceGroup.class);
+        serviceGroupItemListener = new DefaultServiceGroupItemListener(this);
+        
         treeConstructListener = taskMonitorPanel.createDefaultTaskListener(taskMessageProperties.getProperty("tree.construct.start.message"),taskMessageProperties.getProperty("tree.construct.done.message"));
         utilTree = UtilityTree.create(contactTree, serviceGroupDAO, treeConstructListener);        
         utilTable = UtilityTable.create(contactsTable, contactList);
         utilDB = UtilityDatabase.create(em);
-        utilPrint = UtilityReportPrint.create(this, utilDB, this.taskMonitorPanel.createDefaultTaskListener("", ""));
-        utilDialog = UtilityDialog.create(this, true, em, utilTree, utilTable, utilPrint);
+        utilPrint = UtilityReportPrint.create(this, em, utilDB, this.taskMonitorPanel.createDefaultTaskListener("", ""));
+        utilDialog = UtilityDialog.create(this, true, em, utilTree, utilTable, utilPrint, contactList);
         utilDialog.addComboBoxModelListListener("service.group.model.list.listener", sgListListener);
         utilDialog.addComboBoxModelListListener("status.model.list.listener", statusListListener);
         utilDialog.addComboBoxModelListListener("territory.model.list.listener", territoryListListener);
@@ -1092,9 +1261,14 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         openCongregationAction = new DefaultOpenAction(this.congregationMenuItem, UtilityDialog.CONGREGATION, utilDialog, null);
         openMeetingPlaceAction = new DefaultOpenAction(this.meetingPlacesMenuItem, UtilityDialog.MEETING_PLACE, utilDialog, null);        
         openProximityMapAction = new DefaultOpenAction(this.proximityMapMenuItem, UtilityDialog.PROXIMITY_MAP, utilDialog, null);
+        openContactSearchAction = new DefaultOpenAction(this.mainCommandPanel.getSearchCommand(), UtilityDialog.CONTACT_SEARCH, utilDialog, null);
+        openStatisticsAction = new DefaultOpenAction(this.mainCommandPanel.getStatisticsCommand() , UtilityDialog.STATISTICS, utilDialog, null);
+        openCallStatusAction = new DefaultOpenAction(this.callStatusMenuItem, UtilityDialog.CALL_STATUS, utilDialog, null);
+        this.mainCommandPanel.getServiceGroupComboBox().addItemListener(serviceGroupItemListener);
         
-        fcOpenAction = new DefaultFileChooserOpenAction(this.setProfilePictureCommand, this, FileFilterImage.create(), null);        
-        contactPrintAction = new DefaultContactPrintAction(this.mainCommandPanel.getPrintCommand(), utilTable, utilPrint);        
+        fcOpenAction = new DefaultFileChooserAction(this.setProfilePictureCommand, this, FileFilterImage.create(), "Open", JFileChooser.FILES_ONLY, null);        
+        dirOpenAction = new DefaultFileChooserAction(this.mainCommandPanel.getBackupCommand(), this, FileFilterDirectory.create(), "Save", JFileChooser.DIRECTORIES_ONLY, null);        
+        contactPrintAction = new DefaultContactPrintAction(this.mainCommandPanel.getPrintCommand(), em);        
         
         openContactCallsAction.setEnabled(false);
         contactPrintAction.setEnabled(false);       
@@ -1154,23 +1328,48 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         taskBuilder.getListListener().addDisableRemoved(openLocationMapAction);
         taskBuilder.getListListener().addDisableRemoved(openDirectionMapAction);
         
-        
-        
+        setActionDependencies(taskBuilder, utilTable);
+        setActionValidators(taskBuilder, utilTable);
+    }
+    
+    private void setActionDependencies(DefaultTaskBuilder taskBuilder, UtilityTable<Contact> utilTable){
         // Set Dependencies
         RecordNumberPreDependency recordNumberPreDependency = new RecordNumberPreDependency(this, serviceGroupDAO, this.mainCommandPanel.getServiceGroupComboBox());        
-        NewContactPostDependency recordNumberPostDependency = new NewContactPostDependency(contactDAO, serviceGroupDAO, this.mainCommandPanel.getServiceGroupComboBox(), utilTree);                
+        NewContactPostDependency recordNumberPostDependency = new NewContactPostDependency(contactDAO, serviceGroupDAO, this.mainCommandPanel.getServiceGroupComboBox(), utilTree, this.tabbedPane);                
         ProfileSetPostDependency profileSetPostDependency = new ProfileSetPostDependency(this.profilePictureLabel);
         RefreshContactListPostDependency refreshContactListPostDependency = new RefreshContactListPostDependency(utilTree);
         DeleteContactPostDependency deleteContactPostDependency = new DeleteContactPostDependency(utilTree);
         SaveContactPostDependency saveContactPostDependency = new SaveContactPostDependency(utilTree);
+        BackupPreDependency backupPreDependency = new BackupPreDependency(this);
+        BackupPostDependency backupPostDependency = new BackupPostDependency(this, this.utilDB);
+        PrintContactPostDependency printContactPostDependency = new PrintContactPostDependency(this, this.utilTable, this.utilPrint);
+        
         taskBuilder.getNewAction().addPreActionCommands("recordNumberPreDependency",recordNumberPreDependency);        
         taskBuilder.getNewAction().addPostActionCommands("recordNumberPostDependency",recordNumberPostDependency);        
         taskBuilder.getCloseAction().addPreActionCommands("systemExitPreDependency", new DefaultSystemExitPreDependency(this, em));
-        taskBuilder.getRefreshAction().addPostActionCommands("refreshContactListPostDependency", refreshContactListPostDependency);
+
+        
+        //taskBuilder.getRefreshAction().addPostActionCommands("refreshContactListPostDependency", refreshContactListPostDependency);
         taskBuilder.getDeleteAction().addPostActionCommands("deleteContactPostDependency", deleteContactPostDependency);
         taskBuilder.getSaveAction().addPostActionCommands("saveContactPostDependency", saveContactPostDependency);
-        this.fcOpenAction.addPostActionCommands("profileSetPostDependency", profileSetPostDependency);
+        this.fcOpenAction.addPostActionCommands("profileSetPostDependency", profileSetPostDependency);        
+        this.dirOpenAction.addPreActionCommands("backupPreDependency", backupPreDependency);
+        this.dirOpenAction.addPostActionCommands("backupPostDependency", backupPostDependency);
+        this.contactPrintAction.addPostActionCommands("printContactPostDependency", printContactPostDependency);
+    }
+    
+    private void setActionValidators(DefaultTaskBuilder taskBuilder, UtilityTable<Contact> utilTable){
+        // Create Matcher
+        ContactMatcher matcher = new ContactMatcher();
         
+        // Create Validators
+        DefaultUniqueFieldsSaveActionValidator<Contact> uniqueFieldValidator = new DefaultUniqueFieldsSaveActionValidator<>(this, contactList, utilTable, matcher, "Contact");
+        DefaultRequiredFieldsSaveActionValidator<Contact> requiredFieldValidator = new DefaultRequiredFieldsSaveActionValidator<>(this, utilTable, "Contact");
+        DefaultCloseActionValidator closeActionValidator = new DefaultCloseActionValidator(this, utilTable);
+
+        taskBuilder.getCloseAction().addActionValidator(closeActionValidator);
+        taskBuilder.getSaveAction().addActionValidator(uniqueFieldValidator);        
+        taskBuilder.getSaveAction().addActionValidator(requiredFieldValidator);
     }
     
     /**
@@ -1189,6 +1388,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     private javax.swing.JTextField barangayTextField;
     private com.toedter.calendar.JDateChooser birthDateChooser;
     private javax.swing.JLabel birthdateLabel;
+    private javax.swing.JMenuItem callStatusMenuItem;
     private javax.swing.JLabel cityLabel;
     private javax.swing.JTextField cityTextField;
     private javax.swing.JPanel communicationPanel;
@@ -1202,6 +1402,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     private javax.swing.JTable contactsTable;
     private javax.swing.JLabel emailAddressLabel;
     private javax.swing.JTextField emailAddressTextField;
+    private javax.swing.JMenuItem excelImportExportMenuItem;
     private javax.swing.JLabel facebookLabel;
     private javax.swing.JTextField facebookTextField;
     private javax.swing.JLabel familyLabel;
@@ -1216,7 +1417,6 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     private javax.swing.JTextField guardiansNameTextField;
     private javax.swing.JLabel houseNumberLabel;
     private javax.swing.JTextField houseNumberTextField;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lastNameLabel;
     private javax.swing.JTextField lastNameTextField;
     private org.jw.service.gui.component.MainCommandPanel mainCommandPanel;
@@ -1238,12 +1438,15 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     private javax.swing.JButton openDirectionMapCommand;
     private javax.swing.JButton openLocationMapCommand;
     private javax.swing.JMenu optionsMenu;
+    private javax.swing.JPanel otherPanel;
+    private javax.swing.JPanel otherTab;
     private javax.swing.JLabel personalLabel;
     private javax.swing.JPanel personalPanel;
     private javax.swing.JPanel personalTab;
     private javax.swing.JTextField personalTextField;
     private javax.swing.JLabel phoneNumberLabel;
     private javax.swing.JTextField phoneNumberTextField;
+    private javax.swing.JCheckBox printedCheckBox;
     private javax.swing.JLabel profilePictureLabel;
     private javax.swing.JPanel profilePicturePanel;
     private javax.swing.JMenuItem proximityMapMenuItem;
@@ -1251,10 +1454,12 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     private javax.swing.JLabel recordDateLabel;
     private javax.swing.JLabel recordNumberLabel;
     private javax.swing.JTextField recordNumberTextField;
+    private javax.swing.JPanel relativesPanel;
     private javax.swing.JPanel relativesTab;
     private javax.swing.JLabel religionLabel;
     private javax.swing.JTextField religionTextField;
     private javax.swing.JMenuItem reportTemplatesMenuItem;
+    private org.jw.service.beans.ListBean serviceGroupListBean;
     private javax.swing.JMenuItem serviceGroupsMenuItem;
     private javax.swing.JButton setProfilePictureCommand;
     private javax.swing.JComboBox sexComboBox;
@@ -1263,6 +1468,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     private javax.swing.JLabel skypeLabel;
     private javax.swing.JComboBox statusComboBox;
     private javax.swing.JLabel statusLabel;
+    private org.jw.service.beans.ListBean statusListBean;
     private javax.swing.JLabel streetLabel;
     private javax.swing.JTextField streetTextField;
     private javax.swing.JMenu systemMenu;
@@ -1270,10 +1476,11 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     private org.jw.service.gui.component.TaskMonitorPanel taskMonitorPanel;
     private javax.swing.JComboBox territoryComboBox;
     private javax.swing.JLabel territoryLabel;
+    private org.jw.service.beans.ListBean territoryListBean;
     private javax.swing.JMenuItem territoryMenuItem;
     private javax.swing.JMenu toolsMenu;
     private javax.swing.JScrollPane treeScrollPane;
-    private javax.swing.JComboBox treeViewComboBox;
+    private javax.swing.JComboBox viewModeComboBox;
     private javax.swing.JLabel workBackgroundLabel;
     private javax.swing.JTextField workBackgroundTextField;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
@@ -1298,10 +1505,14 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     DefaultOpenAction openCongregationAction;
     DefaultOpenAction openMeetingPlaceAction;
     DefaultOpenAction openProximityMapAction;
+    DefaultOpenAction openContactSearchAction;
+    DefaultOpenAction openStatisticsAction;
+    DefaultOpenAction openCallStatusAction;
     DefaultContactPrintAction contactPrintAction;
     DataAccessObject<Contact> contactDAO;
     DataAccessObject<ContactStatus> statusDAO;
     DataAccessObject<ServiceGroup> serviceGroupDAO;
+    DataAccessObject<Territory> territoryDAO;
     EntityManager em;
     
     
@@ -1318,8 +1529,10 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     DefaultDeleteAction<Contact> deleteAction;
     DefaultRefreshAction<Contact> refreshAction;
     DefaultSaveAction<Contact> saveAction;         
-    DefaultFileChooserOpenAction fcOpenAction;
+    DefaultFileChooserAction fcOpenAction;
+    DefaultFileChooserAction dirOpenAction;
     ObservableList contactObservableList;
     DefaultTaskListener treeConstructListener;
     DefaultTreeSelectionListener treeSelectionListener;
+    DefaultServiceGroupItemListener serviceGroupItemListener;
 }

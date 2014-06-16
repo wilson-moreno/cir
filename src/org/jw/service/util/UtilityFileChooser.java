@@ -33,12 +33,20 @@ public class UtilityFileChooser {
         return fc.showOpenDialog(parent);        
     }
     
+    public int showSaveDialog(){
+        return fc.showSaveDialog(parent);
+    }
+    
     public File getSelectedFile(){
         return fc.getSelectedFile();
     }
     
     public void setFileFilter(FileFilter filter){
         fc.setFileFilter(filter);
+    }
+    
+    public void setFileSelectionMode(int selectionMode){
+        fc.setFileSelectionMode(selectionMode);
     }
     
 }

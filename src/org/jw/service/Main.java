@@ -6,8 +6,8 @@
 
 package org.jw.service;
 
-import javax.swing.JFrame;
 import org.jw.service.gui.ApplicationFrame;
+import org.jw.service.test.JPATestClass;
 
 /**
  *
@@ -46,9 +46,11 @@ public class Main {
         @Override
         public void run() {   
             javax.persistence.EntityManager entityManager = javax.persistence.Persistence.createEntityManagerFactory("ContactInformationRecordPU").createEntityManager();
+            //JPATestClass testClass = new JPATestClass(entityManager);
+            //testClass.runTest();
             //Query query = entityManager.createQuery("SELECT c FROM ServiceGroup c");
             //System.out.println(query.getResultList());
-            JFrame.setDefaultLookAndFeelDecorated(true);
+            javax.swing.JFrame.setDefaultLookAndFeelDecorated(true);
             ApplicationFrame applicationFrame = new ApplicationFrame(entityManager);            
             //contactFrame.setIconImage(ImageIconUtil.getInstance().getImageIcon(CIMS_LOGO, contactFrame).getImage());
             applicationFrame.setVisible(true);

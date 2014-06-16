@@ -11,21 +11,21 @@ import javax.swing.SwingWorker;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 import org.jw.service.entity.ObservableEntity;
-import org.jw.service.entity.ServiceGroup;
 
 /**
  *
  * @author Wilson
+ * @param <T>
  */
 public class DefaultSearchTreePathWorker<T> extends SwingWorker<TreePath, String> {
     private final DefaultMutableTreeNode root;
     private final Class entityClass;
-    private final T key;
+    private final ObservableEntity key;
     
     public DefaultSearchTreePathWorker(DefaultMutableTreeNode root, Class entityClass, T key){
         this.root = root;
         this.entityClass = entityClass;
-        this.key = key;
+        this.key = (ObservableEntity)key;        
     }
     
     @Override
@@ -34,24 +34,24 @@ public class DefaultSearchTreePathWorker<T> extends SwingWorker<TreePath, String
             
         Enumeration<DefaultMutableTreeNode> e = root.depthFirstEnumeration();
         
+        
         while(e.hasMoreElements()){
             DefaultMutableTreeNode node = e.nextElement();
-            T userObject = (T) node.getUserObject();
+            T userObject = (T) node.getUserObject();            
             
-            if(entityClass.isInstance(userObject) && isEqual(key, userObject)){
+            if(entityClass.isInstance(userObject) && key != null && isEqual(userObject) ){                            
                 result = new TreePath(node.getPath());
             }
-        }        
+        }                
         
         return result;
     }
     
-    private boolean isEqual(T key, T userObject){
-        boolean result;
+    private boolean isEqual(T userObject){
+        boolean result;        
         
-        ObservableEntity observableKey = (ObservableEntity) key;
-        ObservableEntity observableUserObject = (ObservableEntity) userObject;
-        result = observableKey.getId().equals(observableUserObject.getId());
+        ObservableEntity observableUserObject = (ObservableEntity) userObject;        
+        result = key.getId().equals(observableUserObject.getId());
         
         return result;
     }

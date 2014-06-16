@@ -8,7 +8,7 @@ package org.jw.service.util;
 
 import java.util.List;
 import javax.swing.JTable;
-import org.jw.service.dao.DataAccessObject;
+import org.jw.service.entity.ObservableEntity;
 
 /**
  *
@@ -61,5 +61,38 @@ public class UtilityTable<T> {
         if(modelIndex >= 0)
             selectedItem = list.get(modelIndex);
         return selectedItem;
+    }
+    
+    public boolean isSomeRecordUnsaved(){
+        boolean result = false;
+        
+        for(T item : list){
+            ObservableEntity entity = (ObservableEntity)item;
+            if(entity.getSaveState().contains("*")){
+                result = true;
+                break;
+            }                
+        }
+        
+        return result;
+    }
+    
+    public boolean isSelectedItemNameUnique(){
+        boolean result = true;
+        
+        ObservableEntity selectedItem = (ObservableEntity) this.getSelectedItem();
+        
+        for(T item : list){
+            ObservableEntity currentItem = (ObservableEntity)item;
+            result = isNameUnique(selectedItem, currentItem);
+            if(result == false)break;
+        }
+        
+        return result;
+    }
+    
+    private boolean isNameUnique(ObservableEntity e1, ObservableEntity e2){
+        if(e1.getId().intValue() == e2.getId().intValue())return true;
+        return !e1.getName().trim().equalsIgnoreCase(e2.getName().trim());               
     }
 }

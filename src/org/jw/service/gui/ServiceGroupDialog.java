@@ -18,11 +18,16 @@ import org.jw.service.action.dependency.NewServiceGroupPostDependency;
 import org.jw.service.action.dependency.NewServiceGroupPreDependency;
 import org.jw.service.action.dependency.SaveServiceGroupPostDependency;
 import org.jw.service.action.dependency.SaveServiceGroupPreDependency;
+import org.jw.service.action.validator.DefaultCloseActionValidator;
+import org.jw.service.action.validator.DefaultUniqueFieldsSaveActionValidator;
+import org.jw.service.action.validator.DefaultRequiredFieldsSaveActionValidator;
 import org.jw.service.builder.DefaultTaskBuilder;
 import org.jw.service.dao.DataAccessObject;
 import org.jw.service.entity.Congregation;
 import org.jw.service.entity.ServiceGroup;
+import org.jw.service.list.ServiceGroupMatcher;
 import org.jw.service.util.UtilityProperties;
+import org.jw.service.util.UtilityTable;
 import org.jw.service.util.UtilityTree;
 
 /**
@@ -51,9 +56,10 @@ public class ServiceGroupDialog extends javax.swing.JDialog {
     }
     
     private void initMyComponents(){        
-        dao = DataAccessObject.create(em, ServiceGroup.class);            
-        ((ObservableList)serviceGroupList).addObservableListListener(listListener);        
+        dao = DataAccessObject.create(em, ServiceGroup.class);     
+        serviceGroupList.clear();        
         serviceGroupList.addAll(dao.readAll());
+        ((ObservableList)serviceGroupList).addObservableListListener(listListener);        
         DefaultTaskBuilder<ServiceGroup> taskBuilder = new DefaultTaskBuilder();
         taskBuilder.setEntityName("service");
         taskBuilder.setProperties(taskMessageProperties);
@@ -71,6 +77,15 @@ public class ServiceGroupDialog extends javax.swing.JDialog {
         taskBuilder.buildDefaultTasks();        
         
         DataAccessObject<Congregation> congregationDAO = DataAccessObject.create(em, Congregation.class);
+        UtilityTable utilTable = UtilityTable.create(serviceGroupsTable, serviceGroupList);
+        
+        setActionDependencies(taskBuilder, congregationDAO);
+        setActionValidators(taskBuilder, utilTable);
+        
+        bindingGroup.addBindingListener(this.taskMonitorPanel.getLogger());
+    }
+    
+    private void setActionDependencies(DefaultTaskBuilder taskBuilder, DataAccessObject<Congregation> congregationDAO){
         SaveServiceGroupPreDependency saveServiceGroupPreDependency = new SaveServiceGroupPreDependency(this.startNumberTextField, this.nextNumberTextField);
         SaveServiceGroupPostDependency saveServiceGroupPostDependency = new SaveServiceGroupPostDependency(utilTree);
         NewServiceGroupPreDependency newServiceGroupPreDependency = new NewServiceGroupPreDependency(this, congregationDAO);        
@@ -81,6 +96,22 @@ public class ServiceGroupDialog extends javax.swing.JDialog {
         taskBuilder.getNewAction().addPostActionCommands("newServiceGroupPostDependency", newServiceGroupPostDependency);
     }
 
+    private void setActionValidators(DefaultTaskBuilder taskBuilder, UtilityTable<ServiceGroup> utilTable){
+        // Create Matchers
+        ServiceGroupMatcher serviceGroupMatcher = new ServiceGroupMatcher();
+        
+        // Create Validators
+        closeActionValidator = new DefaultCloseActionValidator(this, UtilityTable.create(serviceGroupsTable, serviceGroupList));
+        //uniqueNameValidator = new DefaultUniqueNameValidator(this, UtilityTable.create(serviceGroupsTable, serviceGroupList));
+        saveServiceGroupValidator = new DefaultRequiredFieldsSaveActionValidator(this, UtilityTable.create(serviceGroupsTable, serviceGroupList), "Name, Prefix & Start Number are required");
+        DefaultUniqueFieldsSaveActionValidator uniqueFieldSaveActionValidator = new DefaultUniqueFieldsSaveActionValidator(this, serviceGroupList, utilTable, serviceGroupMatcher, "Name and Prefix should be unique");
+        
+        // Add Validators
+        taskBuilder.getCloseAction().addActionValidator(closeActionValidator);        
+        taskBuilder.getSaveAction().addActionValidator(uniqueFieldSaveActionValidator);
+        taskBuilder.getSaveAction().addActionValidator(saveServiceGroupValidator);
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -104,9 +135,9 @@ public class ServiceGroupDialog extends javax.swing.JDialog {
         prefixLabel = new javax.swing.JLabel();
         startNumberLabel = new javax.swing.JLabel();
         nextNumberLabel = new javax.swing.JLabel();
-        prefixTextField = new javax.swing.JTextField();
-        startNumberTextField = new javax.swing.JTextField();
         nextNumberTextField = new javax.swing.JTextField();
+        startNumberTextField = new javax.swing.JFormattedTextField();
+        prefixTextField = new javax.swing.JFormattedTextField();
         groupsPanel = new javax.swing.JPanel();
         scrollPane = new javax.swing.JScrollPane();
         serviceGroupsTable = new javax.swing.JTable();
@@ -114,6 +145,8 @@ public class ServiceGroupDialog extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/jw/service/gui/resources/properties/dialog_titles"); // NOI18N
         setTitle(bundle.getString("service.group.dialog.title")); // NOI18N
+        setModal(true);
+        setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowActivated(java.awt.event.WindowEvent evt) {
                 formWindowActivated(evt);
@@ -128,19 +161,22 @@ public class ServiceGroupDialog extends javax.swing.JDialog {
 
         assitantLabel.setText("Assistant:");
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, serviceGroupsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.name}"), nameTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "name");
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, serviceGroupsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.name}"), nameTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "Name");
         binding.setSourceNullValue("");
         binding.setSourceUnreadableValue("");
+        binding.setValidator(null);
         bindingGroup.addBinding(binding);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, serviceGroupsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.overseer}"), overseerTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "overseer");
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, serviceGroupsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.overseer}"), overseerTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "Overseer");
         binding.setSourceNullValue("");
         binding.setSourceUnreadableValue("");
+        binding.setValidator(null);
         bindingGroup.addBinding(binding);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, serviceGroupsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.assistant}"), assistantTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "assistant");
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, serviceGroupsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.assistant}"), assistantTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "Assistant");
         binding.setSourceNullValue("");
         binding.setSourceUnreadableValue("");
+        binding.setValidator(null);
         bindingGroup.addBinding(binding);
 
         prefixLabel.setText("Prefix:");
@@ -149,21 +185,30 @@ public class ServiceGroupDialog extends javax.swing.JDialog {
 
         nextNumberLabel.setText("Next Number:");
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, serviceGroupsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.prefix}"), prefixTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "prefix");
-        binding.setSourceNullValue("");
-        binding.setSourceUnreadableValue("");
-        bindingGroup.addBinding(binding);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, serviceGroupsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.startNumber}"), startNumberTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "startNumber");
-        binding.setSourceNullValue("");
-        binding.setSourceUnreadableValue("");
-        bindingGroup.addBinding(binding);
-
         nextNumberTextField.setEditable(false);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, serviceGroupsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.nextNumber}"), nextNumberTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "nextNumber");
         binding.setSourceNullValue("");
         binding.setSourceUnreadableValue("");
+        bindingGroup.addBinding(binding);
+
+        startNumberTextField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("####"))));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, serviceGroupsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.startNumber}"), startNumberTextField, org.jdesktop.beansbinding.BeanProperty.create("value"), "Start Number");
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        binding.setValidator(null);
+        bindingGroup.addBinding(binding);
+
+        try {
+            prefixTextField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("UUU")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, serviceGroupsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.prefix}"), prefixTextField, org.jdesktop.beansbinding.BeanProperty.create("value"), "Prefix");
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
         bindingGroup.addBinding(binding);
 
         javax.swing.GroupLayout serviceGroupPanelLayout = new javax.swing.GroupLayout(serviceGroupPanel);
@@ -188,17 +233,18 @@ public class ServiceGroupDialog extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(serviceGroupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(serviceGroupPanelLayout.createSequentialGroup()
+                        .addComponent(startNumberLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(startNumberTextField))
+                    .addGroup(serviceGroupPanelLayout.createSequentialGroup()
                         .addComponent(prefixLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(prefixTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(prefixTextField))
                     .addGroup(serviceGroupPanelLayout.createSequentialGroup()
                         .addComponent(nextNumberLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(nextNumberTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(serviceGroupPanelLayout.createSequentialGroup()
-                        .addComponent(startNumberLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(startNumberTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(nextNumberTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -206,7 +252,7 @@ public class ServiceGroupDialog extends javax.swing.JDialog {
 
         serviceGroupPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {nextNumberLabel, prefixLabel, startNumberLabel});
 
-        serviceGroupPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {assistantTextField, nameTextField, nextNumberTextField, overseerTextField, prefixTextField, startNumberTextField});
+        serviceGroupPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {assistantTextField, nameTextField, nextNumberTextField, overseerTextField});
 
         serviceGroupPanelLayout.setVerticalGroup(
             serviceGroupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -325,8 +371,7 @@ public class ServiceGroupDialog extends javax.swing.JDialog {
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         // TODO add your handling code here:
-        serviceGroupList.clear();
-        serviceGroupList.addAll(dao.readAll());
+        
     }//GEN-LAST:event_formWindowActivated
 
     
@@ -342,14 +387,14 @@ public class ServiceGroupDialog extends javax.swing.JDialog {
     private javax.swing.JLabel overseerLabel;
     private javax.swing.JTextField overseerTextField;
     private javax.swing.JLabel prefixLabel;
-    private javax.swing.JTextField prefixTextField;
+    private javax.swing.JFormattedTextField prefixTextField;
     private javax.swing.JScrollPane scrollPane;
     private java.util.List<org.jw.service.entity.ServiceGroup> serviceGroupList;
     private javax.swing.JLabel serviceGroupNameLabel;
     private javax.swing.JPanel serviceGroupPanel;
     private javax.swing.JTable serviceGroupsTable;
     private javax.swing.JLabel startNumberLabel;
-    private javax.swing.JTextField startNumberTextField;
+    private javax.swing.JFormattedTextField startNumberTextField;
     private org.jw.service.gui.component.TaskMonitorPanel taskMonitorPanel;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
@@ -361,4 +406,6 @@ public class ServiceGroupDialog extends javax.swing.JDialog {
     DefaultRefreshAction<ServiceGroup> refreshAction;
     DefaultSaveAction<ServiceGroup> saveAction;        
     DataAccessObject<ServiceGroup> dao;    
+    DefaultCloseActionValidator closeActionValidator;    
+    DefaultRequiredFieldsSaveActionValidator saveServiceGroupValidator;
 }

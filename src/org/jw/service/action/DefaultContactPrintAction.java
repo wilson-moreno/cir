@@ -7,7 +7,10 @@
 package org.jw.service.action;
 
 import java.awt.event.ActionEvent;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.swing.JButton;
+import org.jw.service.entity.AppsReport;
 import org.jw.service.util.UtilityReportPrint;
 import org.jw.service.util.UtilityTable;
 
@@ -15,20 +18,21 @@ import org.jw.service.util.UtilityTable;
  *
  * @author Wilson
  */
-public class DefaultContactPrintAction extends DependentAbstractAction{
-    private final UtilityTable utilTable;
-    private final UtilityReportPrint utilPrint;
+public class DefaultContactPrintAction extends DependentAbstractAction{        
+    private final EntityManager em;
     
-    public DefaultContactPrintAction(JButton command, UtilityTable utilTable, UtilityReportPrint utilPrint) {
-        super(command.getText(), command.getIcon());
-        this.utilTable = utilTable;
-        this.utilPrint = utilPrint;
+    public DefaultContactPrintAction(JButton command, EntityManager em) {
+        super(command.getText(), command.getIcon());        
+        this.em = em;
         command.setAction(this);
     }
 
     @Override
-    public boolean mainActionPerformed(ActionEvent ae) {
-        
+    public boolean mainActionPerformed(ActionEvent ae) {        
+        Query query = em.createNamedQuery("AppsReport.findByCode", AppsReport.class);
+        query.setParameter("code", "contact_record.1.1.3");
+        AppsReport report = (AppsReport)query.getSingleResult();
+        this.workerResult = report;
         return true;
     }
     

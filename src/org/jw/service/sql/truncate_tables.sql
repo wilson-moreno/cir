@@ -1,15 +1,15 @@
-truncate table cir.apps_report_parameter;
-truncate table cir.apps_report;
-truncate table cir.congregation;
-truncate table cir.contact; 
-truncate table cir.contact_call;
-truncate table cir.contact_status;
 truncate table cir.direction_map;
 truncate table cir.location_map;
-truncate table cir.meeting_place;
+truncate table cir.contact_call;
+truncate table cir.contact_status;
+truncate table cir.contact; 
+truncate table cir.apps_report_parameter;
+truncate table cir.apps_report;
 truncate table cir.possible_value;
-truncate table cir.service_group;
+truncate table cir.meeting_place;
 truncate table cir.territory;
+truncate table cir.service_group;
+truncate table cir.congregation;
 
 alter table cir.apps_report_parameter alter column id restart with 1;
 alter table cir.apps_report alter column id restart with 1;

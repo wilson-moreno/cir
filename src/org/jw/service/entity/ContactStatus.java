@@ -45,6 +45,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "ContactStatus.findByCreatedDatetime", query = "SELECT c FROM ContactStatus c WHERE c.createdDatetime = :createdDatetime"),
     @NamedQuery(name = "ContactStatus.findByUpdatedDatetime", query = "SELECT c FROM ContactStatus c WHERE c.updatedDatetime = :updatedDatetime")})
 public class ContactStatus implements Serializable, ObservableEntity, SilentSetter {
+    @Lob
+    @Column(name = "ICON")
+    private byte[] icon;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -59,9 +62,6 @@ public class ContactStatus implements Serializable, ObservableEntity, SilentSett
     private Boolean modifiable;
     @Column(name = "PRINTABLE")
     private Boolean printable;
-    @Lob
-    @Column(name = "ICON")
-    private byte[] icon;
     @Column(name = "CREATED_DATETIME")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDatetime;
@@ -74,6 +74,8 @@ public class ContactStatus implements Serializable, ObservableEntity, SilentSett
     private String saveState;
     
     public ContactStatus() {
+        name = "";
+        description = "";
         saveState = "";
     }
 
@@ -160,22 +162,6 @@ public class ContactStatus implements Serializable, ObservableEntity, SilentSett
         java.lang.Boolean oldPrintable = this.printable;
         this.printable = printable;
         propertyChangeSupport.firePropertyChange(PROP_PRINTABLE, oldPrintable, printable);
-    }
-
-    /**
-     * @return the icon
-     */
-    public byte[] getIcon() {
-        return icon;
-    }
-
-    /**
-     * @param icon the icon to set
-     */
-    public void setIcon(byte[] icon) {
-        byte[] oldIcon = this.icon;
-        this.icon = icon;
-        propertyChangeSupport.firePropertyChange(PROP_ICON, oldIcon, icon);
     }
 
     /**
@@ -304,6 +290,27 @@ public class ContactStatus implements Serializable, ObservableEntity, SilentSett
             case "updatedDatetime" : this.updatedDatetime = (Date) value; break;
             default : throw new UnsupportedOperationException("Property not Supported: " + name);
         }
+    }
+
+    public byte[] getIcon() {
+        return icon;
+    }
+
+    public void setIcon(byte[] icon) {
+        byte[] oldIcon = this.icon;
+        this.icon = icon;
+        propertyChangeSupport.firePropertyChange("icon", oldIcon, icon);
+    }
+
+    @Override
+    public boolean hasDependentEntities() {
+        return !getContactCollection().isEmpty();
+    }
+
+    @Override
+    public boolean isMissingRequiredFields() {
+        return getName().trim().equals("") ||
+               getDescription().trim().equals("");
     }
     
     

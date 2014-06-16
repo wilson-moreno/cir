@@ -54,7 +54,7 @@ public class Congregation implements Serializable , ObservableEntity, SilentSett
     public static final String PROP_UPDATEDDATETIME = "updatedDatetime";
     public static final String PROP_SERVICEGROUPCOLLECTION = "serviceGroupCollection";
     public static final String PROP_LATITUDE = "latitude";
-    public static final String PROP_LONGITUDE = "longitudes";
+    public static final String PROP_LONGITUDE = "longitude";
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -336,6 +336,18 @@ public class Congregation implements Serializable , ObservableEntity, SilentSett
         java.lang.Double oldLongitude = this.longitude;
         this.longitude = longitude;
         propertyChangeSupport.firePropertyChange(PROP_LONGITUDE, oldLongitude, longitude);
+    }
+
+    @Override
+    public boolean hasDependentEntities() {
+        return !getServiceGroupCollection().isEmpty();
+    }
+
+    @Override
+    public boolean isMissingRequiredFields() {
+        return getName().trim().equals("") ||
+               getAddress1().trim().equals("") ||
+               getCity().trim().equals("");
     }
  
     

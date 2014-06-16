@@ -7,6 +7,10 @@
 package org.jw.service.util;
 
 import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 
 /**
@@ -35,4 +39,18 @@ public class UtilityDatabase {
         return connection;
     }
     
+    public void backupTo(String directoryName){
+        try {
+            Connection conn = getConnection();
+            Statement stmt = conn.createStatement();
+            System.out.println("Backing-up database...");
+            stmt.executeUpdate("CHECKPOINT");
+            stmt.executeUpdate("BACKUP DATABASE TO " + directoryName + " BLOCKING" );
+            stmt.close();
+            conn.close();
+            System.out.println("Backing-up database complete...");
+        } catch (SQLException ex) {
+            Logger.getLogger(UtilityDatabase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

@@ -6,11 +6,11 @@
 
 package org.jw.service.action.dependency;
 
+import org.jw.service.action.DependencyCommand;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import javax.persistence.EntityManager;
 import javax.swing.JOptionPane;
-import org.jw.service.action.DependencyCommand;
 
 /**
  *

@@ -21,19 +21,22 @@ import org.jw.service.worker.DefaultRefreshWorker;
  * @author Wilson
  */
 public class DefaultRefreshAction<T> extends DependentAbstractAction{    
-    private final DefaultRefreshWorker<T> worker;
+    private final DataAccessObject<T> dao;
+    private final DefaultTaskListener listener;
     private final List<T> list;
     
     public DefaultRefreshAction(JButton command, DataAccessObject<T> dao, List<T> list, DefaultTaskListener listener){
-        super(command.getText(), command.getIcon());
-        this.list = list;
-        worker = new DefaultRefreshWorker<>(dao, listener);
+        super(command.getText(), command.getIcon());        
+        this.list = list;        
+        this.dao = dao;
+        this.listener = listener;
         command.setAction(this);
     }
 
     @Override
     public boolean mainActionPerformed(ActionEvent ae) {
         try {
+            DefaultRefreshWorker<T> worker = new DefaultRefreshWorker<>(dao, listener);
             list.clear();
             worker.execute();
             list.addAll(worker.get());

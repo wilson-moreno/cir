@@ -9,13 +9,13 @@ package org.jw.service.gui;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.swing.DefaultComboBoxModel;
 import org.jw.service.action.DefaultCloseAction;
 import org.jw.service.action.DefaultPrintAction;
 import org.jw.service.dao.DataAccessObject;
 import org.jw.service.entity.AppsReport;
 import org.jw.service.factory.DefaultParameterListFactory;
-import org.jw.service.listener.task.DefaultTaskListener;
 import org.jw.service.print.PrintParameter;
 import org.jw.service.util.UtilityDatabase;
 import org.jw.service.util.UtilityReportPrint;
@@ -42,8 +42,11 @@ public class ReportPrintDialog extends javax.swing.JDialog {
     }
     
     private void initMyComponents(){
-        DataAccessObject<AppsReport> dao = DataAccessObject.create(em, AppsReport.class);
-        List<AppsReport> list = dao.readAll();
+        DataAccessObject<AppsReport> dao = DataAccessObject.create(em, AppsReport.class);        
+        Query query = em.createNamedQuery("AppsReport.findEnableAndVisible", AppsReport.class);
+        query.setParameter("enable", Boolean.TRUE);
+        query.setParameter("visible", Boolean.TRUE);
+        List<AppsReport> list = query.getResultList();
         this.reportsComboBox.setModel(new DefaultComboBoxModel(list.toArray()));                
         this.printAction = new DefaultPrintAction(printCommand, reportsComboBox, utilPrint, printParametersList);
         this.closeAction = new DefaultCloseAction(cancelCommand, this);
@@ -75,7 +78,6 @@ public class ReportPrintDialog extends javax.swing.JDialog {
 
         reportLabel.setText("Report:");
 
-        reportsComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         reportsComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 reportsComboBoxActionPerformed(evt);
@@ -88,6 +90,8 @@ public class ReportPrintDialog extends javax.swing.JDialog {
 
         parametersPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Parameters", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
+        parametersTable.setRowHeight(27);
+        parametersTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         parametersTable.getTableHeader().setReorderingAllowed(false);
 
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, printParametersList, parametersTable);
@@ -103,6 +107,7 @@ public class ReportPrintDialog extends javax.swing.JDialog {
         parameterrsScrollPane.setViewportView(parametersTable);
         if (parametersTable.getColumnModel().getColumnCount() > 0) {
             parametersTable.getColumnModel().getColumn(0).setResizable(false);
+            parametersTable.getColumnModel().getColumn(0).setCellRenderer(org.jw.service.table.cell.renderer.DefaultStateCellRenderer.create());
             parametersTable.getColumnModel().getColumn(1).setResizable(false);
             parametersTable.getColumnModel().getColumn(1).setCellEditor(org.jw.service.table.cell.editor.DefaultDataTypeCellEditor.create(printParametersList));
         }
@@ -120,7 +125,7 @@ public class ReportPrintDialog extends javax.swing.JDialog {
             parametersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(parametersPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(parameterrsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
+                .addComponent(parameterrsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -130,8 +135,9 @@ public class ReportPrintDialog extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(printCommand)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cancelCommand))
@@ -139,19 +145,21 @@ public class ReportPrintDialog extends javax.swing.JDialog {
                         .addComponent(reportLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(reportsComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(parametersPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(parametersPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(reportLabel)
-                    .addComponent(reportsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(reportsComboBox, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+                    .addComponent(reportLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(7, 7, 7)
+                .addComponent(parametersPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(parametersPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cancelCommand)
                     .addComponent(printCommand))

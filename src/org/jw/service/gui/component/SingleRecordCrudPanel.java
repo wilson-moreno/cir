@@ -13,12 +13,12 @@ import javax.swing.JButton;
  * @author Wilson
  */
 public class SingleRecordCrudPanel extends javax.swing.JPanel {
-
+        
     /**
      * Creates new form CRUDPanel
      */
     public SingleRecordCrudPanel() {
-        initComponents();
+        initComponents();        
     }
 
     /**
@@ -30,11 +30,16 @@ public class SingleRecordCrudPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        refreshCommand = new javax.swing.JButton();
         closeToolBar = new javax.swing.JToolBar();
         closeCommand = new javax.swing.JButton();
         crudToolBar = new javax.swing.JToolBar();
-        refreshCommand = new javax.swing.JButton();
         saveCommand = new javax.swing.JButton();
+
+        refreshCommand.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.refresh.png"))); // NOI18N
+        refreshCommand.setText("Refresh");
+        refreshCommand.setFocusable(false);
+        refreshCommand.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
 
         closeToolBar.setFloatable(false);
         closeToolBar.setRollover(true);
@@ -46,12 +51,6 @@ public class SingleRecordCrudPanel extends javax.swing.JPanel {
 
         crudToolBar.setFloatable(false);
         crudToolBar.setRollover(true);
-
-        refreshCommand.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.refresh.png"))); // NOI18N
-        refreshCommand.setText("Refresh");
-        refreshCommand.setFocusable(false);
-        refreshCommand.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        crudToolBar.add(refreshCommand);
 
         saveCommand.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.save.png"))); // NOI18N
         saveCommand.setText("Save");
@@ -66,7 +65,7 @@ public class SingleRecordCrudPanel extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(closeToolBar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 245, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 318, Short.MAX_VALUE)
                 .addComponent(crudToolBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(

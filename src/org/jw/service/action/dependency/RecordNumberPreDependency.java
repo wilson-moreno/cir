@@ -6,11 +6,11 @@
 
 package org.jw.service.action.dependency;
 
+import org.jw.service.action.DependencyCommand;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
-import org.jw.service.action.DependencyCommand;
 import org.jw.service.dao.DataAccessObject;
 import org.jw.service.entity.ServiceGroup;
 
@@ -33,8 +33,11 @@ public class RecordNumberPreDependency<T> implements DependencyCommand{
     @Override
     public boolean run(ActionEvent ae) {
         if(sgComboBox.getModel().getSize() == 0){
-            JOptionPane.showMessageDialog(parent,"Please add Service Groups.", "Service Groups", JOptionPane.INFORMATION_MESSAGE);
-            return false;
+            JOptionPane.showMessageDialog(parent,"Please add service groups", "Service Groups", JOptionPane.INFORMATION_MESSAGE);
+            return false;            
+        }else if(sgComboBox.getSelectedItem() == null){
+            JOptionPane.showMessageDialog(parent,"Please select a service group", "Service Group", JOptionPane.INFORMATION_MESSAGE);
+            return false;            
         }else{            
             return true;
         }    

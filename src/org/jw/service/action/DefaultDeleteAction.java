@@ -15,7 +15,10 @@ import javax.swing.JButton;
 import javax.swing.JTable;
 import org.jw.service.dao.DataAccessObject;
 import org.jw.service.listener.task.DefaultTaskListener;
+import org.jw.service.util.UtilityTable;
 import org.jw.service.worker.DefaultDeleteWorker;
+
+
 
 /**
  *
@@ -39,19 +42,23 @@ public class DefaultDeleteAction<T> extends DependentAbstractAction{
     }
     
     
+    
     @Override
     public boolean mainActionPerformed(ActionEvent ae) {
         DefaultDeleteWorker<T> worker;
-        worker = new DefaultDeleteWorker<>(dao, list, table, listener);
-        worker.execute();
+        worker = new DefaultDeleteWorker<>(dao, list, table, listener);        
         try {
+            worker.execute();
             workerResult = worker.get();
-        } catch (InterruptedException | ExecutionException ex) {
+        } catch (InterruptedException | ExecutionException ex) {            
             Logger.getLogger(DefaultDeleteAction.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
         }
         return true;
     }
+    
 
+    
     
     
 }

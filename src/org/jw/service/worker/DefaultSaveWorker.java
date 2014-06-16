@@ -38,7 +38,7 @@ public class DefaultSaveWorker<T> extends SwingWorker<T, String>{
         if(modelIndex >= 0){
             entity = (ObservableEntity)list.get(modelIndex);
             entity.setSaveState("");            
-            entity = (ObservableEntity)dao.save(entity);                    
+            entity = (ObservableEntity)dao.persist(entity);                    
         }
         return (T)entity;
     }

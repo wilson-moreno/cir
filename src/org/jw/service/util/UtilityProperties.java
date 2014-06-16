@@ -26,6 +26,8 @@ public class UtilityProperties extends UtilityDefault{
     public static final String TASK_MESSAGE_PROPERTIES = "task_message.properties";
     public static final String DATA_TYPE_PROPERTIES = "data_type.properties";
     public static final String REPORT_TYPE_PROPERTIES = "report_type.properties";
+    public static final String VALIDATION_MESSAGES_PROPERTIES = "validation_messages.properties";
+    public static final String STATISTICS_QUERY_PROPERTIES = "statistics_query.properties";
     private final Properties property;
     private final String propertyFile;
     

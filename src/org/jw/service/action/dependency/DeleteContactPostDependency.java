@@ -6,8 +6,8 @@
 
 package org.jw.service.action.dependency;
 
-import java.awt.event.ActionEvent;
 import org.jw.service.action.DependencyCommand;
+import java.awt.event.ActionEvent;
 import org.jw.service.entity.Contact;
 import org.jw.service.util.UtilityTree;
 

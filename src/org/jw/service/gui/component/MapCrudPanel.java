@@ -28,12 +28,17 @@ public class MapCrudPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        refreshCommand = new javax.swing.JButton();
         closeToolBar = new javax.swing.JToolBar();
         closeCommand = new javax.swing.JButton();
         crudToolBar = new javax.swing.JToolBar();
         downloadCommand = new javax.swing.JButton();
-        refreshCommand = new javax.swing.JButton();
         saveCommand = new javax.swing.JButton();
+
+        refreshCommand.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.refresh.png"))); // NOI18N
+        refreshCommand.setText("Refresh");
+        refreshCommand.setFocusable(false);
+        refreshCommand.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
 
         closeToolBar.setFloatable(false);
         closeToolBar.setRollover(true);
@@ -52,12 +57,6 @@ public class MapCrudPanel extends javax.swing.JPanel {
         downloadCommand.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         crudToolBar.add(downloadCommand);
 
-        refreshCommand.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.refresh.png"))); // NOI18N
-        refreshCommand.setText("Refresh");
-        refreshCommand.setFocusable(false);
-        refreshCommand.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        crudToolBar.add(refreshCommand);
-
         saveCommand.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.save.png"))); // NOI18N
         saveCommand.setText("Save");
         saveCommand.setFocusable(false);
@@ -75,7 +74,7 @@ public class MapCrudPanel extends javax.swing.JPanel {
                     .addGap(0, 401, Short.MAX_VALUE)))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addGap(0, 225, Short.MAX_VALUE)
+                    .addGap(0, 298, Short.MAX_VALUE)
                     .addComponent(crudToolBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
         layout.setVerticalGroup(

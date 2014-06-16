@@ -6,7 +6,6 @@
 
 package org.jw.service.worker;
 
-import java.util.Collection;
 import java.util.List;
 import javax.swing.SwingWorker;
 import org.jw.service.dao.DataAccessObject;

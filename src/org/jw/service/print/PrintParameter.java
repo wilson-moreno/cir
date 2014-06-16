@@ -14,23 +14,35 @@ import java.beans.PropertyChangeSupport;
  *
  * @author Wilson
  */
-public class PrintParameter {
+public class PrintParameter implements Comparable<PrintParameter>{
+    public static final String PROP_SEQUENCE = "sequence";
     public static final String PROP_NAME = "name";
     public static final String PROP_LABEL = "label";
     public static final String PROP_VALUE = "value";
     public static final String PROP_DATATYPE = "dataType";
-    public static final String PROP_DEFAULTVALUE = "defaultValue";
+    public static final String PROP_DEFAULTVALUE = "defaultValue";    
+    public static final String PROP_PARAMETERTYPE = "PROP_PARAMETERTYPE";
+    private Integer sequence;
     private String name;
     private String label;
     private Object value;
     private String dataType;
     private String defaultValue;
+    private String parameterType;
     private final transient PropertyChangeSupport propertyChangeSupport = new java.beans.PropertyChangeSupport(this);
         
     public PrintParameter(){
         this.name = "";
         this.label = "";
         this.value = "";
+        this.parameterType = "";
+    }
+    
+    public PrintParameter(String name, String label, Object value, String parameterType){
+        this.name = name;
+        this.label = label;
+        this.value = value;
+        this.parameterType = parameterType;
     }
 
     /**
@@ -111,6 +123,43 @@ public class PrintParameter {
         java.lang.String oldDefaultValue = this.defaultValue;
         this.defaultValue = defaultValue;
         propertyChangeSupport.firePropertyChange(PROP_DEFAULTVALUE, oldDefaultValue, defaultValue);
+    }
+
+    @Override
+    public int compareTo(PrintParameter t) {
+        return this.sequence.compareTo(t.getSequence());
+    }
+
+    /**
+     * @return the sequence
+     */
+    public Integer getSequence() {
+        return sequence;
+    }
+
+    /**
+     * @param sequence the sequence to set
+     */
+    public void setSequence(Integer sequence) {
+        java.lang.Integer oldSequence = this.sequence;
+        this.sequence = sequence;
+        propertyChangeSupport.firePropertyChange(PROP_SEQUENCE, oldSequence, sequence);
+    }
+
+    /**
+     * @return the parameterType
+     */
+    public String getParameterType() {
+        return parameterType;
+    }
+
+    /**
+     * @param parameterType the parameterType to set
+     */
+    public void setParameterType(String parameterType) {
+        java.lang.String oldParameterType = this.parameterType;
+        this.parameterType = parameterType;
+        propertyChangeSupport.firePropertyChange(PROP_PARAMETERTYPE, oldParameterType, parameterType);
     }
         
         

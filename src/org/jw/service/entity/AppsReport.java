@@ -40,6 +40,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "AppsReport.findAll", query = "SELECT a FROM AppsReport a"),
     @NamedQuery(name = "AppsReport.findById", query = "SELECT a FROM AppsReport a WHERE a.id = :id"),
+    @NamedQuery(name = "AppsReport.findByCode", query = "SELECT a FROM AppsReport a WHERE a.code = :code"),
     @NamedQuery(name = "AppsReport.findByName", query = "SELECT a FROM AppsReport a WHERE a.name = :name"),
     @NamedQuery(name = "AppsReport.findByDescription", query = "SELECT a FROM AppsReport a WHERE a.description = :description"),
     @NamedQuery(name = "AppsReport.findByReportDate", query = "SELECT a FROM AppsReport a WHERE a.reportDate = :reportDate"),
@@ -50,7 +51,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "AppsReport.findByEnable", query = "SELECT a FROM AppsReport a WHERE a.enable = :enable"),
     @NamedQuery(name = "AppsReport.findByVisible", query = "SELECT a FROM AppsReport a WHERE a.visible = :visible"),
     @NamedQuery(name = "AppsReport.findByCreatedDatetime", query = "SELECT a FROM AppsReport a WHERE a.createdDatetime = :createdDatetime"),
-    @NamedQuery(name = "AppsReport.findByUpdatedDatetime", query = "SELECT a FROM AppsReport a WHERE a.updatedDatetime = :updatedDatetime")})
+    @NamedQuery(name = "AppsReport.findByUpdatedDatetime", query = "SELECT a FROM AppsReport a WHERE a.updatedDatetime = :updatedDatetime"),
+    @NamedQuery(name = "AppsReport.findEnableAndVisible", query = "SELECT a FROM AppsReport a WHERE a.enable = :enable AND a.visible = :visible")})
 public class AppsReport implements Serializable, ObservableEntity, SilentSetter {
     @Lob
     @Column(name = "FILE_JASPER")
@@ -514,5 +516,18 @@ public class AppsReport implements Serializable, ObservableEntity, SilentSetter 
         String oldDatasourceType = this.datasourceType;
         this.datasourceType = datasourceType;
         propertyChangeSupport.firePropertyChange("datasourceType", oldDatasourceType, datasourceType);
+    }
+
+    @Override
+    public boolean hasDependentEntities() {
+        return !getAppsReportParameterCollection().isEmpty();
+    }
+
+    @Override
+    public boolean isMissingRequiredFields() {
+        return getCode().trim().equals("") ||
+               getName().trim().equals("") ||               
+               getTitle().trim().equals("") ||
+               getFileName().trim().equals("");
     }
 }

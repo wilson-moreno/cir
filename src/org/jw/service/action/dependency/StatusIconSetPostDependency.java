@@ -6,6 +6,7 @@
 
 package org.jw.service.action.dependency;
 
+import org.jw.service.action.DependencyCommand;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -15,7 +16,6 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import org.jw.service.action.DependencyCommand;
 
 /**
  *

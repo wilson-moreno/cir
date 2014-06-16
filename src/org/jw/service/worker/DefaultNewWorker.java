@@ -7,6 +7,9 @@
 package org.jw.service.worker;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JTable;
 import javax.swing.SwingWorker;
 import org.jw.service.dao.DataAccessObject;
@@ -37,10 +40,20 @@ public class DefaultNewWorker<T> extends SwingWorker<T, String>{
     @Override
     protected T doInBackground() throws Exception {
         T entity = dao.create();        
-        ((ObservableEntity)entity).addPropertyChangeListener(stateListener);
-        list.add(0, entity);
-        utilTable.selectRow(0);     
+        ((ObservableEntity)entity).addPropertyChangeListener(stateListener);        
+        ((ObservableEntity)entity).setSaveState("*");
         return entity;                
+    }
+    
+    @Override
+    protected void done(){
+        try {
+            T entity = get();
+            list.add(0, entity);
+            utilTable.selectRow(0);     
+        } catch (InterruptedException | ExecutionException ex) {
+            Logger.getLogger(DefaultNewWorker.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
 }

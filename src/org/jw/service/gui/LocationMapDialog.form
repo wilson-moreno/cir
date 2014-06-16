@@ -109,7 +109,6 @@
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
             <TitledBorder title="Properties">
-              <ResourceString PropertyName="titleX" bundle="org/jw/service/gui/resources/properties/location_map_dialog.properties" key="location.map.propties.panel.title" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
               <Font PropertyName="font" name="Tahoma" size="11" style="1"/>
             </TitledBorder>
           </Border>
@@ -356,7 +355,6 @@
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
             <TitledBorder title="Location Map">
-              <ResourceString PropertyName="titleX" bundle="org/jw/service/gui/resources/properties/location_map_dialog.properties" key="location.map.image.panel" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
               <Font PropertyName="font" name="Tahoma" size="11" style="1"/>
             </TitledBorder>
           </Border>

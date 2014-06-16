@@ -12,11 +12,16 @@ import org.jw.service.action.DefaultDeleteAction;
 import org.jw.service.action.DefaultNewAction;
 import org.jw.service.action.DefaultRefreshAction;
 import org.jw.service.action.DefaultSaveAction;
+import org.jw.service.action.validator.DefaultCloseActionValidator;
+import org.jw.service.action.validator.DefaultRequiredFieldsSaveActionValidator;
+import org.jw.service.action.validator.DefaultUniqueFieldsSaveActionValidator;
 import org.jw.service.builder.DefaultTaskBuilder;
 import org.jw.service.dao.DataAccessObject;
 import org.jw.service.entity.MeetingPlace;
 import org.jw.service.entity.Territory;
+import org.jw.service.list.MeetingPlaceMatcher;
 import org.jw.service.util.UtilityProperties;
+import org.jw.service.util.UtilityTable;
 
 /**
  *
@@ -54,6 +59,24 @@ public class MeetingPlaceDialog extends javax.swing.JDialog {
         taskBuilder.setWindow(this);
         taskBuilder.setDao(dao);
         taskBuilder.buildDefaultTasks();
+        
+        UtilityTable<MeetingPlace> utilTable = UtilityTable.create(meetingPlaceTable, meetingPlaceList);
+        setActionValidators(taskBuilder, utilTable);
+    }
+    
+    private void setActionValidators(DefaultTaskBuilder taskBuilder, UtilityTable<MeetingPlace> utilTable){
+        // Create Matchers
+        MeetingPlaceMatcher meetingPlaceMatcher = new MeetingPlaceMatcher();
+        
+        // Create Action Validators
+        DefaultUniqueFieldsSaveActionValidator uniqueFieldValidator = new DefaultUniqueFieldsSaveActionValidator(this, meetingPlaceList, utilTable, meetingPlaceMatcher, "meeting.place");
+        DefaultRequiredFieldsSaveActionValidator requiredFieldsValidator = new DefaultRequiredFieldsSaveActionValidator(this, utilTable, "meeting.place");
+        DefaultCloseActionValidator closeActionValidator = new DefaultCloseActionValidator(this, utilTable);
+        
+        // Set Validators
+        taskBuilder.getCloseAction().addActionValidator(closeActionValidator);
+        taskBuilder.getSaveAction().addActionValidator(uniqueFieldValidator);
+        taskBuilder.getSaveAction().addActionValidator(requiredFieldsValidator);
     }
 
     /**
@@ -169,6 +192,7 @@ public class MeetingPlaceDialog extends javax.swing.JDialog {
         meetingPlacesPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Places", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
         meetingPlaceTable.setAutoCreateRowSorter(true);
+        meetingPlaceTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, meetingPlaceList, meetingPlaceTable);
         org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${saveState}"));

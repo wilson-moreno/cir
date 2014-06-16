@@ -6,6 +6,7 @@
 
 package org.jw.service.gui.component;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 
@@ -41,7 +42,7 @@ public class MainCommandPanel extends javax.swing.JPanel {
         backupCommand = new javax.swing.JButton();
         searchCommand = new javax.swing.JButton();
         printCommand = new javax.swing.JButton();
-        proximityCommand = new javax.swing.JButton();
+        statisticsCommand = new javax.swing.JButton();
         reportsCommand = new javax.swing.JButton();
         serviceGroupComboBox = new javax.swing.JComboBox();
         separator = new javax.swing.JSeparator();
@@ -103,11 +104,11 @@ public class MainCommandPanel extends javax.swing.JPanel {
         printCommand.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         toolBar.add(printCommand);
 
-        proximityCommand.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.compass.icon.png"))); // NOI18N
-        proximityCommand.setText("Proximity");
-        proximityCommand.setFocusable(false);
-        proximityCommand.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        toolBar.add(proximityCommand);
+        statisticsCommand.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.statistics.icon.png"))); // NOI18N
+        statisticsCommand.setText("Statistics");
+        statisticsCommand.setFocusable(false);
+        statisticsCommand.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        toolBar.add(statisticsCommand);
 
         reportsCommand.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.report.print.icon.png"))); // NOI18N
         reportsCommand.setText("Reports");
@@ -115,6 +116,7 @@ public class MainCommandPanel extends javax.swing.JPanel {
         reportsCommand.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         toolBar.add(reportsCommand);
 
+        serviceGroupComboBox.setToolTipText("Record number sequence");
         toolBar.add(serviceGroupComboBox);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -142,13 +144,13 @@ public class MainCommandPanel extends javax.swing.JPanel {
     private javax.swing.JButton exitCommand;
     private javax.swing.JButton newCommand;
     private javax.swing.JButton printCommand;
-    private javax.swing.JButton proximityCommand;
     private javax.swing.JButton refreshCommand;
     private javax.swing.JButton reportsCommand;
     private javax.swing.JButton saveCommand;
     private javax.swing.JButton searchCommand;
     private javax.swing.JSeparator separator;
     private javax.swing.JComboBox serviceGroupComboBox;
+    private javax.swing.JButton statisticsCommand;
     private javax.swing.JToolBar toolBar;
     // End of variables declaration//GEN-END:variables
 
@@ -220,6 +222,21 @@ public class MainCommandPanel extends javax.swing.JPanel {
     
     public javax.swing.JButton getReportsCommand(){
         return reportsCommand;
+    }
+ 
+    public javax.swing.DefaultComboBoxModel getDefaultComboBoxModel(){
+        return (DefaultComboBoxModel)this.serviceGroupComboBox.getModel();
+    }
+    
+    public void setDefaultComboBoxModel(javax.swing.DefaultComboBoxModel defaultComboBoxModel){
+        this.serviceGroupComboBox.setModel(defaultComboBoxModel);
+    }
+
+    /**
+     * @return the statisticsCommand
+     */
+    public javax.swing.JButton getStatisticsCommand() {
+        return statisticsCommand;
     }
     
     

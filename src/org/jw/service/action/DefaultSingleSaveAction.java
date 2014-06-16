@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JButton;
 import org.jw.service.dao.DataAccessObject;
 import org.jw.service.entity.EntityIO;
+import org.jw.service.entity.ObservableEntity;
 
 /**
  *
@@ -30,7 +31,8 @@ public class DefaultSingleSaveAction<T> extends DependentAbstractAction{
     @Override
     public boolean mainActionPerformed(ActionEvent ae) {
         entityIO.write();
-        T save = dao.save(entityIO.getTarget());
+        T save = dao.persist(entityIO.getTarget());
+        ((ObservableEntity)entityIO.getSource()).setSaveState("");
         return true;
     }
     

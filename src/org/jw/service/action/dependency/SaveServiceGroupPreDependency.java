@@ -6,9 +6,9 @@
 
 package org.jw.service.action.dependency;
 
+import org.jw.service.action.DependencyCommand;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
-import org.jw.service.action.DependencyCommand;
 
 /**
  *

@@ -6,8 +6,8 @@
 
 package org.jw.service.action.dependency;
 
-import java.awt.event.ActionEvent;
 import org.jw.service.action.DependencyCommand;
+import java.awt.event.ActionEvent;
 import org.jw.service.dao.DataAccessObject;
 import org.jw.service.entity.Contact;
 import org.jw.service.entity.ContactCall;
@@ -33,8 +33,8 @@ public class NewCallPostDependency implements DependencyCommand{
     @Override
     public void run(Object workerResult, ActionEvent ae) {
         ContactCall call = (ContactCall) workerResult;
-        call.setContactId(contactTarget);
-        dao.save(call);
+        call.setContactId(contactTarget);        
+        dao.persist(call);
     }
 
     @Override

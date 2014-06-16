@@ -21,7 +21,7 @@ public class DefaultTaskListener extends AbstractTaskListener{
     public static DefaultTaskListener create(JProgressBar taskProgressBar, JLabel messageNotificationLabel, String startMessage, String doneMessage, boolean indeterminate) {
         return new DefaultTaskListener(taskProgressBar, messageNotificationLabel, startMessage, doneMessage, indeterminate);
     }
-    private final boolean indeterminate;
+    private boolean indeterminate;
     private String startMessage;
     private String doneMessage;
     private final transient PropertyChangeSupport propertyChangeSupport = new java.beans.PropertyChangeSupport(this);
@@ -81,5 +81,19 @@ public class DefaultTaskListener extends AbstractTaskListener{
         java.lang.String oldDoneMessage = this.doneMessage;
         this.doneMessage = doneMessage;
         propertyChangeSupport.firePropertyChange(PROP_DONEMESSAGE, oldDoneMessage, doneMessage);
+    }
+
+    /**
+     * @return the indeterminate
+     */
+    public boolean isIndeterminate() {
+        return indeterminate;
+    }
+
+    /**
+     * @param indeterminate the indeterminate to set
+     */
+    public void setIndeterminate(boolean indeterminate) {
+        this.indeterminate = indeterminate;        
     }
 }

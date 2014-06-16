@@ -6,19 +6,105 @@
 
 package org.jw.service.gui;
 
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.util.Collection;
+import javax.persistence.EntityManager;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
+import javax.swing.JComboBox;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import org.jw.service.dao.DataAccessObject;
+import org.jw.service.entity.Contact;
+import org.jw.service.entity.ServiceGroup;
+import org.jw.service.entity.Territory;
+
 /**
  *
  * @author Wilson
  */
 public class ProximityMapDialog extends javax.swing.JDialog {
-
+    private final DataAccessObject<ServiceGroup> serviceGroupDAO;
+    
     /**
      * Creates new form LocationProximityCheckerDialog
      */
-    public ProximityMapDialog(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
-        initComponents();
+    public ProximityMapDialog(java.awt.Frame parent, boolean modal, EntityManager em) {
+        super(parent, modal);        
+        this.serviceGroupDAO = DataAccessObject.create(em, ServiceGroup.class);
+        initComponents();        
+        initMyComponents();
     }
+    
+    private void initMyComponents(){
+        this.serviceGroupComboBox.setSelectedIndex(-1);        
+        setServiceGroupComboBoxItemListener();
+        setTerritoryComboBoxItemListener();
+        setCheckBoxItemListener();
+    }
+    
+    private void setCheckBoxItemListener(){
+        this.notAssignedCheckBox.addItemListener(new ItemListener(){
+            @Override
+            public void itemStateChanged(ItemEvent ie) {
+                try{
+                    ServiceGroup serviceGroup = (ServiceGroup)serviceGroupComboBox.getSelectedItem();                    
+                    addContactsToList(serviceGroup.getContactCollection(), serviceGroupContactList, notAssignedCheckBox.isSelected());                
+                }catch(NullPointerException ex){
+                    JOptionPane.showMessageDialog(null, "Please select a service group");
+                }    
+            }
+        });        
+    }
+    
+    private void setTerritoryComboBoxItemListener(){
+        this.territoryComboBox.addItemListener(new ItemListener(){
+            @Override
+            public void itemStateChanged(ItemEvent ie) {
+                if(ie.getStateChange() == ItemEvent.SELECTED){
+                    Territory territory = (Territory) territoryComboBox.getSelectedItem();
+                    addContactsToList(territory.getContactCollection(), territoryContactList, false);
+                }
+            }        
+        });        
+    }
+    
+    private void addContactsToList(Collection<Contact> contactList, JList list, boolean orphanOnly){
+        DefaultListModel<Contact> listModel = new DefaultListModel<>();                    
+        for(Contact contact : contactList){
+            if(orphanOnly && contact.getTerritoryId() == null)
+                listModel.addElement(contact);
+            else if(!orphanOnly){
+                listModel.addElement(contact);
+            }
+        }
+        list.setModel(listModel);
+    }
+    
+    private void addTerritoryToComboBox(Collection<Territory> territoryList, JComboBox comboBox){
+        DefaultComboBoxModel<Territory> comboBoxModel = new DefaultComboBoxModel();
+        for(Territory territory : territoryList){
+            comboBoxModel.addElement(territory);
+        }                    
+        territoryComboBox.setModel(comboBoxModel);
+        territoryComboBox.setSelectedIndex(-1);
+    }
+    
+    private void setServiceGroupComboBoxItemListener(){
+        this.serviceGroupComboBox.addItemListener(new ItemListener(){
+            @Override
+            public void itemStateChanged(ItemEvent ie) {
+                if(ie.getStateChange() == ItemEvent.SELECTED){
+                    ServiceGroup serviceGroup = (ServiceGroup)serviceGroupComboBox.getSelectedItem();                    
+                    addContactsToList(serviceGroup.getContactCollection(), serviceGroupContactList, notAssignedCheckBox.isSelected());
+                    addTerritoryToComboBox(serviceGroup.getTerritoryCollection(), territoryComboBox);
+                }
+            }
+        });        
+    }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -28,23 +114,26 @@ public class ProximityMapDialog extends javax.swing.JDialog {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
+        territoryListBean = new org.jw.service.beans.ListBean(serviceGroupDAO);
         taskMonitorPanel1 = new org.jw.service.gui.component.TaskMonitorPanel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         mapCrudPanel1 = new org.jw.service.gui.component.MapCrudPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox();
+        serviceGroupComboBox = new javax.swing.JComboBox();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList();
+        serviceGroupContactList = new javax.swing.JList();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList();
+        territoryContactList = new javax.swing.JList();
         jLabel3 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox();
+        territoryComboBox = new javax.swing.JComboBox();
+        notAssignedCheckBox = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/jw/service/gui/resources/properties/dialog_titles"); // NOI18N
@@ -74,16 +163,14 @@ public class ProximityMapDialog extends javax.swing.JDialog {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Contacts", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
-        jLabel2.setText("Available Contacts:");
+        jLabel2.setText("Select Service Group:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${list}");
+        org.jdesktop.swingbinding.JComboBoxBinding jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, territoryListBean, eLProperty, serviceGroupComboBox);
+        bindingGroup.addBinding(jComboBoxBinding);
 
-        jList1.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane1.setViewportView(jList1);
+        serviceGroupContactList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        jScrollPane1.setViewportView(serviceGroupContactList);
 
         jButton1.setText("Add >>");
 
@@ -91,16 +178,12 @@ public class ProximityMapDialog extends javax.swing.JDialog {
 
         jButton3.setText("<< Remove All");
 
-        jList2.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane2.setViewportView(jList2);
+        jScrollPane2.setViewportView(territoryContactList);
 
-        jLabel3.setText("Selected Contacts:");
+        jLabel3.setText("Select Territory:");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        notAssignedCheckBox.setSelected(true);
+        notAssignedCheckBox.setText("Not yet assigned to territory");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -110,8 +193,9 @@ public class ProximityMapDialog extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(serviceGroupComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(notAssignedCheckBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -119,11 +203,14 @@ public class ProximityMapDialog extends javax.swing.JDialog {
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE)
+                    .addComponent(territoryComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jScrollPane1, jScrollPane2, notAssignedCheckBox});
+
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -133,8 +220,8 @@ public class ProximityMapDialog extends javax.swing.JDialog {
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(serviceGroupComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(territoryComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(100, 100, 100)
@@ -147,8 +234,11 @@ public class ProximityMapDialog extends javax.swing.JDialog {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING))
+                            .addComponent(jScrollPane2)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jScrollPane1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(notAssignedCheckBox)))
                         .addContainerGap())))
         );
 
@@ -181,6 +271,8 @@ public class ProximityMapDialog extends javax.swing.JDialog {
                 .addComponent(taskMonitorPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
+        bindingGroup.bind();
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -190,18 +282,21 @@ public class ProximityMapDialog extends javax.swing.JDialog {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox jComboBox1;
-    private javax.swing.JComboBox jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JList jList1;
-    private javax.swing.JList jList2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private org.jw.service.gui.component.MapCrudPanel mapCrudPanel1;
+    private javax.swing.JCheckBox notAssignedCheckBox;
+    private javax.swing.JComboBox serviceGroupComboBox;
+    private javax.swing.JList serviceGroupContactList;
     private org.jw.service.gui.component.TaskMonitorPanel taskMonitorPanel1;
+    private javax.swing.JComboBox territoryComboBox;
+    private javax.swing.JList territoryContactList;
+    private org.jw.service.beans.ListBean territoryListBean;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }

@@ -7,20 +7,26 @@
 package org.jw.service.gui;
 
 import javax.persistence.EntityManager;
+import javax.swing.JFileChooser;
 import org.jdesktop.observablecollections.ObservableList;
 import org.jdesktop.observablecollections.ObservableListListener;
 import org.jw.service.action.DefaultCloseAction;
 import org.jw.service.action.DefaultDeleteAction;
-import org.jw.service.action.DefaultFileChooserOpenAction;
+import org.jw.service.action.DefaultFileChooserAction;
 import org.jw.service.action.DefaultNewAction;
 import org.jw.service.action.DefaultRefreshAction;
 import org.jw.service.action.DefaultSaveAction;
 import org.jw.service.action.dependency.StatusIconSetPostDependency;
+import org.jw.service.action.validator.DefaultCloseActionValidator;
+import org.jw.service.action.validator.DefaultRequiredFieldsSaveActionValidator;
+import org.jw.service.action.validator.DefaultUniqueFieldsSaveActionValidator;
 import org.jw.service.builder.DefaultTaskBuilder;
 import org.jw.service.dao.DataAccessObject;
 import org.jw.service.entity.ContactStatus;
 import org.jw.service.file.filter.FileFilterImage;
+import org.jw.service.list.ContactStatusMatcher;
 import org.jw.service.util.UtilityProperties;
+import org.jw.service.util.UtilityTable;
 
 /**
  *
@@ -42,9 +48,9 @@ public class ContactStatusDialog extends javax.swing.JDialog {
     }
 
     private void initMyComponents(){ 
-        ((ObservableList)statusList).addObservableListListener(listListener);
         dao = DataAccessObject.create(em, ContactStatus.class);    
         statusList.addAll(dao.readAll());
+        ((ObservableList)statusList).addObservableListListener(listListener);        
         DefaultTaskBuilder<ContactStatus> taskBuilder = new DefaultTaskBuilder<>();
         taskBuilder.setEntityName("status");
         taskBuilder.setProperties(taskMessageProperties);
@@ -61,9 +67,28 @@ public class ContactStatusDialog extends javax.swing.JDialog {
         taskBuilder.setDao(dao);
         taskBuilder.buildDefaultTasks();
         
+        
         statusIconSetPostDependency = new StatusIconSetPostDependency(this.iconCommand);
-        fcOpenAction = new DefaultFileChooserOpenAction(this.iconCommand, this, FileFilterImage.create(), null );
+        fcOpenAction = new DefaultFileChooserAction(this.iconCommand, this, FileFilterImage.create(), "Open", JFileChooser.FILES_ONLY, null );
         fcOpenAction.addPostActionCommands("statusIconSetPostDependency", statusIconSetPostDependency);
+        
+        UtilityTable<ContactStatus> utilTable = UtilityTable.create(statusTable, statusList);
+        setActionValidators(taskBuilder, utilTable);
+    }
+    
+    private void setActionValidators(DefaultTaskBuilder taskBuilder, UtilityTable<ContactStatus> utilTable){
+        // Create Matchers
+        ContactStatusMatcher contactStatusMatcher = new ContactStatusMatcher();
+        
+        // Create Action Validators
+        DefaultUniqueFieldsSaveActionValidator uniqueFieldValidator = new DefaultUniqueFieldsSaveActionValidator(this, statusList, utilTable, contactStatusMatcher, "status");
+        DefaultRequiredFieldsSaveActionValidator requiredFieldValidator = new DefaultRequiredFieldsSaveActionValidator(this, utilTable, "status");
+        DefaultCloseActionValidator closeActionValidator = new DefaultCloseActionValidator(this, utilTable);
+        
+        // Set Validators
+        taskBuilder.getCloseAction().addActionValidator(closeActionValidator);
+        taskBuilder.getSaveAction().addActionValidator(uniqueFieldValidator);
+        taskBuilder.getSaveAction().addActionValidator(requiredFieldValidator);
     }
     
     
@@ -184,6 +209,7 @@ public class ContactStatusDialog extends javax.swing.JDialog {
         statusPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Status", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
         statusTable.setAutoCreateRowSorter(true);
+        statusTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, statusList, statusTable);
         org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${saveState}"));
@@ -291,7 +317,7 @@ public class ContactStatusDialog extends javax.swing.JDialog {
     DefaultDeleteAction<ContactStatus> deleteAction;
     DefaultRefreshAction<ContactStatus> refreshAction;
     DefaultSaveAction<ContactStatus> saveAction;        
-    DefaultFileChooserOpenAction fcOpenAction;           
+    DefaultFileChooserAction fcOpenAction;           
     DataAccessObject<ContactStatus> dao;    
     StatusIconSetPostDependency statusIconSetPostDependency;
     

@@ -9,6 +9,7 @@ package org.jw.service.listener.item;
 import java.awt.Window;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import javax.swing.JOptionPane;
 import org.jw.service.entity.ServiceGroup;
 
 /**
@@ -27,8 +28,7 @@ public class DefaultServiceGroupItemListener implements ItemListener{
         if(ie.getStateChange() == ItemEvent.SELECTED){
             ServiceGroup serviceGroup = (ServiceGroup) ie.getItem();
             if(serviceGroup != null){
-                //JOptionPane.showMessageDialog(parent, "Service Group: " + serviceGroup.getName() + " is set.", "Service Group", JOptionPane.INFORMATION_MESSAGE);
-                System.out.println(serviceGroup);
+                JOptionPane.showMessageDialog(parent, "Service Group: " + serviceGroup.getName() + " is set.", "Service Group", JOptionPane.INFORMATION_MESSAGE);                
             }
         }
     }

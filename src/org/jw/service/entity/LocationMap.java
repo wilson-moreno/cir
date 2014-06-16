@@ -424,5 +424,16 @@ public class LocationMap implements Serializable, ObservableEntity, SilentSetter
         this.image = image;
         propertyChangeSupport.firePropertyChange("image", oldImage, image);
     }
-    
+ 
+    public String getName(){ return ""; }
+
+    @Override
+    public boolean hasDependentEntities() {
+        return !getDirectionMapCollection().isEmpty();
+    }
+
+    @Override
+    public boolean isMissingRequiredFields() {
+        return false;
+    }
 }

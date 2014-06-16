@@ -6,6 +6,7 @@
 
 package org.jw.service.action.dependency;
 
+import org.jw.service.action.DependencyCommand;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
@@ -13,7 +14,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import org.jw.service.action.DependencyCommand;
 import org.jw.service.listener.task.DefaultTaskListener;
 import org.jw.service.util.UtilityDownload;
 import org.jw.service.worker.DefaultCheckInternetConnectionWorker;

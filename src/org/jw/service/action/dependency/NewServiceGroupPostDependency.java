@@ -6,9 +6,9 @@
 
 package org.jw.service.action.dependency;
 
+import org.jw.service.action.DependencyCommand;
 import java.awt.event.ActionEvent;
 import javax.persistence.EntityManager;
-import org.jw.service.action.DependencyCommand;
 import org.jw.service.dao.DataAccessObject;
 import org.jw.service.entity.Congregation;
 import org.jw.service.entity.ServiceGroup;
@@ -41,7 +41,7 @@ public class NewServiceGroupPostDependency implements DependencyCommand{
             Congregation congregation = congregationDAO.read(new Integer(1));
             if(congregation != null){                
                 serviceGroup.silentSetProperty("congregationId", congregation);                
-                serviceGroupDAO.save(serviceGroup);
+                serviceGroupDAO.persist(serviceGroup);
                 utilTree.addNode(serviceGroup);
             }
         }

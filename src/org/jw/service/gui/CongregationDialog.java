@@ -10,9 +10,12 @@ import java.util.Date;
 import javax.persistence.EntityManager;
 import org.jw.service.action.DefaultCloseAction;
 import org.jw.service.action.DefaultSingleSaveAction;
+import org.jw.service.action.validator.CongregationCloseActionValidator;
+import org.jw.service.action.validator.CongregationSaveActionValidator;
 import org.jw.service.dao.DataAccessObject;
 import org.jw.service.entity.Congregation;
 import org.jw.service.entity.EntityIO;
+import org.jw.service.listener.state.DefaultEntityStateListener;
 
 /**
  *
@@ -39,6 +42,16 @@ public class CongregationDialog extends javax.swing.JDialog {
         entityIO.read();
         saveAction = new DefaultSingleSaveAction(this.singleRecordCrudPanel.getSaveCommand(), dao, entityIO);
         closeAction = new DefaultCloseAction(this.singleRecordCrudPanel.getCloseCommand(), this);
+        saveAction.setEnabled(false);
+        stateListener = DefaultEntityStateListener.create(saveAction);
+        source.addPropertyChangeListener(stateListener);
+        
+        closeValidator = new CongregationCloseActionValidator(this, source);
+        saveValidator = new CongregationSaveActionValidator(this, source);
+        closeAction.addActionValidator(closeValidator);
+        saveAction.addActionValidator(saveValidator);
+        
+        bindingGroup.addBindingListener(this.taskMonitorPanel.getLogger());
     }
     
     private Congregation getCongregation(){
@@ -69,43 +82,76 @@ public class CongregationDialog extends javax.swing.JDialog {
         address1TextField = new javax.swing.JTextField();
         address2TextField = new javax.swing.JTextField();
         cityTextField = new javax.swing.JTextField();
-        latitudeTextField = new javax.swing.JTextField();
-        longitudeTextField = new javax.swing.JTextField();
-        taskMonitorPanel = new org.jw.service.gui.component.TaskMonitorPanel();
+        latitudeTextField = new javax.swing.JFormattedTextField();
+        longitudeTextField = new javax.swing.JFormattedTextField();
         singleRecordCrudPanel = new org.jw.service.gui.component.SingleRecordCrudPanel();
+        taskMonitorPanel = new org.jw.service.gui.component.TaskMonitorPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/jw/service/gui/resources/properties/dialog_titles"); // NOI18N
         setTitle(bundle.getString("congregation.dialog.title")); // NOI18N
+        setResizable(false);
 
         congregationPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Congregation", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
+        nameLabel.setLabelFor(nameTextField);
         nameLabel.setText("Name:");
 
+        address1Label.setLabelFor(address1TextField);
         address1Label.setText("Address:");
 
+        cityLabel.setLabelFor(cityTextField);
         cityLabel.setText("City:");
 
+        latitudeLabel.setLabelFor(latitudeTextField);
         latitudeLabel.setText("Latitude:");
 
+        longitudeLabel.setLabelFor(longitudeTextField);
         longitudeLabel.setText("Longitude:");
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, source, org.jdesktop.beansbinding.ELProperty.create("${name}"), nameTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        nameTextField.setNextFocusableComponent(address1TextField);
+
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, source, org.jdesktop.beansbinding.ELProperty.create("${name}"), nameTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "Name");
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
+        binding.setValidator(null);
         bindingGroup.addBinding(binding);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, source, org.jdesktop.beansbinding.ELProperty.create("${address1}"), address1TextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        address1TextField.setNextFocusableComponent(address2TextField);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, source, org.jdesktop.beansbinding.ELProperty.create("${address1}"), address1TextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "Address");
+        binding.setSourceNullValue("null");
+        binding.setSourceUnreadableValue("null");
+        binding.setValidator(null);
         bindingGroup.addBinding(binding);
+
+        address2TextField.setNextFocusableComponent(cityTextField);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, source, org.jdesktop.beansbinding.ELProperty.create("${address2}"), address2TextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, source, org.jdesktop.beansbinding.ELProperty.create("${city}"), cityTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        cityTextField.setNextFocusableComponent(latitudeTextField);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, source, org.jdesktop.beansbinding.ELProperty.create("${city}"), cityTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "City");
+        binding.setSourceNullValue("null");
+        binding.setSourceUnreadableValue("null");
+        binding.setValidator(null);
         bindingGroup.addBinding(binding);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, source, org.jdesktop.beansbinding.ELProperty.create("${latitude}"), latitudeTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        latitudeTextField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("0.000000"))));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, source, org.jdesktop.beansbinding.ELProperty.create("${latitude}"), latitudeTextField, org.jdesktop.beansbinding.BeanProperty.create("value"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
         bindingGroup.addBinding(binding);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, source, org.jdesktop.beansbinding.ELProperty.create("${longitude}"), longitudeTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        longitudeTextField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("0.000000"))));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, source, org.jdesktop.beansbinding.ELProperty.create("${longitude}"), longitudeTextField, org.jdesktop.beansbinding.BeanProperty.create("value"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
         bindingGroup.addBinding(binding);
 
         javax.swing.GroupLayout congregationPanelLayout = new javax.swing.GroupLayout(congregationPanel);
@@ -120,10 +166,6 @@ public class CongregationDialog extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(nameTextField))
                     .addGroup(congregationPanelLayout.createSequentialGroup()
-                        .addComponent(longitudeLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(longitudeTextField))
-                    .addGroup(congregationPanelLayout.createSequentialGroup()
                         .addComponent(address1Label)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(address1TextField))
@@ -135,6 +177,10 @@ public class CongregationDialog extends javax.swing.JDialog {
                         .addComponent(cityLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cityTextField))
+                    .addGroup(congregationPanelLayout.createSequentialGroup()
+                        .addComponent(longitudeLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(longitudeTextField))
                     .addGroup(congregationPanelLayout.createSequentialGroup()
                         .addComponent(latitudeLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -184,23 +230,21 @@ public class CongregationDialog extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(congregationPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(singleRecordCrudPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 359, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(singleRecordCrudPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 359, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(taskMonitorPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 383, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(taskMonitorPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(congregationPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(congregationPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(singleRecordCrudPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(taskMonitorPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(taskMonitorPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         bindingGroup.bind();
@@ -218,9 +262,9 @@ public class CongregationDialog extends javax.swing.JDialog {
     private javax.swing.JTextField cityTextField;
     private javax.swing.JPanel congregationPanel;
     private javax.swing.JLabel latitudeLabel;
-    private javax.swing.JTextField latitudeTextField;
+    private javax.swing.JFormattedTextField latitudeTextField;
     private javax.swing.JLabel longitudeLabel;
-    private javax.swing.JTextField longitudeTextField;
+    private javax.swing.JFormattedTextField longitudeTextField;
     private javax.swing.JLabel nameLabel;
     private javax.swing.JTextField nameTextField;
     private org.jw.service.gui.component.SingleRecordCrudPanel singleRecordCrudPanel;
@@ -229,6 +273,9 @@ public class CongregationDialog extends javax.swing.JDialog {
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
+    DefaultEntityStateListener stateListener;
     DefaultSingleSaveAction<Congregation> saveAction;
     DefaultCloseAction closeAction;
+    CongregationCloseActionValidator closeValidator;
+    CongregationSaveActionValidator saveValidator;
 }

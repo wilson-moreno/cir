@@ -12,6 +12,7 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -84,12 +85,13 @@ public class ServiceGroup implements Serializable, ObservableEntity, SilentSette
     private Congregation congregationId;
     @OneToMany(mappedBy = "serviceGroupId")
     private Collection<MeetingPlace> meetingPlaceCollection;
-    @OneToMany(mappedBy = "serviceGroupId")
+    @OneToMany(mappedBy = "serviceGroupId", cascade = CascadeType.PERSIST)
     private Collection<Contact> contactCollection;
     @Transient
     private String saveState;
 
     public ServiceGroup() {
+        this.assistant = "";
         this.congregationId = null;
         this.contactCollection = null;
         this.createdDatetime = new Date();
@@ -401,6 +403,15 @@ public class ServiceGroup implements Serializable, ObservableEntity, SilentSette
         return this.toString().compareTo(t.toString());
     }
 
+    @XmlTransient
+    public Collection<Territory> getTerritoryCollection() {
+        return territoryCollection;
+    }
+
+    public void setTerritoryCollection(Collection<Territory> territoryCollection) {
+        this.territoryCollection = territoryCollection;
+    }
+
     public byte[] getIcon() {
         return icon;
     }
@@ -409,12 +420,17 @@ public class ServiceGroup implements Serializable, ObservableEntity, SilentSette
         this.icon = icon;
     }
 
-    @XmlTransient
-    public Collection<Territory> getTerritoryCollection() {
-        return territoryCollection;
+    @Override
+    public boolean hasDependentEntities() {
+        return !this.getContactCollection().isEmpty() ||
+               !this.getMeetingPlaceCollection().isEmpty() ||
+               !this.getTerritoryCollection().isEmpty();
     }
 
-    public void setTerritoryCollection(Collection<Territory> territoryCollection) {
-        this.territoryCollection = territoryCollection;
+    @Override
+    public boolean isMissingRequiredFields() {
+        return getName().trim().equals("") ||
+               getPrefix().trim().equals("") ||
+               getStartNumber() == null;
     }
 }

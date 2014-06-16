@@ -157,6 +157,8 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
     private final transient PropertyChangeSupport propertyChangeSupport = new java.beans.PropertyChangeSupport(this);
     @Transient
     private String saveState;
+    @Column(name = "PRINTED")
+    private Boolean printed;
     
     public Contact() {
         this.area = "";
@@ -195,6 +197,7 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
         this.workBackground = "";  
         this.territoryId = null;
         this.locationMapCollection = null;
+        this.printed = false;
     }
 
     public Contact(Integer id) {
@@ -898,8 +901,30 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
     public void setLocationMapCollection(Collection<LocationMap> locationMapCollection) {
         this.locationMapCollection = locationMapCollection;
     }
+
+    public String getName(){
+        return "";
+    }    
     
+    public void setPrinted(Boolean printed){
+        Boolean oldPrinted = this.printed;
+        this.printed = printed;
+        propertyChangeSupport.firePropertyChange("printed", oldPrinted, printed);
+    }
     
+    public Boolean getPrinted(){
+        return this.printed;
+    }
+
+    @Override
+    public boolean hasDependentEntities() {
+        return !getContactCallCollection().isEmpty();
+    }
+
+    @Override
+    public boolean isMissingRequiredFields() {
+        return (getFirstName().trim().equals("") && getLastName().trim().equals(""));                
+    }
 }
 
         

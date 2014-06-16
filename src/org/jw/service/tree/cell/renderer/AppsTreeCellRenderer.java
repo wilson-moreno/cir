@@ -14,6 +14,7 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import org.jw.service.entity.Contact;
 import org.jw.service.entity.ContactStatus;
 import org.jw.service.entity.ServiceGroup;
+import org.jw.service.entity.Territory;
 import org.jw.service.util.UtilityImageIcon;
 
 /**
@@ -40,11 +41,13 @@ public class AppsTreeCellRenderer extends DefaultTreeCellRenderer{
             if(leafNode.getUserObject() instanceof Contact){
                 Contact contact = (Contact) leafNode.getUserObject();
                 ContactStatus status = (ContactStatus) contact.getStatusId();
-                if(status != null){
+                if(status != null && status.getIcon() != null){
                     this.setIcon(getContactNodeIcon(status));
                 }
             }else if(leafNode.getUserObject() instanceof ServiceGroup){
                 setIcon(getServiceGroupNodeIcon());
+            }else if(leafNode.getUserObject() instanceof Territory){
+                setIcon(getTerritoryNodeIcon());
             }
         } else {
             setIcon(getRootNodeIcon());
@@ -63,6 +66,10 @@ public class AppsTreeCellRenderer extends DefaultTreeCellRenderer{
     
     private ImageIcon getRootNodeIcon(){
         return utilImageIcon.getIcon("default.file.cabinet.png");
+    }
+    
+    private ImageIcon getTerritoryNodeIcon(){
+        return utilImageIcon.getIcon("default.territory.node.icon.png");
     }
     
 }

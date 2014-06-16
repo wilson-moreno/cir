@@ -6,9 +6,10 @@
 
 package org.jw.service.action.dependency;
 
+import org.jw.service.action.DependencyCommand;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
-import org.jw.service.action.DependencyCommand;
+import javax.swing.JTabbedPane;
 import org.jw.service.dao.DataAccessObject;
 import org.jw.service.entity.Contact;
 import org.jw.service.entity.ServiceGroup;
@@ -23,12 +24,14 @@ public class NewContactPostDependency implements DependencyCommand{
     private final DataAccessObject<ServiceGroup> serviceGroupDAO;    
     private final DataAccessObject<Contact> contactDAO;   
     private final UtilityTree utilTree;
+    private final JTabbedPane tabbedPane;
     
-    public NewContactPostDependency(DataAccessObject<Contact> contactDAO, DataAccessObject<ServiceGroup> serviceGroupDAO, JComboBox sgComboBox, UtilityTree utilTree){        
+    public NewContactPostDependency(DataAccessObject<Contact> contactDAO, DataAccessObject<ServiceGroup> serviceGroupDAO, JComboBox sgComboBox, UtilityTree utilTree, JTabbedPane tabbedPane){        
         this.sgComboBox = sgComboBox;
         this.serviceGroupDAO = serviceGroupDAO;
         this.contactDAO = contactDAO;
         this.utilTree = utilTree;
+        this.tabbedPane = tabbedPane;
     }
     
     
@@ -45,10 +48,11 @@ public class NewContactPostDependency implements DependencyCommand{
         serviceGroup.setSaveState("");
         contact.silentSetProperty("recordNumber",recordNumber);
         contact.silentSetProperty("serviceGroupId", serviceGroup);
-        contact.setSaveState("");
-        ServiceGroup saveServiceGroup = serviceGroupDAO.save(serviceGroup);
-        Contact saveContact = contactDAO.save(contact);
+        contact.setSaveState("*");
+        ServiceGroup saveServiceGroup = serviceGroupDAO.persist(serviceGroup);
+        Contact saveContact = contactDAO.persist(contact);
         utilTree.addNode(contact);
+        tabbedPane.setSelectedIndex(0);
     }
 
     @Override

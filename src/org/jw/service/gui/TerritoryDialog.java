@@ -14,11 +14,16 @@ import org.jw.service.action.DefaultDeleteAction;
 import org.jw.service.action.DefaultNewAction;
 import org.jw.service.action.DefaultRefreshAction;
 import org.jw.service.action.DefaultSaveAction;
+import org.jw.service.action.validator.DefaultCloseActionValidator;
+import org.jw.service.action.validator.DefaultRequiredFieldsSaveActionValidator;
+import org.jw.service.action.validator.DefaultUniqueFieldsSaveActionValidator;
 import org.jw.service.builder.DefaultTaskBuilder;
 import org.jw.service.dao.DataAccessObject;
 import org.jw.service.entity.ServiceGroup;
 import org.jw.service.entity.Territory;
+import org.jw.service.list.TerritoryMatcher;
 import org.jw.service.util.UtilityProperties;
+import org.jw.service.util.UtilityTable;
 
 /**
  *
@@ -45,10 +50,10 @@ public class TerritoryDialog extends javax.swing.JDialog {
         initMyComponents();
     }
     
-    private void initMyComponents(){
-        ((ObservableList)territoryList).addObservableListListener(listListener);
-        territoryList.clear();
+    private void initMyComponents(){        
         territoryList.addAll(territoryDAO.readAll());
+        utilTable = UtilityTable.create(territoryTable, territoryList);
+        ((ObservableList)territoryList).addObservableListListener(listListener);        
         DefaultTaskBuilder<Territory> taskBuilder = new DefaultTaskBuilder<>();
         taskBuilder.setEntityName("status");
         taskBuilder.setProperties(taskMessageProperties);
@@ -66,6 +71,24 @@ public class TerritoryDialog extends javax.swing.JDialog {
         taskBuilder.buildDefaultTasks();
         for(ServiceGroup serviceGroup : sgDAO.readAll())
             this.serviceGroupComboBox.addItem(serviceGroup);
+        
+        UtilityTable<Territory> utilTable = UtilityTable.create(territoryTable, territoryList);
+        setActionValidators(taskBuilder, utilTable);
+    }
+    
+    private void setActionValidators(DefaultTaskBuilder taskBuilder, UtilityTable<Territory> utilTable){
+        // Create Matchers
+        TerritoryMatcher territoryMatcher = new TerritoryMatcher();
+        
+        // Create Action Validators
+        
+        DefaultUniqueFieldsSaveActionValidator uniqueFieldValidator = new DefaultUniqueFieldsSaveActionValidator(this, territoryList, utilTable, territoryMatcher, "territory");
+        DefaultRequiredFieldsSaveActionValidator requiredFieldValidator = new DefaultRequiredFieldsSaveActionValidator(this, utilTable, "territory");
+        DefaultCloseActionValidator closeActionValidator = new DefaultCloseActionValidator(this, utilTable);
+        
+        taskBuilder.getCloseAction().addActionValidator(closeActionValidator);
+        taskBuilder.getSaveAction().addActionValidator(uniqueFieldValidator);
+        taskBuilder.getSaveAction().addActionValidator(requiredFieldValidator);
     }
 
     /**
@@ -104,13 +127,13 @@ public class TerritoryDialog extends javax.swing.JDialog {
         descriptionLabel.setText("Description:");
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, territoryTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.name}"), nameTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("null");
-        binding.setSourceUnreadableValue("null");
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, territoryTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.description}"), descriptionTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("null");
-        binding.setSourceUnreadableValue("null");
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
         enableCheckBox.setText("Enable");
@@ -176,6 +199,7 @@ public class TerritoryDialog extends javax.swing.JDialog {
         territoryListPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Territories", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
         territoryTable.setAutoCreateRowSorter(true);
+        territoryTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, territoryList, territoryTable);
         org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${saveState}"));
@@ -275,9 +299,10 @@ public class TerritoryDialog extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
     UtilityProperties taskMessageProperties = UtilityProperties.create(UtilityProperties.TASK_MESSAGE_PROPERTIES);        
+    UtilityTable utilTable;
     DefaultCloseAction closeAction;
     DefaultNewAction<Territory> newAction;
     DefaultDeleteAction<Territory> deleteAction;
     DefaultRefreshAction<Territory> refreshAction;
-    DefaultSaveAction<Territory> saveAction;
+    DefaultSaveAction<Territory> saveAction;    
 }

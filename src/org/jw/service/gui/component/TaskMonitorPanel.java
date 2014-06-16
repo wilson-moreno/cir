@@ -13,12 +13,14 @@ import org.jw.service.listener.task.DefaultTaskListener;
  * @author Wilson
  */
 public class TaskMonitorPanel extends javax.swing.JPanel {
-
+    private final LoggingBindingListener logger;
+    
     /**
      * Creates new form TaskMonitorPanel
      */
     public TaskMonitorPanel() {
         initComponents();
+        this.logger = new LoggingBindingListener(this.progressMessageLabel);
     }
 
     /**
@@ -69,5 +71,9 @@ public class TaskMonitorPanel extends javax.swing.JPanel {
 
     public DefaultTaskListener createDefaultTaskListener(String startMessage, String doneMessage){
         return DefaultTaskListener.create(progressBar, progressMessageLabel, startMessage, doneMessage, true);
+    }
+    
+    public LoggingBindingListener getLogger(){
+        return logger;
     }
 }

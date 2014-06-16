@@ -26,6 +26,7 @@ import org.jw.service.listener.selection.DefaultListSelectionListener;
 import org.jw.service.listener.state.DefaultEntityStateListener;
 import org.jw.service.listener.task.DefaultTaskListener;
 import org.jw.service.util.UtilityProperties;
+import org.jw.service.util.UtilityTable;
 
 /**
  *
@@ -134,7 +135,8 @@ public class DefaultTaskBuilder<T> {
             ((ObservableEntity)entity).addPropertyChangeListener(stateListener);
         }
         
-        deleteAction.addPreActionCommands("DefaultDeletePreDependency", new DefaultDeletePreDependency(window));
+        UtilityTable utilTable = UtilityTable.create(table, list);
+        deleteAction.addPreActionCommands("DefaultDeletePreDependency", new DefaultDeletePreDependency(window,utilTable,dao));
     }
 
     /**
