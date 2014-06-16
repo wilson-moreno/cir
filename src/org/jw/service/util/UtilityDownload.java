@@ -34,13 +34,7 @@ public class UtilityDownload {
         return new UtilityDownload();
     }
     
-    private UtilityDownload(){
-        try {
-            apiInetAddress = InetAddress.getByName(GOOGLE_STATIC_MAP_HOSTNAME);
-        } catch (UnknownHostException ex) {
-            Logger.getLogger(UtilityDownload.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+    private UtilityDownload(){}
     
     public String createUrl(LocationMap locationMap){
         return String.format(MAP_URL,

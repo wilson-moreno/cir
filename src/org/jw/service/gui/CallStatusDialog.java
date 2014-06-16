@@ -13,10 +13,18 @@ import org.jw.service.action.DefaultDeleteAction;
 import org.jw.service.action.DefaultNewAction;
 import org.jw.service.action.DefaultRefreshAction;
 import org.jw.service.action.DefaultSaveAction;
+import org.jw.service.action.validator.DefaultCloseActionValidator;
+import org.jw.service.action.validator.DefaultRequiredFieldsSaveActionValidator;
+import org.jw.service.action.validator.DefaultUniqueFieldsSaveActionValidator;
 import org.jw.service.builder.DefaultTaskBuilder;
 import org.jw.service.dao.DataAccessObject;
 import org.jw.service.entity.CallStatus;
+import org.jw.service.entity.Contact;
+import org.jw.service.list.CallStatusMatcher;
+import org.jw.service.list.ContactMatcher;
+import org.jw.service.list.DefaultNameMatcher;
 import org.jw.service.util.UtilityProperties;
+import org.jw.service.util.UtilityTable;
 
 /**
  *
@@ -47,6 +55,8 @@ public class CallStatusDialog extends javax.swing.JDialog {
     }
     
     private void buildTask(){
+        // TODO add required validation
+        // TODO add unique validation
         DefaultTaskBuilder taskBuilder = new DefaultTaskBuilder();
         taskBuilder.setEntityName("call.status");
         taskBuilder.setProperties(taskMessageProperties);
@@ -62,8 +72,24 @@ public class CallStatusDialog extends javax.swing.JDialog {
         taskBuilder.setWindow(this); 
         taskBuilder.setDao(this.callStatusDAO);
         taskBuilder.buildDefaultTasks();
+        
+        UtilityTable utilTable = UtilityTable.create(callStatusTable, callStatusList);
+        setActionValidators(taskBuilder, utilTable);
     }
 
+     private void setActionValidators(DefaultTaskBuilder taskBuilder, UtilityTable<CallStatus> utilTable){
+        // Create Matcher
+        CallStatusMatcher matcher = new CallStatusMatcher();
+        
+        // Create Validators
+        DefaultUniqueFieldsSaveActionValidator<CallStatus> uniqueFieldValidator = new DefaultUniqueFieldsSaveActionValidator<>(this, this.callStatusList, utilTable, matcher, "Call.Status");
+        DefaultRequiredFieldsSaveActionValidator<CallStatus> requiredFieldValidator = new DefaultRequiredFieldsSaveActionValidator<>(this, utilTable, "Call.Status");
+        DefaultCloseActionValidator closeActionValidator = new DefaultCloseActionValidator(this, utilTable);
+
+        taskBuilder.getCloseAction().addActionValidator(closeActionValidator);
+        taskBuilder.getSaveAction().addActionValidator(uniqueFieldValidator);        
+        taskBuilder.getSaveAction().addActionValidator(requiredFieldValidator);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -164,18 +190,22 @@ public class CallStatusDialog extends javax.swing.JDialog {
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${name}"));
         columnBinding.setColumnName("Name");
         columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${description}"));
         columnBinding.setColumnName("Description");
         columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${enable}"));
         columnBinding.setColumnName("Enable");
         columnBinding.setColumnClass(Boolean.class);
+        columnBinding.setEditable(false);
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
         jScrollPane1.setViewportView(callStatusTable);
         if (callStatusTable.getColumnModel().getColumnCount() > 0) {
             callStatusTable.getColumnModel().getColumn(0).setResizable(false);
             callStatusTable.getColumnModel().getColumn(0).setPreferredWidth(10);
+            callStatusTable.getColumnModel().getColumn(0).setCellRenderer(null);
         }
 
         javax.swing.GroupLayout listOfStatusPanelLayout = new javax.swing.GroupLayout(listOfStatusPanel);

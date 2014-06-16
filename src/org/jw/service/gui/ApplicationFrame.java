@@ -99,6 +99,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         territoryListBean = new org.jw.service.beans.ListBean(territoryDAO);
         statusListBean = new org.jw.service.beans.ListBean(statusDAO);
         serviceGroupListBean = new org.jw.service.beans.ListBean(serviceGroupDAO);
+        defaultDateCellRenderer = new org.jw.service.table.cell.renderer.DefaultDateCellRenderer();
         taskMonitorPanel = new org.jw.service.gui.component.TaskMonitorPanel();
         mainCommandPanel = new org.jw.service.gui.component.MainCommandPanel();
         treeScrollPane = new javax.swing.JScrollPane();
@@ -201,6 +202,8 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         proximityMapMenuItem = new javax.swing.JMenuItem();
         excelImportExportMenuItem = new javax.swing.JMenuItem();
 
+        defaultDateCellRenderer.setText("defaultDateCellRenderer1");
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/jw/service/gui/resources/properties/dialog_titles"); // NOI18N
         setTitle(bundle.getString("main.frame.title")); // NOI18N
@@ -269,6 +272,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         if (contactsTable.getColumnModel().getColumnCount() > 0) {
             contactsTable.getColumnModel().getColumn(0).setPreferredWidth(10);
             contactsTable.getColumnModel().getColumn(0).setCellRenderer(org.jw.service.table.cell.renderer.DefaultStateCellRenderer.create());
+            contactsTable.getColumnModel().getColumn(4).setCellRenderer(defaultDateCellRenderer);
             contactsTable.getColumnModel().getColumn(5).setPreferredWidth(50);
         }
 
@@ -1400,6 +1404,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     private javax.swing.JPanel contactsPanel;
     private javax.swing.JScrollPane contactsScrollPane;
     private javax.swing.JTable contactsTable;
+    private org.jw.service.table.cell.renderer.DefaultDateCellRenderer defaultDateCellRenderer;
     private javax.swing.JLabel emailAddressLabel;
     private javax.swing.JTextField emailAddressTextField;
     private javax.swing.JMenuItem excelImportExportMenuItem;
