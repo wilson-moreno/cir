@@ -324,4 +324,9 @@ public class MeetingPlace implements Serializable, ObservableEntity, SilentSette
                getLatitude() == null ||
                getLongitude() == null;
     }
+
+    @Override
+    public String getImplementingClassName() {
+        return "Meeting.Place";
+    }
 }

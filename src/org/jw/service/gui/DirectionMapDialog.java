@@ -6,19 +6,37 @@
 
 package org.jw.service.gui;
 
+import javax.persistence.EntityManager;
 import org.jw.service.action.DefaultCloseAction;
+import org.jw.service.dao.DataAccessObject;
+import org.jw.service.entity.Contact;
+import org.jw.service.entity.DirectionMap;
+import org.jw.service.entity.EntityIO;
+import org.jw.service.util.UtilityDownload;
+import org.jw.service.util.UtilityTable;
 
 /**
  *
  * @author Wilson
  */
 public class DirectionMapDialog extends javax.swing.JDialog {
-
+    private final UtilityTable<Contact> utilTable;
+    private final UtilityDownload utilDownload;
+    private final DataAccessObject<DirectionMap> mapDAO;
+    private final DataAccessObject<Contact> contactDAO;
+    private final EntityIO contactIO;
+    private final EntityIO mapIO;
     /**
      * Creates new form DirectionMapDialog
      */
-    public DirectionMapDialog(java.awt.Frame parent, boolean modal) {
+    public DirectionMapDialog(java.awt.Frame parent, boolean modal, EntityManager em, UtilityTable<Contact> utilTable) {
         super(parent, modal);
+        this.utilTable = utilTable;
+        this.utilDownload = UtilityDownload.create();
+        this.mapDAO = DataAccessObject.create(em, DirectionMap.class);
+        this.contactDAO = DataAccessObject.create(em, Contact.class);
+        this.mapIO = EntityIO.create(DirectionMap.class);
+        this.contactIO = EntityIO.create(Contact.class);
         initComponents();
         initMyComponents();
     }

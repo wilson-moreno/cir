@@ -12,10 +12,13 @@ import org.jw.service.action.DefaultCloseAction;
 import org.jw.service.action.DefaultDownloadMapAction;
 import org.jw.service.action.DefaultSingleSaveAction;
 import org.jw.service.action.dependency.DownloadMapPreDependency;
+import org.jw.service.action.validator.DefaultEntitySaveActionValidator;
+import org.jw.service.action.validator.DefaultInternetConnectivityValidator;
 import org.jw.service.dao.DataAccessObject;
 import org.jw.service.entity.Contact;
 import org.jw.service.entity.EntityIO;
 import org.jw.service.entity.LocationMap;
+import org.jw.service.listener.state.DefaultEntityStateListener;
 import org.jw.service.listener.task.DefaultTaskListener;
 import org.jw.service.util.UtilityDownload;
 import org.jw.service.util.UtilityProperties;
@@ -66,6 +69,16 @@ public class LocationMapDialog extends javax.swing.JDialog {
         
         downloadMapPreDependency = new DownloadMapPreDependency(this, utilDownload, connectionCheckListener);
         downloadMapAction.addPreActionCommands("downloadMapPreDependency", downloadMapPreDependency);
+        
+        setActionValidators();
+    }
+    
+    private void setActionValidators(){
+        DefaultEntitySaveActionValidator saveActionValidator = new DefaultEntitySaveActionValidator(this, mapSource);
+        DefaultInternetConnectivityValidator downloadActionValidator = new DefaultInternetConnectivityValidator(this, utilDownload);
+        
+        saveAction.addActionValidator(saveActionValidator);
+        downloadMapAction.addActionValidator(downloadActionValidator);
     }
     
     
@@ -371,6 +384,10 @@ public class LocationMapDialog extends javax.swing.JDialog {
             mapIO.setTarget(mapTarget);
             mapIO.read();
         }
+        
+        saveAction.setEnabled(false);
+        DefaultEntityStateListener stateListener = DefaultEntityStateListener.create(saveAction);
+        mapSource.addPropertyChangeListener(stateListener);
     }
     
     private void setSelectedContact(){

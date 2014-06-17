@@ -434,6 +434,16 @@ public class LocationMap implements Serializable, ObservableEntity, SilentSetter
 
     @Override
     public boolean isMissingRequiredFields() {
-        return false;
+        return  this.latitude == null ||
+                this.longitude == null ||
+                this.width == null ||
+                this.height == null ||
+                this.width.intValue() < 200 ||
+                this.height.intValue() < 200;
+    }
+
+    @Override
+    public String getImplementingClassName() {
+        return "Location.Map";
     }
 }

@@ -349,6 +349,11 @@ public class Congregation implements Serializable , ObservableEntity, SilentSett
                getAddress1().trim().equals("") ||
                getCity().trim().equals("");
     }
+
+    @Override
+    public String getImplementingClassName() {
+        return "Congregation";
+    }
  
     
 }

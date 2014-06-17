@@ -16,6 +16,7 @@ public interface ObservableEntity {
     public String getSaveState();
     public Integer getId();
     public String getName();
+    public String getImplementingClassName();
     public boolean hasDependentEntities();
     public boolean isMissingRequiredFields();
     public void setSaveState(String saveState);

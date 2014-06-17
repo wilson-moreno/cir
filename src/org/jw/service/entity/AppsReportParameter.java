@@ -432,5 +432,10 @@ public class AppsReportParameter implements Serializable, ObservableEntity, Sile
         this.parameterType = parameterType;
         propertyChangeSupport.firePropertyChange(PROP_PARAMETERTYPE, oldParameterType, parameterType);
     }
+
+    @Override
+    public String getImplementingClassName() {
+        return "Apps.Report.Parameter";
+    }
     
 }

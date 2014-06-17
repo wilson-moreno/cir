@@ -29,6 +29,7 @@ public class UtilityDownload {
     public final static String MAP_URL = "https://maps.googleapis.com/maps/api/staticmap?center=%f,%f&zoom=%d&size=%dx%d&scale=%d&maptype=%s&format=%s&sensor=false&markers=color:%s|%f,%f";
     public final static String GOOGLE_STATIC_MAP_HOSTNAME = "maps.googleapis.com";
     private InetAddress apiInetAddress = null;
+    private final String CONNECTIVITY_TEST_HOSTNAME = "https://developers.google.com/maps/";
     
     public static UtilityDownload create() {
         return new UtilityDownload();
@@ -94,8 +95,19 @@ public class UtilityDownload {
         return imageByte;
     }
     
-    public boolean isAPIReachable() throws IOException, InterruptedException{
+    public boolean isAPIReachable(){
         boolean result = true;
+        
+        try {
+            URLConnection urlConn = new URL(CONNECTIVITY_TEST_HOSTNAME).openConnection();
+            
+        } catch (IOException ex) {
+            result = false;
+            Logger.getLogger(UtilityDownload.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        System.out.println(result);
         return result;
     }
 }
+    

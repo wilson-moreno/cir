@@ -307,5 +307,10 @@ public class Territory implements Serializable, ObservableEntity, SilentSetter, 
                getServiceGroupId() == null;
     }
 
+    @Override
+    public String getImplementingClassName() {
+        return "Territory";
+    }
+
     
 }

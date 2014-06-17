@@ -530,4 +530,9 @@ public class AppsReport implements Serializable, ObservableEntity, SilentSetter 
                getTitle().trim().equals("") ||
                getFileName().trim().equals("");
     }
+
+    @Override
+    public String getImplementingClassName() {
+        return "Apps.Report";
+    }
 }

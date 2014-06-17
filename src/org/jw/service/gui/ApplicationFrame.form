@@ -82,6 +82,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="callStatusMenuItem">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/org/jw/service/gui/resources/icon/default.call.status.icon.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Call Status"/>
               </Properties>
             </MenuItem>

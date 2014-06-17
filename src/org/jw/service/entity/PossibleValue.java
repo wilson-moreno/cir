@@ -314,5 +314,10 @@ public class PossibleValue implements Serializable, ObservableEntity, SilentSett
     public int compareTo(PossibleValue t) {
         return this.getName().compareTo(t.getName());
     }
+
+    @Override
+    public String getImplementingClassName() {
+        return "Possible.Value";
+    }
     
 }

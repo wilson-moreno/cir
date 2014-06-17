@@ -925,6 +925,11 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
     public boolean isMissingRequiredFields() {
         return (getFirstName().trim().equals("") && getLastName().trim().equals(""));                
     }
+
+    @Override
+    public String getImplementingClassName() {
+        return "Contact";
+    }
 }
 
         

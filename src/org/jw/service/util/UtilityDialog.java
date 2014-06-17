@@ -97,7 +97,7 @@ public class UtilityDialog {
             case UtilityDialog.CONTACT_STATUS :
                     dialog = new ContactStatusDialog(parent, true, em, this.comboBoxModelListListener.get("status.model.list.listener")); break;
             case UtilityDialog.DIRECTION_MAP :
-                    dialog = new DirectionMapDialog(parent, true); break;
+                    dialog = new DirectionMapDialog(parent, true, em, utilTable); break;
             case UtilityDialog.LOCATION_MAP :
                     dialog = new LocationMapDialog(parent, true, em, utilTable); break;
             case UtilityDialog.MEETING_PLACE :

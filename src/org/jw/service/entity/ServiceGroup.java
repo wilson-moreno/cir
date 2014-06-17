@@ -433,4 +433,9 @@ public class ServiceGroup implements Serializable, ObservableEntity, SilentSette
                getPrefix().trim().equals("") ||
                getStartNumber() == null;
     }
+
+    @Override
+    public String getImplementingClassName() {
+        return "Service.Group";
+    }
 }

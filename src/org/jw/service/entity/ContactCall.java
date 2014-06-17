@@ -448,6 +448,11 @@ public class ContactCall implements Serializable, ObservableEntity, SilentSetter
         this.callStatusId = callStatusId;
         propertyChangeSupport.firePropertyChange("callStatusId", oldCallStatusId, callStatusId);
     }
+
+    @Override
+    public String getImplementingClassName() {
+        return "Contact.Call";
+    }
     
     
 }

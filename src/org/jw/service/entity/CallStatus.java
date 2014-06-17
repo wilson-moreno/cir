@@ -283,5 +283,10 @@ public class CallStatus implements Serializable, ObservableEntity, SilentSetter 
             default : throw new UnsupportedOperationException("Property not Supported: " + name);
         }
     }
+
+    @Override
+    public String getImplementingClassName() {
+        return "Class.Status";
+    }
     
 }

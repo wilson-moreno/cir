@@ -1165,6 +1165,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         meetingPlacesMenuItem.setText("Meeting Places");
         optionsMenu.add(meetingPlacesMenuItem);
 
+        callStatusMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.call.status.icon.png"))); // NOI18N
         callStatusMenuItem.setText("Call Status");
         optionsMenu.add(callStatusMenuItem);
 

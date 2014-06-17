@@ -312,6 +312,11 @@ public class ContactStatus implements Serializable, ObservableEntity, SilentSett
         return getName().trim().equals("") ||
                getDescription().trim().equals("");
     }
+
+    @Override
+    public String getImplementingClassName() {
+        return "Contact.Status";
+    }
     
     
 }
