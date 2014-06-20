@@ -28,6 +28,7 @@ public class UtilityProperties extends UtilityDefault{
     public static final String REPORT_TYPE_PROPERTIES = "report_type.properties";
     public static final String VALIDATION_MESSAGES_PROPERTIES = "validation_messages.properties";
     public static final String STATISTICS_QUERY_PROPERTIES = "statistics_query.properties";
+    public static final String TRAVEL_MODES_PROPERTIES = "travel_modes.properties";
     private final Properties property;
     private final String propertyFile;
     

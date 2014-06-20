@@ -9,6 +9,7 @@ package org.jw.service.builder;
 import java.awt.Window;
 import java.beans.PropertyChangeSupport;
 import java.util.List;
+import javax.persistence.Query;
 import javax.swing.JTable;
 import org.jdesktop.observablecollections.ObservableList;
 import org.jw.service.action.DefaultCloseAction;
@@ -21,6 +22,7 @@ import org.jw.service.dao.DataAccessObject;
 import org.jw.service.entity.ObservableEntity;
 import org.jw.service.gui.component.MultipleRecordCrudPanel;
 import org.jw.service.gui.component.TaskMonitorPanel;
+import org.jw.service.key.binder.CndrsKeyBinders;
 import org.jw.service.listener.list.DefaultObservableListListener;
 import org.jw.service.listener.selection.DefaultListSelectionListener;
 import org.jw.service.listener.state.DefaultEntityStateListener;
@@ -47,6 +49,7 @@ public class DefaultTaskBuilder<T> {
     public static final String PROP_CLOSEACTION = "PROP_CLOSEACTION";
     public static final String PROP_DAO = "PROP_DAO";
     public static final String PROP_EM = "PROP_EM";
+    public static final String PROP_QUERY = "PROP_QUERY";
     private MultipleRecordCrudPanel crudPanel;
     private TaskMonitorPanel taskMonitorPanel;
     private UtilityProperties properties;
@@ -63,7 +66,7 @@ public class DefaultTaskBuilder<T> {
     private DataAccessObject dao;
     private DefaultListSelectionListener selectionListener;
     private DefaultObservableListListener listListener;
-    
+    private Query query;
     
     public DefaultTaskBuilder(){
         this.crudPanel = null;
@@ -120,7 +123,10 @@ public class DefaultTaskBuilder<T> {
         closeAction = new DefaultCloseAction(crudPanel.getCloseCommand(), window);
         newAction = new DefaultNewAction(crudPanel.getNewCommand(), dao, this.list, this.table, newTaskListener, stateListener);
         deleteAction = new DefaultDeleteAction(crudPanel.getDeleteCommand(), dao, this.list, this.table, deleteTaskListener);
-        refreshAction = new DefaultRefreshAction(crudPanel.getRefreshCommand(), dao, this.list, refreshTaskListener);
+        refreshAction = new DefaultRefreshAction(crudPanel.getRefreshCommand(), query, this.list, refreshTaskListener);
+        
+        CndrsKeyBinders cndrsKeyBinders = new CndrsKeyBinders(crudPanel);
+        cndrsKeyBinders.bindCndrsKeys();
         
         selectionListener = DefaultListSelectionListener.create(list, table, saveAction, deleteAction);
         listListener = DefaultObservableListListener.create();
@@ -245,6 +251,22 @@ public class DefaultTaskBuilder<T> {
     
     public DefaultDeleteAction getDeleteAction(){
         return deleteAction;
+    }
+
+    /**
+     * @return the query
+     */
+    public Query getQuery() {
+        return query;
+    }
+
+    /**
+     * @param query the query to set
+     */
+    public void setQuery(Query query) {
+        javax.persistence.Query oldQuery = this.query;
+        this.query = query;
+        propertyChangeSupport.firePropertyChange(PROP_QUERY, oldQuery, query);
     }
 }
   

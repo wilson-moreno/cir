@@ -12,7 +12,7 @@ import javax.swing.JButton;
  *
  * @author Wilson
  */
-public class SingleRecordCrudPanel extends javax.swing.JPanel {
+public class SingleRecordCrudPanel extends javax.swing.JPanel implements CndrsCommandPanel{
         
     /**
      * Creates new form CRUDPanel
@@ -94,4 +94,14 @@ public class SingleRecordCrudPanel extends javax.swing.JPanel {
     public void setCloseCommand(JButton closeCommand){ this.closeCommand = closeCommand; }    
     public void setRefreshCommand(JButton refreshCommand){ this.refreshCommand = refreshCommand; }
     public void setSaveCommand(JButton saveCommand){ this.saveCommand = saveCommand; }
+
+    @Override
+    public JButton getNewCommand() {
+        return null;
+    }
+
+    @Override
+    public JButton getDeleteCommand() {
+        return null;
+    }
 }

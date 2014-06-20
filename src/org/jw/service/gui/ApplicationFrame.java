@@ -6,8 +6,14 @@
 
 package org.jw.service.gui;
 
+import java.awt.CardLayout;
+import java.awt.event.KeyEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import javax.persistence.EntityManager;
+import javax.swing.JComponent;
 import javax.swing.JFileChooser;
+import javax.swing.KeyStroke;
 import org.jdesktop.observablecollections.ObservableList;
 import org.jw.service.action.DefaultCloseAction;
 import org.jw.service.action.DefaultContactPrintAction;
@@ -16,19 +22,22 @@ import org.jw.service.action.DefaultFileChooserAction;
 import org.jw.service.action.DefaultNewAction;
 import org.jw.service.action.DefaultOpenAction;
 import org.jw.service.action.DefaultRefreshAction;
+import org.jw.service.action.DefaultRemoveProfileAction;
 import org.jw.service.action.DefaultSaveAction;
 import org.jw.service.action.dependency.BackupPostDependency;
 import org.jw.service.action.dependency.BackupPreDependency;
 import org.jw.service.action.dependency.DefaultSystemExitPreDependency;
 import org.jw.service.action.dependency.DeleteContactPostDependency;
-import org.jw.service.action.dependency.ProfileSetPostDependency;
 import org.jw.service.action.dependency.NewContactPostDependency;
 import org.jw.service.action.dependency.PrintContactPostDependency;
+import org.jw.service.action.dependency.ProfileSetPostDependency;
 import org.jw.service.action.dependency.RecordNumberPreDependency;
 import org.jw.service.action.dependency.RefreshContactListPostDependency;
+import org.jw.service.action.dependency.RemoveProfilePreDependency;
 import org.jw.service.action.dependency.SaveContactPostDependency;
 import org.jw.service.action.validator.DefaultCloseActionValidator;
 import org.jw.service.action.validator.DefaultRequiredFieldsSaveActionValidator;
+import org.jw.service.action.validator.DefaultRequiredLocationMapValidator;
 import org.jw.service.action.validator.DefaultUniqueFieldsSaveActionValidator;
 import org.jw.service.builder.DefaultTaskBuilder;
 import org.jw.service.dao.DataAccessObject;
@@ -132,7 +141,9 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         nationalityTextField = new javax.swing.JTextField();
         birthDateChooser = new com.toedter.calendar.JDateChooser();
         recordDateChooser = new com.toedter.calendar.JDateChooser();
+        commandCardPanel = new javax.swing.JPanel();
         setProfilePictureCommand = new javax.swing.JButton();
+        removeProfilePictureCommand = new javax.swing.JButton();
         addressTab = new javax.swing.JPanel();
         addressPanel = new javax.swing.JPanel();
         houseNumberLabel = new javax.swing.JLabel();
@@ -182,8 +193,10 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         mapsToolBar = new javax.swing.JToolBar();
         openLocationMapCommand = new javax.swing.JButton();
         openDirectionMapCommand = new javax.swing.JButton();
-        relativesTab = new javax.swing.JPanel();
-        relativesPanel = new javax.swing.JPanel();
+        historyTab = new javax.swing.JPanel();
+        historyPanel = new javax.swing.JPanel();
+        historyScrollPane = new javax.swing.JScrollPane();
+        historyTextArea = new javax.swing.JTextArea();
         otherTab = new javax.swing.JPanel();
         otherPanel = new javax.swing.JPanel();
         printedCheckBox = new javax.swing.JCheckBox();
@@ -201,6 +214,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         reportTemplatesMenuItem = new javax.swing.JMenuItem();
         proximityMapMenuItem = new javax.swing.JMenuItem();
         excelImportExportMenuItem = new javax.swing.JMenuItem();
+        helpMenu = new javax.swing.JMenu();
 
         defaultDateCellRenderer.setText("defaultDateCellRenderer1");
 
@@ -289,7 +303,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
             contactsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(contactsPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(contactsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
+                .addComponent(contactsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 201, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -379,6 +393,9 @@ public final class ApplicationFrame extends javax.swing.JFrame {
 
         statusComboBox.setNextFocusableComponent(maritalStatusComboBox);
 
+        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${sortedList}");
+        org.jdesktop.swingbinding.JComboBoxBinding jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, statusListBean, eLProperty, statusComboBox);
+        bindingGroup.addBinding(jComboBoxBinding);
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.statusId}"), statusComboBox, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"), "status");
         binding.setSourceNullValue(null);
         binding.setSourceUnreadableValue(null);
@@ -415,7 +432,6 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
-        birthDateChooser.setDateFormatString("MMM d, yyyy");
         birthDateChooser.setNextFocusableComponent(sexComboBox);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.birthdate}"), birthDateChooser, org.jdesktop.beansbinding.BeanProperty.create("date"), "birthdate");
@@ -423,7 +439,6 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         binding.setSourceUnreadableValue(null);
         bindingGroup.addBinding(binding);
 
-        recordDateChooser.setDateFormatString("MMM d, yyyy");
         recordDateChooser.setNextFocusableComponent(firstNameTextField);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.recordDate}"), recordDateChooser, org.jdesktop.beansbinding.BeanProperty.create("date"), "recordDate");
@@ -525,7 +540,18 @@ public final class ApplicationFrame extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        setProfilePictureCommand.setText("Profile Picture");
+        commandCardPanel.setLayout(new java.awt.CardLayout());
+
+        setProfilePictureCommand.setText("Set Picture");
+        commandCardPanel.add(setProfilePictureCommand, "card2");
+
+        removeProfilePictureCommand.setText("Remove Picture");
+        removeProfilePictureCommand.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeProfilePictureCommandActionPerformed(evt);
+            }
+        });
+        commandCardPanel.add(removeProfilePictureCommand, "card3");
 
         javax.swing.GroupLayout personalTabLayout = new javax.swing.GroupLayout(personalTab);
         personalTab.setLayout(personalTabLayout);
@@ -535,7 +561,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(personalTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(profilePicturePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(setProfilePictureCommand, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(commandCardPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(personalPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -544,11 +570,11 @@ public final class ApplicationFrame extends javax.swing.JFrame {
             personalTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(personalTabLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(personalTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(personalTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(personalTabLayout.createSequentialGroup()
                         .addComponent(profilePicturePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(setProfilePictureCommand))
+                        .addGap(0, 0, 0)
+                        .addComponent(commandCardPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(personalPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -612,6 +638,9 @@ public final class ApplicationFrame extends javax.swing.JFrame {
 
         territoryComboBox.setNextFocusableComponent(personalTextField);
 
+        eLProperty = org.jdesktop.beansbinding.ELProperty.create("${sortedList}");
+        jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, territoryListBean, eLProperty, territoryComboBox);
+        bindingGroup.addBinding(jComboBoxBinding);
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.territoryId}"), territoryComboBox, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         binding.setSourceNullValue(null);
         binding.setSourceUnreadableValue(null);
@@ -1061,37 +1090,54 @@ public final class ApplicationFrame extends javax.swing.JFrame {
 
         tabbedPane.addTab("Maps", mapsTab);
 
-        relativesPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Relatives", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        historyPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "History", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
-        javax.swing.GroupLayout relativesPanelLayout = new javax.swing.GroupLayout(relativesPanel);
-        relativesPanel.setLayout(relativesPanelLayout);
-        relativesPanelLayout.setHorizontalGroup(
-            relativesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 513, Short.MAX_VALUE)
-        );
-        relativesPanelLayout.setVerticalGroup(
-            relativesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 147, Short.MAX_VALUE)
-        );
+        historyTextArea.setColumns(20);
+        historyTextArea.setLineWrap(true);
+        historyTextArea.setRows(5);
 
-        javax.swing.GroupLayout relativesTabLayout = new javax.swing.GroupLayout(relativesTab);
-        relativesTab.setLayout(relativesTabLayout);
-        relativesTabLayout.setHorizontalGroup(
-            relativesTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(relativesTabLayout.createSequentialGroup()
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.history}"), historyTextArea, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("null");
+        binding.setSourceUnreadableValue("null");
+        bindingGroup.addBinding(binding);
+
+        historyScrollPane.setViewportView(historyTextArea);
+
+        javax.swing.GroupLayout historyPanelLayout = new javax.swing.GroupLayout(historyPanel);
+        historyPanel.setLayout(historyPanelLayout);
+        historyPanelLayout.setHorizontalGroup(
+            historyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(historyPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(relativesPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(historyScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 493, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        relativesTabLayout.setVerticalGroup(
-            relativesTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(relativesTabLayout.createSequentialGroup()
+        historyPanelLayout.setVerticalGroup(
+            historyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, historyPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(relativesPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(historyScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        tabbedPane.addTab("Relatives", relativesTab);
+        javax.swing.GroupLayout historyTabLayout = new javax.swing.GroupLayout(historyTab);
+        historyTab.setLayout(historyTabLayout);
+        historyTabLayout.setHorizontalGroup(
+            historyTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(historyTabLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(historyPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        historyTabLayout.setVerticalGroup(
+            historyTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(historyTabLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(historyPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        tabbedPane.addTab("History", historyTab);
 
         otherPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Other", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
@@ -1187,6 +1233,9 @@ public final class ApplicationFrame extends javax.swing.JFrame {
 
         menuBar.add(toolsMenu);
 
+        helpMenu.setText("Help");
+        menuBar.add(helpMenu);
+
         setJMenuBar(menuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -1238,6 +1287,10 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         //this.mainCommandPanel.getServiceGroupComboBox().addItemListener(new org.jw.service.listener.item.DefaultServiceGroupItemListener(this));
     }//GEN-LAST:event_formWindowActivated
 
+    private void removeProfilePictureCommandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeProfilePictureCommandActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_removeProfilePictureCommandActionPerformed
+
     private void initMyComponents(){
         this.mainCommandPanel.getServiceGroupComboBox().setSelectedIndex(-1);
         sgListListener = DefaultComboBoxModelListListener.create(this.mainCommandPanel.getServiceGroupComboBox());
@@ -1274,13 +1327,18 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         fcOpenAction = new DefaultFileChooserAction(this.setProfilePictureCommand, this, FileFilterImage.create(), "Open", JFileChooser.FILES_ONLY, null);        
         dirOpenAction = new DefaultFileChooserAction(this.mainCommandPanel.getBackupCommand(), this, FileFilterDirectory.create(), "Save", JFileChooser.DIRECTORIES_ONLY, null);        
         contactPrintAction = new DefaultContactPrintAction(this.mainCommandPanel.getPrintCommand(), em);        
+        removeProfileAction = new DefaultRemoveProfileAction(this.removeProfilePictureCommand, utilTable);
         
         openContactCallsAction.setEnabled(false);
         contactPrintAction.setEnabled(false);       
         openLocationMapAction.setEnabled(false);
         openDirectionMapAction.setEnabled(false);
         buildCrudTask();
+        addIconPropertyChangeListener();        
+        setCustomKeyBinders();
     }
+    
+    
     
     private void buildCrudTask(){                
         contactObservableList = (ObservableList) contactList;        
@@ -1305,6 +1363,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         taskBuilder.setTable(contactsTable);
         taskBuilder.setWindow(this);
         taskBuilder.setDao(contactDAO);
+        taskBuilder.setQuery(em.createNamedQuery("Contact.findAll", Contact.class));
         taskBuilder.buildDefaultTasks();
         
         treeSelectionListener = new DefaultTreeSelectionListener(this.utilTree, this.utilTable);
@@ -1340,7 +1399,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     private void setActionDependencies(DefaultTaskBuilder taskBuilder, UtilityTable<Contact> utilTable){
         // Set Dependencies
         RecordNumberPreDependency recordNumberPreDependency = new RecordNumberPreDependency(this, serviceGroupDAO, this.mainCommandPanel.getServiceGroupComboBox());        
-        NewContactPostDependency recordNumberPostDependency = new NewContactPostDependency(contactDAO, serviceGroupDAO, this.mainCommandPanel.getServiceGroupComboBox(), utilTree, this.tabbedPane);                
+        NewContactPostDependency recordNumberPostDependency = new NewContactPostDependency(contactDAO, serviceGroupDAO, this.mainCommandPanel.getServiceGroupComboBox(), utilTree, this.tabbedPane, this.lastNameTextField);                
         ProfileSetPostDependency profileSetPostDependency = new ProfileSetPostDependency(this.profilePictureLabel);
         RefreshContactListPostDependency refreshContactListPostDependency = new RefreshContactListPostDependency(utilTree);
         DeleteContactPostDependency deleteContactPostDependency = new DeleteContactPostDependency(utilTree);
@@ -1348,6 +1407,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         BackupPreDependency backupPreDependency = new BackupPreDependency(this);
         BackupPostDependency backupPostDependency = new BackupPostDependency(this, this.utilDB);
         PrintContactPostDependency printContactPostDependency = new PrintContactPostDependency(this, this.utilTable, this.utilPrint);
+        RemoveProfilePreDependency removeProfileDependency = new RemoveProfilePreDependency(this);
         
         taskBuilder.getNewAction().addPreActionCommands("recordNumberPreDependency",recordNumberPreDependency);        
         taskBuilder.getNewAction().addPostActionCommands("recordNumberPostDependency",recordNumberPostDependency);        
@@ -1361,6 +1421,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         this.dirOpenAction.addPreActionCommands("backupPreDependency", backupPreDependency);
         this.dirOpenAction.addPostActionCommands("backupPostDependency", backupPostDependency);
         this.contactPrintAction.addPostActionCommands("printContactPostDependency", printContactPostDependency);
+        this.removeProfileAction.addPreActionCommands("removeProfileDependency", removeProfileDependency);
     }
     
     private void setActionValidators(DefaultTaskBuilder taskBuilder, UtilityTable<Contact> utilTable){
@@ -1371,10 +1432,50 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         DefaultUniqueFieldsSaveActionValidator<Contact> uniqueFieldValidator = new DefaultUniqueFieldsSaveActionValidator<>(this, contactList, utilTable, matcher, "Contact");
         DefaultRequiredFieldsSaveActionValidator<Contact> requiredFieldValidator = new DefaultRequiredFieldsSaveActionValidator<>(this, utilTable, "Contact");
         DefaultCloseActionValidator closeActionValidator = new DefaultCloseActionValidator(this, utilTable);
-
+        DefaultRequiredLocationMapValidator locationMapValidator = new DefaultRequiredLocationMapValidator(this, utilTable);
+        
         taskBuilder.getCloseAction().addActionValidator(closeActionValidator);
         taskBuilder.getSaveAction().addActionValidator(uniqueFieldValidator);        
         taskBuilder.getSaveAction().addActionValidator(requiredFieldValidator);
+        this.openDirectionMapAction.addActionValidator(locationMapValidator);
+    }
+    
+    private void setCustomKeyBinders(){
+        KeyStroke enterKey = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, KeyEvent.CTRL_DOWN_MASK);
+        KeyStroke controlPKey = KeyStroke.getKeyStroke(KeyEvent.VK_P, KeyEvent.CTRL_DOWN_MASK);
+        KeyStroke controlFKey = KeyStroke.getKeyStroke(KeyEvent.VK_F, KeyEvent.CTRL_DOWN_MASK);
+        
+        this.contactsTable.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(enterKey, "CONTROL_ENTER");
+        this.contactsTable.getActionMap().put("CONTROL_ENTER", openContactCallsAction);
+        this.tabbedPane.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(enterKey, "CONTROL_ENTER");
+        this.tabbedPane.getActionMap().put("CONTROL_ENTER", openContactCallsAction);
+        
+        this.contactsTable.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(controlPKey, "CONTROL_P");
+        this.contactsTable.getActionMap().put("CONTROL_P", contactPrintAction);
+        this.tabbedPane.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(controlPKey, "CONTROL_P");
+        this.tabbedPane.getActionMap().put("CONTROL_P", contactPrintAction);
+        
+        this.mainCommandPanel.getSearchCommand().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(controlFKey, "CONTROL_F");
+        this.mainCommandPanel.getSearchCommand().getActionMap().put("CONTROL_F", this.openContactSearchAction);
+    }
+    
+    private void addIconPropertyChangeListener(){
+        this.profilePictureLabel.addPropertyChangeListener("icon", 
+            new PropertyChangeListener(){
+                @Override
+                public void propertyChange(PropertyChangeEvent pce) {
+                    if(pce.getNewValue() instanceof javax.swing.ImageIcon){
+                        CardLayout layout = (CardLayout)commandCardPanel.getLayout();
+                        javax.swing.ImageIcon icon = (javax.swing.ImageIcon) pce.getNewValue();
+                        if(icon.toString().contains("default.profile.picture.blank.png")){
+                            layout.show(commandCardPanel, "card2");
+                        } else {
+                            layout.show(commandCardPanel, "card3");
+                        }
+                    } 
+                }        
+            }
+        );
     }
     
     /**
@@ -1396,6 +1497,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem callStatusMenuItem;
     private javax.swing.JLabel cityLabel;
     private javax.swing.JTextField cityTextField;
+    private javax.swing.JPanel commandCardPanel;
     private javax.swing.JPanel communicationPanel;
     private javax.swing.JPanel communicationTab;
     private javax.swing.JMenuItem congregationMenuItem;
@@ -1421,6 +1523,11 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     private javax.swing.JTextField foundByTextField;
     private javax.swing.JLabel guardiansNameLabel;
     private javax.swing.JTextField guardiansNameTextField;
+    private javax.swing.JMenu helpMenu;
+    private javax.swing.JPanel historyPanel;
+    private javax.swing.JScrollPane historyScrollPane;
+    private javax.swing.JPanel historyTab;
+    private javax.swing.JTextArea historyTextArea;
     private javax.swing.JLabel houseNumberLabel;
     private javax.swing.JTextField houseNumberTextField;
     private javax.swing.JLabel lastNameLabel;
@@ -1460,10 +1567,9 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     private javax.swing.JLabel recordDateLabel;
     private javax.swing.JLabel recordNumberLabel;
     private javax.swing.JTextField recordNumberTextField;
-    private javax.swing.JPanel relativesPanel;
-    private javax.swing.JPanel relativesTab;
     private javax.swing.JLabel religionLabel;
     private javax.swing.JTextField religionTextField;
+    private javax.swing.JButton removeProfilePictureCommand;
     private javax.swing.JMenuItem reportTemplatesMenuItem;
     private org.jw.service.beans.ListBean serviceGroupListBean;
     private javax.swing.JMenuItem serviceGroupsMenuItem;
@@ -1535,6 +1641,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     DefaultDeleteAction<Contact> deleteAction;
     DefaultRefreshAction<Contact> refreshAction;
     DefaultSaveAction<Contact> saveAction;         
+    DefaultRemoveProfileAction removeProfileAction;
     DefaultFileChooserAction fcOpenAction;
     DefaultFileChooserAction dirOpenAction;
     ObservableList contactObservableList;

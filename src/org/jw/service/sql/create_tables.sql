@@ -173,6 +173,7 @@ create table cir.contact(
     guardians_name varchar(50),
     religion varchar(50),
     found_by varchar(50),
+    history varchar(200),
     created_datetime datetime,
     updated_datetime datetime
 );

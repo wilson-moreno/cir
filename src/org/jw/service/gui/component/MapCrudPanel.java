@@ -111,7 +111,7 @@ public class MapCrudPanel extends javax.swing.JPanel {
     /**
      * @return the newCommand
      */
-    public javax.swing.JButton getDownlaodCommand() {
+    public javax.swing.JButton getDownloadCommand() {
         return downloadCommand;
     }
 

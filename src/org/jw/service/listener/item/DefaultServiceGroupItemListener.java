@@ -9,6 +9,7 @@ package org.jw.service.listener.item;
 import java.awt.Window;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import org.jw.service.entity.ServiceGroup;
 
@@ -24,7 +25,8 @@ public class DefaultServiceGroupItemListener implements ItemListener{
     }
     
     @Override
-    public void itemStateChanged(ItemEvent ie) {        
+    public void itemStateChanged(ItemEvent ie) {    
+        JComboBox comboBox = (JComboBox) ie.getSource();        
         if(ie.getStateChange() == ItemEvent.SELECTED){
             ServiceGroup serviceGroup = (ServiceGroup) ie.getItem();
             if(serviceGroup != null){

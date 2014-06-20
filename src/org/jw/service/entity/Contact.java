@@ -8,6 +8,8 @@ package org.jw.service.entity;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.beans.PropertyVetoException;
+import java.beans.VetoableChangeSupport;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
@@ -69,6 +71,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Contact.findByCreatedDatetime", query = "SELECT c FROM Contact c WHERE c.createdDatetime = :createdDatetime"),
     @NamedQuery(name = "Contact.findByUpdatedDatetime", query = "SELECT c FROM Contact c WHERE c.updatedDatetime = :updatedDatetime")})
 public class Contact implements Serializable, ObservableEntity, SilentSetter, Comparable<Contact> {
+    public static final String PROP_HISTORY = "history";
     @Lob
     @Column(name = "PROFILE_PICTURE")
     private byte[] profilePicture;
@@ -159,6 +162,9 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
     private String saveState;
     @Column(name = "PRINTED")
     private Boolean printed;
+    @Column(name = "HISTORY")
+    private String history;
+    private final transient VetoableChangeSupport vetoableChangeSupport = new java.beans.VetoableChangeSupport(this);
     
     public Contact() {
         this.area = "";
@@ -808,21 +814,7 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
         return stringName;
     }
 
-    /**
-     * @return the guardiansName
-     */
-    public String getGuardiansName() {
-        return guardiansName;
-    }
-
-    /**
-     * @param guardiansName the guardiansName to set
-     */
-    public void setGuardiansName(String guardiansName) {
-        java.lang.String oldGuardiansName = this.guardiansName;
-        this.guardiansName = guardiansName;
-        propertyChangeSupport.firePropertyChange(PROP_GUARDIANSNAME, oldGuardiansName, guardiansName);
-    }
+   
 
     @Override
     public String getSaveState() {
@@ -929,6 +921,40 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
     @Override
     public String getImplementingClassName() {
         return "Contact";
+    }
+
+    /**
+     * @return the guardiansName
+     */
+    public String getGuardiansName() {
+        return guardiansName;
+    }
+
+    /**
+     * @param guardiansName the guardiansName to set
+     * @throws java.beans.PropertyVetoException
+     */
+    public void setGuardiansName(String guardiansName) throws PropertyVetoException {
+        java.lang.String oldGuardiansName = this.guardiansName;
+        //vetoableChangeSupport.fireVetoableChange(PROP_GUARDIANSNAME, oldGuardiansName, guardiansName);
+        this.guardiansName = guardiansName;
+        propertyChangeSupport.firePropertyChange(PROP_GUARDIANSNAME, oldGuardiansName, guardiansName);
+    }
+
+    /**
+     * @return the history
+     */
+    public String getHistory() {
+        return history;
+    }
+
+    /**
+     * @param history the history to set
+     */
+    public void setHistory(String history) {
+        java.lang.String oldHistory = this.history;
+        this.history = history;
+        propertyChangeSupport.firePropertyChange(PROP_HISTORY, oldHistory, history);
     }
 }
 

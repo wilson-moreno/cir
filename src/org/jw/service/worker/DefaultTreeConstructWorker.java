@@ -9,10 +9,10 @@ package org.jw.service.worker;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import javax.swing.SwingWorker;
 import javax.swing.tree.DefaultMutableTreeNode;
 import org.jw.service.entity.Contact;
@@ -27,7 +27,7 @@ import org.jw.service.listener.task.DefaultTaskListener;
 public class DefaultTreeConstructWorker extends SwingWorker<DefaultMutableTreeNode, String>{        
     private final List<ServiceGroup> list;  
     private final List<Contact> noTerritoryContact = new ArrayList();
-    private final Map<Territory, List<Contact>> contactTerritoryMap = new HashMap();
+    private final Map<Territory, List<Contact>> contactTerritoryMap = new TreeMap();
     
     public DefaultTreeConstructWorker(List<ServiceGroup> list, DefaultTaskListener listener){
         this.list = list;        
@@ -60,17 +60,21 @@ public class DefaultTreeConstructWorker extends SwingWorker<DefaultMutableTreeNo
             serviceGroupNode.add(new DefaultMutableTreeNode(contact));
         
         Iterator iterator = map.entrySet().iterator();
+        
         while(iterator.hasNext()){
-            Map.Entry pairs = (Map.Entry<Territory, List<Contact>>)iterator.next();
+            Map.Entry pairs = (Map.Entry<Territory, List<Contact>>)iterator.next();            
             DefaultMutableTreeNode territoryNode = new DefaultMutableTreeNode(pairs.getKey());
+            
             for(Contact contact : sortContactCollection((List<Contact>)pairs.getValue())){
                 DefaultMutableTreeNode contactNode = new DefaultMutableTreeNode(contact);
                 territoryNode.add(contactNode);
             }
             serviceGroupNode.add(territoryNode);
         }        
-    }
-    
+        
+        
+    }    
+        
     private void organizeContact(Contact contact){
         if(contact.getTerritoryId() == null){
             noTerritoryContact.add(contact);

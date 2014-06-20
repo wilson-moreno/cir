@@ -9,7 +9,7 @@ package org.jw.service.gui;
 import java.util.ArrayList;
 import javax.persistence.EntityManager;
 import org.jw.service.action.DefaultCloseAction;
-import org.jw.service.action.DefaultDownloadMapAction;
+import org.jw.service.action.DefaultDownloadLocationMapAction;
 import org.jw.service.action.DefaultSingleSaveAction;
 import org.jw.service.action.dependency.DownloadMapPreDependency;
 import org.jw.service.action.validator.DefaultEntitySaveActionValidator;
@@ -65,7 +65,7 @@ public class LocationMapDialog extends javax.swing.JDialog {
         
         closeAction = new DefaultCloseAction(this.mapCrudPanel.getCloseCommand(), this);
         saveAction = new DefaultSingleSaveAction(this.mapCrudPanel.getSaveCommand(), mapDAO, mapIO);
-        downloadMapAction = new DefaultDownloadMapAction(this.mapCrudPanel.getDownlaodCommand(),mapImageLabel, mapIO,utilDownload, mapDownloadListener);        
+        downloadMapAction = new DefaultDownloadLocationMapAction(this.mapCrudPanel.getDownloadCommand(),mapImageLabel, mapIO,utilDownload, mapDownloadListener);        
         
         downloadMapPreDependency = new DownloadMapPreDependency(this, utilDownload, connectionCheckListener);
         downloadMapAction.addPreActionCommands("downloadMapPreDependency", downloadMapPreDependency);
@@ -121,6 +121,8 @@ public class LocationMapDialog extends javax.swing.JDialog {
         scaleValueComboBox = new javax.swing.JComboBox();
         markerColorLabel = new javax.swing.JLabel();
         markerColorsComboBox = new javax.swing.JComboBox();
+        accuracyLabel = new javax.swing.JLabel();
+        accuracyTextField = new javax.swing.JTextField();
         mapImagePanel = new javax.swing.JPanel();
         mapImageLabel = new javax.swing.JLabel();
         mapCrudPanel = new org.jw.service.gui.component.MapCrudPanel();
@@ -218,51 +220,63 @@ public class LocationMapDialog extends javax.swing.JDialog {
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, mapSource, org.jdesktop.beansbinding.ELProperty.create("${markerColor}"), markerColorsComboBox, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
+        accuracyLabel.setText("Accuracy (m):");
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, mapSource, org.jdesktop.beansbinding.ELProperty.create("${accuracy}"), accuracyTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
         javax.swing.GroupLayout locationMapPanelLayout = new javax.swing.GroupLayout(locationMapPanel);
         locationMapPanel.setLayout(locationMapPanelLayout);
         locationMapPanelLayout.setHorizontalGroup(
             locationMapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(locationMapPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(locationMapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(locationMapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(locationMapPanelLayout.createSequentialGroup()
-                        .addComponent(imageFormatLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(imageFormatComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(locationMapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(locationMapPanelLayout.createSequentialGroup()
+                                .addComponent(imageFormatLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(imageFormatComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(locationMapPanelLayout.createSequentialGroup()
+                                .addComponent(markerColorLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(markerColorsComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(locationMapPanelLayout.createSequentialGroup()
+                                .addComponent(mapTypeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(mapTypeComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, locationMapPanelLayout.createSequentialGroup()
+                                .addComponent(scaleValueLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(scaleValueComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(locationMapPanelLayout.createSequentialGroup()
+                                .addComponent(heightLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(mapHeightTextField))
+                            .addGroup(locationMapPanelLayout.createSequentialGroup()
+                                .addComponent(mapWidthLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(mapWidthTextField))
+                            .addGroup(locationMapPanelLayout.createSequentialGroup()
+                                .addComponent(longitudeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(longitudeTextField))
+                            .addGroup(locationMapPanelLayout.createSequentialGroup()
+                                .addComponent(latitudeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(latitudeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(zoomValueLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(zoomValueSpinner, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(locationMapPanelLayout.createSequentialGroup()
-                        .addComponent(markerColorLabel)
+                        .addComponent(accuracyLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(markerColorsComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(locationMapPanelLayout.createSequentialGroup()
-                        .addComponent(mapTypeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(mapTypeComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, locationMapPanelLayout.createSequentialGroup()
-                        .addComponent(scaleValueLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(scaleValueComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(locationMapPanelLayout.createSequentialGroup()
-                        .addComponent(heightLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(mapHeightTextField))
-                    .addGroup(locationMapPanelLayout.createSequentialGroup()
-                        .addComponent(mapWidthLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(mapWidthTextField))
-                    .addGroup(locationMapPanelLayout.createSequentialGroup()
-                        .addComponent(longitudeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(longitudeTextField))
-                    .addGroup(locationMapPanelLayout.createSequentialGroup()
-                        .addComponent(latitudeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(latitudeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(zoomValueLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(zoomValueSpinner, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(accuracyTextField)))
                 .addContainerGap())
         );
 
-        locationMapPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {heightLabel, imageFormatLabel, latitudeLabel, longitudeLabel, mapTypeLabel, mapWidthLabel, markerColorLabel, scaleValueLabel, zoomValueLabel});
+        locationMapPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {accuracyLabel, heightLabel, imageFormatLabel, latitudeLabel, longitudeLabel, mapTypeLabel, mapWidthLabel, markerColorLabel, scaleValueLabel, zoomValueLabel});
 
         locationMapPanelLayout.setVerticalGroup(
             locationMapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -275,6 +289,10 @@ public class LocationMapDialog extends javax.swing.JDialog {
                 .addGroup(locationMapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(longitudeLabel)
                     .addComponent(longitudeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(locationMapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(accuracyLabel)
+                    .addComponent(accuracyTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(locationMapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(mapWidthLabel)
@@ -296,11 +314,11 @@ public class LocationMapDialog extends javax.swing.JDialog {
                     .addComponent(mapTypeLabel)
                     .addComponent(mapTypeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(locationMapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(locationMapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(markerColorLabel)
-                    .addComponent(markerColorsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(markerColorsComboBox, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(locationMapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(locationMapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(imageFormatLabel)
                     .addComponent(imageFormatComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -401,6 +419,8 @@ public class LocationMapDialog extends javax.swing.JDialog {
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel accuracyLabel;
+    private javax.swing.JTextField accuracyTextField;
     private org.jw.service.gui.component.ContactInfoPanel contactInfoPanel;
     private org.jw.service.entity.Contact contactSource;
     private javax.swing.JLabel heightLabel;
@@ -435,8 +455,7 @@ public class LocationMapDialog extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
     UtilityProperties utilProperties = UtilityProperties.create(UtilityProperties.TASK_MESSAGE_PROPERTIES);
-    DefaultDownloadMapAction downloadMapAction;
-    DefaultSingleSaveAction<LocationMap> saveMapAction;
+    DefaultDownloadLocationMapAction downloadMapAction;    
     DefaultCloseAction<LocationMap> closeAction;
     DefaultSingleSaveAction<LocationMap> saveAction;
     DownloadMapPreDependency downloadMapPreDependency;

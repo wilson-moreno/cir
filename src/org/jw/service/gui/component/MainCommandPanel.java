@@ -14,14 +14,17 @@ import javax.swing.JComboBox;
  *
  * @author Wilson
  */
-public class MainCommandPanel extends javax.swing.JPanel {
+public class MainCommandPanel extends javax.swing.JPanel implements CndrsCommandPanel{
 
     /**
      * Creates new form MainCommandPanel
      */
     public MainCommandPanel() {
         initComponents();        
+        initMyComponents();
     }
+    
+    private void initMyComponents(){}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -237,6 +240,11 @@ public class MainCommandPanel extends javax.swing.JPanel {
      */
     public javax.swing.JButton getStatisticsCommand() {
         return statisticsCommand;
+    }
+
+    @Override
+    public JButton getCloseCommand() {
+        return this.getExitCommand();
     }
     
     

@@ -7,8 +7,8 @@
 package org.jw.service.worker;
 
 import java.util.List;
+import javax.persistence.Query;
 import javax.swing.SwingWorker;
-import org.jw.service.dao.DataAccessObject;
 import org.jw.service.listener.task.DefaultTaskListener;
 
 /**
@@ -17,16 +17,17 @@ import org.jw.service.listener.task.DefaultTaskListener;
  * @param <T>
  */
 public class DefaultRefreshWorker<T> extends SwingWorker<List<T>, String>{
-    private final DataAccessObject<T> dao;        
+    private final Query query;
     
-    public DefaultRefreshWorker(DataAccessObject<T> dao, DefaultTaskListener listener){
-        this.dao = dao;                
+    public DefaultRefreshWorker(Query query, DefaultTaskListener listener){
+        this.query = query;
         this.addPropertyChangeListener(listener);
     }
 
     @Override
-    protected List<T> doInBackground() throws Exception {        
-        return dao.readAll();
+    protected List<T> doInBackground() throws Exception {   
+        List<T> list = query.getResultList();
+        return list;
     }
     
 }

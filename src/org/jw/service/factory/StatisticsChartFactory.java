@@ -16,16 +16,13 @@ import javax.swing.JPanel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PiePlot3D;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
-import org.jfree.data.jdbc.JDBCCategoryDataset;
 import org.jfree.data.jdbc.JDBCPieDataset;
-import org.jfree.data.jdbc.JDBCXYDataset;
 import org.jfree.util.Rotation;
 
 
@@ -69,6 +66,11 @@ public class StatisticsChartFactory {
     
     public static JFreeChart createBarChart(CategoryDataset dataset, String title, String categoryAxisLabel, String valueAxisLabel){
         JFreeChart chart = ChartFactory.createBarChart(title, categoryAxisLabel, valueAxisLabel, dataset, PlotOrientation.VERTICAL, true, true, true);                
+        return chart;
+    }
+    
+    public static JFreeChart createStackedBarChart3D(CategoryDataset dataset, String title, String categoryAxisLabel, String valueAxisLabel){
+        JFreeChart chart = ChartFactory.createStackedBarChart3D(title, categoryAxisLabel, valueAxisLabel, dataset, PlotOrientation.HORIZONTAL, true, true, true);
         return chart;
     }
     

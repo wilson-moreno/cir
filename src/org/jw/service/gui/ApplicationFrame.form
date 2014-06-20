@@ -121,6 +121,11 @@
             </MenuItem>
           </SubComponents>
         </Menu>
+        <Menu class="javax.swing.JMenu" name="helpMenu">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Help"/>
+          </Properties>
+        </Menu>
       </SubComponents>
     </Menu>
   </NonVisualComponents>
@@ -248,7 +253,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" max="-2" attributes="0"/>
-                  <Component id="contactsScrollPane" pref="199" max="32767" attributes="0"/>
+                  <Component id="contactsScrollPane" pref="201" max="32767" attributes="0"/>
                   <EmptySpace min="-2" max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -403,7 +408,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="profilePicturePanel" max="32767" attributes="0"/>
-                          <Component id="setProfilePictureCommand" max="32767" attributes="0"/>
+                          <Component id="commandCardPanel" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="personalPanel" max="32767" attributes="0"/>
@@ -415,11 +420,11 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="103" groupAlignment="1" attributes="0">
                           <Group type="102" attributes="0">
                               <Component id="profilePicturePanel" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
-                              <Component id="setProfilePictureCommand" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                              <Component id="commandCardPanel" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Component id="personalPanel" max="32767" attributes="0"/>
                       </Group>
@@ -740,6 +745,7 @@
                     </Property>
                   </Properties>
                   <BindingProperties>
+                    <BindingProperty name="elements" source="statusListBean" sourcePath="${sortedList}" target="statusComboBox" targetPath="elements" updateStrategy="0" immediately="false"/>
                     <BindingProperty name="selectedItem" source="contactsTable" sourcePath="${selectedElement.statusId}" target="statusComboBox" targetPath="selectedItem" updateStrategy="0" immediately="false">
                       <Property name="nullValue" type="java.lang.Object" value="null"/>
                       <Property name="incompletePathValue" type="java.lang.Object" value="null"/>
@@ -815,7 +821,6 @@
                 </Component>
                 <Component class="com.toedter.calendar.JDateChooser" name="birthDateChooser">
                   <Properties>
-                    <Property name="dateFormatString" type="java.lang.String" value="MMM d, yyyy"/>
                     <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
                       <ComponentRef name="sexComboBox"/>
                     </Property>
@@ -830,7 +835,6 @@
                 </Component>
                 <Component class="com.toedter.calendar.JDateChooser" name="recordDateChooser">
                   <Properties>
-                    <Property name="dateFormatString" type="java.lang.String" value="MMM d, yyyy"/>
                     <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
                       <ComponentRef name="firstNameTextField"/>
                     </Property>
@@ -845,11 +849,35 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Component class="javax.swing.JButton" name="setProfilePictureCommand">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Profile Picture"/>
-              </Properties>
-            </Component>
+            <Container class="javax.swing.JPanel" name="commandCardPanel">
+
+              <Layout class="org.netbeans.modules.form.compat2.layouts.DesignCardLayout"/>
+              <SubComponents>
+                <Component class="javax.swing.JButton" name="setProfilePictureCommand">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Set Picture"/>
+                  </Properties>
+                  <Constraints>
+                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignCardLayout" value="org.netbeans.modules.form.compat2.layouts.DesignCardLayout$CardConstraintsDescription">
+                      <CardConstraints cardName="card2"/>
+                    </Constraint>
+                  </Constraints>
+                </Component>
+                <Component class="javax.swing.JButton" name="removeProfilePictureCommand">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Remove Picture"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="removeProfilePictureCommandActionPerformed"/>
+                  </Events>
+                  <Constraints>
+                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignCardLayout" value="org.netbeans.modules.form.compat2.layouts.DesignCardLayout$CardConstraintsDescription">
+                      <CardConstraints cardName="card3"/>
+                    </Constraint>
+                  </Constraints>
+                </Component>
+              </SubComponents>
+            </Container>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="addressTab">
@@ -1096,6 +1124,7 @@
                     </Property>
                   </Properties>
                   <BindingProperties>
+                    <BindingProperty name="elements" source="territoryListBean" sourcePath="${sortedList}" target="territoryComboBox" targetPath="elements" updateStrategy="0" immediately="false"/>
                     <BindingProperty name="selectedItem" source="contactsTable" sourcePath="${selectedElement.territoryId}" target="territoryComboBox" targetPath="selectedItem" updateStrategy="0" immediately="false">
                       <Property name="nullValue" type="java.lang.Object" value="null"/>
                       <Property name="incompletePathValue" type="java.lang.Object" value="null"/>
@@ -1749,11 +1778,11 @@
             </Container>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JPanel" name="relativesTab">
+        <Container class="javax.swing.JPanel" name="historyTab">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="Relatives">
-                <Property name="tabTitle" type="java.lang.String" value="Relatives"/>
+              <JTabbedPaneConstraints tabName="History">
+                <Property name="tabTitle" type="java.lang.String" value="History"/>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>
@@ -1763,7 +1792,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="relativesPanel" max="32767" attributes="0"/>
+                      <Component id="historyPanel" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -1772,18 +1801,18 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="relativesPanel" max="32767" attributes="0"/>
+                      <Component id="historyPanel" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Container class="javax.swing.JPanel" name="relativesPanel">
+            <Container class="javax.swing.JPanel" name="historyPanel">
               <Properties>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                    <TitledBorder title="Relatives">
+                    <TitledBorder title="History">
                       <Font PropertyName="font" name="Tahoma" size="11" style="1"/>
                     </TitledBorder>
                   </Border>
@@ -1793,15 +1822,48 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <EmptySpace min="0" pref="513" max="32767" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="historyScrollPane" pref="493" max="32767" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                      </Group>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <EmptySpace min="0" pref="147" max="32767" attributes="0"/>
+                      <Group type="102" alignment="1" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="historyScrollPane" pref="125" max="32767" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                      </Group>
                   </Group>
                 </DimensionLayout>
               </Layout>
+              <SubComponents>
+                <Container class="javax.swing.JScrollPane" name="historyScrollPane">
+                  <AuxValues>
+                    <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+                  </AuxValues>
+
+                  <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+                  <SubComponents>
+                    <Component class="javax.swing.JTextArea" name="historyTextArea">
+                      <Properties>
+                        <Property name="columns" type="int" value="20"/>
+                        <Property name="lineWrap" type="boolean" value="true"/>
+                        <Property name="rows" type="int" value="5"/>
+                      </Properties>
+                      <BindingProperties>
+                        <BindingProperty name="text" source="contactsTable" sourcePath="${selectedElement.history}" target="historyTextArea" targetPath="text" updateStrategy="0" immediately="false">
+                          <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+                          <Property name="nullValue" type="java.lang.String" value="null"/>
+                          <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+                        </BindingProperty>
+                      </BindingProperties>
+                    </Component>
+                  </SubComponents>
+                </Container>
+              </SubComponents>
             </Container>
           </SubComponents>
         </Container>

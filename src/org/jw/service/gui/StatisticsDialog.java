@@ -52,7 +52,7 @@ public class StatisticsDialog extends javax.swing.JDialog {
     private void createContactAgeGroupDistributionChart(UtilityDatabase utilDB){
         try {
             CategoryDataset dataset = StatisticsChartFactory.createCategoryDataset(utilDB.getConnection(), utilProperties.getProperty("contact.age.group.distribution"));
-            JFreeChart chart = StatisticsChartFactory.createBarChart(dataset, "Age Group Distribution", "Service Groups", "Distribution");
+            JFreeChart chart = StatisticsChartFactory.createStackedBarChart3D(dataset, "Age Group Distribution", "Age Groups", "Distribution");
             StatisticsChartFactory.connectChartPanel(this.ageGroupDistributionTab, chart);
         } catch (SQLException ex) {
             Logger.getLogger(StatisticsDialog.class.getName()).log(Level.SEVERE, null, ex);

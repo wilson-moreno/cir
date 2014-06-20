@@ -51,6 +51,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "LocationMap.findByCreatedDatetime", query = "SELECT l FROM LocationMap l WHERE l.createdDatetime = :createdDatetime"),
     @NamedQuery(name = "LocationMap.findByUpdatedDatetime", query = "SELECT l FROM LocationMap l WHERE l.updatedDatetime = :updatedDatetime")})
 public class LocationMap implements Serializable, ObservableEntity, SilentSetter {
+    public static final String PROP_ACCURACY = "accuracy";
     @Lob
     @Column(name = "IMAGE")
     private byte[] image;
@@ -108,7 +109,9 @@ public class LocationMap implements Serializable, ObservableEntity, SilentSetter
     @Transient
     private String saveState;
     private final transient PropertyChangeSupport propertyChangeSupport = new java.beans.PropertyChangeSupport(this);
-
+    @Column(name = "ACCURACY")  
+    private Double accuracy;
+    
     public LocationMap() {
         this.scale = 1;
         this.zoom = 16;
@@ -120,6 +123,7 @@ public class LocationMap implements Serializable, ObservableEntity, SilentSetter
         this.createdDatetime = new Date();
         this.updatedDatetime = new Date();
         this.markerColor = "red";
+        this.accuracy = 0.0d;
     }
 
     public LocationMap(Integer id) {
@@ -445,5 +449,21 @@ public class LocationMap implements Serializable, ObservableEntity, SilentSetter
     @Override
     public String getImplementingClassName() {
         return "Location.Map";
+    }
+
+    /**
+     * @return the accuracy
+     */
+    public Double getAccuracy() {
+        return accuracy;
+    }
+
+    /**
+     * @param accuracy the accuracy to set
+     */
+    public void setAccuracy(Double accuracy) {
+        java.lang.Double oldAccuracy = this.accuracy;
+        this.accuracy = accuracy;
+        propertyChangeSupport.firePropertyChange(PROP_ACCURACY, oldAccuracy, accuracy);
     }
 }

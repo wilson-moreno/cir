@@ -11,6 +11,7 @@ import javax.swing.SwingWorker;
 import org.jw.service.entity.Contact;
 import org.jw.service.list.Matcher;
 import org.jw.service.listener.task.DefaultTaskListener;
+import org.jw.service.listener.task.SearchTaskListener;
 
 /**
  *
@@ -21,15 +22,18 @@ public class DefaultSearchWorker extends SwingWorker<String, Contact>{
     private final List<Contact> foundList;
     private final Matcher matcher;
     private final Contact key;
+    private final SearchTaskListener searchListener;
     
     
-    public DefaultSearchWorker(DefaultTaskListener listener, List<Contact> searchList, List<Contact> foundList, Contact key, Matcher matcher){
+    public DefaultSearchWorker(DefaultTaskListener listener, List<Contact> searchList, List<Contact> foundList, Contact key, Matcher matcher, SearchTaskListener searchListener){
         this.searchList = searchList;
         this.foundList = foundList;
         this.matcher = matcher;
         this.key = key;
+        this.searchListener = searchListener;
         listener.setIndeterminate(false);
         this.addPropertyChangeListener(listener);
+        this.addPropertyChangeListener(searchListener);
     }
 
     @Override

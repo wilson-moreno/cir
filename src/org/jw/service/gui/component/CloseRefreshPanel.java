@@ -12,7 +12,7 @@ import javax.swing.JButton;
  *
  * @author Wilson
  */
-public class CloseRefreshPanel extends javax.swing.JPanel {
+public class CloseRefreshPanel extends javax.swing.JPanel implements CndrsCommandPanel{
         
     /**
      * Creates new form CRUDPanel
@@ -84,5 +84,20 @@ public class CloseRefreshPanel extends javax.swing.JPanel {
     
     public void setCloseCommand(JButton closeCommand){ this.closeCommand = closeCommand; }    
     public void setRefreshCommand(JButton refreshCommand){ this.refreshCommand = refreshCommand; }
+
+    @Override
+    public JButton getNewCommand() {
+        return null;
+    }
+
+    @Override
+    public JButton getDeleteCommand() {
+        return null;
+    }
+
+    @Override
+    public JButton getSaveCommand() {
+        return null;
+    }
     
 }

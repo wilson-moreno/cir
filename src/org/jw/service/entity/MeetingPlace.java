@@ -45,7 +45,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "MeetingPlace.findByLongitude", query = "SELECT m FROM MeetingPlace m WHERE m.longitude = :longitude"),
     @NamedQuery(name = "MeetingPlace.findByCreatedDatetime", query = "SELECT m FROM MeetingPlace m WHERE m.createdDatetime = :createdDatetime"),
     @NamedQuery(name = "MeetingPlace.findByUpdatedDatetime", query = "SELECT m FROM MeetingPlace m WHERE m.updatedDatetime = :updatedDatetime")})
-public class MeetingPlace implements Serializable, ObservableEntity, SilentSetter {
+public class MeetingPlace implements Serializable, ObservableEntity, SilentSetter, Comparable<MeetingPlace>{
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -328,5 +328,10 @@ public class MeetingPlace implements Serializable, ObservableEntity, SilentSette
     @Override
     public String getImplementingClassName() {
         return "Meeting.Place";
+    }
+
+    @Override
+    public int compareTo(MeetingPlace o) {
+        return this.getName().compareTo(o.getName());
     }
 }

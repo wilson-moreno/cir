@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.Query;
 import javax.swing.JButton;
-import org.jw.service.dao.DataAccessObject;
 import org.jw.service.listener.task.DefaultTaskListener;
 import org.jw.service.worker.DefaultRefreshWorker;
 
@@ -21,14 +21,14 @@ import org.jw.service.worker.DefaultRefreshWorker;
  * @author Wilson
  */
 public class DefaultRefreshAction<T> extends DependentAbstractAction{    
-    private final DataAccessObject<T> dao;
+    private final Query query;
     private final DefaultTaskListener listener;
     private final List<T> list;
     
-    public DefaultRefreshAction(JButton command, DataAccessObject<T> dao, List<T> list, DefaultTaskListener listener){
+    public DefaultRefreshAction(JButton command, Query query, List<T> list, DefaultTaskListener listener){
         super(command.getText(), command.getIcon());        
         this.list = list;        
-        this.dao = dao;
+        this.query = query;
         this.listener = listener;
         command.setAction(this);
     }
@@ -36,7 +36,7 @@ public class DefaultRefreshAction<T> extends DependentAbstractAction{
     @Override
     public boolean mainActionPerformed(ActionEvent ae) {
         try {
-            DefaultRefreshWorker<T> worker = new DefaultRefreshWorker<>(dao, listener);
+            DefaultRefreshWorker<T> worker = new DefaultRefreshWorker<>(query, listener);
             list.clear();
             worker.execute();
             list.addAll(worker.get());

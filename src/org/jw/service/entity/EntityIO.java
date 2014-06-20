@@ -8,6 +8,7 @@ package org.jw.service.entity;
 
 import java.beans.IntrospectionException;
 import javax.persistence.Column;
+import javax.persistence.JoinColumn;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -57,7 +58,9 @@ public class EntityIO<T> {
         Field[] allFields = entity.getClass().getDeclaredFields();        
         for(int i = 0; i < allFields.length; i++){
             Field field = allFields[i];
-            if(field.isAnnotationPresent(Column.class)){
+            // @MONITOR Added JoinColumn class not sure how will affect
+            if(field.isAnnotationPresent(Column.class) ||
+               field.isAnnotationPresent(JoinColumn.class)){
                 annotatedFields.add(field);                
             }    
         }
@@ -69,7 +72,7 @@ public class EntityIO<T> {
     public void read(){
         for(Field field : fields){
             try {
-                if(field.getName().trim().equalsIgnoreCase("id"))continue;
+                if(field.getName().trim().equalsIgnoreCase("id"))continue;                
                 Object targetValue = new PropertyDescriptor(field.getName(), entityClass).getReadMethod().invoke(target);
                 Object invoke = (new PropertyDescriptor(field.getName(), entityClass)).getWriteMethod().invoke(source, targetValue);
             } catch (    IntrospectionException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {

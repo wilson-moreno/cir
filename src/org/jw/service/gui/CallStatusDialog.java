@@ -205,7 +205,7 @@ public class CallStatusDialog extends javax.swing.JDialog {
         if (callStatusTable.getColumnModel().getColumnCount() > 0) {
             callStatusTable.getColumnModel().getColumn(0).setResizable(false);
             callStatusTable.getColumnModel().getColumn(0).setPreferredWidth(10);
-            callStatusTable.getColumnModel().getColumn(0).setCellRenderer(null);
+            callStatusTable.getColumnModel().getColumn(0).setCellRenderer(org.jw.service.table.cell.renderer.DefaultStateCellRenderer.create());
         }
 
         javax.swing.GroupLayout listOfStatusPanelLayout = new javax.swing.GroupLayout(listOfStatusPanel);

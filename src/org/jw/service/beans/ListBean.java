@@ -9,6 +9,7 @@ package org.jw.service.beans;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import org.jw.service.dao.DataAccessObject;
@@ -21,7 +22,7 @@ import org.jw.service.util.UtilityProperties;
 public class ListBean {
     public static final String PROP_LIST = "list";
     public static final String PROP_DEFAULTCOMBOBOXMODEL = "defaultComboBoxModel";
-    private List<Object> list;    
+    private List list;    
     private DefaultComboBoxModel<Object> defaultComboBoxModel;
     private final transient PropertyChangeSupport propertyChangeSupport = new java.beans.PropertyChangeSupport(this);
     
@@ -47,6 +48,11 @@ public class ListBean {
      * @return the list
      */
     public List<Object> getList() {
+        return list;
+    }
+    
+    public List getSortedList(){
+        Collections.sort(list);
         return list;
     }
     

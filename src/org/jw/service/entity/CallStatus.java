@@ -42,7 +42,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "CallStatus.findByEnable", query = "SELECT c FROM CallStatus c WHERE c.enable = :enable"),
     @NamedQuery(name = "CallStatus.findByCreatedDatetime", query = "SELECT c FROM CallStatus c WHERE c.createdDatetime = :createdDatetime"),
     @NamedQuery(name = "CallStatus.findByUpdatedDatetime", query = "SELECT c FROM CallStatus c WHERE c.updatedDatetime = :updatedDatetime")})
-public class CallStatus implements Serializable, ObservableEntity, SilentSetter {
+public class CallStatus implements Serializable, ObservableEntity, SilentSetter, Comparable<CallStatus> {
     private static final long serialVersionUID = 1L;
     public static final String PROP_ID = "id";
     public static final String PROP_NAME = "name";
@@ -287,6 +287,11 @@ public class CallStatus implements Serializable, ObservableEntity, SilentSetter 
     @Override
     public String getImplementingClassName() {
         return "Class.Status";
+    }
+
+    @Override
+    public int compareTo(CallStatus o) {
+        return this.getName().compareTo(o.getName());
     }
     
 }

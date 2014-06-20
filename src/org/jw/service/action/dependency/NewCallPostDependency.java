@@ -6,8 +6,9 @@
 
 package org.jw.service.action.dependency;
 
-import org.jw.service.action.DependencyCommand;
 import java.awt.event.ActionEvent;
+import javax.swing.JComponent;
+import org.jw.service.action.DependencyCommand;
 import org.jw.service.dao.DataAccessObject;
 import org.jw.service.entity.Contact;
 import org.jw.service.entity.ContactCall;
@@ -19,10 +20,12 @@ import org.jw.service.entity.ContactCall;
 public class NewCallPostDependency implements DependencyCommand{
     private final DataAccessObject<ContactCall> dao;
     private final Contact contactTarget;
+    private final JComponent component;
     
-    public NewCallPostDependency(DataAccessObject<ContactCall> dao, Contact contactTarget){
+    public NewCallPostDependency(DataAccessObject<ContactCall> dao, Contact contactTarget, JComponent component){
         this.dao = dao;
         this.contactTarget = contactTarget;
+        this.component = component;
     }
     
     @Override
@@ -35,6 +38,7 @@ public class NewCallPostDependency implements DependencyCommand{
         ContactCall call = (ContactCall) workerResult;
         call.setContactId(contactTarget);        
         dao.persist(call);
+        component.requestFocusInWindow();        
     }
 
     @Override

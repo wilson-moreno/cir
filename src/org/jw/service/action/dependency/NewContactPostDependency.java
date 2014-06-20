@@ -6,10 +6,11 @@
 
 package org.jw.service.action.dependency;
 
-import org.jw.service.action.DependencyCommand;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
 import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
+import org.jw.service.action.DependencyCommand;
 import org.jw.service.dao.DataAccessObject;
 import org.jw.service.entity.Contact;
 import org.jw.service.entity.ServiceGroup;
@@ -25,13 +26,20 @@ public class NewContactPostDependency implements DependencyCommand{
     private final DataAccessObject<Contact> contactDAO;   
     private final UtilityTree utilTree;
     private final JTabbedPane tabbedPane;
+    private final JTextField lastNameTextField;
     
-    public NewContactPostDependency(DataAccessObject<Contact> contactDAO, DataAccessObject<ServiceGroup> serviceGroupDAO, JComboBox sgComboBox, UtilityTree utilTree, JTabbedPane tabbedPane){        
+    public NewContactPostDependency(DataAccessObject<Contact> contactDAO, 
+                                    DataAccessObject<ServiceGroup> serviceGroupDAO, 
+                                    JComboBox sgComboBox, 
+                                    UtilityTree utilTree, 
+                                    JTabbedPane tabbedPane,
+                                    JTextField lastNameTextField){        
         this.sgComboBox = sgComboBox;
         this.serviceGroupDAO = serviceGroupDAO;
         this.contactDAO = contactDAO;
         this.utilTree = utilTree;
         this.tabbedPane = tabbedPane;
+        this.lastNameTextField = lastNameTextField;
     }
     
     
@@ -53,6 +61,7 @@ public class NewContactPostDependency implements DependencyCommand{
         Contact saveContact = contactDAO.persist(contact);
         utilTree.addNode(contact);
         tabbedPane.setSelectedIndex(0);
+        lastNameTextField.requestFocusInWindow();
     }
 
     @Override

@@ -74,6 +74,8 @@ public class TerritoryDialog extends javax.swing.JDialog {
         
         UtilityTable<Territory> utilTable = UtilityTable.create(territoryTable, territoryList);
         setActionValidators(taskBuilder, utilTable);
+        
+        
     }
     
     private void setActionValidators(DefaultTaskBuilder taskBuilder, UtilityTable<Territory> utilTable){

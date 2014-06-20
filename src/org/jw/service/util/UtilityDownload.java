@@ -7,29 +7,36 @@
 package org.jw.service.util;
 
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.InetAddress;
+import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.UnknownHostException;
+import java.nio.charset.Charset;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.xml.parsers.ParserConfigurationException;
+import org.jw.service.entity.DirectionMap;
 import org.jw.service.entity.LocationMap;
+import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
 /**
  *
  * @author Wilson
  */
 public class UtilityDownload {
-    public final static String MAP_URL = "https://maps.googleapis.com/maps/api/staticmap?center=%f,%f&zoom=%d&size=%dx%d&scale=%d&maptype=%s&format=%s&sensor=false&markers=color:%s|%f,%f";
-    public final static String GOOGLE_STATIC_MAP_HOSTNAME = "maps.googleapis.com";
-    private InetAddress apiInetAddress = null;
-    private final String CONNECTIVITY_TEST_HOSTNAME = "https://developers.google.com/maps/";
+    public static final String DIRECTION_API_URL = "https://maps.googleapis.com/maps/api/directions/%s?origin=%f,%f&destination=%f,%f&mode=%s&sensor=false";
+    public static final String MAP_URL = "https://maps.googleapis.com/maps/api/staticmap?center=%f,%f&zoom=%d&size=%dx%d&scale=%d&maptype=%s&format=%s&sensor=false&markers=color:%s|%f,%f";
+    public static final String GOOGLE_STATIC_MAP_HOSTNAME = "maps.googleapis.com";    
+    public static final String CONNECTIVITY_TEST_HOSTNAME = "https://developers.google.com/maps/";
+    private static final String MAP_DIRECTION_IMAGE_URL = "https://maps.googleapis.com/maps/api/staticmap?zoom=%d&size=%sx%s&scale=%d&path=color:%s%s&markers=color:red|size:mid%s&sensor=false";
     
     public static UtilityDownload create() {
         return new UtilityDownload();
@@ -50,7 +57,8 @@ public class UtilityDownload {
                             locationMap.getMarkerColor(),
                             locationMap.getLatitude(),
                             locationMap.getLongitude());
-    }
+    }    
+    
     
     public ImageIcon downloadMapAsImageIcon(String url){        
         BufferedImage bufferedImage = null;
@@ -106,8 +114,98 @@ public class UtilityDownload {
             Logger.getLogger(UtilityDownload.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        System.out.println(result);
+        
         return result;
+    }
+    
+    public String getDirection(DirectionMap directionMap) throws MalformedURLException, IOException{                
+        String directionUrl = String.format(DIRECTION_API_URL,
+                                            "xml",
+                                            directionMap.getMeetingPlaceId().getLatitude().floatValue(),
+                                            directionMap.getMeetingPlaceId().getLongitude().floatValue(),
+                                            directionMap.getLocationMapId().getLatitude().floatValue(),
+                                            directionMap.getLocationMapId().getLongitude().floatValue(),
+                                            directionMap.getTravelMode());
+        
+        
+        URLConnection conn = new URL(directionUrl).openConnection();        
+        
+        StringBuilder stringBuilder = new StringBuilder();
+        
+        try (InputStream is = conn.getInputStream()) {
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")), 8);
+            
+            String line = null;
+            while((line = bufferedReader.readLine()) != null){
+                stringBuilder.append(line + "\n");                
+            }
+        }
+        
+        return stringBuilder.toString();
+    }
+    
+    public ImageIcon getDirectionMapImage(DirectionMap directionMap) throws MalformedURLException, IOException, SAXException, ParserConfigurationException{
+        Document xmlDocument;
+        UtilityGoogleDirectionXML xmlUtility;
+        String pathString;
+        String markers;
+        
+        xmlUtility = UtilityGoogleDirectionXML.getInstance();
+        xmlDocument = xmlUtility.loadXMLFromString(directionMap.getDirection());
+        pathString = xmlUtility.createPathString(xmlDocument);
+        markers = xmlUtility.getMarkers(xmlDocument);
+        
+        String finalURL = String.format(MAP_DIRECTION_IMAGE_URL,
+                                        directionMap.getZoom(),
+                                        directionMap.getWidth(),
+                                        directionMap.getHeight(),
+                                        directionMap.getScale(),
+                                        directionMap.getPathColor(),    
+                                        pathString,
+                                        markers);
+        System.out.println(finalURL);
+        URLConnection connection = new URL(finalURL).openConnection();
+        BufferedImage bufferedImage = null;
+        try (InputStream inputStream = connection.getInputStream()) {
+            bufferedImage = ImageIO.read(inputStream);
+        }
+        
+        return new ImageIcon(bufferedImage);
+    }
+    
+    
+    public byte[] getDirectionMapAsBytes(DirectionMap directionMap) throws MalformedURLException, IOException, SAXException, ParserConfigurationException{
+        Document xmlDocument;
+        UtilityGoogleDirectionXML xmlUtility;
+        String pathString;
+        String markers;
+        byte[] imageByte = null;
+        
+        xmlUtility = UtilityGoogleDirectionXML.getInstance();
+        xmlDocument = xmlUtility.loadXMLFromString(directionMap.getDirection());
+        pathString = xmlUtility.createPathString(xmlDocument);
+        markers = xmlUtility.getMarkers(xmlDocument);
+        
+        String finalURL = String.format(MAP_DIRECTION_IMAGE_URL,
+                                        directionMap.getZoom(),
+                                        directionMap.getWidth(),
+                                        directionMap.getHeight(),
+                                        directionMap.getScale(),
+                                        directionMap.getPathColor(),    
+                                        pathString,
+                                        markers);
+        System.out.println(finalURL);
+        URLConnection connection = new URL(finalURL).openConnection();
+        BufferedImage bufferedImage = null;
+        try (InputStream inputStream = connection.getInputStream()) {
+            bufferedImage = ImageIO.read(inputStream);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(bufferedImage, "png", baos);
+            baos.flush();
+            imageByte = baos.toByteArray();
+        }
+        
+        return imageByte;
     }
 }
     

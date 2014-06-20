@@ -44,7 +44,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "ContactStatus.findByPrintable", query = "SELECT c FROM ContactStatus c WHERE c.printable = :printable"),
     @NamedQuery(name = "ContactStatus.findByCreatedDatetime", query = "SELECT c FROM ContactStatus c WHERE c.createdDatetime = :createdDatetime"),
     @NamedQuery(name = "ContactStatus.findByUpdatedDatetime", query = "SELECT c FROM ContactStatus c WHERE c.updatedDatetime = :updatedDatetime")})
-public class ContactStatus implements Serializable, ObservableEntity, SilentSetter {
+public class ContactStatus implements Serializable, ObservableEntity, SilentSetter, Comparable<ContactStatus> {
     @Lob
     @Column(name = "ICON")
     private byte[] icon;
@@ -316,6 +316,11 @@ public class ContactStatus implements Serializable, ObservableEntity, SilentSett
     @Override
     public String getImplementingClassName() {
         return "Contact.Status";
+    }
+
+    @Override
+    public int compareTo(ContactStatus o) {
+        return this.getName().compareTo(o.getName());
     }
     
     

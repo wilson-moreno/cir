@@ -18,7 +18,8 @@ public class SearchRecordCommandPanel extends javax.swing.JPanel {
      * Creates new form CRUDPanel
      */
     public SearchRecordCommandPanel() {
-        initComponents();        
+        initComponents();       
+        this.stopSearchCommand.setVisible(false);
     }
 
     /**
@@ -35,7 +36,7 @@ public class SearchRecordCommandPanel extends javax.swing.JPanel {
         closeCommand = new javax.swing.JButton();
         crudToolBar = new javax.swing.JToolBar();
         stopSearchCommand = new javax.swing.JButton();
-        searchCommand = new javax.swing.JButton();
+        startSearchCommand = new javax.swing.JButton();
 
         refreshCommand.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.refresh.png"))); // NOI18N
         refreshCommand.setText("Refresh");
@@ -59,11 +60,11 @@ public class SearchRecordCommandPanel extends javax.swing.JPanel {
         stopSearchCommand.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         crudToolBar.add(stopSearchCommand);
 
-        searchCommand.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.search.contact.png"))); // NOI18N
-        searchCommand.setText("Search");
-        searchCommand.setFocusable(false);
-        searchCommand.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        crudToolBar.add(searchCommand);
+        startSearchCommand.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.search.contact.png"))); // NOI18N
+        startSearchCommand.setText("Search");
+        startSearchCommand.setFocusable(false);
+        startSearchCommand.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        crudToolBar.add(startSearchCommand);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -71,16 +72,13 @@ public class SearchRecordCommandPanel extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(closeToolBar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 138, Short.MAX_VALUE)
                 .addComponent(crudToolBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(closeToolBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(crudToolBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(0, 0, 0))
+            .addComponent(closeToolBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(crudToolBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -90,15 +88,16 @@ public class SearchRecordCommandPanel extends javax.swing.JPanel {
     private javax.swing.JToolBar closeToolBar;
     private javax.swing.JToolBar crudToolBar;
     private javax.swing.JButton refreshCommand;
-    private javax.swing.JButton searchCommand;
+    private javax.swing.JButton startSearchCommand;
     private javax.swing.JButton stopSearchCommand;
     // End of variables declaration//GEN-END:variables
 
     public JButton getCloseCommand(){ return closeCommand; }    
     public JButton getStopSearchCommand(){ return stopSearchCommand; }
-    public JButton getSearchCommand(){ return searchCommand; }
+    public JButton getStartSearchCommand(){ return startSearchCommand; }
     
     public void setCloseCommand(JButton closeCommand){ this.closeCommand = closeCommand; }    
-    public void setRefreshCommand(JButton refreshCommand){ this.refreshCommand = refreshCommand; }
-    public void setSaveCommand(JButton saveCommand){ this.searchCommand = saveCommand; }
+    public void setStopSearchCommand(JButton stopSearchCommand){ this.stopSearchCommand = stopSearchCommand; }
+    public void setStartSearchCommand(JButton startSearchCommand){ this.startSearchCommand = startSearchCommand; }
+
 }

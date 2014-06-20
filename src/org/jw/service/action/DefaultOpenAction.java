@@ -20,7 +20,7 @@ import org.jw.service.worker.DefaultOpenWorker;
  * @author Wilson
  * @param <T>
  */
-public class DefaultOpenAction<T> extends AbstractAction{    
+public class DefaultOpenAction<T> extends DependentAbstractAction{    
     private final String dialogName;
     private final UtilityDialog utilDialog;
     private final DefaultTaskListener listener;
@@ -32,12 +32,13 @@ public class DefaultOpenAction<T> extends AbstractAction{
         this.utilDialog = utilDialog;
         command.setAction(this);
     }
-    
+
     @Override
-    public void actionPerformed(ActionEvent ae) {
+    public boolean mainActionPerformed(ActionEvent ae) {
         JDialog dialog = utilDialog.createDialog(dialogName);        
         DefaultOpenWorker worker = new DefaultOpenWorker(dialog, listener);
         worker.execute();
+        return true;
     }
     
 }

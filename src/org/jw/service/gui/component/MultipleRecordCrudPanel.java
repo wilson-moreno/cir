@@ -6,21 +6,19 @@
 
 package org.jw.service.gui.component;
 
-import javax.swing.AbstractButton;
 import javax.swing.JButton;
-import org.jw.service.listener.task.DefaultTaskListener;
 
 /**
  *
  * @author Wilson
  */
-public class MultipleRecordCrudPanel extends javax.swing.JPanel {
+public class MultipleRecordCrudPanel extends javax.swing.JPanel implements CndrsCommandPanel{
 
     /**
      * Creates new form CRUDPanel
      */
     public MultipleRecordCrudPanel() {
-        initComponents();
+        initComponents();        
     }
 
     /**
@@ -107,10 +105,15 @@ public class MultipleRecordCrudPanel extends javax.swing.JPanel {
     private javax.swing.JButton saveCommand;
     // End of variables declaration//GEN-END:variables
 
+    @Override
     public JButton getCloseCommand(){ return closeCommand; }
+    @Override
     public JButton getDeleteCommand(){ return deleteCommand; }
+    @Override
     public JButton getNewCommand(){ return newCommand; }
+    @Override
     public JButton getRefreshCommand(){ return refreshCommand; }
+    @Override
     public JButton getSaveCommand(){ return saveCommand; }
     
     public void setCloseCommand(JButton closeCommand){ this.closeCommand = closeCommand; }
@@ -118,4 +121,5 @@ public class MultipleRecordCrudPanel extends javax.swing.JPanel {
     public void setNewCommand(JButton newCommand){ this.newCommand = newCommand; }
     public void setRefreshCommand(JButton refreshCommand){ this.refreshCommand = refreshCommand; }
     public void setSaveCommand(JButton saveCommand){ this.saveCommand = saveCommand; }
+    
 }

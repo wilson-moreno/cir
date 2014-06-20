@@ -8,11 +8,18 @@ package org.jw.service.gui;
 
 import javax.persistence.EntityManager;
 import org.jw.service.action.DefaultCloseAction;
+import org.jw.service.action.DefaultDownloadDirectionMapAction;
+import org.jw.service.action.DefaultSingleSaveAction;
 import org.jw.service.dao.DataAccessObject;
 import org.jw.service.entity.Contact;
 import org.jw.service.entity.DirectionMap;
 import org.jw.service.entity.EntityIO;
+import org.jw.service.entity.LocationMap;
+import org.jw.service.entity.MeetingPlace;
+import org.jw.service.listener.state.DefaultEntityStateListener;
+import org.jw.service.listener.task.DefaultTaskListener;
 import org.jw.service.util.UtilityDownload;
+import org.jw.service.util.UtilityProperties;
 import org.jw.service.util.UtilityTable;
 
 /**
@@ -22,10 +29,15 @@ import org.jw.service.util.UtilityTable;
 public class DirectionMapDialog extends javax.swing.JDialog {
     private final UtilityTable<Contact> utilTable;
     private final UtilityDownload utilDownload;
-    private final DataAccessObject<DirectionMap> mapDAO;
+    private final DataAccessObject<LocationMap> locationMapDAO;
+    private final DataAccessObject<DirectionMap> directionMapDAO;
     private final DataAccessObject<Contact> contactDAO;
+    private final DataAccessObject<MeetingPlace> meetingPlaceDAO;
     private final EntityIO contactIO;
     private final EntityIO mapIO;
+    private Contact contactTarget;
+    private DirectionMap directionMapTarget;
+    
     /**
      * Creates new form DirectionMapDialog
      */
@@ -33,16 +45,56 @@ public class DirectionMapDialog extends javax.swing.JDialog {
         super(parent, modal);
         this.utilTable = utilTable;
         this.utilDownload = UtilityDownload.create();
-        this.mapDAO = DataAccessObject.create(em, DirectionMap.class);
+        this.directionMapDAO = DataAccessObject.create(em, DirectionMap.class);
+        this.locationMapDAO = DataAccessObject.create(em, LocationMap.class);
         this.contactDAO = DataAccessObject.create(em, Contact.class);
+        this.meetingPlaceDAO = DataAccessObject.create(em, MeetingPlace.class);
         this.mapIO = EntityIO.create(DirectionMap.class);
         this.contactIO = EntityIO.create(Contact.class);
         initComponents();
         initMyComponents();
+        setSelectedContact();
+        setContactDirectionMap();
+    }
+    
+    private void setContactDirectionMap(){        
+        LocationMap locationMap = contactTarget.getLocationMapCollection().iterator().next();
+        locationMapDAO.refresh(locationMap);
+        if(locationMap.getDirectionMapCollection().isEmpty()){
+            DirectionMap map = directionMapDAO.create();
+            map.setLocationMapId(locationMap);
+            directionMapTarget = directionMapDAO.persist(map);
+            mapIO.setSource(directionMapSource);
+            mapIO.setTarget(directionMapTarget);
+            mapIO.read();
+        }else{
+            DirectionMap map = locationMap.getDirectionMapCollection().iterator().next();
+            directionMapTarget = map;
+            mapIO.setSource(directionMapSource);
+            mapIO.setTarget(directionMapTarget);
+            mapIO.read();
+        }
+        
+        saveAction.setEnabled(false);
+        DefaultEntityStateListener stateListener = DefaultEntityStateListener.create(saveAction);
+        directionMapSource.addPropertyChangeListener(stateListener);
+    }
+    
+    
+    
+    private void setSelectedContact(){
+        contactTarget = utilTable.getSelectedItem();
+        contactIO.setSource(contactSource);
+        contactIO.setTarget(contactTarget);
+        contactIO.read();
     }
     
     private void initMyComponents(){
+        DefaultTaskListener mapDownloadListener = this.taskMonitorPanel.createDefaultTaskListener(utilProperties.getProperty("map.download.start.message"), utilProperties.getProperty("map.download.done.message"));
+        
         closeAction = new DefaultCloseAction(this.mapCrudPanel.getCloseCommand(), this);
+        saveAction = new DefaultSingleSaveAction(this.mapCrudPanel.getSaveCommand(), directionMapDAO, mapIO);
+        downloadMapAction = new DefaultDownloadDirectionMapAction(this.mapCrudPanel.getDownloadCommand(), this.directionMapImageLabel, mapIO, utilDownload, mapDownloadListener);
     }
 
     /**
@@ -55,10 +107,12 @@ public class DirectionMapDialog extends javax.swing.JDialog {
     private void initComponents() {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        meetingPlaceListBean = new org.jw.service.beans.ListBean();
-        pathColorListBean = new org.jw.service.beans.ListBean();
-        sourceDirectionMap = new org.jw.service.entity.DirectionMap();
-        sourceContact = new org.jw.service.entity.Contact();
+        meetingPlaceListBean = new org.jw.service.beans.ListBean(meetingPlaceDAO);
+        pathColorListBean = new org.jw.service.beans.ListBean("marker_colors.properties");
+        directionMapSource = new org.jw.service.entity.DirectionMap();
+        contactSource = new org.jw.service.entity.Contact();
+        travelModeListBean = new org.jw.service.beans.ListBean("travel_modes.properties");
+        scaleListBean = new org.jw.service.beans.ListBean(new Integer[]{1, 2, 4});
         taskMonitorPanel = new org.jw.service.gui.component.TaskMonitorPanel();
         mapCrudPanel = new org.jw.service.gui.component.MapCrudPanel();
         contactInfoPanel = new org.jw.service.gui.component.ContactInfoPanel();
@@ -74,29 +128,32 @@ public class DirectionMapDialog extends javax.swing.JDialog {
         pathColorLabel = new javax.swing.JLabel();
         widthTextField = new javax.swing.JTextField();
         heightTextField = new javax.swing.JTextField();
-        scaleSpinner = new javax.swing.JSpinner();
         zoomSpinner = new javax.swing.JSpinner();
         pathColorComboBox = new javax.swing.JComboBox();
+        travelModeLabel = new javax.swing.JLabel();
+        travelModeComboBox = new javax.swing.JComboBox();
+        jComboBox1 = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/jw/service/gui/resources/properties/dialog_titles"); // NOI18N
         setTitle(bundle.getString("direction.map.dialog.title")); // NOI18N
         setResizable(false);
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, sourceContact, org.jdesktop.beansbinding.ELProperty.create("${firstName}"), contactInfoPanel, org.jdesktop.beansbinding.BeanProperty.create("firstName"));
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactSource, org.jdesktop.beansbinding.ELProperty.create("${firstName}"), contactInfoPanel, org.jdesktop.beansbinding.BeanProperty.create("firstName"));
         bindingGroup.addBinding(binding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, sourceContact, org.jdesktop.beansbinding.ELProperty.create("${lastName}"), contactInfoPanel, org.jdesktop.beansbinding.BeanProperty.create("lastName"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactSource, org.jdesktop.beansbinding.ELProperty.create("${lastName}"), contactInfoPanel, org.jdesktop.beansbinding.BeanProperty.create("lastName"));
         bindingGroup.addBinding(binding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, sourceContact, org.jdesktop.beansbinding.ELProperty.create("${recordDate}"), contactInfoPanel, org.jdesktop.beansbinding.BeanProperty.create("recordDate"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactSource, org.jdesktop.beansbinding.ELProperty.create("${recordDate}"), contactInfoPanel, org.jdesktop.beansbinding.BeanProperty.create("recordDate"));
         bindingGroup.addBinding(binding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, sourceContact, org.jdesktop.beansbinding.ELProperty.create("${recordNumber}"), contactInfoPanel, org.jdesktop.beansbinding.BeanProperty.create("recordNumber"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactSource, org.jdesktop.beansbinding.ELProperty.create("${recordNumber}"), contactInfoPanel, org.jdesktop.beansbinding.BeanProperty.create("recordNumber"));
         bindingGroup.addBinding(binding);
 
         directionMapPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Direction Map", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
         directionMapImageLabel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, sourceDirectionMap, org.jdesktop.beansbinding.ELProperty.create("${image}"), directionMapImageLabel, org.jdesktop.beansbinding.BeanProperty.create("icon"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, directionMapSource, org.jdesktop.beansbinding.ELProperty.create("${image}"), directionMapImageLabel, org.jdesktop.beansbinding.BeanProperty.create("icon"));
+        binding.setConverter(org.jw.service.beansbinding.converter.ByteToImageConverter.create(this.directionMapImageLabel));
         bindingGroup.addBinding(binding);
 
         javax.swing.GroupLayout directionMapPanelLayout = new javax.swing.GroupLayout(directionMapPanel);
@@ -120,9 +177,13 @@ public class DirectionMapDialog extends javax.swing.JDialog {
 
         meetingPlaceLabel.setText("Meeting Place:");
 
-        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${list}");
+        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${sortedList}");
         org.jdesktop.swingbinding.JComboBoxBinding jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, meetingPlaceListBean, eLProperty, meetingPlaceComboBox);
         bindingGroup.addBinding(jComboBoxBinding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, directionMapSource, org.jdesktop.beansbinding.ELProperty.create("${meetingPlaceId}"), meetingPlaceComboBox, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
 
         widthLabel.setText("Width:");
 
@@ -134,9 +195,44 @@ public class DirectionMapDialog extends javax.swing.JDialog {
 
         pathColorLabel.setText("Path Color:");
 
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, directionMapSource, org.jdesktop.beansbinding.ELProperty.create("${width}"), widthTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("null");
+        binding.setSourceUnreadableValue("null");
+        bindingGroup.addBinding(binding);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, directionMapSource, org.jdesktop.beansbinding.ELProperty.create("${height}"), heightTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("null");
+        binding.setSourceUnreadableValue("null");
+        bindingGroup.addBinding(binding);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, directionMapSource, org.jdesktop.beansbinding.ELProperty.create("${zoom}"), zoomSpinner, org.jdesktop.beansbinding.BeanProperty.create("value"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
+
         eLProperty = org.jdesktop.beansbinding.ELProperty.create("${list}");
         jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, pathColorListBean, eLProperty, pathColorComboBox);
         bindingGroup.addBinding(jComboBoxBinding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, directionMapSource, org.jdesktop.beansbinding.ELProperty.create("${pathColor}"), pathColorComboBox, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        bindingGroup.addBinding(binding);
+
+        travelModeLabel.setText("Travel Mode:");
+
+        eLProperty = org.jdesktop.beansbinding.ELProperty.create("${sortedList}");
+        jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, travelModeListBean, eLProperty, travelModeComboBox);
+        bindingGroup.addBinding(jComboBoxBinding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, directionMapSource, org.jdesktop.beansbinding.ELProperty.create("${travelMode}"), travelModeComboBox, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
+
+        eLProperty = org.jdesktop.beansbinding.ELProperty.create("${sortedList}");
+        jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, scaleListBean, eLProperty, jComboBox1);
+        jComboBoxBinding.setSourceNullValue(null);
+        jComboBoxBinding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(jComboBoxBinding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, directionMapSource, org.jdesktop.beansbinding.ELProperty.create("${scale}"), jComboBox1, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        bindingGroup.addBinding(binding);
 
         javax.swing.GroupLayout mapPropertiesPanelLayout = new javax.swing.GroupLayout(mapPropertiesPanel);
         mapPropertiesPanel.setLayout(mapPropertiesPanelLayout);
@@ -160,7 +256,7 @@ public class DirectionMapDialog extends javax.swing.JDialog {
                     .addGroup(mapPropertiesPanelLayout.createSequentialGroup()
                         .addComponent(scaleLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(scaleSpinner, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE))
+                        .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(mapPropertiesPanelLayout.createSequentialGroup()
                         .addComponent(pathColorLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -168,11 +264,15 @@ public class DirectionMapDialog extends javax.swing.JDialog {
                     .addGroup(mapPropertiesPanelLayout.createSequentialGroup()
                         .addComponent(zoomLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(zoomSpinner)))
+                        .addComponent(zoomSpinner, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE))
+                    .addGroup(mapPropertiesPanelLayout.createSequentialGroup()
+                        .addComponent(travelModeLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(travelModeComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
-        mapPropertiesPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {heightLabel, meetingPlaceLabel, pathColorLabel, scaleLabel, widthLabel, zoomLabel});
+        mapPropertiesPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {heightLabel, meetingPlaceLabel, pathColorLabel, scaleLabel, travelModeLabel, widthLabel, zoomLabel});
 
         mapPropertiesPanelLayout.setVerticalGroup(
             mapPropertiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -192,7 +292,7 @@ public class DirectionMapDialog extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(mapPropertiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(scaleLabel)
-                    .addComponent(scaleSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(mapPropertiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(zoomLabel)
@@ -201,6 +301,10 @@ public class DirectionMapDialog extends javax.swing.JDialog {
                 .addGroup(mapPropertiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(pathColorLabel)
                     .addComponent(pathColorComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(mapPropertiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(travelModeLabel)
+                    .addComponent(travelModeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -208,17 +312,19 @@ public class DirectionMapDialog extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(mapCrudPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(contactInfoPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(taskMonitorPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(directionMapPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(mapPropertiesPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(mapCrudPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(contactInfoPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(directionMapPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(mapPropertiesPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addContainerGap())
-            .addComponent(taskMonitorPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -244,10 +350,13 @@ public class DirectionMapDialog extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jw.service.gui.component.ContactInfoPanel contactInfoPanel;
+    private org.jw.service.entity.Contact contactSource;
     private javax.swing.JLabel directionMapImageLabel;
     private javax.swing.JPanel directionMapPanel;
+    private org.jw.service.entity.DirectionMap directionMapSource;
     private javax.swing.JLabel heightLabel;
     private javax.swing.JTextField heightTextField;
+    private javax.swing.JComboBox jComboBox1;
     private org.jw.service.gui.component.MapCrudPanel mapCrudPanel;
     private javax.swing.JPanel mapPropertiesPanel;
     private javax.swing.JComboBox meetingPlaceComboBox;
@@ -257,10 +366,11 @@ public class DirectionMapDialog extends javax.swing.JDialog {
     private javax.swing.JLabel pathColorLabel;
     private org.jw.service.beans.ListBean pathColorListBean;
     private javax.swing.JLabel scaleLabel;
-    private javax.swing.JSpinner scaleSpinner;
-    private org.jw.service.entity.Contact sourceContact;
-    private org.jw.service.entity.DirectionMap sourceDirectionMap;
+    private org.jw.service.beans.ListBean scaleListBean;
     private org.jw.service.gui.component.TaskMonitorPanel taskMonitorPanel;
+    private javax.swing.JComboBox travelModeComboBox;
+    private javax.swing.JLabel travelModeLabel;
+    private org.jw.service.beans.ListBean travelModeListBean;
     private javax.swing.JLabel widthLabel;
     private javax.swing.JTextField widthTextField;
     private javax.swing.JLabel zoomLabel;
@@ -268,5 +378,8 @@ public class DirectionMapDialog extends javax.swing.JDialog {
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
-    DefaultCloseAction closeAction;
+    UtilityProperties utilProperties = UtilityProperties.create(UtilityProperties.TASK_MESSAGE_PROPERTIES);
+    DefaultDownloadDirectionMapAction downloadMapAction;
+    DefaultCloseAction<DirectionMap> closeAction;
+    DefaultSingleSaveAction<DirectionMap> saveAction;
 }

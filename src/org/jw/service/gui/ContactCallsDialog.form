@@ -26,6 +26,7 @@
     <Property name="title" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
       <ResourceString bundle="org/jw/service/gui/resources/properties/dialog_titles.properties" key="calls.dialog.title" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
     </Property>
+    <Property name="modal" type="boolean" value="true"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
@@ -66,7 +67,7 @@
               <Component id="contactInfoPanel" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="callInformationTabbedPane" max="32767" attributes="0"/>
-              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="callsPanel" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="crudPanel" min="-2" max="-2" attributes="0"/>
@@ -106,7 +107,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="callsScrollPane" min="-2" pref="109" max="-2" attributes="0"/>
+                  <Component id="callsScrollPane" pref="150" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -132,27 +133,27 @@
                         <Connection code="org.jw.service.table.cell.renderer.DefaultStateCellRenderer.create()" type="code"/>
                       </Renderer>
                     </Column>
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="50" resizable="true">
                       <Title/>
                       <Editor/>
                       <Renderer/>
                     </Column>
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="50" resizable="true">
                       <Title/>
                       <Editor/>
                       <Renderer/>
                     </Column>
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="50" resizable="true">
                       <Title/>
                       <Editor/>
                       <Renderer/>
                     </Column>
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="50" resizable="true">
                       <Title/>
                       <Editor/>
                       <Renderer/>
                     </Column>
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="350" resizable="true">
                       <Title/>
                       <Editor/>
                       <Renderer/>
@@ -171,26 +172,32 @@
                   <Subbinding sourcePath="${saveState}">
                     <BindingParameter name="NAME" value=""/>
                     <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
+                    <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
                   </Subbinding>
                   <Subbinding sourcePath="${callDate}">
                     <BindingParameter name="NAME" value="Call Date"/>
                     <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.util.Date.class"/>
+                    <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
                   </Subbinding>
                   <Subbinding sourcePath="${callDay}">
                     <BindingParameter name="NAME" value="Call Day"/>
                     <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
+                    <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
                   </Subbinding>
                   <Subbinding sourcePath="${callTime}">
                     <BindingParameter name="NAME" value="Call Time"/>
                     <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
+                    <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
                   </Subbinding>
                   <Subbinding sourcePath="${callStatusId}">
                     <BindingParameter name="NAME" value="Status"/>
                     <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="org.jw.service.entity.CallStatus.class"/>
+                    <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
                   </Subbinding>
                   <Subbinding sourcePath="${notes}">
                     <BindingParameter name="NAME" value="Notes"/>
                     <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
+                    <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
                   </Subbinding>
                 </BindingProperty>
               </BindingProperties>
@@ -297,7 +304,7 @@
                               <Group type="102" attributes="0">
                                   <Component id="callNotesLabel" linkSize="4" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="callNotesTextField" pref="241" max="32767" attributes="0"/>
+                                  <Component id="callNotesTextField" pref="467" max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" attributes="0">
                                   <Component id="scripturesLabel" linkSize="4" min="-2" max="-2" attributes="0"/>
@@ -503,7 +510,7 @@
                 </Component>
                 <Component class="javax.swing.JComboBox" name="statusComboBox">
                   <BindingProperties>
-                    <BindingProperty name="elements" source="statusListBean" sourcePath="${list}" target="statusComboBox" targetPath="elements" updateStrategy="0" immediately="false"/>
+                    <BindingProperty name="elements" source="statusListBean" sourcePath="${sortedList}" target="statusComboBox" targetPath="elements" updateStrategy="0" immediately="false"/>
                     <BindingProperty name="selectedItem" source="callsTable" sourcePath="${selectedElement.callStatusId}" target="statusComboBox" targetPath="selectedItem" updateStrategy="0" immediately="false">
                       <Property name="nullValue" type="java.lang.Object" value="null"/>
                       <Property name="incompletePathValue" type="java.lang.Object" value="null"/>
@@ -566,7 +573,7 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="nextTopicLabel" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="nextTopicTextField" pref="220" max="32767" attributes="0"/>
+                          <Component id="nextTopicTextField" pref="446" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -611,8 +618,8 @@
                   <BindingProperties>
                     <BindingProperty name="text" source="callsTable" sourcePath="${selectedElement.nextTopic}" target="nextTopicTextField" targetPath="text" updateStrategy="0" immediately="false">
                       <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
-                      <Property name="nullValue" type="java.lang.String" value="null"/>
-                      <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+                      <Property name="nullValue" type="java.lang.String" value=""/>
+                      <Property name="incompletePathValue" type="java.lang.String" value=""/>
                     </BindingProperty>
                   </BindingProperties>
                 </Component>

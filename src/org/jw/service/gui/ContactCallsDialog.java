@@ -6,7 +6,9 @@
 
 package org.jw.service.gui;
 
+import java.awt.KeyboardFocusManager;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import org.jw.service.action.DefaultCloseAction;
 import org.jw.service.action.DefaultDeleteAction;
 import org.jw.service.action.DefaultNewAction;
@@ -36,6 +38,7 @@ public class ContactCallsDialog extends javax.swing.JDialog {
     private final DataAccessObject<ContactCall> callDAO;
     private final DataAccessObject<CallStatus> callStatusDAO;
     private final DefaultTaskBuilder<ContactCall> taskBuilder;    
+    private final EntityManager em;
     private Contact contactTarget;
     
     /**
@@ -48,6 +51,7 @@ public class ContactCallsDialog extends javax.swing.JDialog {
         this.callStatusDAO = DataAccessObject.create(em, CallStatus.class);
         this.utilTable = utilTable;
         this.contactIO = EntityIO.create(Contact.class);
+        this.em = em;
         this.taskBuilder = new DefaultTaskBuilder();
         initComponents(); 
         initMyComponents();
@@ -76,6 +80,11 @@ public class ContactCallsDialog extends javax.swing.JDialog {
         taskBuilder.setTable(callsTable);
         taskBuilder.setWindow(this); 
         taskBuilder.setDao(callDAO);
+        
+        Query query = em.createQuery("SELECT c FROM ContactCall c WHERE c.contactId = :contactId");
+        query.setParameter("contactId", contactTarget);
+        taskBuilder.setQuery(query);
+        
         taskBuilder.buildDefaultTasks();
         
         traversalPolicy = DefaultFocusTraversalPolicy.create();
@@ -92,9 +101,12 @@ public class ContactCallsDialog extends javax.swing.JDialog {
         UtilityTable utilTable = UtilityTable.create(callsTable, contactCallsList);
         setActionValidators(taskBuilder, utilTable);
         
-        NewCallPostDependency newCallPostDependency = new NewCallPostDependency(callDAO, contactTarget);
-        taskBuilder.getNewAction().addPostActionCommands("newCallPostDependency", newCallPostDependency);
+        NewCallPostDependency newCallPostDependency = new NewCallPostDependency(callDAO, contactTarget, this.callDateChooser);
+        taskBuilder.getNewAction().addPostActionCommands("newCallPostDependency", newCallPostDependency);                                     
     }
+    
+    
+    
     
     private void setActionValidators(DefaultTaskBuilder<ContactCall> taskBuilder, UtilityTable<ContactCall> utilTable){
         
@@ -157,6 +169,7 @@ public class ContactCallsDialog extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/jw/service/gui/resources/properties/dialog_titles"); // NOI18N
         setTitle(bundle.getString("calls.dialog.title")); // NOI18N
+        setModal(true);
 
         callsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Calls", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
@@ -168,21 +181,27 @@ public class ContactCallsDialog extends javax.swing.JDialog {
         org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${saveState}"));
         columnBinding.setColumnName("");
         columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${callDate}"));
         columnBinding.setColumnName("Call Date");
         columnBinding.setColumnClass(java.util.Date.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${callDay}"));
         columnBinding.setColumnName("Call Day");
         columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${callTime}"));
         columnBinding.setColumnName("Call Time");
         columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${callStatusId}"));
         columnBinding.setColumnName("Status");
         columnBinding.setColumnClass(org.jw.service.entity.CallStatus.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${notes}"));
         columnBinding.setColumnName("Notes");
         columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
         callsScrollPane.setViewportView(callsTable);
@@ -190,6 +209,11 @@ public class ContactCallsDialog extends javax.swing.JDialog {
             callsTable.getColumnModel().getColumn(0).setResizable(false);
             callsTable.getColumnModel().getColumn(0).setPreferredWidth(10);
             callsTable.getColumnModel().getColumn(0).setCellRenderer(org.jw.service.table.cell.renderer.DefaultStateCellRenderer.create());
+            callsTable.getColumnModel().getColumn(1).setPreferredWidth(50);
+            callsTable.getColumnModel().getColumn(2).setPreferredWidth(50);
+            callsTable.getColumnModel().getColumn(3).setPreferredWidth(50);
+            callsTable.getColumnModel().getColumn(4).setPreferredWidth(50);
+            callsTable.getColumnModel().getColumn(5).setPreferredWidth(350);
         }
 
         javax.swing.GroupLayout callsPanelLayout = new javax.swing.GroupLayout(callsPanel);
@@ -205,7 +229,7 @@ public class ContactCallsDialog extends javax.swing.JDialog {
             callsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(callsPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(callsScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(callsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -288,7 +312,7 @@ public class ContactCallsDialog extends javax.swing.JDialog {
         binding.setConverter(stringToTimeConverter);
         bindingGroup.addBinding(binding);
 
-        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${list}");
+        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${sortedList}");
         org.jdesktop.swingbinding.JComboBoxBinding jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, statusListBean, eLProperty, statusComboBox);
         bindingGroup.addBinding(jComboBoxBinding);
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, callsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.callStatusId}"), statusComboBox, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
@@ -324,7 +348,7 @@ public class ContactCallsDialog extends javax.swing.JDialog {
                     .addGroup(contactCallPanelLayout.createSequentialGroup()
                         .addComponent(callNotesLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(callNotesTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 241, Short.MAX_VALUE))
+                        .addComponent(callNotesTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 467, Short.MAX_VALUE))
                     .addGroup(contactCallPanelLayout.createSequentialGroup()
                         .addComponent(scripturesLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -406,8 +430,8 @@ public class ContactCallsDialog extends javax.swing.JDialog {
         nextTopicLabel.setText("Next Topic:");
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, callsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.nextTopic}"), nextTopicTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("null");
-        binding.setSourceUnreadableValue("null");
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
         javax.swing.GroupLayout extraDetailsPanelLayout = new javax.swing.GroupLayout(extraDetailsPanel);
@@ -422,7 +446,7 @@ public class ContactCallsDialog extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(nextTopicLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(nextTopicTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
+                .addComponent(nextTopicTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 446, Short.MAX_VALUE)
                 .addContainerGap())
         );
         extraDetailsPanelLayout.setVerticalGroup(
@@ -543,5 +567,5 @@ public class ContactCallsDialog extends javax.swing.JDialog {
     DefaultDeleteAction<ContactCall> deleteAction;
     DefaultRefreshAction<ContactCall> refreshAction;
     DefaultSaveAction<ContactCall> saveAction;            
-    DefaultFocusTraversalPolicy traversalPolicy;
+    DefaultFocusTraversalPolicy traversalPolicy;    
 }
