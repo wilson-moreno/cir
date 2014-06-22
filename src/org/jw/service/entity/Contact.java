@@ -31,6 +31,7 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.eclipse.persistence.annotations.Property;
 
 /**
  *
@@ -84,14 +85,14 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
-    @Column(name = "RECORD_NUMBER")
+    @Column(name = "RECORD_NUMBER", unique = true)
     private String recordNumber;
     @Column(name = "RECORD_DATE")
     @Temporal(TemporalType.TIMESTAMP)
     private Date recordDate;
     @Column(name = "BIRTHDATE")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date birthdate;
+    private Date birthdate;    
     @Column(name = "LAST_NAME")
     private String lastName;
     @Column(name = "FIRST_NAME")
@@ -285,10 +286,13 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
     /**
      * @param lastName the lastName to set
      */
-    public void setLastName(String lastName) {
-        java.lang.String oldLastName = this.lastName;
-        this.lastName = lastName.trim();
-        propertyChangeSupport.firePropertyChange(PROP_LASTNAME, oldLastName, lastName);
+    public void setLastName(String lastName) {        
+        try {
+            vetoableChangeSupport.fireVetoableChange("lastName", this.lastName, lastName);
+            java.lang.String oldLastName = this.lastName;
+            this.lastName = lastName.trim();
+            propertyChangeSupport.firePropertyChange(PROP_LASTNAME, oldLastName, lastName);
+        } catch (PropertyVetoException ex) {}
     }
 
     /**

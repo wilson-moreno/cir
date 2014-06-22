@@ -44,7 +44,7 @@ public class MeetingPlaceDialog extends javax.swing.JDialog {
     private void initMyComponents(){
         meetingPlaceList.clear();
         meetingPlaceList.addAll(dao.readAll());
-        DefaultTaskBuilder<Territory> taskBuilder = new DefaultTaskBuilder<>();
+        DefaultTaskBuilder<MeetingPlace> taskBuilder = new DefaultTaskBuilder<>();
         taskBuilder.setEntityName("meeting.place");
         taskBuilder.setProperties(taskMessageProperties);
         taskBuilder.setMultipleRecordCrudPanel(crudPanel);

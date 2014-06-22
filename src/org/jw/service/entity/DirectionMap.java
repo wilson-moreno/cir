@@ -162,7 +162,7 @@ public class DirectionMap implements Serializable, ObservableEntity, SilentSette
 
     @Override
     public String getImplementingClassName() {
-        return "DirectionMap";
+        return "Direction.Map";
     }
 
     @Override
@@ -172,8 +172,7 @@ public class DirectionMap implements Serializable, ObservableEntity, SilentSette
 
     @Override
     public boolean isMissingRequiredFields() {
-        return this.direction.trim().equals("") ||
-               this.locationMapId == null ||
+        return this.locationMapId == null ||
                this.meetingPlaceId == null ||
                this.pathColor.trim().equals("") ||
                this.travelMode.trim().equals("");

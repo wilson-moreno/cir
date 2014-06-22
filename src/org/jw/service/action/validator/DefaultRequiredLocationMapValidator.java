@@ -9,6 +9,7 @@ package org.jw.service.action.validator;
 import java.awt.Window;
 import java.util.ArrayList;
 import org.jw.service.action.AbstractActionValidator;
+import org.jw.service.dao.DataAccessObject;
 import org.jw.service.entity.Contact;
 import org.jw.service.entity.LocationMap;
 import org.jw.service.util.UtilityTable;
@@ -19,30 +20,31 @@ import org.jw.service.util.UtilityTable;
  */
 public class DefaultRequiredLocationMapValidator extends AbstractActionValidator{
     private final UtilityTable<Contact> utilTable;
+    private final DataAccessObject<Contact> dao;
     
-    public DefaultRequiredLocationMapValidator(Window parent, UtilityTable<Contact> utilTable) {
+    public DefaultRequiredLocationMapValidator(Window parent, UtilityTable<Contact> utilTable, DataAccessObject<Contact> dao) {
         super(parent);
         this.utilTable = utilTable;
+        this.dao = dao;
     }
 
     @Override
     protected void validate() {
         Contact contact = utilTable.getSelectedItem();
+        dao.refresh(contact);
         if(!contact.getLocationMapCollection().isEmpty()){
             LocationMap locationMap = new LocationMap();
             for(LocationMap map : new ArrayList<>(contact.getLocationMapCollection())){
                 locationMap = map;
             }
             
-            if(locationMap.isMissingRequiredFields()){
-                System.out.println("Missing: " + locationMap.isMissingRequiredFields());
+            if(locationMap.isMissingRequiredFields()){                
                 AbstractActionValidator.ValidationResult result = new AbstractActionValidator.ValidationResult();
                 result.setValidationSuccess(false);
                 result.setValidationMessage("Direction map requires complete location map");
                 this.addValidationResult(result);
             }
-        } else {
-            System.out.println("Empty: " + contact.getContactCallCollection().isEmpty());
+        } else {            
             AbstractActionValidator.ValidationResult result = new AbstractActionValidator.ValidationResult();
             result.setValidationSuccess(false);
             result.setValidationMessage("Direction map requires complete location map");

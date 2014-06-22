@@ -10,6 +10,8 @@ import javax.persistence.EntityManager;
 import org.jw.service.action.DefaultCloseAction;
 import org.jw.service.action.DefaultDownloadDirectionMapAction;
 import org.jw.service.action.DefaultSingleSaveAction;
+import org.jw.service.action.validator.DefaultEntitySaveActionValidator;
+import org.jw.service.action.validator.DefaultRequiredFieldsSaveActionValidator;
 import org.jw.service.dao.DataAccessObject;
 import org.jw.service.entity.Contact;
 import org.jw.service.entity.DirectionMap;
@@ -95,6 +97,15 @@ public class DirectionMapDialog extends javax.swing.JDialog {
         closeAction = new DefaultCloseAction(this.mapCrudPanel.getCloseCommand(), this);
         saveAction = new DefaultSingleSaveAction(this.mapCrudPanel.getSaveCommand(), directionMapDAO, mapIO);
         downloadMapAction = new DefaultDownloadDirectionMapAction(this.mapCrudPanel.getDownloadCommand(), this.directionMapImageLabel, mapIO, utilDownload, mapDownloadListener);
+        
+        setActionValidators();
+    }
+    
+    private void setActionValidators(){
+        DefaultEntitySaveActionValidator saveActionValidator = new DefaultEntitySaveActionValidator(this, directionMapSource);
+        
+        saveAction.addActionValidator(saveActionValidator);
+        downloadMapAction.addActionValidator(saveActionValidator);
     }
 
     /**

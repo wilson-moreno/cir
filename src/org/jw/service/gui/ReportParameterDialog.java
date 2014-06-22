@@ -37,7 +37,7 @@ public class ReportParameterDialog extends javax.swing.JDialog {
     private final DataAccessObject<AppsReport> reportDAO;
     private final EntityIO<AppsReport> reportIO;
     private AppsReport appsReportTarget;
-    private final DefaultTaskBuilder<ContactCall> taskBuilder;   
+    private final DefaultTaskBuilder<AppsReportParameter> taskBuilder;   
     
     /**
      * Creates new form ReportParameterDialog

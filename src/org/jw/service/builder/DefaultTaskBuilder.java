@@ -19,6 +19,7 @@ import org.jw.service.action.DefaultRefreshAction;
 import org.jw.service.action.DefaultSaveAction;
 import org.jw.service.action.dependency.DefaultDeletePreDependency;
 import org.jw.service.dao.DataAccessObject;
+import org.jw.service.entity.Contact;
 import org.jw.service.entity.ObservableEntity;
 import org.jw.service.gui.component.MultipleRecordCrudPanel;
 import org.jw.service.gui.component.TaskMonitorPanel;
@@ -136,10 +137,11 @@ public class DefaultTaskBuilder<T> {
         
         table.getSelectionModel().addListSelectionListener(selectionListener);
         ((ObservableList)list).addObservableListListener(listListener);
-        
+                        
         for(Object entity : list){            
             ((ObservableEntity)entity).addPropertyChangeListener(stateListener);
-        }
+        }                
+        
         
         UtilityTable utilTable = UtilityTable.create(table, list);
         deleteAction.addPreActionCommands("DefaultDeletePreDependency", new DefaultDeletePreDependency(window,utilTable,dao));
@@ -196,7 +198,7 @@ public class DefaultTaskBuilder<T> {
     /**
      * @param list the list to set
      */
-    public void setList(List list) {
+    public void setList(List<T> list) {
         java.util.List oldList = this.list;
         this.list = list;
         propertyChangeSupport.firePropertyChange(PROP_LIST, oldList, list);

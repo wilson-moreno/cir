@@ -78,6 +78,7 @@ public class LocationMapDialog extends javax.swing.JDialog {
         DefaultInternetConnectivityValidator downloadActionValidator = new DefaultInternetConnectivityValidator(this, utilDownload);
         
         saveAction.addActionValidator(saveActionValidator);
+        downloadMapAction.addActionValidator(saveActionValidator);
         downloadMapAction.addActionValidator(downloadActionValidator);
     }
     

@@ -20,6 +20,11 @@
         <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new org.jw.service.beans.ListBean(callStatusDAO)"/>
       </AuxValues>
     </Component>
+    <Component class="org.jw.service.table.cell.renderer.DefaultDateCellRenderer" name="defaultDateCellRenderer">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="defaultDateCellRenderer1"/>
+      </Properties>
+    </Component>
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="2"/>
@@ -136,7 +141,9 @@
                     <Column maxWidth="-1" minWidth="-1" prefWidth="50" resizable="true">
                       <Title/>
                       <Editor/>
-                      <Renderer/>
+                      <Renderer editor="org.netbeans.modules.form.ComponentChooserEditor">
+                        <ComponentRef name="defaultDateCellRenderer"/>
+                      </Renderer>
                     </Column>
                     <Column maxWidth="-1" minWidth="-1" prefWidth="50" resizable="true">
                       <Title/>

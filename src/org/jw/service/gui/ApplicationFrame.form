@@ -367,7 +367,7 @@
                     <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
                   </Subbinding>
                   <Subbinding sourcePath="${maritalStatus}">
-                    <BindingParameter name="NAME" value="Marital Status"/>
+                    <BindingParameter name="NAME" value="Civil Status"/>
                     <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
                     <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
                   </Subbinding>
@@ -776,7 +776,7 @@
                     <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
                       <ComponentRef name="maritalStatusComboBox"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Marital Status:"/>
+                    <Property name="text" type="java.lang.String" value="Civil Status:"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JComboBox" name="maritalStatusComboBox">
@@ -1856,8 +1856,8 @@
                       <BindingProperties>
                         <BindingProperty name="text" source="contactsTable" sourcePath="${selectedElement.history}" target="historyTextArea" targetPath="text" updateStrategy="0" immediately="false">
                           <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
-                          <Property name="nullValue" type="java.lang.String" value="null"/>
-                          <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+                          <Property name="nullValue" type="java.lang.String" value=""/>
+                          <Property name="incompletePathValue" type="java.lang.String" value=""/>
                         </BindingProperty>
                       </BindingProperties>
                     </Component>

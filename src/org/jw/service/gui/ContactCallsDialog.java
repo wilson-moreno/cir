@@ -134,6 +134,7 @@ public class ContactCallsDialog extends javax.swing.JDialog {
         contactSource = new org.jw.service.entity.Contact();
         stringToTimeConverter = new org.jw.service.beansbinding.converter.StringToTimeConverter();
         statusListBean = new org.jw.service.beans.ListBean(callStatusDAO);
+        defaultDateCellRenderer = new org.jw.service.table.cell.renderer.DefaultDateCellRenderer();
         taskMonitorPanel = new org.jw.service.gui.component.TaskMonitorPanel();
         crudPanel = new org.jw.service.gui.component.MultipleRecordCrudPanel();
         callsPanel = new javax.swing.JPanel();
@@ -165,6 +166,8 @@ public class ContactCallsDialog extends javax.swing.JDialog {
         nextVisitDateChooser = new com.toedter.calendar.JDateChooser();
         nextTopicLabel = new javax.swing.JLabel();
         nextTopicTextField = new javax.swing.JTextField();
+
+        defaultDateCellRenderer.setText("defaultDateCellRenderer1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/jw/service/gui/resources/properties/dialog_titles"); // NOI18N
@@ -210,6 +213,7 @@ public class ContactCallsDialog extends javax.swing.JDialog {
             callsTable.getColumnModel().getColumn(0).setPreferredWidth(10);
             callsTable.getColumnModel().getColumn(0).setCellRenderer(org.jw.service.table.cell.renderer.DefaultStateCellRenderer.create());
             callsTable.getColumnModel().getColumn(1).setPreferredWidth(50);
+            callsTable.getColumnModel().getColumn(1).setCellRenderer(defaultDateCellRenderer);
             callsTable.getColumnModel().getColumn(2).setPreferredWidth(50);
             callsTable.getColumnModel().getColumn(3).setPreferredWidth(50);
             callsTable.getColumnModel().getColumn(4).setPreferredWidth(50);
@@ -540,6 +544,7 @@ public class ContactCallsDialog extends javax.swing.JDialog {
     private org.jw.service.entity.Contact contactSource;
     private org.jw.service.gui.component.MultipleRecordCrudPanel crudPanel;
     private javax.swing.JComboBox dayComboBox;
+    private org.jw.service.table.cell.renderer.DefaultDateCellRenderer defaultDateCellRenderer;
     private javax.swing.JPanel extraDetailsPanel;
     private javax.swing.JPanel extraInformationTab;
     private javax.swing.JLabel literatureLabel;

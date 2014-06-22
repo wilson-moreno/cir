@@ -31,7 +31,7 @@ public class ContactMatcher implements Matcher<Contact, Contact>{
     @Override
     public boolean isDuplicate(Contact object1, Contact object2) {        
         if(object1.getId().intValue() == object2.getId().intValue())return false;        
-        else if(isMatch(object1, object2))return true;
+        else if(isExactMatch(object1, object2))return true;
         return false;
     }
     

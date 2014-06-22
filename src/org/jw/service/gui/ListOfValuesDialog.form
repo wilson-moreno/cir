@@ -175,8 +175,8 @@
           <BindingProperties>
             <BindingProperty name="text" source="listOfValueTable" sourcePath="${selectedElement.name}" target="nameTextField" targetPath="text" updateStrategy="0" immediately="false">
               <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
-              <Property name="nullValue" type="java.lang.String" value="null"/>
-              <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+              <Property name="nullValue" type="java.lang.String" value=""/>
+              <Property name="incompletePathValue" type="java.lang.String" value=""/>
             </BindingProperty>
           </BindingProperties>
         </Component>
@@ -184,8 +184,8 @@
           <BindingProperties>
             <BindingProperty name="text" source="listOfValueTable" sourcePath="${selectedElement.value}" target="valueTextField" targetPath="text" updateStrategy="0" immediately="false">
               <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
-              <Property name="nullValue" type="java.lang.String" value="null"/>
-              <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+              <Property name="nullValue" type="java.lang.String" value=""/>
+              <Property name="incompletePathValue" type="java.lang.String" value=""/>
             </BindingProperty>
           </BindingProperties>
         </Component>
@@ -204,8 +204,8 @@
               <BindingProperties>
                 <BindingProperty name="text" source="listOfValueTable" sourcePath="${selectedElement.query}" target="queryTextArea" targetPath="text" updateStrategy="0" immediately="false">
                   <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
-                  <Property name="nullValue" type="java.lang.String" value="null"/>
-                  <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+                  <Property name="nullValue" type="java.lang.String" value=""/>
+                  <Property name="incompletePathValue" type="java.lang.String" value=""/>
                 </BindingProperty>
               </BindingProperties>
             </Component>

@@ -41,6 +41,7 @@ import org.jw.service.action.validator.DefaultRequiredLocationMapValidator;
 import org.jw.service.action.validator.DefaultUniqueFieldsSaveActionValidator;
 import org.jw.service.builder.DefaultTaskBuilder;
 import org.jw.service.dao.DataAccessObject;
+import org.jw.service.document.filter.DocumentSizeFilterToolkit;
 import org.jw.service.entity.Contact;
 import org.jw.service.entity.ContactStatus;
 import org.jw.service.entity.ServiceGroup;
@@ -269,7 +270,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         columnBinding.setColumnClass(String.class);
         columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${maritalStatus}"));
-        columnBinding.setColumnName("Marital Status");
+        columnBinding.setColumnName("Civil Status");
         columnBinding.setColumnClass(String.class);
         columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${statusId}"));
@@ -412,7 +413,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         bindingGroup.addBinding(binding);
 
         maritalStatusLabel.setLabelFor(maritalStatusComboBox);
-        maritalStatusLabel.setText("Marital Status:");
+        maritalStatusLabel.setText("Civil Status:");
 
         maritalStatusComboBox.setModel(new javax.swing.DefaultComboBoxModel(maritalStatusProperties.getValues().toArray()));
         maritalStatusComboBox.setNextFocusableComponent(nationalityTextField);
@@ -1097,8 +1098,8 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         historyTextArea.setRows(5);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.history}"), historyTextArea, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("null");
-        binding.setSourceUnreadableValue("null");
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
         historyScrollPane.setViewportView(historyTextArea);
@@ -1335,15 +1336,13 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         openDirectionMapAction.setEnabled(false);
         buildCrudTask();
         addIconPropertyChangeListener();        
-        setCustomKeyBinders();
+        setCustomKeyBinders();        
     }
-    
-    
     
     private void buildCrudTask(){                
         contactObservableList = (ObservableList) contactList;        
         contactList.addAll(contactDAO.readAll());
-        DefaultTaskBuilder<ContactStatus> taskBuilder = new DefaultTaskBuilder<>();
+        DefaultTaskBuilder<Contact> taskBuilder = new DefaultTaskBuilder<>();
         taskBuilder.setEntityName("contact");
         taskBuilder.setProperties(taskMessageProperties);        
         surrogateCrudPanel = new MultipleRecordCrudPanel();
@@ -1432,7 +1431,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         DefaultUniqueFieldsSaveActionValidator<Contact> uniqueFieldValidator = new DefaultUniqueFieldsSaveActionValidator<>(this, contactList, utilTable, matcher, "Contact");
         DefaultRequiredFieldsSaveActionValidator<Contact> requiredFieldValidator = new DefaultRequiredFieldsSaveActionValidator<>(this, utilTable, "Contact");
         DefaultCloseActionValidator closeActionValidator = new DefaultCloseActionValidator(this, utilTable);
-        DefaultRequiredLocationMapValidator locationMapValidator = new DefaultRequiredLocationMapValidator(this, utilTable);
+        DefaultRequiredLocationMapValidator locationMapValidator = new DefaultRequiredLocationMapValidator(this, utilTable, contactDAO);
         
         taskBuilder.getCloseAction().addActionValidator(closeActionValidator);
         taskBuilder.getSaveAction().addActionValidator(uniqueFieldValidator);        
@@ -1449,6 +1448,8 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         this.contactsTable.getActionMap().put("CONTROL_ENTER", openContactCallsAction);
         this.tabbedPane.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(enterKey, "CONTROL_ENTER");
         this.tabbedPane.getActionMap().put("CONTROL_ENTER", openContactCallsAction);
+        this.contactTree.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(enterKey, "CONTROL_ENTER");
+        this.contactTree.getActionMap().put("CONTROL_ENTER", openContactCallsAction);
         
         this.contactsTable.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(controlPKey, "CONTROL_P");
         this.contactsTable.getActionMap().put("CONTROL_P", contactPrintAction);

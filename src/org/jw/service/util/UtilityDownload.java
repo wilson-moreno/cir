@@ -162,8 +162,7 @@ public class UtilityDownload {
                                         directionMap.getScale(),
                                         directionMap.getPathColor(),    
                                         pathString,
-                                        markers);
-        System.out.println(finalURL);
+                                        markers);        
         URLConnection connection = new URL(finalURL).openConnection();
         BufferedImage bufferedImage = null;
         try (InputStream inputStream = connection.getInputStream()) {
@@ -193,8 +192,7 @@ public class UtilityDownload {
                                         directionMap.getScale(),
                                         directionMap.getPathColor(),    
                                         pathString,
-                                        markers);
-        System.out.println(finalURL);
+                                        markers);        
         URLConnection connection = new URL(finalURL).openConnection();
         BufferedImage bufferedImage = null;
         try (InputStream inputStream = connection.getInputStream()) {
