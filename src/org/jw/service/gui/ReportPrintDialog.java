@@ -48,7 +48,7 @@ public class ReportPrintDialog extends javax.swing.JDialog {
         query.setParameter("visible", Boolean.TRUE);
         List<AppsReport> list = query.getResultList();
         this.reportsComboBox.setModel(new DefaultComboBoxModel(list.toArray()));                
-        this.printAction = new DefaultPrintAction(printCommand, reportsComboBox, utilPrint, printParametersList);
+        this.printAction = new DefaultPrintAction(printCommand, reportsComboBox, utilPrint, printParametersList, this.previewCheckBox);
         this.closeAction = new DefaultCloseAction(cancelCommand, this);
     }
 
@@ -70,6 +70,7 @@ public class ReportPrintDialog extends javax.swing.JDialog {
         parametersPanel = new javax.swing.JPanel();
         parameterrsScrollPane = new javax.swing.JScrollPane();
         parametersTable = new javax.swing.JTable();
+        previewCheckBox = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/jw/service/gui/resources/properties/dialog_titles"); // NOI18N
@@ -84,9 +85,9 @@ public class ReportPrintDialog extends javax.swing.JDialog {
             }
         });
 
-        cancelCommand.setText("Cancel");
+        cancelCommand.setText("Close");
 
-        printCommand.setText("Print Preview");
+        printCommand.setText("Print");
 
         parametersPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Parameters", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
@@ -116,18 +117,22 @@ public class ReportPrintDialog extends javax.swing.JDialog {
         parametersPanel.setLayout(parametersPanelLayout);
         parametersPanelLayout.setHorizontalGroup(
             parametersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(parametersPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(parameterrsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 283, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(parameterrsScrollPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
         parametersPanelLayout.setVerticalGroup(
             parametersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(parametersPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(parameterrsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE)
+                .addComponent(parameterrsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
                 .addContainerGap())
         );
+
+        previewCheckBox.setText("Preview");
+        previewCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                previewCheckBoxActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -136,18 +141,18 @@ public class ReportPrintDialog extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(parametersPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(0, 169, Short.MAX_VALUE)
                         .addComponent(printCommand)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cancelCommand))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(reportLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(reportsComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(parametersPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(reportsComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(previewCheckBox)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -155,10 +160,12 @@ public class ReportPrintDialog extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(reportsComboBox, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(reportsComboBox, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+                        .addComponent(previewCheckBox))
                     .addComponent(reportLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(7, 7, 7)
-                .addComponent(parametersPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(parametersPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cancelCommand)
@@ -179,12 +186,17 @@ public class ReportPrintDialog extends javax.swing.JDialog {
         printParametersList.addAll(paramList);
     }//GEN-LAST:event_reportsComboBoxActionPerformed
 
+    private void previewCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_previewCheckBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_previewCheckBoxActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelCommand;
     private javax.swing.JScrollPane parameterrsScrollPane;
     private javax.swing.JPanel parametersPanel;
     private javax.swing.JTable parametersTable;
+    private javax.swing.JCheckBox previewCheckBox;
     private javax.swing.JButton printCommand;
     private java.util.List<org.jw.service.print.PrintParameter> printParametersList;
     private javax.swing.JLabel reportLabel;

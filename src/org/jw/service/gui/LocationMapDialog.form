@@ -121,6 +121,11 @@
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="accuracyLabel" linkSize="9" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="accuracyTextField" max="32767" attributes="0"/>
+                      </Group>
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
@@ -169,9 +174,9 @@
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="accuracyLabel" linkSize="9" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel1" linkSize="9" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="accuracyTextField" max="32767" attributes="0"/>
+                          <Component id="markerLabelTextField" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -227,6 +232,11 @@
                       <Component id="markerColorsComboBox" alignment="1" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="markerLabelTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="imageFormatLabel" min="-2" max="-2" attributes="0"/>
                       <Component id="imageFormatComboBox" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -371,6 +381,18 @@
         <Component class="javax.swing.JTextField" name="accuracyTextField">
           <BindingProperties>
             <BindingProperty name="text" source="mapSource" sourcePath="${accuracy}" target="accuracyTextField" targetPath="text" updateStrategy="0" immediately="false">
+              <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+            </BindingProperty>
+          </BindingProperties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel1">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Marker Label:"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="markerLabelTextField">
+          <BindingProperties>
+            <BindingProperty name="text" source="mapSource" sourcePath="${markerLabel}" target="markerLabelTextField" targetPath="text" updateStrategy="0" immediately="false">
               <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
             </BindingProperty>
           </BindingProperties>

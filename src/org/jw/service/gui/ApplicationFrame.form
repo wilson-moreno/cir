@@ -618,6 +618,7 @@
                 <Component class="javax.swing.JTextField" name="recordNumberTextField">
                   <Properties>
                     <Property name="editable" type="boolean" value="false"/>
+                    <Property name="columns" type="int" value="3"/>
                     <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
                       <ComponentRef name="recordDateChooser"/>
                     </Property>
@@ -644,6 +645,7 @@
                 </Component>
                 <Component class="javax.swing.JTextField" name="lastNameTextField">
                   <Properties>
+                    <Property name="columns" type="int" value="5"/>
                     <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
                       <ComponentRef name="firstNameTextField"/>
                     </Property>
@@ -670,6 +672,7 @@
                 </Component>
                 <Component class="javax.swing.JTextField" name="nickNameTextField">
                   <Properties>
+                    <Property name="columns" type="int" value="5"/>
                     <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
                       <ComponentRef name="birthDateChooser"/>
                     </Property>
@@ -725,6 +728,7 @@
                 </Component>
                 <Component class="javax.swing.JTextField" name="firstNameTextField">
                   <Properties>
+                    <Property name="columns" type="int" value="5"/>
                     <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
                       <ComponentRef name="nickNameTextField"/>
                     </Property>
@@ -806,6 +810,7 @@
                 </Component>
                 <Component class="javax.swing.JTextField" name="nationalityTextField">
                   <Properties>
+                    <Property name="columns" type="int" value="5"/>
                     <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
                       <ComponentRef name="guardiansNameTextField"/>
                     </Property>
@@ -1004,6 +1009,7 @@
                 </Component>
                 <Component class="javax.swing.JTextField" name="houseNumberTextField">
                   <Properties>
+                    <Property name="columns" type="int" value="10"/>
                     <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
                       <ComponentRef name="streetTextField"/>
                     </Property>
@@ -1027,6 +1033,7 @@
                 </Component>
                 <Component class="javax.swing.JTextField" name="cityTextField">
                   <Properties>
+                    <Property name="columns" type="int" value="10"/>
                     <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
                       <ComponentRef name="barangayTextField"/>
                     </Property>
@@ -1058,6 +1065,7 @@
                 </Component>
                 <Component class="javax.swing.JTextField" name="streetTextField">
                   <Properties>
+                    <Property name="columns" type="int" value="10"/>
                     <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
                       <ComponentRef name="cityTextField"/>
                     </Property>
@@ -1073,6 +1081,7 @@
                 </Component>
                 <Component class="javax.swing.JTextField" name="barangayTextField">
                   <Properties>
+                    <Property name="columns" type="int" value="10"/>
                     <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
                       <ComponentRef name="areaTextField"/>
                     </Property>
@@ -1096,6 +1105,7 @@
                 </Component>
                 <Component class="javax.swing.JTextField" name="areaTextField">
                   <Properties>
+                    <Property name="columns" type="int" value="5"/>
                     <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
                       <ComponentRef name="territoryComboBox"/>
                     </Property>
@@ -1331,6 +1341,7 @@
                 </Component>
                 <Component class="javax.swing.JTextField" name="workBackgroundTextField">
                   <Properties>
+                    <Property name="columns" type="int" value="5"/>
                     <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
                       <ComponentRef name="guardiansNameTextField"/>
                     </Property>
@@ -1361,6 +1372,7 @@
                 </Component>
                 <Component class="javax.swing.JTextField" name="fathersNameTextField">
                   <Properties>
+                    <Property name="columns" type="int" value="5"/>
                     <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
                       <ComponentRef name="religionTextField"/>
                     </Property>
@@ -1383,6 +1395,7 @@
                 </Component>
                 <Component class="javax.swing.JTextField" name="mothersNameTextField">
                   <Properties>
+                    <Property name="columns" type="int" value="5"/>
                     <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
                       <ComponentRef name="foundByTextField"/>
                     </Property>
@@ -1413,6 +1426,7 @@
                 </Component>
                 <Component class="javax.swing.JTextField" name="guardiansNameTextField">
                   <Properties>
+                    <Property name="columns" type="int" value="5"/>
                     <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
                       <ComponentRef name="fathersNameTextField"/>
                     </Property>
@@ -1427,6 +1441,7 @@
                 </Component>
                 <Component class="javax.swing.JTextField" name="religionTextField">
                   <Properties>
+                    <Property name="columns" type="int" value="5"/>
                     <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
                       <ComponentRef name="mothersNameTextField"/>
                     </Property>
@@ -1441,6 +1456,7 @@
                 </Component>
                 <Component class="javax.swing.JTextField" name="foundByTextField">
                   <Properties>
+                    <Property name="columns" type="int" value="5"/>
                     <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
                       <ComponentRef name="phoneNumberTextField"/>
                     </Property>

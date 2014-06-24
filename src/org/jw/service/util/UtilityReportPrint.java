@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.StringTokenizer;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.swing.JCheckBox;
 import org.jw.service.dao.DataAccessObject;
 import org.jw.service.entity.AppsReport;
 import org.jw.service.listener.task.DefaultTaskListener;
@@ -48,19 +49,28 @@ public class UtilityReportPrint {
         return new UtilityReportPrint(parent, em, utilDB, listener);
     }
     
-    public void printReport(AppsReport report, List<PrintParameter> parameters){
+    public void printReport(AppsReport report, List<PrintParameter> parameters, JCheckBox previewCheckBox){        
         switch(report.getReportType()){
             case "Default" : buildReport(report, parameters); break;
-            case "Contact Record" : buildContactRecordReport(report, parameters); break;   
+            case "Contact Record" : buildContactRecordReport(report, parameters, previewCheckBox); break;   
+            case "Direction Map" : buildDirectionMapReport(report, parameters); break;    
         }
     }
     
-    private void buildContactRecordReport(AppsReport report, List<PrintParameter> parameters){
-        listener.setStartMessage("Creating " + report.getName() + " report...");
-        listener.setDoneMessage("Finished creating " + report.getName() + " report...");
+    private void buildDirectionMapReport(AppsReport report, List<PrintParameter> parameters){
+        listener.setStartMessage("Creating " + report.getName().toLowerCase() + " report...");
+        listener.setDoneMessage("Finished creating " + report.getName().toLowerCase() + " report...");
+        InputStream inputStream = createInputStream(report.getFileJasper());        
+        //DefaultDirectionMapPrintWorker worker = new DefaultDirectionMapPrintWorker(parent, templateMap, parameters, utilDB.getConnection(), inputStream, listener);        
+        //worker.execute();
+    }
+    
+    private void buildContactRecordReport(AppsReport report, List<PrintParameter> parameters, JCheckBox previewCheckBox){
+        listener.setStartMessage("Creating " + report.getName().toLowerCase() + " report...");
+        listener.setDoneMessage("Finished creating " + report.getName().toLowerCase() + " report...");
         InputStream inputStream = createInputStream(report.getFileJasper());
         Map<Integer, AppsReport> templateMap = fetchTemplates(report);        
-        DefaultContactRecordPrintWorker worker = new DefaultContactRecordPrintWorker(parent, templateMap, parameters, utilDB.getConnection(), inputStream, listener);        
+        DefaultContactRecordPrintWorker worker = new DefaultContactRecordPrintWorker(parent, templateMap, parameters, utilDB.getConnection(), inputStream, listener, previewCheckBox.isSelected());        
         worker.execute();
     }
     

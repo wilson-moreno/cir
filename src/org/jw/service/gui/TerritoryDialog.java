@@ -6,6 +6,7 @@
 
 package org.jw.service.gui;
 
+import java.util.Collections;
 import javax.persistence.EntityManager;
 import org.jdesktop.observablecollections.ObservableList;
 import org.jdesktop.observablecollections.ObservableListListener;
@@ -50,8 +51,9 @@ public class TerritoryDialog extends javax.swing.JDialog {
         initMyComponents();
     }
     
-    private void initMyComponents(){        
+    private void initMyComponents(){                
         territoryList.addAll(territoryDAO.readAll());
+        Collections.sort(territoryList);
         utilTable = UtilityTable.create(territoryTable, territoryList);
         ((ObservableList)territoryList).addObservableListListener(listListener);        
         DefaultTaskBuilder<Territory> taskBuilder = new DefaultTaskBuilder<>();
@@ -166,10 +168,9 @@ public class TerritoryDialog extends javax.swing.JDialog {
                     .addGroup(territoryPanelLayout.createSequentialGroup()
                         .addComponent(territoryNameLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(nameTextField)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(enableCheckBox)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addComponent(enableCheckBox))
                     .addGroup(territoryPanelLayout.createSequentialGroup()
                         .addComponent(descriptionLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -254,14 +255,14 @@ public class TerritoryDialog extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(taskMonitorPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addComponent(taskMonitorPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 506, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(crudPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(territoryListPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(territoryPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(territoryPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(crudPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

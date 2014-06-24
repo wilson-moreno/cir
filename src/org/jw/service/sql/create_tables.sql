@@ -191,6 +191,7 @@ create table cir.location_map(
     image_format varchar(15),
     map_type varchar(15),    
     marker_color varchar(15),
+    marker_label varchar(5),
     created_datetime datetime,
     updated_datetime datetime
 );

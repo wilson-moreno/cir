@@ -8,8 +8,10 @@ package org.jw.service.action.dependency;
 
 import java.awt.Window;
 import java.awt.event.ActionEvent;
+import static java.sql.Types.BOOLEAN;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import org.jw.service.action.DependencyCommand;
 import org.jw.service.entity.AppsReport;
@@ -46,7 +48,9 @@ public class PrintContactPostDependency implements DependencyCommand{
             List<PrintParameter> parameters = new ArrayList();
             parameters.add(new PrintParameter("START_RECORD_NUMBER","",contact.getRecordNumber(), "Query"));
             parameters.add(new PrintParameter("END_RECORD_NUMBER","",contact.getRecordNumber(), "Query"));
-            utilPrint.printReport(report, parameters);
+            JCheckBox previewCheckBox = new JCheckBox();
+            previewCheckBox.setSelected(Boolean.TRUE);
+            utilPrint.printReport(report, parameters, previewCheckBox);
         } catch (NullPointerException ex){
             JOptionPane.showMessageDialog(parent, "Default template not found", "Report Template", JOptionPane.INFORMATION_MESSAGE);
         }

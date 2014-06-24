@@ -336,6 +336,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         recordNumberLabel.setText("Record Number:");
 
         recordNumberTextField.setEditable(false);
+        recordNumberTextField.setColumns(3);
         recordNumberTextField.setNextFocusableComponent(recordDateChooser);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.recordNumber}"), recordNumberTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "recordNumber");
@@ -347,6 +348,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         lastNameLabel.setText("Last Name:");
         lastNameLabel.setNextFocusableComponent(firstNameLabel);
 
+        lastNameTextField.setColumns(5);
         lastNameTextField.setNextFocusableComponent(firstNameTextField);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.lastName}"), lastNameTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "lastName");
@@ -363,6 +365,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         nickNameLabel.setLabelFor(nickNameTextField);
         nickNameLabel.setText("Nick Name:");
 
+        nickNameTextField.setColumns(5);
         nickNameTextField.setNextFocusableComponent(birthDateChooser);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.nickName}"), nickNameTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "nickName");
@@ -385,6 +388,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         statusLabel.setLabelFor(statusComboBox);
         statusLabel.setText("Status:");
 
+        firstNameTextField.setColumns(5);
         firstNameTextField.setNextFocusableComponent(nickNameTextField);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.firstName}"), firstNameTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "First Name");
@@ -426,6 +430,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         nationalityLabel.setLabelFor(nationalityTextField);
         nationalityLabel.setText("Nationality:");
 
+        nationalityTextField.setColumns(5);
         nationalityTextField.setNextFocusableComponent(guardiansNameTextField);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.nationality}"), nationalityTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "nationality");
@@ -587,6 +592,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         houseNumberLabel.setLabelFor(houseNumberTextField);
         houseNumberLabel.setText("House Number:");
 
+        houseNumberTextField.setColumns(10);
         houseNumberTextField.setNextFocusableComponent(streetTextField);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.houseNumber}"), houseNumberTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "houseNumber");
@@ -597,6 +603,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         barangayLabel.setLabelFor(barangayTextField);
         barangayLabel.setText("Barangay:");
 
+        cityTextField.setColumns(10);
         cityTextField.setNextFocusableComponent(barangayTextField);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.city}"), cityTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "City");
@@ -610,6 +617,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         cityLabel.setLabelFor(cityTextField);
         cityLabel.setText("City:");
 
+        streetTextField.setColumns(10);
         streetTextField.setNextFocusableComponent(cityTextField);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.street}"), streetTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "Street");
@@ -617,6 +625,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
+        barangayTextField.setColumns(10);
         barangayTextField.setNextFocusableComponent(areaTextField);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.barangay}"), barangayTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "barangay");
@@ -627,6 +636,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         areaLabel.setLabelFor(areaTextField);
         areaLabel.setText("Area:");
 
+        areaTextField.setColumns(5);
         areaTextField.setNextFocusableComponent(territoryComboBox);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.area}"), areaTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "area");
@@ -754,6 +764,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         workBackgroundLabel.setLabelFor(workBackgroundTextField);
         workBackgroundLabel.setText("Work:");
 
+        workBackgroundTextField.setColumns(5);
         workBackgroundTextField.setNextFocusableComponent(guardiansNameTextField);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.workBackground}"), workBackgroundTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
@@ -767,6 +778,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         fathersNameLabel.setLabelFor(fathersNameTextField);
         fathersNameLabel.setText("Father:");
 
+        fathersNameTextField.setColumns(5);
         fathersNameTextField.setNextFocusableComponent(religionTextField);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.fathersName}"), fathersNameTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
@@ -777,6 +789,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         mothersNameLabel.setLabelFor(mothersNameTextField);
         mothersNameLabel.setText("Mother:");
 
+        mothersNameTextField.setColumns(5);
         mothersNameTextField.setNextFocusableComponent(foundByTextField);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.mothersName}"), mothersNameTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
@@ -790,6 +803,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         foundByLabel.setLabelFor(foundByTextField);
         foundByLabel.setText("Found by:");
 
+        guardiansNameTextField.setColumns(5);
         guardiansNameTextField.setNextFocusableComponent(fathersNameTextField);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.guardiansName}"), guardiansNameTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
@@ -797,6 +811,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
+        religionTextField.setColumns(5);
         religionTextField.setNextFocusableComponent(mothersNameTextField);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.religion}"), religionTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
@@ -804,6 +819,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
+        foundByTextField.setColumns(5);
         foundByTextField.setNextFocusableComponent(phoneNumberTextField);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.foundBy}"), foundByTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));

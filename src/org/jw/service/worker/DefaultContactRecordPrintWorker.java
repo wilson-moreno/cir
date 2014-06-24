@@ -29,6 +29,7 @@ import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRResultSetDataSource;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperPrintManager;
 import org.jw.service.entity.AppsReport;
 import org.jw.service.listener.task.DefaultTaskListener;
 import org.jw.service.print.PrintParameter;
@@ -45,13 +46,15 @@ public class DefaultContactRecordPrintWorker extends SwingWorker<JasperPrint, St
     private final InputStream inputStream;
     private final Window parent;
     private final Map<Integer, AppsReport> templateMap;
+    private final boolean preview;
     
-    public DefaultContactRecordPrintWorker(Window parent, Map<Integer, AppsReport> templateMap, List<PrintParameter> paramList, Connection connection, InputStream inputStream, DefaultTaskListener taskListener){
+    public DefaultContactRecordPrintWorker(Window parent, Map<Integer, AppsReport> templateMap, List<PrintParameter> paramList, Connection connection, InputStream inputStream, DefaultTaskListener taskListener, boolean preview){
         this.parent = parent;
         this.templateMap = templateMap;
         this.paramList = paramList;
         this.connection = connection;
         this.inputStream = inputStream;
+        this.preview = preview;
         this.addPropertyChangeListener(taskListener);
     }
     
@@ -84,14 +87,18 @@ public class DefaultContactRecordPrintWorker extends SwingWorker<JasperPrint, St
     @Override
     protected void done(){
         try {
-            JasperPrint print = get();                        
-            JRViewer viewer = new JRViewer(print);
-            JDialog dialog = new JDialog((Frame)parent, "Print Preview", true);
-            dialog.add(viewer);            
-            dialog.setSize(parent.getSize());
-            dialog.setLocationRelativeTo(parent);
-            dialog.setVisible(true);            
-        } catch (InterruptedException | ExecutionException ex) {
+            JasperPrint print = get();                                    
+            if(preview){
+                JRViewer viewer = new JRViewer(print);
+                JDialog dialog = new JDialog((Frame)parent, "Print Preview", true);
+                dialog.add(viewer);            
+                dialog.setSize(parent.getSize());
+                dialog.setLocationRelativeTo(parent);                
+                dialog.setVisible(true);
+            } else {
+                JasperPrintManager.printReport(print, true);
+            }
+        } catch (InterruptedException | ExecutionException | JRException ex) {
             Logger.getLogger(DefaultContactRecordPrintWorker.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -103,7 +110,9 @@ public class DefaultContactRecordPrintWorker extends SwingWorker<JasperPrint, St
         
         while(recordNumbers.next()){
             String recordNumber = recordNumbers.getString("RECORD_NUMBER");
-            contactRecordPrint = createContactRecord(templateMap.get(1), recordNumber);            
+            String lastName = recordNumbers.getString("LAST_NAME");
+            String firstName = recordNumbers.getString("FIRST_NAME");            
+            contactRecordPrint = createContactRecord(templateMap.get(1), recordNumber, lastName, firstName);            
             for(JRPrintPage page : contactRecordPrint.getPages()){
                 collatedPrint.addPage(page);
             }
@@ -149,14 +158,14 @@ public class DefaultContactRecordPrintWorker extends SwingWorker<JasperPrint, St
     }
     
     private ResultSet getRecordNumberResultSet(String recordNumberStart, String recordNumberEnd) throws SQLException{
-        String queryString = "SELECT c.record_number FROM CIR.Contact c WHERE record_number BETWEEN ? AND ? ORDER BY record_number";
+        String queryString = "SELECT c.record_number, c.last_name, c.first_name FROM CIR.Contact c WHERE record_number BETWEEN ? AND ? ORDER BY record_number";
         PreparedStatement statement = connection.prepareStatement(queryString);
         statement.setString(1, recordNumberStart);
         statement.setString(2, recordNumberEnd);        
         return statement.executeQuery();
     }
     
-    private JasperPrint createContactRecord(AppsReport report, String recordNumber) throws SQLException, JRException{
+    private JasperPrint createContactRecord(AppsReport report, String recordNumber, String lastName, String firstName) throws SQLException, JRException{
         JasperPrint firstPage;
         JasperPrint succeedingPages;
         ResultSet resultSet;
@@ -165,12 +174,12 @@ public class DefaultContactRecordPrintWorker extends SwingWorker<JasperPrint, St
         firstPage = createFirstPage(report, recordNumber);
         pageCount++;
         
-        appendSucceedingPages(report, recordNumber, firstPage, pageCount);        
+        appendSucceedingPages(report, recordNumber, firstPage, pageCount, lastName, firstName);        
         
         return firstPage;
     }
     
-    private void appendSucceedingPages(AppsReport report, String recordNumber, JasperPrint firstPage, int pageCount) throws SQLException, JRException{
+    private void appendSucceedingPages(AppsReport report, String recordNumber, JasperPrint firstPage, int pageCount, String lastName, String firstName) throws SQLException, JRException{
         int succeedingOffset = report.getLineLimit();
         Map<String, Object> parameters = new HashMap<>();
         JasperPrint succeedingPage = null;
@@ -183,9 +192,12 @@ public class DefaultContactRecordPrintWorker extends SwingWorker<JasperPrint, St
         
         ResultSet resultSet = statement.executeQuery();
         
+        
+        
         while(!empty(resultSet)){            
             parameters.put("PAGE_NUMBER", ++pageCount);
-            parameters.put("RECORD_NUMBER", recordNumber);
+            parameters.put("RECORD_NUMBER", recordNumber);  
+            parameters.put("CONTACT_NAME", lastName.trim().equalsIgnoreCase("") ? firstName.trim():lastName.trim().concat(", ").concat(firstName.trim()));
             JRResultSetDataSource resultSetDataSource = new JRResultSetDataSource(resultSet);
             InputStream inputStream = createInputStream(pageCount % 2 == 0 ? templateMap.get(2):templateMap.get(3));
             succeedingPage = JasperFillManager.fillReport(inputStream, parameters, resultSetDataSource);            
@@ -203,6 +215,7 @@ public class DefaultContactRecordPrintWorker extends SwingWorker<JasperPrint, St
         if(pageCount % 2 == 1){
             parameters.put("PAGE_NUMBER", ++pageCount);
             parameters.put("RECORD_NUMBER", recordNumber);
+            parameters.put("CONTACT_NAME", lastName.trim().equalsIgnoreCase("") ? firstName.trim():lastName.trim().concat(", ").concat(firstName.trim()));
             succeedingPage = JasperFillManager.fillReport(createInputStream(templateMap.get(2)), parameters, new JREmptyDataSource());            
             firstPage.addPage(succeedingPage.getPages().get(0));
         }

@@ -1,1 +1,1 @@
-"%JAVA_HOME%\java" -jar dist\ContactInformationRecord.jar
+java -jar dist\ContactInformationRecord.jar

@@ -16,14 +16,16 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+
 import javax.xml.parsers.ParserConfigurationException;
+import org.jw.service.entity.Contact;
 import org.jw.service.entity.DirectionMap;
 import org.jw.service.entity.LocationMap;
+import org.jw.service.entity.Territory;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -36,7 +38,8 @@ public class UtilityDownload {
     public static final String MAP_URL = "https://maps.googleapis.com/maps/api/staticmap?center=%f,%f&zoom=%d&size=%dx%d&scale=%d&maptype=%s&format=%s&sensor=false&markers=color:%s|%f,%f";
     public static final String GOOGLE_STATIC_MAP_HOSTNAME = "maps.googleapis.com";    
     public static final String CONNECTIVITY_TEST_HOSTNAME = "https://developers.google.com/maps/";
-    private static final String MAP_DIRECTION_IMAGE_URL = "https://maps.googleapis.com/maps/api/staticmap?zoom=%d&size=%sx%s&scale=%d&path=color:%s%s&markers=color:red|size:mid%s&sensor=false";
+    public static final String MAP_DIRECTION_IMAGE_URL = "https://maps.googleapis.com/maps/api/staticmap?zoom=%d&size=%sx%s&scale=%d&path=color:%s%s&markers=color:red|size:mid%s&sensor=false";
+    public static final String PROXIMITY_MAP_IMAGE_URL = "http://maps.googleapis.com/maps/api/staticmap?size=522x350&maptype=roadmap%s&sensor=false";
     
     public static UtilityDownload create() {
         return new UtilityDownload();
@@ -204,6 +207,44 @@ public class UtilityDownload {
         }
         
         return imageByte;
+    }
+    
+    public byte[] downloadProximityMapAsBytes(Territory territory) throws MalformedURLException, IOException{
+        byte[] imageBytes = null;
+        String markers = "";
+        
+        for(Contact contact : territory.getContactCollection()){            
+            if(!contact.getLocationMapCollection().isEmpty()){
+                LocationMap locationMap;
+                locationMap = contact.getLocationMapCollection().iterator().next();
+                markers = markers.concat(createMarker(locationMap));
+            }
+        }
+        
+        String finalURL = String.format(PROXIMITY_MAP_IMAGE_URL, markers);
+        System.out.println(finalURL);
+        URLConnection connection = new URL(finalURL).openConnection();
+        BufferedImage bufferedImage = null;
+        try (InputStream inputStream = connection.getInputStream()) {
+            bufferedImage = ImageIO.read(inputStream);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(bufferedImage, "png", baos);
+            baos.flush();
+            imageBytes = baos.toByteArray();
+        } catch (IOException ex) {
+            Logger.getLogger(UtilityDownload.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        return imageBytes;
+    }
+    
+    private String createMarker(LocationMap locationMap){
+        return String.format("&markers=color:%s|label:%s|%f,%f", 
+                             locationMap.getMarkerColor(), 
+                             locationMap.getMarkerLabel(), 
+                             locationMap.getLatitude(),
+                             locationMap.getLongitude());
     }
 }
     

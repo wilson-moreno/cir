@@ -124,6 +124,8 @@ public class LocationMapDialog extends javax.swing.JDialog {
         markerColorsComboBox = new javax.swing.JComboBox();
         accuracyLabel = new javax.swing.JLabel();
         accuracyTextField = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        markerLabelTextField = new javax.swing.JTextField();
         mapImagePanel = new javax.swing.JPanel();
         mapImageLabel = new javax.swing.JLabel();
         mapCrudPanel = new org.jw.service.gui.component.MapCrudPanel();
@@ -226,6 +228,11 @@ public class LocationMapDialog extends javax.swing.JDialog {
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, mapSource, org.jdesktop.beansbinding.ELProperty.create("${accuracy}"), accuracyTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
+        jLabel1.setText("Marker Label:");
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, mapSource, org.jdesktop.beansbinding.ELProperty.create("${markerLabel}"), markerLabelTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
         javax.swing.GroupLayout locationMapPanelLayout = new javax.swing.GroupLayout(locationMapPanel);
         locationMapPanel.setLayout(locationMapPanelLayout);
         locationMapPanelLayout.setHorizontalGroup(
@@ -233,6 +240,10 @@ public class LocationMapDialog extends javax.swing.JDialog {
             .addGroup(locationMapPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(locationMapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(locationMapPanelLayout.createSequentialGroup()
+                        .addComponent(accuracyLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(accuracyTextField))
                     .addGroup(locationMapPanelLayout.createSequentialGroup()
                         .addGroup(locationMapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(locationMapPanelLayout.createSequentialGroup()
@@ -271,13 +282,13 @@ public class LocationMapDialog extends javax.swing.JDialog {
                             .addComponent(zoomValueSpinner, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(locationMapPanelLayout.createSequentialGroup()
-                        .addComponent(accuracyLabel)
+                        .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(accuracyTextField)))
+                        .addComponent(markerLabelTextField)))
                 .addContainerGap())
         );
 
-        locationMapPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {accuracyLabel, heightLabel, imageFormatLabel, latitudeLabel, longitudeLabel, mapTypeLabel, mapWidthLabel, markerColorLabel, scaleValueLabel, zoomValueLabel});
+        locationMapPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {accuracyLabel, heightLabel, imageFormatLabel, jLabel1, latitudeLabel, longitudeLabel, mapTypeLabel, mapWidthLabel, markerColorLabel, scaleValueLabel, zoomValueLabel});
 
         locationMapPanelLayout.setVerticalGroup(
             locationMapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -318,6 +329,10 @@ public class LocationMapDialog extends javax.swing.JDialog {
                 .addGroup(locationMapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(markerColorLabel)
                     .addComponent(markerColorsComboBox, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(locationMapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(markerLabelTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(locationMapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(imageFormatLabel)
@@ -428,6 +443,7 @@ public class LocationMapDialog extends javax.swing.JDialog {
     private javax.swing.JComboBox imageFormatComboBox;
     private javax.swing.JLabel imageFormatLabel;
     private org.jw.service.beans.ListBean imageFormatListBean;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel latitudeLabel;
     private javax.swing.JTextField latitudeTextField;
     private javax.swing.JPanel locationMapPanel;
@@ -446,6 +462,7 @@ public class LocationMapDialog extends javax.swing.JDialog {
     private javax.swing.JLabel markerColorLabel;
     private org.jw.service.beans.ListBean markerColorListBean;
     private javax.swing.JComboBox markerColorsComboBox;
+    private javax.swing.JTextField markerLabelTextField;
     private org.jw.service.beans.ListBean scaleListBean;
     private javax.swing.JComboBox scaleValueComboBox;
     private javax.swing.JLabel scaleValueLabel;

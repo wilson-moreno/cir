@@ -37,15 +37,15 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="taskMonitorPanel" alignment="0" pref="0" max="32767" attributes="0"/>
+          <Component id="taskMonitorPanel" alignment="0" pref="506" max="32767" attributes="0"/>
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="crudPanel" pref="0" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="territoryListPanel" max="32767" attributes="0"/>
                   <Component id="territoryPanel" max="32767" attributes="0"/>
+                  <Component id="crudPanel" alignment="0" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -94,10 +94,9 @@
                       <Group type="102" attributes="0">
                           <Component id="territoryNameLabel" linkSize="1" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="nameTextField" min="-2" pref="249" max="-2" attributes="0"/>
+                          <Component id="nameTextField" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="enableCheckBox" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" attributes="0">
                           <Component id="descriptionLabel" linkSize="1" min="-2" max="-2" attributes="0"/>

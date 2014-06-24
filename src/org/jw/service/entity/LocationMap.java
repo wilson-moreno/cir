@@ -52,6 +52,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "LocationMap.findByUpdatedDatetime", query = "SELECT l FROM LocationMap l WHERE l.updatedDatetime = :updatedDatetime")})
 public class LocationMap implements Serializable, ObservableEntity, SilentSetter {
     public static final String PROP_ACCURACY = "accuracy";
+    public static final String PROP_MARKERLABEL = "markerLabel";
     @Lob
     @Column(name = "IMAGE")
     private byte[] image;
@@ -111,6 +112,8 @@ public class LocationMap implements Serializable, ObservableEntity, SilentSetter
     private final transient PropertyChangeSupport propertyChangeSupport = new java.beans.PropertyChangeSupport(this);
     @Column(name = "ACCURACY")  
     private Double accuracy;
+    @Column(name = "MARKER_LABEL")
+    private String markerLabel;
     
     public LocationMap() {
         this.scale = 1;
@@ -123,6 +126,7 @@ public class LocationMap implements Serializable, ObservableEntity, SilentSetter
         this.createdDatetime = new Date();
         this.updatedDatetime = new Date();
         this.markerColor = "red";
+        this.markerLabel = "";
         this.accuracy = 0.0d;
     }
 
@@ -465,5 +469,21 @@ public class LocationMap implements Serializable, ObservableEntity, SilentSetter
         java.lang.Double oldAccuracy = this.accuracy;
         this.accuracy = accuracy;
         propertyChangeSupport.firePropertyChange(PROP_ACCURACY, oldAccuracy, accuracy);
+    }
+
+    /**
+     * @return the markerLabel
+     */
+    public String getMarkerLabel() {
+        return markerLabel;
+    }
+
+    /**
+     * @param markerLabel the markerLabel to set
+     */
+    public void setMarkerLabel(String markerLabel) {
+        java.lang.String oldMarkerLabel = this.markerLabel;
+        this.markerLabel = markerLabel;
+        propertyChangeSupport.firePropertyChange(PROP_MARKERLABEL, oldMarkerLabel, markerLabel);
     }
 }
