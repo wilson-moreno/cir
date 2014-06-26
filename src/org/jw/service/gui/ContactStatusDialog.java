@@ -114,6 +114,7 @@ public class ContactStatusDialog extends javax.swing.JDialog {
         modifiableCheckBox = new javax.swing.JCheckBox();
         iconCommand = new javax.swing.JButton();
         printableCheckBox = new javax.swing.JCheckBox();
+        countableCheckBox = new javax.swing.JCheckBox();
         statusPanel = new javax.swing.JPanel();
         scrollPane = new javax.swing.JScrollPane();
         statusTable = new javax.swing.JTable();
@@ -166,26 +167,38 @@ public class ContactStatusDialog extends javax.swing.JDialog {
         binding.setSourceUnreadableValue(false);
         bindingGroup.addBinding(binding);
 
+        countableCheckBox.setText("Countable");
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, statusTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.countable}"), countableCheckBox, org.jdesktop.beansbinding.BeanProperty.create("selected"));
+        binding.setSourceNullValue(false);
+        binding.setSourceUnreadableValue(false);
+        bindingGroup.addBinding(binding);
+
         javax.swing.GroupLayout contactStatusPanelLayout = new javax.swing.GroupLayout(contactStatusPanel);
         contactStatusPanel.setLayout(contactStatusPanelLayout);
         contactStatusPanelLayout.setHorizontalGroup(
             contactStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(contactStatusPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(contactStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(contactStatusPanelLayout.createSequentialGroup()
-                        .addComponent(descriptionLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(descriptionTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(contactStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(contactStatusPanelLayout.createSequentialGroup()
                         .addComponent(statusNameLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(contactStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(modifiableCheckBox)
-                    .addComponent(printableCheckBox))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(nameTextField)
+                        .addGap(6, 6, 6))
+                    .addGroup(contactStatusPanelLayout.createSequentialGroup()
+                        .addComponent(descriptionLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(contactStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(contactStatusPanelLayout.createSequentialGroup()
+                                .addComponent(modifiableCheckBox)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(printableCheckBox)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(countableCheckBox))
+                            .addGroup(contactStatusPanelLayout.createSequentialGroup()
+                                .addComponent(descriptionTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 282, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))))
                 .addComponent(iconCommand, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -200,14 +213,18 @@ public class ContactStatusDialog extends javax.swing.JDialog {
                     .addGroup(contactStatusPanelLayout.createSequentialGroup()
                         .addGroup(contactStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(statusNameLabel)
-                            .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(modifiableCheckBox))
+                            .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(contactStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(descriptionLabel)
-                            .addComponent(descriptionTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(printableCheckBox)))
-                    .addComponent(iconCommand, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(descriptionTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(4, 4, 4)
+                        .addGroup(contactStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(modifiableCheckBox)
+                            .addComponent(printableCheckBox)
+                            .addComponent(countableCheckBox))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(iconCommand, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -235,6 +252,10 @@ public class ContactStatusDialog extends javax.swing.JDialog {
         columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${printable}"));
         columnBinding.setColumnName("Printable");
+        columnBinding.setColumnClass(Boolean.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${countable}"));
+        columnBinding.setColumnName("Countable");
         columnBinding.setColumnClass(Boolean.class);
         columnBinding.setEditable(false);
         bindingGroup.addBinding(jTableBinding);
@@ -300,6 +321,7 @@ public class ContactStatusDialog extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel contactStatusPanel;
+    private javax.swing.JCheckBox countableCheckBox;
     private org.jw.service.gui.component.MultipleRecordCrudPanel crudPanel;
     private javax.swing.JLabel descriptionLabel;
     private javax.swing.JTextField descriptionTextField;

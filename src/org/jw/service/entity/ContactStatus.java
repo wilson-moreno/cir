@@ -45,6 +45,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "ContactStatus.findByCreatedDatetime", query = "SELECT c FROM ContactStatus c WHERE c.createdDatetime = :createdDatetime"),
     @NamedQuery(name = "ContactStatus.findByUpdatedDatetime", query = "SELECT c FROM ContactStatus c WHERE c.updatedDatetime = :updatedDatetime")})
 public class ContactStatus implements Serializable, ObservableEntity, SilentSetter, Comparable<ContactStatus> {
+    public static final String PROP_COUNTABLE = "countable";
     @Lob
     @Column(name = "ICON")
     private byte[] icon;
@@ -62,6 +63,8 @@ public class ContactStatus implements Serializable, ObservableEntity, SilentSett
     private Boolean modifiable;
     @Column(name = "PRINTABLE")
     private Boolean printable;
+    @Column(name = "COUNTABLE")
+    private Boolean countable;
     @Column(name = "CREATED_DATETIME")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDatetime;
@@ -321,6 +324,22 @@ public class ContactStatus implements Serializable, ObservableEntity, SilentSett
     @Override
     public int compareTo(ContactStatus o) {
         return this.getName().compareTo(o.getName());
+    }
+
+    /**
+     * @return the countable
+     */
+    public Boolean getCountable() {
+        return countable;
+    }
+
+    /**
+     * @param countable the countable to set
+     */
+    public void setCountable(Boolean countable) {
+        java.lang.Boolean oldCountable = this.countable;
+        this.countable = countable;
+        propertyChangeSupport.firePropertyChange(PROP_COUNTABLE, oldCountable, countable);
     }
     
     

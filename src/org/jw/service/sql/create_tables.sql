@@ -128,6 +128,7 @@ create table cir.contact_status(
     description varchar(100),
     modifiable bit,
     printable bit,
+    countable bit,
     icon longvarbinary,
     created_datetime datetime,
     updated_datetime datetime
@@ -278,7 +279,10 @@ coalesce(casewhen(datediff('year',birthdate, today()) <= 10, 1, null),
 s.name service_group_name
 from cir.contact c
 inner join cir.service_group s on s.id = c.service_group_id
+inner join cir.contact_status st on c.status_id = st.id
 where c.birthdate is not null
+and st.countable = true
+
 
 
 

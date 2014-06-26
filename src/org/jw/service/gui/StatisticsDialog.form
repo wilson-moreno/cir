@@ -104,11 +104,11 @@
             </DimensionLayout>
           </Layout>
         </Container>
-        <Container class="javax.swing.JPanel" name="jPanel1">
+        <Container class="javax.swing.JPanel" name="civilStatusDistributionTab">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="Marital Status Distribution">
-                <Property name="tabTitle" type="java.lang.String" value="Marital Status Distribution"/>
+              <JTabbedPaneConstraints tabName="Civil Status Distribution">
+                <Property name="tabTitle" type="java.lang.String" value="Civil Status Distribution"/>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>

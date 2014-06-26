@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.general.PieDataset;
 import org.jw.service.action.DefaultCloseAction;
@@ -43,6 +44,17 @@ public class StatisticsDialog extends javax.swing.JDialog {
         setCommandActions();
         createContactDistributionChart(utilDB);        
         createContactAgeGroupDistributionChart(utilDB);
+        createCivilStatusDistributionChart(utilDB);
+    }
+    
+    private void createCivilStatusDistributionChart(UtilityDatabase utilDB){
+        try {
+            CategoryDataset dataset = StatisticsChartFactory.createCategoryDataset(utilDB.getConnection(), utilProperties.getProperty("civil.status.distribution"));
+            JFreeChart chart = StatisticsChartFactory.createStackedBarChart3D(dataset, "Civil Status Distribution", "Civil Status", "Distribution", PlotOrientation.VERTICAL);
+            StatisticsChartFactory.connectChartPanel(this.civilStatusDistributionTab, chart);
+        } catch (SQLException ex) {
+            Logger.getLogger(StatisticsDialog.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     private void setCommandActions(){
@@ -52,7 +64,7 @@ public class StatisticsDialog extends javax.swing.JDialog {
     private void createContactAgeGroupDistributionChart(UtilityDatabase utilDB){
         try {
             CategoryDataset dataset = StatisticsChartFactory.createCategoryDataset(utilDB.getConnection(), utilProperties.getProperty("contact.age.group.distribution"));
-            JFreeChart chart = StatisticsChartFactory.createStackedBarChart3D(dataset, "Age Group Distribution", "Age Groups", "Distribution");
+            JFreeChart chart = StatisticsChartFactory.createStackedBarChart3D(dataset, "Age Group Distribution", "Age Groups", "Distribution", PlotOrientation.HORIZONTAL);
             StatisticsChartFactory.connectChartPanel(this.ageGroupDistributionTab, chart);
         } catch (SQLException ex) {
             Logger.getLogger(StatisticsDialog.class.getName()).log(Level.SEVERE, null, ex);
@@ -83,7 +95,7 @@ public class StatisticsDialog extends javax.swing.JDialog {
         statisticsTabbedPane = new javax.swing.JTabbedPane();
         contactDistributionTab = new javax.swing.JPanel();
         ageGroupDistributionTab = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
+        civilStatusDistributionTab = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/jw/service/gui/resources/properties/dialog_titles"); // NOI18N
@@ -116,18 +128,18 @@ public class StatisticsDialog extends javax.swing.JDialog {
 
         statisticsTabbedPane.addTab("Age Distribution", ageGroupDistributionTab);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout civilStatusDistributionTabLayout = new javax.swing.GroupLayout(civilStatusDistributionTab);
+        civilStatusDistributionTab.setLayout(civilStatusDistributionTabLayout);
+        civilStatusDistributionTabLayout.setHorizontalGroup(
+            civilStatusDistributionTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 592, Short.MAX_VALUE)
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        civilStatusDistributionTabLayout.setVerticalGroup(
+            civilStatusDistributionTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 366, Short.MAX_VALUE)
         );
 
-        statisticsTabbedPane.addTab("Marital Status Distribution", jPanel1);
+        statisticsTabbedPane.addTab("Civil Status Distribution", civilStatusDistributionTab);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -160,9 +172,9 @@ public class StatisticsDialog extends javax.swing.JDialog {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel ageGroupDistributionTab;
+    private javax.swing.JPanel civilStatusDistributionTab;
     private org.jw.service.gui.component.CloseRefreshPanel closeRefreshPanel;
     private javax.swing.JPanel contactDistributionTab;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JTabbedPane statisticsTabbedPane;
     private org.jw.service.gui.component.TaskMonitorPanel taskMonitorPanel;
     // End of variables declaration//GEN-END:variables

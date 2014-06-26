@@ -23,6 +23,8 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 import org.jfree.data.jdbc.JDBCPieDataset;
+import org.jfree.data.xy.DefaultXYDataset;
+import org.jfree.data.xy.XYDataset;
 import org.jfree.util.Rotation;
 
 
@@ -31,6 +33,13 @@ import org.jfree.util.Rotation;
  * @author Wilson
  */
 public class StatisticsChartFactory {
+    
+    
+    public static XYDataset createXYDataset(Connection conn, String query){
+        DefaultXYDataset dataset = new DefaultXYDataset();
+        
+        return dataset;
+    }
     
     public static CategoryDataset createCategoryDataset(Connection conn, String query) throws SQLException{
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
@@ -69,8 +78,8 @@ public class StatisticsChartFactory {
         return chart;
     }
     
-    public static JFreeChart createStackedBarChart3D(CategoryDataset dataset, String title, String categoryAxisLabel, String valueAxisLabel){
-        JFreeChart chart = ChartFactory.createStackedBarChart3D(title, categoryAxisLabel, valueAxisLabel, dataset, PlotOrientation.HORIZONTAL, true, true, true);
+    public static JFreeChart createStackedBarChart3D(CategoryDataset dataset, String title, String categoryAxisLabel, String valueAxisLabel, PlotOrientation orientation){
+        JFreeChart chart = ChartFactory.createStackedBarChart3D(title, categoryAxisLabel, valueAxisLabel, dataset, orientation, true, true, true);
         return chart;
     }
     
