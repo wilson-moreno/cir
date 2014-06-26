@@ -52,6 +52,7 @@ public class ContactSearchDialog extends javax.swing.JDialog {
 
         foundList = org.jdesktop.observablecollections.ObservableCollections.observableList(new java.util.ArrayList<org.jw.service.entity.Contact>());
         keyContact = new org.jw.service.entity.Contact();
+        documentFilterFactory = new org.jw.service.document.filter.DocumentFilterFactory();
         taskMonitorPanel = new org.jw.service.gui.component.TaskMonitorPanel();
         searchFieldsPanel = new javax.swing.JPanel();
         lastNameLabel = new javax.swing.JLabel();
@@ -73,14 +74,18 @@ public class ContactSearchDialog extends javax.swing.JDialog {
 
         firstNameLabel.setText("First Name:");
 
+        lastNameTextField.setDocument(documentFilterFactory.getSizeFilter30());
+
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, keyContact, org.jdesktop.beansbinding.ELProperty.create("${lastName}"), lastNameTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue(null);
+        binding.setSourceNullValue("null");
+        binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
 
+        firstNameTextField.setDocument(documentFilterFactory.getSizeFilter30());
+
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, keyContact, org.jdesktop.beansbinding.ELProperty.create("${firstName}"), firstNameTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue(null);
+        binding.setSourceNullValue("null");
+        binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
 
         javax.swing.GroupLayout searchFieldsPanelLayout = new javax.swing.GroupLayout(searchFieldsPanel);
@@ -201,6 +206,7 @@ public class ContactSearchDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_resultTableMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private org.jw.service.document.filter.DocumentFilterFactory documentFilterFactory;
     private javax.swing.JLabel firstNameLabel;
     private javax.swing.JTextField firstNameTextField;
     private java.util.List<org.jw.service.entity.Contact> foundList;

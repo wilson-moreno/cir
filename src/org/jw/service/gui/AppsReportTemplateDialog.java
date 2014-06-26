@@ -117,6 +117,7 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
         reportList = org.jdesktop.observablecollections.ObservableCollections.observableList(new java.util.ArrayList<org.jw.service.entity.AppsReport>());
         byteArrayBean = new org.jw.service.beans.ByteArrayBean();
         datasourceTypeListBean = new org.jw.service.beans.ListBean("datasource_types.properties");
+        documentFilterFactory = new org.jw.service.document.filter.DocumentFilterFactory();
         taskMonitorPanel = new org.jw.service.gui.component.TaskMonitorPanel();
         templatesPanel = new javax.swing.JPanel();
         reportScrollPane = new javax.swing.JScrollPane();
@@ -238,6 +239,7 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
         nameLabel.setLabelFor(nameTextField);
         nameLabel.setText("Name:");
 
+        codeTextField.setDocument(documentFilterFactory.getSizeFilter30());
         codeTextField.setNextFocusableComponent(reportDateChooser);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, reportTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.code}"), codeTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "Code");
@@ -263,6 +265,7 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
         binding.setSourceUnreadableValue(false);
         bindingGroup.addBinding(binding);
 
+        nameTextField.setDocument(documentFilterFactory.getSizeFilter30());
         nameTextField.setNextFocusableComponent(reportTypeComboBox);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, reportTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.name}"), nameTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "Report Name");
@@ -273,6 +276,7 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
         titleLabel.setLabelFor(titleTextField);
         titleLabel.setText("Title:");
 
+        titleTextField.setDocument(documentFilterFactory.getSizeFilter50());
         titleTextField.setNextFocusableComponent(descriptionTextField);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, reportTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.title}"), titleTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "Title");
@@ -288,6 +292,7 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
         binding.setSourceUnreadableValue(false);
         bindingGroup.addBinding(binding);
 
+        descriptionTextField.setDocument(documentFilterFactory.getSizeFilter150());
         descriptionTextField.setNextFocusableComponent(queryTextArea);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, reportTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.description}"), descriptionTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
@@ -651,6 +656,7 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
     private javax.swing.JCheckBox defaultTemplateCheckBox;
     private javax.swing.JLabel descriptionLabel;
     private javax.swing.JTextField descriptionTextField;
+    private org.jw.service.document.filter.DocumentFilterFactory documentFilterFactory;
     private javax.swing.JCheckBox enableCheckBox;
     private com.toedter.calendar.JDateChooser fileCreatedDateChooser;
     private com.toedter.calendar.JDateChooser fileModifiedDateChooser;

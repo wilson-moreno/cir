@@ -121,6 +121,7 @@ public class ReportParameterDialog extends javax.swing.JDialog {
         appsReportSource = new org.jw.service.entity.AppsReport();
         dataTypeListBean = new org.jw.service.beans.ListBean("data_type.properties");
         parameterTypeListBean = new org.jw.service.beans.ListBean("parameter_type.properties");
+        documentFilterFactory = new org.jw.service.document.filter.DocumentFilterFactory();
         taskMonitorPanel = new org.jw.service.gui.component.TaskMonitorPanel();
         multipleRecordCrudPanel = new org.jw.service.gui.component.MultipleRecordCrudPanel();
         appsReportPanel = new javax.swing.JPanel();
@@ -313,15 +314,23 @@ public class ReportParameterDialog extends javax.swing.JDialog {
 
         paramLabel.setText("Label:");
 
+        sequenceTextField.setColumns(5);
+        sequenceTextField.setDocument(documentFilterFactory.getSizeFilter30());
+
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, parametersTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.sequence}"), sequenceTextField, org.jdesktop.beansbinding.BeanProperty.create("value"));
         binding.setSourceNullValue(null);
         binding.setSourceUnreadableValue(null);
         bindingGroup.addBinding(binding);
 
+        paramNameTextField.setColumns(5);
+
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, parametersTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.name}"), paramNameTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");
         binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
+
+        labelTextField.setColumns(5);
+        labelTextField.setDocument(documentFilterFactory.getSizeFilter30());
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, parametersTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.label}"), labelTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");
@@ -444,6 +453,9 @@ public class ReportParameterDialog extends javax.swing.JDialog {
 
         defaultValueLabel.setText("Default Value:");
 
+        defaultValueTextField.setColumns(5);
+        defaultValueTextField.setDocument(documentFilterFactory.getSizeFilter30());
+
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, parametersTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.defaultValue}"), defaultValueTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");
         binding.setSourceUnreadableValue("");
@@ -463,6 +475,12 @@ public class ReportParameterDialog extends javax.swing.JDialog {
         binding.setSourceUnreadableValue(false);
         bindingGroup.addBinding(binding);
 
+        enableCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                enableCheckBoxActionPerformed(evt);
+            }
+        });
+
         requiredCheckBox.setText("Required");
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, parametersTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.required}"), requiredCheckBox, org.jdesktop.beansbinding.BeanProperty.create("selected"));
@@ -476,19 +494,20 @@ public class ReportParameterDialog extends javax.swing.JDialog {
             otherInformationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(otherInformationPanelLayout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(defaultValueLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(otherInformationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(otherInformationPanelLayout.createSequentialGroup()
-                        .addComponent(defaultValueLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(enableCheckBox)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(otherInformationPanelLayout.createSequentialGroup()
+                        .addComponent(requiredCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(otherInformationPanelLayout.createSequentialGroup()
                         .addComponent(defaultValueTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(listOfValuesCommand)
-                        .addGap(45, 45, 45))
-                    .addGroup(otherInformationPanelLayout.createSequentialGroup()
-                        .addGroup(otherInformationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(enableCheckBox)
-                            .addComponent(requiredCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addGap(45, 45, 45))))
         );
         otherInformationPanelLayout.setVerticalGroup(
             otherInformationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -565,6 +584,10 @@ public class ReportParameterDialog extends javax.swing.JDialog {
         dialog.setVisible(true);
     }//GEN-LAST:event_listOfValuesCommandActionPerformed
 
+    private void enableCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enableCheckBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_enableCheckBoxActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel appsReportPanel;
     private org.jw.service.entity.AppsReport appsReportSource;
@@ -579,6 +602,7 @@ public class ReportParameterDialog extends javax.swing.JDialog {
     private javax.swing.JFormattedTextField dependsOnTextField;
     private javax.swing.JLabel descriptionLabel;
     private javax.swing.JTextField descriptionTextField;
+    private org.jw.service.document.filter.DocumentFilterFactory documentFilterFactory;
     private javax.swing.JCheckBox enableCheckBox;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;

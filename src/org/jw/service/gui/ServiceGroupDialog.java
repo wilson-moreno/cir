@@ -123,6 +123,7 @@ public class ServiceGroupDialog extends javax.swing.JDialog {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         serviceGroupList = org.jdesktop.observablecollections.ObservableCollections.observableList(new java.util.ArrayList<org.jw.service.entity.ServiceGroup>());
+        documentFilterFactory = new org.jw.service.document.filter.DocumentFilterFactory();
         taskMonitorPanel = new org.jw.service.gui.component.TaskMonitorPanel();
         crudPanel = new org.jw.service.gui.component.MultipleRecordCrudPanel();
         serviceGroupPanel = new javax.swing.JPanel();
@@ -161,22 +162,28 @@ public class ServiceGroupDialog extends javax.swing.JDialog {
 
         assitantLabel.setText("Assistant:");
 
+        nameTextField.setColumns(5);
+        nameTextField.setDocument(documentFilterFactory.getSizeFilter50());
+
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, serviceGroupsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.name}"), nameTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "Name");
         binding.setSourceNullValue("");
         binding.setSourceUnreadableValue("");
-        binding.setValidator(null);
         bindingGroup.addBinding(binding);
+
+        overseerTextField.setColumns(5);
+        overseerTextField.setDocument(documentFilterFactory.getSizeFilter75());
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, serviceGroupsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.overseer}"), overseerTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "Overseer");
         binding.setSourceNullValue("");
         binding.setSourceUnreadableValue("");
-        binding.setValidator(null);
         bindingGroup.addBinding(binding);
+
+        assistantTextField.setColumns(5);
+        assistantTextField.setDocument(documentFilterFactory.getSizeFilter75());
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, serviceGroupsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.assistant}"), assistantTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "Assistant");
         binding.setSourceNullValue("");
         binding.setSourceUnreadableValue("");
-        binding.setValidator(null);
         bindingGroup.addBinding(binding);
 
         prefixLabel.setText("Prefix:");
@@ -186,22 +193,25 @@ public class ServiceGroupDialog extends javax.swing.JDialog {
         nextNumberLabel.setText("Next Number:");
 
         nextNumberTextField.setEditable(false);
+        nextNumberTextField.setColumns(5);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, serviceGroupsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.nextNumber}"), nextNumberTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "nextNumber");
         binding.setSourceNullValue("");
         binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
+        startNumberTextField.setEditable(false);
+        startNumberTextField.setColumns(5);
         startNumberTextField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("####"))));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, serviceGroupsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.startNumber}"), startNumberTextField, org.jdesktop.beansbinding.BeanProperty.create("value"), "Start Number");
         binding.setSourceNullValue(null);
         binding.setSourceUnreadableValue(null);
-        binding.setValidator(null);
         bindingGroup.addBinding(binding);
 
+        prefixTextField.setColumns(5);
         try {
-            prefixTextField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("UUU")));
+            prefixTextField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
@@ -380,6 +390,7 @@ public class ServiceGroupDialog extends javax.swing.JDialog {
     private javax.swing.JTextField assistantTextField;
     private javax.swing.JLabel assitantLabel;
     private org.jw.service.gui.component.MultipleRecordCrudPanel crudPanel;
+    private org.jw.service.document.filter.DocumentFilterFactory documentFilterFactory;
     private javax.swing.JPanel groupsPanel;
     private javax.swing.JTextField nameTextField;
     private javax.swing.JLabel nextNumberLabel;

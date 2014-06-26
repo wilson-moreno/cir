@@ -23,6 +23,8 @@
         <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new org.jw.service.beans.ListBean(&quot;parameter_type.properties&quot;)"/>
       </AuxValues>
     </Component>
+    <Component class="org.jw.service.document.filter.DocumentFilterFactory" name="documentFilterFactory">
+    </Component>
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="2"/>
@@ -490,6 +492,12 @@
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JFormattedTextField" name="sequenceTextField">
+                  <Properties>
+                    <Property name="columns" type="int" value="5"/>
+                    <Property name="document" type="javax.swing.text.Document" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection component="documentFilterFactory" name="sizeFilter30" type="property"/>
+                    </Property>
+                  </Properties>
                   <BindingProperties>
                     <BindingProperty name="value" source="parametersTable" sourcePath="${selectedElement.sequence}" target="sequenceTextField" targetPath="value" updateStrategy="0" immediately="false">
                       <Property name="nullValue" type="java.lang.Object" value="null"/>
@@ -498,6 +506,9 @@
                   </BindingProperties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="paramNameTextField">
+                  <Properties>
+                    <Property name="columns" type="int" value="5"/>
+                  </Properties>
                   <BindingProperties>
                     <BindingProperty name="text" source="parametersTable" sourcePath="${selectedElement.name}" target="paramNameTextField" targetPath="text" updateStrategy="0" immediately="false">
                       <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
@@ -507,6 +518,12 @@
                   </BindingProperties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="labelTextField">
+                  <Properties>
+                    <Property name="columns" type="int" value="5"/>
+                    <Property name="document" type="javax.swing.text.Document" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection component="documentFilterFactory" name="sizeFilter30" type="property"/>
+                    </Property>
+                  </Properties>
                   <BindingProperties>
                     <BindingProperty name="text" source="parametersTable" sourcePath="${selectedElement.label}" target="labelTextField" targetPath="text" updateStrategy="0" immediately="false">
                       <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
@@ -606,21 +623,22 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
+                          <Component id="defaultValueLabel" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="defaultValueLabel" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
+                              <Group type="102" attributes="0">
+                                  <Component id="enableCheckBox" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              </Group>
+                              <Group type="102" attributes="0">
+                                  <Component id="requiredCheckBox" min="-2" pref="73" max="-2" attributes="0"/>
+                                  <EmptySpace max="32767" attributes="0"/>
+                              </Group>
+                              <Group type="102" attributes="0">
                                   <Component id="defaultValueTextField" pref="178" max="32767" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="listOfValuesCommand" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" attributes="0">
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="enableCheckBox" min="-2" max="-2" attributes="0"/>
-                                      <Component id="requiredCheckBox" alignment="0" min="-2" pref="73" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -651,6 +669,12 @@
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="defaultValueTextField">
+                  <Properties>
+                    <Property name="columns" type="int" value="5"/>
+                    <Property name="document" type="javax.swing.text.Document" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection component="documentFilterFactory" name="sizeFilter30" type="property"/>
+                    </Property>
+                  </Properties>
                   <BindingProperties>
                     <BindingProperty name="text" source="parametersTable" sourcePath="${selectedElement.defaultValue}" target="defaultValueTextField" targetPath="text" updateStrategy="0" immediately="false">
                       <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
@@ -677,6 +701,9 @@
                       <Property name="incompletePathValue" type="boolean" value="false"/>
                     </BindingProperty>
                   </BindingProperties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="enableCheckBoxActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JCheckBox" name="requiredCheckBox">
                   <Properties>

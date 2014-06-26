@@ -14,6 +14,8 @@
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;org.jw.service.entity.ServiceGroup&gt;"/>
       </AuxValues>
     </Component>
+    <Component class="org.jw.service.document.filter.DocumentFilterFactory" name="documentFilterFactory">
+    </Component>
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="2"/>
@@ -179,6 +181,12 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="nameTextField">
+          <Properties>
+            <Property name="columns" type="int" value="5"/>
+            <Property name="document" type="javax.swing.text.Document" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection component="documentFilterFactory" name="sizeFilter50" type="property"/>
+            </Property>
+          </Properties>
           <BindingProperties>
             <BindingProperty name="text" source="serviceGroupsTable" sourcePath="${selectedElement.name}" target="nameTextField" targetPath="text" updateStrategy="0" immediately="false">
               <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
@@ -189,6 +197,12 @@
           </BindingProperties>
         </Component>
         <Component class="javax.swing.JTextField" name="overseerTextField">
+          <Properties>
+            <Property name="columns" type="int" value="5"/>
+            <Property name="document" type="javax.swing.text.Document" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection component="documentFilterFactory" name="sizeFilter75" type="property"/>
+            </Property>
+          </Properties>
           <BindingProperties>
             <BindingProperty name="text" source="serviceGroupsTable" sourcePath="${selectedElement.overseer}" target="overseerTextField" targetPath="text" updateStrategy="0" immediately="false">
               <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
@@ -199,6 +213,12 @@
           </BindingProperties>
         </Component>
         <Component class="javax.swing.JTextField" name="assistantTextField">
+          <Properties>
+            <Property name="columns" type="int" value="5"/>
+            <Property name="document" type="javax.swing.text.Document" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection component="documentFilterFactory" name="sizeFilter75" type="property"/>
+            </Property>
+          </Properties>
           <BindingProperties>
             <BindingProperty name="text" source="serviceGroupsTable" sourcePath="${selectedElement.assistant}" target="assistantTextField" targetPath="text" updateStrategy="0" immediately="false">
               <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
@@ -226,6 +246,7 @@
         <Component class="javax.swing.JTextField" name="nextNumberTextField">
           <Properties>
             <Property name="editable" type="boolean" value="false"/>
+            <Property name="columns" type="int" value="5"/>
           </Properties>
           <BindingProperties>
             <BindingProperty name="text" source="serviceGroupsTable" sourcePath="${selectedElement.nextNumber}" target="nextNumberTextField" targetPath="text" updateStrategy="0" immediately="false">
@@ -238,6 +259,8 @@
         </Component>
         <Component class="javax.swing.JFormattedTextField" name="startNumberTextField">
           <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+            <Property name="columns" type="int" value="5"/>
             <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
               <Format format="####" subtype="-1" type="0"/>
             </Property>
@@ -252,8 +275,9 @@
         </Component>
         <Component class="javax.swing.JFormattedTextField" name="prefixTextField">
           <Properties>
+            <Property name="columns" type="int" value="5"/>
             <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor" preCode="try {" postCode="} catch (java.text.ParseException ex) {&#xa;ex.printStackTrace();&#xa;}">
-              <Format format="UUU" subtype="-1" type="5"/>
+              <Format format="" subtype="-1" type="5"/>
             </Property>
           </Properties>
           <BindingProperties>

@@ -11,6 +11,8 @@
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;org.jw.service.entity.ContactStatus&gt;"/>
       </AuxValues>
     </Component>
+    <Component class="org.jw.service.document.filter.DocumentFilterFactory" name="documentFilterFactory">
+    </Component>
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="2"/>
@@ -146,6 +148,11 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="nameTextField">
+          <Properties>
+            <Property name="document" type="javax.swing.text.Document" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection component="documentFilterFactory" name="sizeFilter50" type="property"/>
+            </Property>
+          </Properties>
           <BindingProperties>
             <BindingProperty name="text" source="statusTable" sourcePath="${selectedElement.name}" target="nameTextField" targetPath="text" updateStrategy="0" immediately="false">
               <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
@@ -156,6 +163,11 @@
           </BindingProperties>
         </Component>
         <Component class="javax.swing.JTextField" name="descriptionTextField">
+          <Properties>
+            <Property name="document" type="javax.swing.text.Document" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection component="documentFilterFactory" name="sizeFilter100" type="property"/>
+            </Property>
+          </Properties>
           <BindingProperties>
             <BindingProperty name="text" source="statusTable" sourcePath="${selectedElement.description}" target="descriptionTextField" targetPath="text" updateStrategy="0" immediately="false">
               <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>

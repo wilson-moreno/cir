@@ -13,6 +13,7 @@ import javax.persistence.Query;
 import javax.swing.DefaultComboBoxModel;
 import org.jw.service.action.DefaultCloseAction;
 import org.jw.service.action.DefaultPrintAction;
+import org.jw.service.action.dependency.PrintReportPreDependency;
 import org.jw.service.dao.DataAccessObject;
 import org.jw.service.entity.AppsReport;
 import org.jw.service.factory.DefaultParameterListFactory;
@@ -50,6 +51,9 @@ public class ReportPrintDialog extends javax.swing.JDialog {
         this.reportsComboBox.setModel(new DefaultComboBoxModel(list.toArray()));                
         this.printAction = new DefaultPrintAction(printCommand, reportsComboBox, utilPrint, printParametersList, this.previewCheckBox);
         this.closeAction = new DefaultCloseAction(cancelCommand, this);
+        
+        PrintReportPreDependency printReportPreDependency = new PrintReportPreDependency(this.parametersTable);
+        this.printAction.addPreActionCommands("printReportPreDependency", printReportPreDependency);
     }
 
     /**
@@ -209,5 +213,7 @@ public class ReportPrintDialog extends javax.swing.JDialog {
     private DefaultPrintAction printAction;
     private DefaultCloseAction closeAction;
 }
+
+
 
 

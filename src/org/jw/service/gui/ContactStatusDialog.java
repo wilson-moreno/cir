@@ -103,6 +103,7 @@ public class ContactStatusDialog extends javax.swing.JDialog {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         statusList = org.jdesktop.observablecollections.ObservableCollections.observableList(new java.util.ArrayList<org.jw.service.entity.ContactStatus>());
+        documentFilterFactory = new org.jw.service.document.filter.DocumentFilterFactory();
         taskMonitorPanel = new org.jw.service.gui.component.TaskMonitorPanel();
         crudPanel = new org.jw.service.gui.component.MultipleRecordCrudPanel();
         contactStatusPanel = new javax.swing.JPanel();
@@ -128,10 +129,14 @@ public class ContactStatusDialog extends javax.swing.JDialog {
 
         descriptionLabel.setText("Description:");
 
+        nameTextField.setDocument(documentFilterFactory.getSizeFilter50());
+
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, statusTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.name}"), nameTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "statusName");
         binding.setSourceNullValue("");
         binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
+
+        descriptionTextField.setDocument(documentFilterFactory.getSizeFilter100());
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, statusTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.description}"), descriptionTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "description");
         binding.setSourceNullValue("");
@@ -298,6 +303,7 @@ public class ContactStatusDialog extends javax.swing.JDialog {
     private org.jw.service.gui.component.MultipleRecordCrudPanel crudPanel;
     private javax.swing.JLabel descriptionLabel;
     private javax.swing.JTextField descriptionTextField;
+    private org.jw.service.document.filter.DocumentFilterFactory documentFilterFactory;
     private javax.swing.JButton iconCommand;
     private javax.swing.JCheckBox modifiableCheckBox;
     private javax.swing.JTextField nameTextField;

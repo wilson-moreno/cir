@@ -106,6 +106,7 @@ public class TerritoryDialog extends javax.swing.JDialog {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         territoryList = org.jdesktop.observablecollections.ObservableCollections.observableList(new java.util.ArrayList<org.jw.service.entity.Territory>());
+        documentFilterFactory = new org.jw.service.document.filter.DocumentFilterFactory();
         taskMonitorPanel = new org.jw.service.gui.component.TaskMonitorPanel();
         crudPanel = new org.jw.service.gui.component.MultipleRecordCrudPanel();
         territoryPanel = new javax.swing.JPanel();
@@ -130,10 +131,16 @@ public class TerritoryDialog extends javax.swing.JDialog {
 
         descriptionLabel.setText("Description:");
 
+        nameTextField.setColumns(10);
+        nameTextField.setDocument(documentFilterFactory.getSizeFilter30());
+
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, territoryTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.name}"), nameTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");
         binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
+
+        descriptionTextField.setColumns(10);
+        descriptionTextField.setDocument(documentFilterFactory.getSizeFilter100());
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, territoryTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.description}"), descriptionTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");
@@ -287,6 +294,7 @@ public class TerritoryDialog extends javax.swing.JDialog {
     private org.jw.service.gui.component.MultipleRecordCrudPanel crudPanel;
     private javax.swing.JLabel descriptionLabel;
     private javax.swing.JTextField descriptionTextField;
+    private org.jw.service.document.filter.DocumentFilterFactory documentFilterFactory;
     private javax.swing.JCheckBox enableCheckBox;
     private javax.swing.JTextField nameTextField;
     private javax.swing.JComboBox serviceGroupComboBox;

@@ -6,6 +6,7 @@
 
 package org.jw.service.beans;
 
+import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -57,7 +58,17 @@ public class ListBean {
     }
     
     public void setList(List<Object> list){
+        List<Object> oldList = this.list;
         this.list = list;
+        propertyChangeSupport.firePropertyChange(PROP_LIST, oldList, list);
+    }
+    
+    public void addPropertyChangeListener(PropertyChangeListener listener){
+        propertyChangeSupport.addPropertyChangeListener(listener);
+    }
+    
+    public void removePropertyChangeListener(PropertyChangeListener listener){
+        propertyChangeSupport.removePropertyChangeListener(listener);
     }
     
     

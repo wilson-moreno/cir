@@ -71,6 +71,7 @@ public class CongregationDialog extends javax.swing.JDialog {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         source = new org.jw.service.entity.Congregation();
+        documentFilterFactory = new org.jw.service.document.filter.DocumentFilterFactory();
         congregationPanel = new javax.swing.JPanel();
         nameLabel = new javax.swing.JLabel();
         address1Label = new javax.swing.JLabel();
@@ -109,22 +110,23 @@ public class CongregationDialog extends javax.swing.JDialog {
         longitudeLabel.setLabelFor(longitudeTextField);
         longitudeLabel.setText("Longitude:");
 
+        nameTextField.setDocument(documentFilterFactory.getSizeFilter50());
         nameTextField.setNextFocusableComponent(address1TextField);
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, source, org.jdesktop.beansbinding.ELProperty.create("${name}"), nameTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "Name");
         binding.setSourceNullValue("");
         binding.setSourceUnreadableValue("");
-        binding.setValidator(null);
         bindingGroup.addBinding(binding);
 
+        address1TextField.setDocument(documentFilterFactory.getSizeFilter100());
         address1TextField.setNextFocusableComponent(address2TextField);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, source, org.jdesktop.beansbinding.ELProperty.create("${address1}"), address1TextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "Address");
         binding.setSourceNullValue("null");
         binding.setSourceUnreadableValue("null");
-        binding.setValidator(null);
         bindingGroup.addBinding(binding);
 
+        address2TextField.setDocument(documentFilterFactory.getSizeFilter100());
         address2TextField.setNextFocusableComponent(cityTextField);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, source, org.jdesktop.beansbinding.ELProperty.create("${address2}"), address2TextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
@@ -132,12 +134,12 @@ public class CongregationDialog extends javax.swing.JDialog {
         binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
 
+        cityTextField.setDocument(documentFilterFactory.getSizeFilter50());
         cityTextField.setNextFocusableComponent(latitudeTextField);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, source, org.jdesktop.beansbinding.ELProperty.create("${city}"), cityTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "City");
         binding.setSourceNullValue("null");
         binding.setSourceUnreadableValue("null");
-        binding.setValidator(null);
         bindingGroup.addBinding(binding);
 
         latitudeTextField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("0.000000"))));
@@ -261,6 +263,7 @@ public class CongregationDialog extends javax.swing.JDialog {
     private javax.swing.JLabel cityLabel;
     private javax.swing.JTextField cityTextField;
     private javax.swing.JPanel congregationPanel;
+    private org.jw.service.document.filter.DocumentFilterFactory documentFilterFactory;
     private javax.swing.JLabel latitudeLabel;
     private javax.swing.JFormattedTextField latitudeTextField;
     private javax.swing.JLabel longitudeLabel;

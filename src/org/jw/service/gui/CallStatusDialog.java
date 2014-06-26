@@ -101,6 +101,7 @@ public class CallStatusDialog extends javax.swing.JDialog {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         callStatusList = org.jdesktop.observablecollections.ObservableCollections.observableList(new java.util.ArrayList<org.jw.service.entity.CallStatus>());
+        documentFilterFactory = new org.jw.service.document.filter.DocumentFilterFactory();
         taskMonitorPanel = new org.jw.service.gui.component.TaskMonitorPanel();
         multipleRecordCrudPanel = new org.jw.service.gui.component.MultipleRecordCrudPanel();
         statusPanel = new javax.swing.JPanel();
@@ -121,12 +122,16 @@ public class CallStatusDialog extends javax.swing.JDialog {
 
         nameLabel.setText("Name:");
 
+        nameTextField.setDocument(documentFilterFactory.getSizeFilter20());
+
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, callStatusTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.name}"), nameTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");
         binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
         descriptionLabel.setText("Description:");
+
+        descriptionTextField.setDocument(documentFilterFactory.getSizeFilter100());
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, callStatusTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.description}"), descriptionTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");
@@ -262,6 +267,7 @@ public class CallStatusDialog extends javax.swing.JDialog {
     private javax.swing.JTable callStatusTable;
     private javax.swing.JLabel descriptionLabel;
     private javax.swing.JTextField descriptionTextField;
+    private org.jw.service.document.filter.DocumentFilterFactory documentFilterFactory;
     private javax.swing.JCheckBox enableCheckBox;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel listOfStatusPanel;

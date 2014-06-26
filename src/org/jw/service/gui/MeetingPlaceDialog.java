@@ -90,6 +90,7 @@ public class MeetingPlaceDialog extends javax.swing.JDialog {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         meetingPlaceList = org.jdesktop.observablecollections.ObservableCollections.observableList(new java.util.ArrayList<org.jw.service.entity.MeetingPlace>());
+        documentFilterFactory = new org.jw.service.document.filter.DocumentFilterFactory();
         meetingPlacePanel = new javax.swing.JPanel();
         nameLabel = new javax.swing.JLabel();
         addressLabel = new javax.swing.JLabel();
@@ -115,10 +116,16 @@ public class MeetingPlaceDialog extends javax.swing.JDialog {
 
         addressLabel.setText("Address:");
 
+        nameTextField.setColumns(10);
+        nameTextField.setDocument(documentFilterFactory.getSizeFilter50());
+
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, meetingPlaceTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.name}"), nameTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");
         binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
+
+        addressTextField.setColumns(10);
+        addressTextField.setDocument(documentFilterFactory.getSizeFilter100());
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, meetingPlaceTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.address}"), addressTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");
@@ -273,6 +280,7 @@ public class MeetingPlaceDialog extends javax.swing.JDialog {
     private javax.swing.JLabel addressLabel;
     private javax.swing.JTextField addressTextField;
     private org.jw.service.gui.component.MultipleRecordCrudPanel crudPanel;
+    private org.jw.service.document.filter.DocumentFilterFactory documentFilterFactory;
     private javax.swing.JLabel latitudeLabel;
     private javax.swing.JTextField latitudeTextField;
     private javax.swing.JLabel longitudeLabel;

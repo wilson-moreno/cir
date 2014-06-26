@@ -135,6 +135,7 @@ public class ContactCallsDialog extends javax.swing.JDialog {
         stringToTimeConverter = new org.jw.service.beansbinding.converter.StringToTimeConverter();
         statusListBean = new org.jw.service.beans.ListBean(callStatusDAO);
         defaultDateCellRenderer = new org.jw.service.table.cell.renderer.DefaultDateCellRenderer();
+        documentFilterFactory = new org.jw.service.document.filter.DocumentFilterFactory();
         taskMonitorPanel = new org.jw.service.gui.component.TaskMonitorPanel();
         crudPanel = new org.jw.service.gui.component.MultipleRecordCrudPanel();
         callsPanel = new javax.swing.JPanel();
@@ -289,6 +290,8 @@ public class ContactCallsDialog extends javax.swing.JDialog {
         scripturesLabel.setLabelFor(scripturesTextField);
         scripturesLabel.setText("Scriptures:");
 
+        scripturesTextField.setDocument(documentFilterFactory.getSizeFilter75());
+
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, callsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.scriptures}"), scripturesTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "scriptures");
         binding.setSourceNullValue("");
         binding.setSourceUnreadableValue("");
@@ -296,6 +299,8 @@ public class ContactCallsDialog extends javax.swing.JDialog {
 
         literatureLabel.setLabelFor(literatureTextField);
         literatureLabel.setText("Literature:");
+
+        literatureTextField.setDocument(documentFilterFactory.getSizeFilter75());
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, callsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.literature}"), literatureTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "literature");
         binding.setSourceNullValue("");
@@ -305,11 +310,14 @@ public class ContactCallsDialog extends javax.swing.JDialog {
         publishersLabel.setLabelFor(publishersTextField);
         publishersLabel.setText("Publishers:");
 
+        publishersTextField.setDocument(documentFilterFactory.getSizeFilter75());
+
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, callsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.publishers}"), publishersTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "publishers");
         binding.setSourceNullValue("");
         binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
+        callTimeTextField.setDocument(documentFilterFactory.getSizeFilter10());
         callTimeTextField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("hh:mm a"))));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, callsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.callTime}"), callTimeTextField, org.jdesktop.beansbinding.BeanProperty.create("value"));
@@ -545,6 +553,7 @@ public class ContactCallsDialog extends javax.swing.JDialog {
     private org.jw.service.gui.component.MultipleRecordCrudPanel crudPanel;
     private javax.swing.JComboBox dayComboBox;
     private org.jw.service.table.cell.renderer.DefaultDateCellRenderer defaultDateCellRenderer;
+    private org.jw.service.document.filter.DocumentFilterFactory documentFilterFactory;
     private javax.swing.JPanel extraDetailsPanel;
     private javax.swing.JPanel extraInformationTab;
     private javax.swing.JLabel literatureLabel;

@@ -101,6 +101,7 @@ public class LocationMapDialog extends javax.swing.JDialog {
         imageFormatListBean = new org.jw.service.beans.ListBean("image_formats.properties");
         scaleListBean = new org.jw.service.beans.ListBean(new Integer[]{1, 2, 4});
         markerColorListBean = new org.jw.service.beans.ListBean("marker_colors.properties");
+        documentFilterFactory = new org.jw.service.document.filter.DocumentFilterFactory();
         contactInfoPanel = new org.jw.service.gui.component.ContactInfoPanel();
         taskMonitorPanel = new org.jw.service.gui.component.TaskMonitorPanel();
         locationMapPanel = new javax.swing.JPanel();
@@ -229,6 +230,8 @@ public class LocationMapDialog extends javax.swing.JDialog {
         bindingGroup.addBinding(binding);
 
         jLabel1.setText("Marker Label:");
+
+        markerLabelTextField.setDocument(documentFilterFactory.getSizeFilter2());
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, mapSource, org.jdesktop.beansbinding.ELProperty.create("${markerLabel}"), markerLabelTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
@@ -439,6 +442,7 @@ public class LocationMapDialog extends javax.swing.JDialog {
     private javax.swing.JTextField accuracyTextField;
     private org.jw.service.gui.component.ContactInfoPanel contactInfoPanel;
     private org.jw.service.entity.Contact contactSource;
+    private org.jw.service.document.filter.DocumentFilterFactory documentFilterFactory;
     private javax.swing.JLabel heightLabel;
     private javax.swing.JComboBox imageFormatComboBox;
     private javax.swing.JLabel imageFormatLabel;
