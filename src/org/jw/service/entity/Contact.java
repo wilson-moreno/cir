@@ -976,6 +976,20 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
         
         return String.format("%d years & %d months", period.getYears(), period.getMonths());
     }
+    
+    @Transient
+    public boolean getHasMap(){
+        if(this.getLocationMapCollection().isEmpty()){
+            return false;
+        }else{
+            LocationMap map;
+            map = this.getLocationMapCollection().iterator().next();
+            if(map.getImage() == null)
+                return false;
+            else
+                return true;
+        }
+    }
 }
 
         

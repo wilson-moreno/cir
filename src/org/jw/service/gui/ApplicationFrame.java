@@ -1224,6 +1224,10 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         columnBinding.setColumnName("Printed");
         columnBinding.setColumnClass(Boolean.class);
         columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${hasMap}"));
+        columnBinding.setColumnName("Has Map");
+        columnBinding.setColumnClass(Boolean.class);
+        columnBinding.setEditable(false);
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
         contactsScrollPane.setViewportView(contactsTable);

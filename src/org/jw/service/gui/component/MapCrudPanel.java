@@ -59,6 +59,7 @@ public class MapCrudPanel extends javax.swing.JPanel {
 
         saveCommand.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.save.png"))); // NOI18N
         saveCommand.setText("Save");
+        saveCommand.setEnabled(false);
         saveCommand.setFocusable(false);
         saveCommand.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         crudToolBar.add(saveCommand);

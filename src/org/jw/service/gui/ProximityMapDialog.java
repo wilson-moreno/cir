@@ -6,8 +6,12 @@
 
 package org.jw.service.gui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.Collection;
 import javax.persistence.EntityManager;
 import javax.swing.DefaultComboBoxModel;
@@ -28,6 +32,7 @@ import org.jw.service.listener.task.DefaultTaskListener;
  */
 public class ProximityMapDialog extends javax.swing.JDialog {
     private final DataAccessObject<ServiceGroup> serviceGroupDAO;
+    private final DataAccessObject<Territory> territoryDAO;
     
     /**
      * Creates new form LocationProximityCheckerDialog
@@ -35,6 +40,7 @@ public class ProximityMapDialog extends javax.swing.JDialog {
     public ProximityMapDialog(java.awt.Frame parent, boolean modal, EntityManager em) {
         super(parent, modal);        
         this.serviceGroupDAO = DataAccessObject.create(em, ServiceGroup.class);
+        this.territoryDAO = DataAccessObject.create(em, Territory.class);
         initComponents();        
         initMyComponents();
     }
@@ -51,6 +57,34 @@ public class ProximityMapDialog extends javax.swing.JDialog {
         closeAction = new DefaultCloseAction(this.mapCrudPanel.getCloseCommand(), this);
         downloadMapAction = new DefaultDownloadProximityMapAction(this.mapCrudPanel.getDownloadCommand(), this.territoryComboBox, this.byteArrayBean, downloadListener);
         
+        setSaveCommandActionListener();
+        addByteArrayBeanPropertyListener();
+    }
+    
+    private void addByteArrayBeanPropertyListener(){
+        byteArrayBean.addPropertyChangeListener(new PropertyChangeListener(){
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                javax.swing.JButton saveCommand;
+                saveCommand = mapCrudPanel.getSaveCommand();
+                saveCommand.setEnabled(true);
+            }        
+        });        
+    }
+    
+    private void setSaveCommandActionListener(){
+        javax.swing.JButton saveCommand = this.mapCrudPanel.getSaveCommand();
+        
+        saveCommand.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                javax.swing.JButton command = (javax.swing.JButton) e.getSource();
+                Territory territory = (Territory) territoryComboBox.getSelectedItem();
+                territory.setMapImage(byteArrayBean.getByteArray());
+                territoryDAO.persist(territory);                
+                command.setEnabled(false);
+            }        
+        });        
     }
     
     private void setTerritoryComboBoxItemListener(){
@@ -125,7 +159,7 @@ public class ProximityMapDialog extends javax.swing.JDialog {
         contactsScrollPane = new javax.swing.JScrollPane();
         territoryContactList = new javax.swing.JList();
         territoryLabel = new javax.swing.JLabel();
-        territoryComboBox = new javax.swing.JComboBox();
+        territoryComboBox = new javax.swing.JComboBox<>();
 
         contactLocationCellRenderer.setText("contactLocationCellRenderer1");
 
@@ -264,7 +298,7 @@ public class ProximityMapDialog extends javax.swing.JDialog {
     private javax.swing.JLabel serviceGroupLabel;
     private org.jw.service.beans.ListBean serviceGroupListBean;
     private org.jw.service.gui.component.TaskMonitorPanel taskMonitorPanel;
-    private javax.swing.JComboBox territoryComboBox;
+    private javax.swing.JComboBox<org.jw.service.entity.Territory> territoryComboBox;
     private javax.swing.JList territoryContactList;
     private javax.swing.JLabel territoryLabel;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
@@ -272,6 +306,4 @@ public class ProximityMapDialog extends javax.swing.JDialog {
 
     DefaultCloseAction closeAction;
     DefaultDownloadProximityMapAction downloadMapAction;
-
-    
 }

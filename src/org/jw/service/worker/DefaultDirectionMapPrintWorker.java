@@ -55,12 +55,7 @@ public class DefaultDirectionMapPrintWorker extends SwingWorker<JasperPrint, Str
     }
     
     @Override
-    protected JasperPrint doInBackground() throws Exception {
-        //PreparedStatement statement = createPreparedStatement(report.getQuery(), paramList);
-        //Map<String, Object> paramMap = createParameterMap(report, paramList);        
-        //ResultSet resultSet = statement.executeQuery();
-        //JRResultSetDataSource resultSetDataSource = new JRResultSetDataSource(resultSet);
-        //return JasperFillManager.fillReport(inputStream, paramMap, resultSetDataSource);        
+    protected JasperPrint doInBackground() throws Exception {        
         return createReport();
     }
     
@@ -97,13 +92,13 @@ public class DefaultDirectionMapPrintWorker extends SwingWorker<JasperPrint, Str
     
     private JasperPrint createReport() throws SQLException, JRException{
         ResultSet recordNumbers = fetchRecordNumbers(paramList);
-        JasperPrint contactRecordPrint = null;
+        JasperPrint directionMapPrint = null;
         JasperPrint collatedPrint = createEmptyJasperPrint();
         
         while(recordNumbers.next()){
             String recordNumber = recordNumbers.getString("RECORD_NUMBER");
-            contactRecordPrint = createDirectionMap(templateMap.get(1), recordNumber);            
-            for(JRPrintPage page : contactRecordPrint.getPages()){
+            directionMapPrint = createDirectionMap(templateMap.get(1), recordNumber);            
+            for(JRPrintPage page : directionMapPrint.getPages()){
                 collatedPrint.addPage(page);
             }
         }
