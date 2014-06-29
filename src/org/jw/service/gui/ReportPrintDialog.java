@@ -48,12 +48,13 @@ public class ReportPrintDialog extends javax.swing.JDialog {
         query.setParameter("enable", Boolean.TRUE);
         query.setParameter("visible", Boolean.TRUE);
         List<AppsReport> list = query.getResultList();
-        this.reportsComboBox.setModel(new DefaultComboBoxModel(list.toArray()));                
+        this.reportsComboBox.setModel(new DefaultComboBoxModel(list.toArray()));                   
         this.printAction = new DefaultPrintAction(printCommand, reportsComboBox, utilPrint, printParametersList, this.previewCheckBox);
         this.closeAction = new DefaultCloseAction(cancelCommand, this);
         
         PrintReportPreDependency printReportPreDependency = new PrintReportPreDependency(this.parametersTable);
         this.printAction.addPreActionCommands("printReportPreDependency", printReportPreDependency);
+        this.reportsComboBox.setSelectedIndex(-1);
     }
 
     /**
@@ -71,10 +72,10 @@ public class ReportPrintDialog extends javax.swing.JDialog {
         reportsComboBox = new javax.swing.JComboBox();
         cancelCommand = new javax.swing.JButton();
         printCommand = new javax.swing.JButton();
+        previewCheckBox = new javax.swing.JCheckBox();
         parametersPanel = new javax.swing.JPanel();
         parameterrsScrollPane = new javax.swing.JScrollPane();
         parametersTable = new javax.swing.JTable();
-        previewCheckBox = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/jw/service/gui/resources/properties/dialog_titles"); // NOI18N
@@ -92,6 +93,14 @@ public class ReportPrintDialog extends javax.swing.JDialog {
         cancelCommand.setText("Close");
 
         printCommand.setText("Print");
+
+        previewCheckBox.setSelected(true);
+        previewCheckBox.setText("Preview");
+        previewCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                previewCheckBoxActionPerformed(evt);
+            }
+        });
 
         parametersPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Parameters", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
@@ -130,13 +139,6 @@ public class ReportPrintDialog extends javax.swing.JDialog {
                 .addComponent(parameterrsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
                 .addContainerGap())
         );
-
-        previewCheckBox.setText("Preview");
-        previewCheckBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                previewCheckBoxActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -185,6 +187,7 @@ public class ReportPrintDialog extends javax.swing.JDialog {
     private void reportsComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reportsComboBoxActionPerformed
         // TODO add your handling code here:
         AppsReport report = (AppsReport) this.reportsComboBox.getSelectedItem();
+        if(report == null)return;
         List<PrintParameter> paramList = DefaultParameterListFactory.create(new ArrayList(report.getAppsReportParameterCollection()));
         printParametersList.clear();
         printParametersList.addAll(paramList);

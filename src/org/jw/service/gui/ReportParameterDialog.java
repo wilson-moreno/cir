@@ -122,6 +122,7 @@ public class ReportParameterDialog extends javax.swing.JDialog {
         dataTypeListBean = new org.jw.service.beans.ListBean("data_type.properties");
         parameterTypeListBean = new org.jw.service.beans.ListBean("parameter_type.properties");
         documentFilterFactory = new org.jw.service.document.filter.DocumentFilterFactory();
+        controTypeListBean = new org.jw.service.beans.ListBean("control_types.properties");
         taskMonitorPanel = new org.jw.service.gui.component.TaskMonitorPanel();
         multipleRecordCrudPanel = new org.jw.service.gui.component.MultipleRecordCrudPanel();
         appsReportPanel = new javax.swing.JPanel();
@@ -140,22 +141,31 @@ public class ReportParameterDialog extends javax.swing.JDialog {
         parameterTab = new javax.swing.JPanel();
         parameterPanel = new javax.swing.JPanel();
         sequenceLabel = new javax.swing.JLabel();
-        paramNameLabel = new javax.swing.JLabel();
-        paramLabel = new javax.swing.JLabel();
         sequenceTextField = new javax.swing.JFormattedTextField();
+        paramNameLabel = new javax.swing.JLabel();
         paramNameTextField = new javax.swing.JTextField();
+        paramLabel = new javax.swing.JLabel();
         labelTextField = new javax.swing.JTextField();
         dataTypeLabel = new javax.swing.JLabel();
         dataTypeComboBox = new javax.swing.JComboBox();
-        dependsOnLabel = new javax.swing.JLabel();
-        dependsOnTextField = new javax.swing.JFormattedTextField();
-        jLabel1 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox();
+        controlTab = new javax.swing.JPanel();
+        controlPanel = new javax.swing.JPanel();
+        controlTypeLabel = new javax.swing.JLabel();
+        controlTypeComboBox = new javax.swing.JComboBox();
+        queryLabel = new javax.swing.JLabel();
+        queryComboBox = new javax.swing.JComboBox();
+        displayColumnLabel = new javax.swing.JLabel();
+        displayColumnTextField = new javax.swing.JTextField();
+        valueColumnLabel = new javax.swing.JLabel();
+        valueColumnTextField = new javax.swing.JTextField();
         otherInformationTab = new javax.swing.JPanel();
         otherInformationPanel = new javax.swing.JPanel();
         defaultValueLabel = new javax.swing.JLabel();
         defaultValueTextField = new javax.swing.JTextField();
-        listOfValuesCommand = new javax.swing.JButton();
+        dependsOnLabel = new javax.swing.JLabel();
+        dependsOnTextField = new javax.swing.JFormattedTextField();
+        parameterTypeLabel = new javax.swing.JLabel();
+        parameterTypeComboBox = new javax.swing.JComboBox();
         enableCheckBox = new javax.swing.JCheckBox();
         requiredCheckBox = new javax.swing.JCheckBox();
 
@@ -310,10 +320,6 @@ public class ReportParameterDialog extends javax.swing.JDialog {
 
         sequenceLabel.setText("Sequence:");
 
-        paramNameLabel.setText("Name:");
-
-        paramLabel.setText("Label:");
-
         sequenceTextField.setColumns(5);
         sequenceTextField.setDocument(documentFilterFactory.getSizeFilter30());
 
@@ -322,12 +328,16 @@ public class ReportParameterDialog extends javax.swing.JDialog {
         binding.setSourceUnreadableValue(null);
         bindingGroup.addBinding(binding);
 
+        paramNameLabel.setText("Name:");
+
         paramNameTextField.setColumns(5);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, parametersTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.name}"), paramNameTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");
         binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
+
+        paramLabel.setText("Label:");
 
         labelTextField.setColumns(5);
         labelTextField.setDocument(documentFilterFactory.getSizeFilter30());
@@ -347,23 +357,6 @@ public class ReportParameterDialog extends javax.swing.JDialog {
         binding.setSourceUnreadableValue(null);
         bindingGroup.addBinding(binding);
 
-        dependsOnLabel.setText("Depends On:");
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, parametersTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.dependsOn}"), dependsOnTextField, org.jdesktop.beansbinding.BeanProperty.create("value"));
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue(null);
-        bindingGroup.addBinding(binding);
-
-        jLabel1.setText("Type:");
-
-        eLProperty = org.jdesktop.beansbinding.ELProperty.create("${list}");
-        jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, parameterTypeListBean, eLProperty, jComboBox1);
-        bindingGroup.addBinding(jComboBoxBinding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, parametersTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.parameterType}"), jComboBox1, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue(null);
-        bindingGroup.addBinding(binding);
-
         javax.swing.GroupLayout parameterPanelLayout = new javax.swing.GroupLayout(parameterPanel);
         parameterPanel.setLayout(parameterPanelLayout);
         parameterPanelLayout.setHorizontalGroup(
@@ -373,32 +366,16 @@ public class ReportParameterDialog extends javax.swing.JDialog {
                 .addGroup(parameterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(sequenceLabel)
                     .addComponent(paramNameLabel)
-                    .addComponent(paramLabel))
+                    .addComponent(paramLabel)
+                    .addComponent(dataTypeLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(parameterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(sequenceTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+                    .addComponent(sequenceTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 328, Short.MAX_VALUE)
                     .addComponent(paramNameTextField)
-                    .addComponent(labelTextField))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(parameterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(parameterPanelLayout.createSequentialGroup()
-                        .addComponent(dataTypeLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(dataTypeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(parameterPanelLayout.createSequentialGroup()
-                        .addGroup(parameterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(dependsOnLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(parameterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(dependsOnTextField)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(labelTextField)
+                    .addComponent(dataTypeComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
-
-        parameterPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {dataTypeComboBox, dependsOnTextField, labelTextField, paramNameTextField, sequenceTextField});
-
-        parameterPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {dataTypeLabel, dependsOnLabel});
 
         parameterPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {paramLabel, paramNameLabel, sequenceLabel});
 
@@ -408,21 +385,19 @@ public class ReportParameterDialog extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(parameterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(sequenceLabel)
-                    .addComponent(sequenceTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(dataTypeLabel)
-                    .addComponent(dataTypeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(sequenceTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(parameterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(paramNameLabel)
-                    .addComponent(paramNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(dependsOnLabel)
-                    .addComponent(dependsOnTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(paramNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(parameterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(paramLabel)
-                    .addComponent(labelTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(labelTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(parameterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(dataTypeLabel)
+                    .addComponent(dataTypeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -439,15 +414,102 @@ public class ReportParameterDialog extends javax.swing.JDialog {
         );
         parameterTabLayout.setVerticalGroup(
             parameterTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 140, Short.MAX_VALUE)
+            .addGap(0, 166, Short.MAX_VALUE)
             .addGroup(parameterTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(parameterTabLayout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(parameterPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, parameterTabLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(parameterPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addContainerGap()))
         );
 
         parameterTabbedPane.addTab("Parameter", parameterTab);
+
+        controlPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Control", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+
+        controlTypeLabel.setText("Control Type:");
+
+        eLProperty = org.jdesktop.beansbinding.ELProperty.create("${sortedList}");
+        jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, controTypeListBean, eLProperty, controlTypeComboBox);
+        bindingGroup.addBinding(jComboBoxBinding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, parametersTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.controlType}"), controlTypeComboBox, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
+
+        queryLabel.setText("Query:");
+
+        displayColumnLabel.setText("Display Column:");
+
+        valueColumnLabel.setText("Value Column:");
+
+        javax.swing.GroupLayout controlPanelLayout = new javax.swing.GroupLayout(controlPanel);
+        controlPanel.setLayout(controlPanelLayout);
+        controlPanelLayout.setHorizontalGroup(
+            controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(controlPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(controlPanelLayout.createSequentialGroup()
+                        .addComponent(controlTypeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(controlTypeComboBox, 0, 306, Short.MAX_VALUE))
+                    .addGroup(controlPanelLayout.createSequentialGroup()
+                        .addGroup(controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(displayColumnLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(queryLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(queryComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(displayColumnTextField)))
+                    .addGroup(controlPanelLayout.createSequentialGroup()
+                        .addComponent(valueColumnLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(valueColumnTextField)))
+                .addContainerGap())
+        );
+
+        controlPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {controlTypeLabel, displayColumnLabel, queryLabel, valueColumnLabel});
+
+        controlPanelLayout.setVerticalGroup(
+            controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(controlPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(controlTypeLabel)
+                    .addComponent(controlTypeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(queryLabel)
+                    .addComponent(queryComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(displayColumnLabel)
+                    .addComponent(displayColumnTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(valueColumnTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(valueColumnLabel))
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout controlTabLayout = new javax.swing.GroupLayout(controlTab);
+        controlTab.setLayout(controlTabLayout);
+        controlTabLayout.setHorizontalGroup(
+            controlTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(controlTabLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(controlPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        controlTabLayout.setVerticalGroup(
+            controlTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(controlTabLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(controlPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        parameterTabbedPane.addTab("Control", controlTab);
 
         otherInformationPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Other", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
@@ -461,12 +523,22 @@ public class ReportParameterDialog extends javax.swing.JDialog {
         binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
-        listOfValuesCommand.setText("List of Values");
-        listOfValuesCommand.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                listOfValuesCommandActionPerformed(evt);
-            }
-        });
+        dependsOnLabel.setText("Depends On:");
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, parametersTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.dependsOn}"), dependsOnTextField, org.jdesktop.beansbinding.BeanProperty.create("value"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
+
+        parameterTypeLabel.setText("Type:");
+
+        eLProperty = org.jdesktop.beansbinding.ELProperty.create("${list}");
+        jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, parameterTypeListBean, eLProperty, parameterTypeComboBox);
+        bindingGroup.addBinding(jComboBoxBinding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, parametersTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.parameterType}"), parameterTypeComboBox, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
 
         enableCheckBox.setText("Enable");
 
@@ -494,34 +566,52 @@ public class ReportParameterDialog extends javax.swing.JDialog {
             otherInformationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(otherInformationPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(defaultValueLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(otherInformationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(otherInformationPanelLayout.createSequentialGroup()
-                        .addComponent(enableCheckBox)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(otherInformationPanelLayout.createSequentialGroup()
-                        .addComponent(requiredCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(otherInformationPanelLayout.createSequentialGroup()
-                        .addComponent(defaultValueTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
+                        .addComponent(defaultValueLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(listOfValuesCommand)
-                        .addGap(45, 45, 45))))
+                        .addComponent(defaultValueTextField)
+                        .addContainerGap())
+                    .addGroup(otherInformationPanelLayout.createSequentialGroup()
+                        .addGroup(otherInformationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(parameterTypeLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(dependsOnLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(otherInformationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(otherInformationPanelLayout.createSequentialGroup()
+                                .addComponent(enableCheckBox)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(requiredCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 189, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, otherInformationPanelLayout.createSequentialGroup()
+                                .addGroup(otherInformationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(parameterTypeComboBox, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(dependsOnTextField))
+                                .addContainerGap())))))
         );
+
+        otherInformationPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {defaultValueLabel, dependsOnLabel});
+
         otherInformationPanelLayout.setVerticalGroup(
             otherInformationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(otherInformationPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(otherInformationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(defaultValueLabel)
-                    .addComponent(defaultValueTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(listOfValuesCommand))
+                    .addComponent(defaultValueTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(requiredCheckBox)
+                .addGroup(otherInformationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(dependsOnLabel)
+                    .addComponent(dependsOnTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(enableCheckBox)
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addGroup(otherInformationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(parameterTypeLabel)
+                    .addComponent(parameterTypeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(otherInformationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(enableCheckBox)
+                    .addComponent(requiredCheckBox))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout otherInformationTabLayout = new javax.swing.GroupLayout(otherInformationTab);
@@ -563,7 +653,7 @@ public class ReportParameterDialog extends javax.swing.JDialog {
                 .addContainerGap()
                 .addComponent(appsReportPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(parameterTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(parameterTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(parametersPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -577,13 +667,6 @@ public class ReportParameterDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void listOfValuesCommandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listOfValuesCommandActionPerformed
-        // TODO add your handling code here:
-        ListOfValuesDialog dialog = new ListOfValuesDialog(this, true);
-        dialog.setLocationRelativeTo(this);
-        dialog.setVisible(true);
-    }//GEN-LAST:event_listOfValuesCommandActionPerformed
-
     private void enableCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enableCheckBoxActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_enableCheckBoxActionPerformed
@@ -593,6 +676,11 @@ public class ReportParameterDialog extends javax.swing.JDialog {
     private org.jw.service.entity.AppsReport appsReportSource;
     private javax.swing.JLabel codeLabel;
     private javax.swing.JTextField codeTextField;
+    private org.jw.service.beans.ListBean controTypeListBean;
+    private javax.swing.JPanel controlPanel;
+    private javax.swing.JPanel controlTab;
+    private javax.swing.JComboBox controlTypeComboBox;
+    private javax.swing.JLabel controlTypeLabel;
     private javax.swing.JComboBox dataTypeComboBox;
     private javax.swing.JLabel dataTypeLabel;
     private org.jw.service.beans.ListBean dataTypeListBean;
@@ -602,12 +690,11 @@ public class ReportParameterDialog extends javax.swing.JDialog {
     private javax.swing.JFormattedTextField dependsOnTextField;
     private javax.swing.JLabel descriptionLabel;
     private javax.swing.JTextField descriptionTextField;
+    private javax.swing.JLabel displayColumnLabel;
+    private javax.swing.JTextField displayColumnTextField;
     private org.jw.service.document.filter.DocumentFilterFactory documentFilterFactory;
     private javax.swing.JCheckBox enableCheckBox;
-    private javax.swing.JComboBox jComboBox1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JTextField labelTextField;
-    private javax.swing.JButton listOfValuesCommand;
     private org.jw.service.gui.component.MultipleRecordCrudPanel multipleRecordCrudPanel;
     private javax.swing.JLabel nameLabel;
     private javax.swing.JTextField nameTextField;
@@ -620,16 +707,22 @@ public class ReportParameterDialog extends javax.swing.JDialog {
     private javax.swing.JPanel parameterPanel;
     private javax.swing.JPanel parameterTab;
     private javax.swing.JTabbedPane parameterTabbedPane;
+    private javax.swing.JComboBox parameterTypeComboBox;
+    private javax.swing.JLabel parameterTypeLabel;
     private org.jw.service.beans.ListBean parameterTypeListBean;
     private javax.swing.JPanel parametersPanel;
     private javax.swing.JScrollPane parametersScrollPane;
     private javax.swing.JTable parametersTable;
+    private javax.swing.JComboBox queryComboBox;
+    private javax.swing.JLabel queryLabel;
     private javax.swing.JCheckBox requiredCheckBox;
     private javax.swing.JLabel sequenceLabel;
     private javax.swing.JFormattedTextField sequenceTextField;
     private org.jw.service.gui.component.TaskMonitorPanel taskMonitorPanel;
     private javax.swing.JLabel titleLabel;
     private javax.swing.JTextField titleTextField;
+    private javax.swing.JLabel valueColumnLabel;
+    private javax.swing.JTextField valueColumnTextField;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 

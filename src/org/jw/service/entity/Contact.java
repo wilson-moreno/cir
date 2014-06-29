@@ -31,7 +31,10 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import org.eclipse.persistence.annotations.Property;
+import org.joda.time.LocalDate;
+import org.joda.time.Period;
+import org.joda.time.PeriodType;
+
 
 /**
  *
@@ -959,6 +962,19 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
         java.lang.String oldHistory = this.history;
         this.history = history;
         propertyChangeSupport.firePropertyChange(PROP_HISTORY, oldHistory, history);
+    }
+    
+    
+    @Transient
+    public String getAge(){
+        if(this.birthdate == null)return "<No Birthdate>";
+        
+        LocalDate dob = LocalDate.fromDateFields(birthdate);
+        LocalDate now = LocalDate.now();
+        
+        Period period = new Period(dob, now, PeriodType.yearMonthDay());
+        
+        return String.format("%d years & %d months", period.getYears(), period.getMonths());
     }
 }
 

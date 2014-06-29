@@ -25,6 +25,11 @@
     </Component>
     <Component class="org.jw.service.document.filter.DocumentFilterFactory" name="documentFilterFactory">
     </Component>
+    <Component class="org.jw.service.beans.ListBean" name="controTypeListBean">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new org.jw.service.beans.ListBean(&quot;control_types.properties&quot;)"/>
+      </AuxValues>
+    </Component>
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="2"/>
@@ -71,7 +76,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="appsReportPanel" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="parameterTabbedPane" min="-2" pref="168" max="-2" attributes="0"/>
+              <Component id="parameterTabbedPane" min="-2" pref="194" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="parametersPanel" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
@@ -374,7 +379,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <EmptySpace min="0" pref="442" max="32767" attributes="0"/>
                   <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="parameterPanel" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
@@ -384,12 +389,12 @@
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="140" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="166" max="32767" attributes="0"/>
                   <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                          <Component id="parameterPanel" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <Group type="102" alignment="1" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="parameterPanel" max="32767" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -416,33 +421,16 @@
                               <Component id="sequenceLabel" linkSize="4" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="paramNameLabel" linkSize="4" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="paramLabel" linkSize="4" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="dataTypeLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="sequenceTextField" linkSize="2" pref="130" max="32767" attributes="0"/>
-                              <Component id="paramNameTextField" linkSize="2" alignment="0" max="32767" attributes="0"/>
-                              <Component id="labelTextField" linkSize="2" alignment="0" max="32767" attributes="0"/>
+                              <Component id="sequenceTextField" alignment="0" pref="328" max="32767" attributes="0"/>
+                              <Component id="paramNameTextField" alignment="0" max="32767" attributes="0"/>
+                              <Component id="labelTextField" max="32767" attributes="0"/>
+                              <Component id="dataTypeComboBox" alignment="0" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" attributes="0">
-                                  <Component id="dataTypeLabel" linkSize="3" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="dataTypeComboBox" linkSize="2" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                      <Component id="jLabel1" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="dependsOnLabel" linkSize="3" alignment="0" max="32767" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="dependsOnTextField" linkSize="2" max="32767" attributes="0"/>
-                                      <Component id="jComboBox1" min="-2" pref="130" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
-                          </Group>
-                          <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -453,24 +441,23 @@
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="sequenceLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="sequenceTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="dataTypeLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="dataTypeComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="paramNameLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="paramNameTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="dependsOnLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="dependsOnTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="paramLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="labelTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jComboBox1" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="dataTypeLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="dataTypeComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -479,16 +466,6 @@
                 <Component class="javax.swing.JLabel" name="sequenceLabel">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Sequence:"/>
-                  </Properties>
-                </Component>
-                <Component class="javax.swing.JLabel" name="paramNameLabel">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Name:"/>
-                  </Properties>
-                </Component>
-                <Component class="javax.swing.JLabel" name="paramLabel">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Label:"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JFormattedTextField" name="sequenceTextField">
@@ -505,6 +482,11 @@
                     </BindingProperty>
                   </BindingProperties>
                 </Component>
+                <Component class="javax.swing.JLabel" name="paramNameLabel">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Name:"/>
+                  </Properties>
+                </Component>
                 <Component class="javax.swing.JTextField" name="paramNameTextField">
                   <Properties>
                     <Property name="columns" type="int" value="5"/>
@@ -516,6 +498,11 @@
                       <Property name="incompletePathValue" type="java.lang.String" value=""/>
                     </BindingProperty>
                   </BindingProperties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="paramLabel">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Label:"/>
+                  </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="labelTextField">
                   <Properties>
@@ -546,32 +533,151 @@
                     </BindingProperty>
                   </BindingProperties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="dependsOnLabel">
+              </SubComponents>
+            </Container>
+          </SubComponents>
+        </Container>
+        <Container class="javax.swing.JPanel" name="controlTab">
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+              <JTabbedPaneConstraints tabName="Control">
+                <Property name="tabTitle" type="java.lang.String" value="Control"/>
+              </JTabbedPaneConstraints>
+            </Constraint>
+          </Constraints>
+
+          <Layout>
+            <DimensionLayout dim="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="controlPanel" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+            <DimensionLayout dim="1">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="controlPanel" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+          </Layout>
+          <SubComponents>
+            <Container class="javax.swing.JPanel" name="controlPanel">
+              <Properties>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                  <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+                    <TitledBorder title="Control">
+                      <Font PropertyName="font" name="Tahoma" size="11" style="1"/>
+                    </TitledBorder>
+                  </Border>
+                </Property>
+              </Properties>
+
+              <Layout>
+                <DimensionLayout dim="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="controlTypeLabel" linkSize="5" max="32767" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="controlTypeComboBox" pref="306" max="32767" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                      <Component id="displayColumnLabel" linkSize="5" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="queryLabel" linkSize="5" alignment="0" max="32767" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="queryComboBox" max="32767" attributes="0"/>
+                                      <Component id="displayColumnTextField" max="32767" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="valueColumnLabel" linkSize="5" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="valueColumnTextField" max="32767" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+                <DimensionLayout dim="1">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="controlTypeLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="controlTypeComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="queryLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="queryComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="displayColumnLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="displayColumnTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="valueColumnTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="valueColumnLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+              </Layout>
+              <SubComponents>
+                <Component class="javax.swing.JLabel" name="controlTypeLabel">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Depends On:"/>
+                    <Property name="text" type="java.lang.String" value="Control Type:"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JFormattedTextField" name="dependsOnTextField">
+                <Component class="javax.swing.JComboBox" name="controlTypeComboBox">
                   <BindingProperties>
-                    <BindingProperty name="value" source="parametersTable" sourcePath="${selectedElement.dependsOn}" target="dependsOnTextField" targetPath="value" updateStrategy="0" immediately="false">
+                    <BindingProperty name="elements" source="controTypeListBean" sourcePath="${sortedList}" target="controlTypeComboBox" targetPath="elements" updateStrategy="0" immediately="false"/>
+                    <BindingProperty name="selectedItem" source="parametersTable" sourcePath="${selectedElement.controlType}" target="controlTypeComboBox" targetPath="selectedItem" updateStrategy="0" immediately="false">
                       <Property name="nullValue" type="java.lang.Object" value="null"/>
                       <Property name="incompletePathValue" type="java.lang.Object" value="null"/>
                     </BindingProperty>
                   </BindingProperties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jLabel1">
+                <Component class="javax.swing.JLabel" name="queryLabel">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Type:"/>
+                    <Property name="text" type="java.lang.String" value="Query:"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JComboBox" name="jComboBox1">
-                  <BindingProperties>
-                    <BindingProperty name="elements" source="parameterTypeListBean" sourcePath="${list}" target="jComboBox1" targetPath="elements" updateStrategy="0" immediately="false"/>
-                    <BindingProperty name="selectedItem" source="parametersTable" sourcePath="${selectedElement.parameterType}" target="jComboBox1" targetPath="selectedItem" updateStrategy="0" immediately="false">
-                      <Property name="nullValue" type="java.lang.Object" value="null"/>
-                      <Property name="incompletePathValue" type="java.lang.Object" value="null"/>
-                    </BindingProperty>
-                  </BindingProperties>
+                <Component class="javax.swing.JComboBox" name="queryComboBox">
+                  <Properties>
+                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                      <StringArray count="0"/>
+                    </Property>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="displayColumnLabel">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Display Column:"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="displayColumnTextField">
+                </Component>
+                <Component class="javax.swing.JLabel" name="valueColumnLabel">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Value Column:"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="valueColumnTextField">
                 </Component>
               </SubComponents>
             </Container>
@@ -621,24 +727,36 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="defaultValueLabel" min="-2" max="-2" attributes="0"/>
+                      <Group type="102" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
-                                  <Component id="enableCheckBox" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                              </Group>
-                              <Group type="102" attributes="0">
-                                  <Component id="requiredCheckBox" min="-2" pref="73" max="-2" attributes="0"/>
-                                  <EmptySpace max="32767" attributes="0"/>
-                              </Group>
-                              <Group type="102" attributes="0">
-                                  <Component id="defaultValueTextField" pref="178" max="32767" attributes="0"/>
+                                  <Component id="defaultValueLabel" linkSize="8" min="-2" pref="73" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="listOfValuesCommand" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
+                                  <Component id="defaultValueTextField" max="32767" attributes="0"/>
+                                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                      <Component id="parameterTypeLabel" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="dependsOnLabel" linkSize="8" min="-2" pref="49" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="102" attributes="0">
+                                          <Component id="enableCheckBox" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="requiredCheckBox" min="-2" pref="73" max="-2" attributes="0"/>
+                                          <EmptySpace min="0" pref="189" max="32767" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" alignment="1" attributes="0">
+                                          <Group type="103" groupAlignment="1" attributes="0">
+                                              <Component id="parameterTypeComboBox" alignment="0" max="32767" attributes="0"/>
+                                              <Component id="dependsOnTextField" max="32767" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
                               </Group>
                           </Group>
                       </Group>
@@ -651,13 +769,23 @@
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="defaultValueLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="defaultValueTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="listOfValuesCommand" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="requiredCheckBox" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="dependsOnLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="dependsOnTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="enableCheckBox" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="12" max="32767" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="parameterTypeLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="parameterTypeComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="enableCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="requiredCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -683,13 +811,32 @@
                     </BindingProperty>
                   </BindingProperties>
                 </Component>
-                <Component class="javax.swing.JButton" name="listOfValuesCommand">
+                <Component class="javax.swing.JLabel" name="dependsOnLabel">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="List of Values"/>
+                    <Property name="text" type="java.lang.String" value="Depends On:"/>
                   </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="listOfValuesCommandActionPerformed"/>
-                  </Events>
+                </Component>
+                <Component class="javax.swing.JFormattedTextField" name="dependsOnTextField">
+                  <BindingProperties>
+                    <BindingProperty name="value" source="parametersTable" sourcePath="${selectedElement.dependsOn}" target="dependsOnTextField" targetPath="value" updateStrategy="0" immediately="false">
+                      <Property name="nullValue" type="java.lang.Object" value="null"/>
+                      <Property name="incompletePathValue" type="java.lang.Object" value="null"/>
+                    </BindingProperty>
+                  </BindingProperties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="parameterTypeLabel">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Type:"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JComboBox" name="parameterTypeComboBox">
+                  <BindingProperties>
+                    <BindingProperty name="elements" source="parameterTypeListBean" sourcePath="${list}" target="parameterTypeComboBox" targetPath="elements" updateStrategy="0" immediately="false"/>
+                    <BindingProperty name="selectedItem" source="parametersTable" sourcePath="${selectedElement.parameterType}" target="parameterTypeComboBox" targetPath="selectedItem" updateStrategy="0" immediately="false">
+                      <Property name="nullValue" type="java.lang.Object" value="null"/>
+                      <Property name="incompletePathValue" type="java.lang.Object" value="null"/>
+                    </BindingProperty>
+                  </BindingProperties>
                 </Component>
                 <Component class="javax.swing.JCheckBox" name="enableCheckBox">
                   <Properties>

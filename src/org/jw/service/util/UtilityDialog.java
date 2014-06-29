@@ -24,6 +24,7 @@ import org.jw.service.gui.DirectionMapDialog;
 import org.jw.service.gui.LocationMapDialog;
 import org.jw.service.gui.MeetingPlaceDialog;
 import org.jw.service.gui.ProximityMapDialog;
+import org.jw.service.gui.QueryTextDialog;
 import org.jw.service.gui.ReportPrintDialog;
 import org.jw.service.gui.ServiceGroupDialog;
 import org.jw.service.gui.StatisticsDialog;
@@ -50,6 +51,7 @@ public class UtilityDialog {
     public static final String APPS_REPORT_PARAMETERS = "apps.report.parameters";
     public static final String STATISTICS = "statistics";
     public static final String CALL_STATUS = "call.status";
+    public static final String QUERY_TEXT = "query.text";
 
     public static UtilityDialog create(JFrame parent, boolean modal, EntityManager em, UtilityTree utilTree, UtilityTable utilTable, UtilityReportPrint utilPrint, List<Contact> contactList) {
         return new UtilityDialog(parent, modal, em, utilTree, utilTable, utilPrint, contactList);
@@ -120,6 +122,10 @@ public class UtilityDialog {
                     dialog = new CallStatusDialog(parent, true, em);
                     dialog.pack();                    
                     break;
+            case UtilityDialog.QUERY_TEXT :    
+                    dialog = new QueryTextDialog(parent, true, em);
+                    dialog.pack();
+                    break;                
         }
         
         if(dialog != null){

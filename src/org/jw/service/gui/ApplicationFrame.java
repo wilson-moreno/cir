@@ -50,6 +50,7 @@ import org.jw.service.file.filter.FileFilterImage;
 import org.jw.service.gui.component.MultipleRecordCrudPanel;
 import org.jw.service.gui.focus.DefaultFocusTraversalPolicy;
 import org.jw.service.list.ContactMatcher;
+import org.jw.service.list.selection.listener.ContactTableSelectionListener;
 import org.jw.service.listener.combobox.DefaultComboBoxModelListListener;
 import org.jw.service.listener.item.DefaultServiceGroupItemListener;
 import org.jw.service.listener.selection.ContactListSelectionListener;
@@ -105,18 +106,16 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         contactList = org.jdesktop.observablecollections.ObservableCollections.observableList(new java.util.ArrayList<org.jw.service.entity.Contact>());
-        territoryListBean = new org.jw.service.beans.ListBean(territoryDAO);
         statusListBean = new org.jw.service.beans.ListBean(statusDAO);
         serviceGroupListBean = new org.jw.service.beans.ListBean(serviceGroupDAO);
         defaultDateCellRenderer = new org.jw.service.table.cell.renderer.DefaultDateCellRenderer();
         documentFilterFactory = new org.jw.service.document.filter.DocumentFilterFactory();
-        taskMonitorPanel = new org.jw.service.gui.component.TaskMonitorPanel();
+        defaultComboBoxModel = new javax.swing.DefaultComboBoxModel();
+        territoryListBean = new org.jw.service.beans.ListBean(this.territoryDAO);
         mainCommandPanel = new org.jw.service.gui.component.MainCommandPanel();
+        viewModeComboBox = new javax.swing.JComboBox();
         treeScrollPane = new javax.swing.JScrollPane();
         contactTree = new javax.swing.JTree();
-        contactsPanel = new javax.swing.JPanel();
-        contactsScrollPane = new javax.swing.JScrollPane();
-        contactsTable = new javax.swing.JTable();
         tabbedPane = new javax.swing.JTabbedPane();
         personalTab = new javax.swing.JPanel();
         profilePicturePanel = new javax.swing.JPanel();
@@ -124,24 +123,24 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         personalPanel = new javax.swing.JPanel();
         recordNumberLabel = new javax.swing.JLabel();
         recordNumberTextField = new javax.swing.JTextField();
+        recordDateLabel = new javax.swing.JLabel();
+        recordDateChooser = new com.toedter.calendar.JDateChooser();
         lastNameLabel = new javax.swing.JLabel();
         lastNameTextField = new javax.swing.JTextField();
+        firstNameLabel = new javax.swing.JLabel();
+        firstNameTextField = new javax.swing.JTextField();
         nickNameLabel = new javax.swing.JLabel();
         nickNameTextField = new javax.swing.JTextField();
-        sexLabel = new javax.swing.JLabel();
-        recordDateLabel = new javax.swing.JLabel();
-        firstNameLabel = new javax.swing.JLabel();
         birthdateLabel = new javax.swing.JLabel();
-        statusLabel = new javax.swing.JLabel();
-        firstNameTextField = new javax.swing.JTextField();
-        statusComboBox = new javax.swing.JComboBox();
+        birthDateChooser = new com.toedter.calendar.JDateChooser();
+        sexLabel = new javax.swing.JLabel();
         sexComboBox = new javax.swing.JComboBox();
+        statusLabel = new javax.swing.JLabel();
+        statusComboBox = new javax.swing.JComboBox();
         maritalStatusLabel = new javax.swing.JLabel();
         maritalStatusComboBox = new javax.swing.JComboBox();
         nationalityLabel = new javax.swing.JLabel();
         nationalityTextField = new javax.swing.JTextField();
-        birthDateChooser = new com.toedter.calendar.JDateChooser();
-        recordDateChooser = new com.toedter.calendar.JDateChooser();
         commandCardPanel = new javax.swing.JPanel();
         setProfilePictureCommand = new javax.swing.JButton();
         removeProfilePictureCommand = new javax.swing.JButton();
@@ -149,11 +148,11 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         addressPanel = new javax.swing.JPanel();
         houseNumberLabel = new javax.swing.JLabel();
         houseNumberTextField = new javax.swing.JTextField();
-        barangayLabel = new javax.swing.JLabel();
-        cityTextField = new javax.swing.JTextField();
         streetLabel = new javax.swing.JLabel();
-        cityLabel = new javax.swing.JLabel();
         streetTextField = new javax.swing.JTextField();
+        cityLabel = new javax.swing.JLabel();
+        cityTextField = new javax.swing.JTextField();
+        barangayLabel = new javax.swing.JLabel();
         barangayTextField = new javax.swing.JTextField();
         areaLabel = new javax.swing.JLabel();
         areaTextField = new javax.swing.JTextField();
@@ -168,14 +167,14 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         workBackgroundLabel = new javax.swing.JLabel();
         workBackgroundTextField = new javax.swing.JTextField();
         guardiansNameLabel = new javax.swing.JLabel();
+        guardiansNameTextField = new javax.swing.JTextField();
         fathersNameLabel = new javax.swing.JLabel();
         fathersNameTextField = new javax.swing.JTextField();
         mothersNameLabel = new javax.swing.JLabel();
         mothersNameTextField = new javax.swing.JTextField();
         religionLabel = new javax.swing.JLabel();
-        foundByLabel = new javax.swing.JLabel();
-        guardiansNameTextField = new javax.swing.JTextField();
         religionTextField = new javax.swing.JTextField();
+        foundByLabel = new javax.swing.JLabel();
         foundByTextField = new javax.swing.JTextField();
         communicationTab = new javax.swing.JPanel();
         communicationPanel = new javax.swing.JPanel();
@@ -201,7 +200,12 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         otherTab = new javax.swing.JPanel();
         otherPanel = new javax.swing.JPanel();
         printedCheckBox = new javax.swing.JCheckBox();
-        viewModeComboBox = new javax.swing.JComboBox();
+        jLabel1 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        contactsPanel = new javax.swing.JPanel();
+        contactsScrollPane = new javax.swing.JScrollPane();
+        contactsTable = new javax.swing.JTable();
+        taskMonitorPanel = new org.jw.service.gui.component.TaskMonitorPanel();
         menuBar = new javax.swing.JMenuBar();
         systemMenu = new javax.swing.JMenu();
         optionsMenu = new javax.swing.JMenu();
@@ -213,12 +217,10 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         callStatusMenuItem = new javax.swing.JMenuItem();
         toolsMenu = new javax.swing.JMenu();
         reportTemplatesMenuItem = new javax.swing.JMenuItem();
+        queryTextMenuItem = new javax.swing.JMenuItem();
         proximityMapMenuItem = new javax.swing.JMenuItem();
         excelImportExportMenuItem = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
-
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.serviceGroupId.territoryCollection}"), territoryListBean, org.jdesktop.beansbinding.BeanProperty.create("list"));
-        bindingGroup.addBinding(binding);
 
         defaultDateCellRenderer.setText("defaultDateCellRenderer1");
 
@@ -232,84 +234,14 @@ public final class ApplicationFrame extends javax.swing.JFrame {
             }
         });
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, serviceGroupListBean, org.jdesktop.beansbinding.ELProperty.create("${defaultComboBoxModel}"), mainCommandPanel, org.jdesktop.beansbinding.BeanProperty.create("defaultComboBoxModel"));
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, serviceGroupListBean, org.jdesktop.beansbinding.ELProperty.create("${defaultComboBoxModel}"), mainCommandPanel, org.jdesktop.beansbinding.BeanProperty.create("defaultComboBoxModel"));
         bindingGroup.addBinding(binding);
+
+        viewModeComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Show All", "Show Active Only" }));
 
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("root");
         contactTree.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
         treeScrollPane.setViewportView(contactTree);
-
-        contactsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Contacts", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
-
-        contactsTable.setAutoCreateRowSorter(true);
-        contactsTable.setIntercellSpacing(new java.awt.Dimension(2, 2));
-        contactsTable.setRowHeight(18);
-        contactsTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        contactsTable.getTableHeader().setReorderingAllowed(false);
-
-        org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactList, contactsTable);
-        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${saveState}"));
-        columnBinding.setColumnName("");
-        columnBinding.setColumnClass(String.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${recordNumber}"));
-        columnBinding.setColumnName("Record #");
-        columnBinding.setColumnClass(String.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${lastName}"));
-        columnBinding.setColumnName("Last Name");
-        columnBinding.setColumnClass(String.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${firstName}"));
-        columnBinding.setColumnName("First Name");
-        columnBinding.setColumnClass(String.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${birthdate}"));
-        columnBinding.setColumnName("Birthdate");
-        columnBinding.setColumnClass(java.util.Date.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${sex}"));
-        columnBinding.setColumnName("Sex");
-        columnBinding.setColumnClass(String.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${maritalStatus}"));
-        columnBinding.setColumnName("Civil Status");
-        columnBinding.setColumnClass(String.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${statusId}"));
-        columnBinding.setColumnName("Status");
-        columnBinding.setColumnClass(org.jw.service.entity.ContactStatus.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${printed}"));
-        columnBinding.setColumnName("Printed");
-        columnBinding.setColumnClass(Boolean.class);
-        columnBinding.setEditable(false);
-        bindingGroup.addBinding(jTableBinding);
-        jTableBinding.bind();
-        contactsScrollPane.setViewportView(contactsTable);
-        if (contactsTable.getColumnModel().getColumnCount() > 0) {
-            contactsTable.getColumnModel().getColumn(0).setPreferredWidth(10);
-            contactsTable.getColumnModel().getColumn(0).setCellRenderer(org.jw.service.table.cell.renderer.DefaultStateCellRenderer.create());
-            contactsTable.getColumnModel().getColumn(4).setCellRenderer(defaultDateCellRenderer);
-            contactsTable.getColumnModel().getColumn(5).setPreferredWidth(50);
-        }
-
-        javax.swing.GroupLayout contactsPanelLayout = new javax.swing.GroupLayout(contactsPanel);
-        contactsPanel.setLayout(contactsPanelLayout);
-        contactsPanelLayout.setHorizontalGroup(
-            contactsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(contactsPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(contactsScrollPane)
-                .addContainerGap())
-        );
-        contactsPanelLayout.setVerticalGroup(
-            contactsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(contactsPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(contactsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 201, Short.MAX_VALUE)
-                .addContainerGap())
-        );
 
         profilePicturePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Profile Picture", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
@@ -347,6 +279,16 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
+        recordDateLabel.setLabelFor(recordDateChooser);
+        recordDateLabel.setText("Record Date:");
+
+        recordDateChooser.setNextFocusableComponent(firstNameTextField);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.recordDate}"), recordDateChooser, org.jdesktop.beansbinding.BeanProperty.create("date"), "recordDate");
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
+
         lastNameLabel.setLabelFor(lastNameTextField);
         lastNameLabel.setText("Last Name:");
         lastNameLabel.setNextFocusableComponent(firstNameLabel);
@@ -366,6 +308,18 @@ public final class ApplicationFrame extends javax.swing.JFrame {
             }
         });
 
+        firstNameLabel.setLabelFor(firstNameTextField);
+        firstNameLabel.setText("First Name:");
+
+        firstNameTextField.setColumns(5);
+        firstNameTextField.setDocument(documentFilterFactory.getSizeFilter30());
+        firstNameTextField.setNextFocusableComponent(nickNameTextField);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.firstName}"), firstNameTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "First Name");
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
+        bindingGroup.addBinding(binding);
+
         nickNameLabel.setLabelFor(nickNameTextField);
         nickNameLabel.setText("Nick Name:");
 
@@ -378,29 +332,29 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
-        sexLabel.setLabelFor(sexComboBox);
-        sexLabel.setText("Sex:");
-
-        recordDateLabel.setLabelFor(recordDateChooser);
-        recordDateLabel.setText("Record Date:");
-
-        firstNameLabel.setLabelFor(firstNameTextField);
-        firstNameLabel.setText("First Name:");
-
         birthdateLabel.setLabelFor(birthDateChooser);
         birthdateLabel.setText("Birthdate:");
 
+        birthDateChooser.setNextFocusableComponent(sexComboBox);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.birthdate}"), birthDateChooser, org.jdesktop.beansbinding.BeanProperty.create("date"), "birthdate");
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
+
+        sexLabel.setLabelFor(sexComboBox);
+        sexLabel.setText("Sex:");
+
+        sexComboBox.setModel(new javax.swing.DefaultComboBoxModel(sexProperties.getValues().toArray()));
+        sexComboBox.setNextFocusableComponent(statusComboBox);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.sex}"), sexComboBox, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"), "sex");
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
+
         statusLabel.setLabelFor(statusComboBox);
         statusLabel.setText("Status:");
-
-        firstNameTextField.setColumns(5);
-        firstNameTextField.setDocument(documentFilterFactory.getSizeFilter30());
-        firstNameTextField.setNextFocusableComponent(nickNameTextField);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.firstName}"), firstNameTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "First Name");
-        binding.setSourceNullValue("");
-        binding.setSourceUnreadableValue("");
-        bindingGroup.addBinding(binding);
 
         statusComboBox.setNextFocusableComponent(maritalStatusComboBox);
 
@@ -412,14 +366,6 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         binding.setSourceUnreadableValue(null);
         bindingGroup.addBinding(binding);
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, statusListBean, org.jdesktop.beansbinding.ELProperty.create("${defaultComboBoxModel}"), statusComboBox, org.jdesktop.beansbinding.BeanProperty.create("model"));
-        bindingGroup.addBinding(binding);
-
-        sexComboBox.setModel(new javax.swing.DefaultComboBoxModel(sexProperties.getValues().toArray()));
-        sexComboBox.setNextFocusableComponent(statusComboBox);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.sex}"), sexComboBox, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"), "sex");
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue(null);
         bindingGroup.addBinding(binding);
 
         maritalStatusLabel.setLabelFor(maritalStatusComboBox);
@@ -443,20 +389,6 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.nationality}"), nationalityTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "nationality");
         binding.setSourceNullValue("");
         binding.setSourceUnreadableValue("");
-        bindingGroup.addBinding(binding);
-
-        birthDateChooser.setNextFocusableComponent(sexComboBox);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.birthdate}"), birthDateChooser, org.jdesktop.beansbinding.BeanProperty.create("date"), "birthdate");
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue(null);
-        bindingGroup.addBinding(binding);
-
-        recordDateChooser.setNextFocusableComponent(firstNameTextField);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.recordDate}"), recordDateChooser, org.jdesktop.beansbinding.BeanProperty.create("date"), "recordDate");
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue(null);
         bindingGroup.addBinding(binding);
 
         javax.swing.GroupLayout personalPanelLayout = new javax.swing.GroupLayout(personalPanel);
@@ -608,8 +540,20 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
-        barangayLabel.setLabelFor(barangayTextField);
-        barangayLabel.setText("Barangay:");
+        streetLabel.setLabelFor(streetTextField);
+        streetLabel.setText("Street:");
+
+        streetTextField.setColumns(10);
+        streetTextField.setDocument(documentFilterFactory.getSizeFilter200());
+        streetTextField.setNextFocusableComponent(cityTextField);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.street}"), streetTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "Street");
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
+        bindingGroup.addBinding(binding);
+
+        cityLabel.setLabelFor(cityTextField);
+        cityLabel.setText("City:");
 
         cityTextField.setColumns(10);
         cityTextField.setDocument(documentFilterFactory.getSizeFilter50());
@@ -620,20 +564,8 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
-        streetLabel.setLabelFor(streetTextField);
-        streetLabel.setText("Street:");
-
-        cityLabel.setLabelFor(cityTextField);
-        cityLabel.setText("City:");
-
-        streetTextField.setColumns(10);
-        streetTextField.setDocument(documentFilterFactory.getSizeFilter200());
-        streetTextField.setNextFocusableComponent(cityTextField);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.street}"), streetTextField, org.jdesktop.beansbinding.BeanProperty.create("text"), "Street");
-        binding.setSourceNullValue("");
-        binding.setSourceUnreadableValue("");
-        bindingGroup.addBinding(binding);
+        barangayLabel.setLabelFor(barangayTextField);
+        barangayLabel.setText("Barangay:");
 
         barangayTextField.setColumns(10);
         barangayTextField.setDocument(documentFilterFactory.getSizeFilter20());
@@ -667,8 +599,6 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.territoryId}"), territoryComboBox, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         binding.setSourceNullValue(null);
         binding.setSourceUnreadableValue(null);
-        bindingGroup.addBinding(binding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, territoryListBean, org.jdesktop.beansbinding.ELProperty.create("${defaultComboBoxModel}"), territoryComboBox, org.jdesktop.beansbinding.BeanProperty.create("model"));
         bindingGroup.addBinding(binding);
 
         javax.swing.GroupLayout addressPanelLayout = new javax.swing.GroupLayout(addressPanel);
@@ -790,6 +720,15 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         guardiansNameLabel.setLabelFor(guardiansNameTextField);
         guardiansNameLabel.setText("Guardian:");
 
+        guardiansNameTextField.setColumns(5);
+        guardiansNameTextField.setDocument(documentFilterFactory.getSizeFilter50());
+        guardiansNameTextField.setNextFocusableComponent(fathersNameTextField);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.guardiansName}"), guardiansNameTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
+        bindingGroup.addBinding(binding);
+
         fathersNameLabel.setLabelFor(fathersNameTextField);
         fathersNameLabel.setText("Father:");
 
@@ -817,18 +756,6 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         religionLabel.setLabelFor(religionTextField);
         religionLabel.setText("Religion:");
 
-        foundByLabel.setLabelFor(foundByTextField);
-        foundByLabel.setText("Found by:");
-
-        guardiansNameTextField.setColumns(5);
-        guardiansNameTextField.setDocument(documentFilterFactory.getSizeFilter50());
-        guardiansNameTextField.setNextFocusableComponent(fathersNameTextField);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.guardiansName}"), guardiansNameTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("");
-        binding.setSourceUnreadableValue("");
-        bindingGroup.addBinding(binding);
-
         religionTextField.setColumns(5);
         religionTextField.setDocument(documentFilterFactory.getSizeFilter50());
         religionTextField.setNextFocusableComponent(mothersNameTextField);
@@ -837,6 +764,9 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         binding.setSourceNullValue("");
         binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
+
+        foundByLabel.setLabelFor(foundByTextField);
+        foundByLabel.setText("Found by:");
 
         foundByTextField.setColumns(5);
         foundByTextField.setDocument(documentFilterFactory.getSizeFilter50());
@@ -1192,21 +1122,42 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         binding.setSourceUnreadableValue(false);
         bindingGroup.addBinding(binding);
 
+        jLabel1.setText("Current Age:");
+
+        jTextField1.setEditable(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.age}"), jTextField1, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("null");
+        binding.setSourceUnreadableValue("null");
+        bindingGroup.addBinding(binding);
+
         javax.swing.GroupLayout otherPanelLayout = new javax.swing.GroupLayout(otherPanel);
         otherPanel.setLayout(otherPanelLayout);
         otherPanelLayout.setHorizontalGroup(
             otherPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(otherPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(printedCheckBox)
-                .addContainerGap(448, Short.MAX_VALUE))
+                .addGroup(otherPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(otherPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(printedCheckBox))
+                .addContainerGap(282, Short.MAX_VALUE))
         );
+
+        otherPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel1, printedCheckBox});
+
         otherPanelLayout.setVerticalGroup(
             otherPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(otherPanelLayout.createSequentialGroup()
                 .addContainerGap()
+                .addGroup(otherPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(printedCheckBox)
-                .addContainerGap(117, Short.MAX_VALUE))
+                .addContainerGap(86, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout otherTabLayout = new javax.swing.GroupLayout(otherTab);
@@ -1228,7 +1179,77 @@ public final class ApplicationFrame extends javax.swing.JFrame {
 
         tabbedPane.addTab("Other", otherTab);
 
-        viewModeComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Show All", "Show Active Only" }));
+        contactsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Contacts", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+
+        contactsTable.setAutoCreateRowSorter(true);
+        contactsTable.setIntercellSpacing(new java.awt.Dimension(2, 2));
+        contactsTable.setRowHeight(18);
+        contactsTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        contactsTable.getTableHeader().setReorderingAllowed(false);
+
+        org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactList, contactsTable);
+        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${saveState}"));
+        columnBinding.setColumnName("");
+        columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${recordNumber}"));
+        columnBinding.setColumnName("Record #");
+        columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${lastName}"));
+        columnBinding.setColumnName("Last Name");
+        columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${firstName}"));
+        columnBinding.setColumnName("First Name");
+        columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${birthdate}"));
+        columnBinding.setColumnName("Birthdate");
+        columnBinding.setColumnClass(java.util.Date.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${sex}"));
+        columnBinding.setColumnName("Sex");
+        columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${maritalStatus}"));
+        columnBinding.setColumnName("Civil Status");
+        columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${statusId}"));
+        columnBinding.setColumnName("Status");
+        columnBinding.setColumnClass(org.jw.service.entity.ContactStatus.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${printed}"));
+        columnBinding.setColumnName("Printed");
+        columnBinding.setColumnClass(Boolean.class);
+        columnBinding.setEditable(false);
+        bindingGroup.addBinding(jTableBinding);
+        jTableBinding.bind();
+        contactsScrollPane.setViewportView(contactsTable);
+        if (contactsTable.getColumnModel().getColumnCount() > 0) {
+            contactsTable.getColumnModel().getColumn(0).setPreferredWidth(10);
+            contactsTable.getColumnModel().getColumn(0).setCellRenderer(org.jw.service.table.cell.renderer.DefaultStateCellRenderer.create());
+            contactsTable.getColumnModel().getColumn(4).setCellRenderer(defaultDateCellRenderer);
+            contactsTable.getColumnModel().getColumn(5).setPreferredWidth(50);
+        }
+
+        javax.swing.GroupLayout contactsPanelLayout = new javax.swing.GroupLayout(contactsPanel);
+        contactsPanel.setLayout(contactsPanelLayout);
+        contactsPanelLayout.setHorizontalGroup(
+            contactsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(contactsPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(contactsScrollPane)
+                .addContainerGap())
+        );
+        contactsPanelLayout.setVerticalGroup(
+            contactsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(contactsPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(contactsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 201, Short.MAX_VALUE)
+                .addContainerGap())
+        );
 
         systemMenu.setText("System");
         menuBar.add(systemMenu);
@@ -1266,6 +1287,10 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         reportTemplatesMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.report.templates.png"))); // NOI18N
         reportTemplatesMenuItem.setText("Reports Templates");
         toolsMenu.add(reportTemplatesMenuItem);
+
+        queryTextMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.data.query.icon.png"))); // NOI18N
+        queryTextMenuItem.setText("Query");
+        toolsMenu.add(queryTextMenuItem);
 
         proximityMapMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.proximity.map.png"))); // NOI18N
         proximityMapMenuItem.setText("Proximity Map");
@@ -1366,6 +1391,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         openContactSearchAction = new DefaultOpenAction(this.mainCommandPanel.getSearchCommand(), UtilityDialog.CONTACT_SEARCH, utilDialog, null);
         openStatisticsAction = new DefaultOpenAction(this.mainCommandPanel.getStatisticsCommand() , UtilityDialog.STATISTICS, utilDialog, null);
         openCallStatusAction = new DefaultOpenAction(this.callStatusMenuItem, UtilityDialog.CALL_STATUS, utilDialog, null);
+        openQueryTextAction = new DefaultOpenAction(this.queryTextMenuItem, UtilityDialog.QUERY_TEXT, utilDialog, null);
         this.mainCommandPanel.getServiceGroupComboBox().addItemListener(serviceGroupItemListener);
         
         fcOpenAction = new DefaultFileChooserAction(this.setProfilePictureCommand, this, FileFilterImage.create(), "Open", JFileChooser.FILES_ONLY, null);        
@@ -1380,6 +1406,10 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         buildCrudTask();
         addIconPropertyChangeListener();        
         setCustomKeyBinders();        
+        
+        ContactTableSelectionListener selectionListener;
+        selectionListener = new ContactTableSelectionListener(utilTable, this.territoryComboBox);
+        //contactsTable.getSelectionModel().addListSelectionListener(selectionListener);
     }
     
     private void buildCrudTask(){                
@@ -1551,6 +1581,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     private javax.swing.JPanel contactsPanel;
     private javax.swing.JScrollPane contactsScrollPane;
     private javax.swing.JTable contactsTable;
+    private javax.swing.DefaultComboBoxModel defaultComboBoxModel;
     private org.jw.service.table.cell.renderer.DefaultDateCellRenderer defaultDateCellRenderer;
     private org.jw.service.document.filter.DocumentFilterFactory documentFilterFactory;
     private javax.swing.JLabel emailAddressLabel;
@@ -1575,6 +1606,8 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     private javax.swing.JTextArea historyTextArea;
     private javax.swing.JLabel houseNumberLabel;
     private javax.swing.JTextField houseNumberTextField;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel lastNameLabel;
     private javax.swing.JTextField lastNameTextField;
     private org.jw.service.gui.component.MainCommandPanel mainCommandPanel;
@@ -1608,6 +1641,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     private javax.swing.JLabel profilePictureLabel;
     private javax.swing.JPanel profilePicturePanel;
     private javax.swing.JMenuItem proximityMapMenuItem;
+    private javax.swing.JMenuItem queryTextMenuItem;
     private com.toedter.calendar.JDateChooser recordDateChooser;
     private javax.swing.JLabel recordDateLabel;
     private javax.swing.JLabel recordNumberLabel;
@@ -1665,6 +1699,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     DefaultOpenAction openContactSearchAction;
     DefaultOpenAction openStatisticsAction;
     DefaultOpenAction openCallStatusAction;
+    DefaultOpenAction openQueryTextAction;
     DefaultContactPrintAction contactPrintAction;
     DataAccessObject<Contact> contactDAO;
     DataAccessObject<ContactStatus> statusDAO;

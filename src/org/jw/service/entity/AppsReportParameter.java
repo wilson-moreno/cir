@@ -46,6 +46,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "AppsReportParameter.findByCreatedDatetime", query = "SELECT a FROM AppsReportParameter a WHERE a.createdDatetime = :createdDatetime"),
     @NamedQuery(name = "AppsReportParameter.findByUpdatedDatetime", query = "SELECT a FROM AppsReportParameter a WHERE a.updatedDatetime = :updatedDatetime")})
 public class AppsReportParameter implements Serializable, ObservableEntity, SilentSetter, Comparable<AppsReportParameter> {
+    @JoinColumn(name = "QUERY_TEXT_ID", referencedColumnName = "ID")
+    @ManyToOne
+    private QueryText queryTextId;
     public static final String PROP_DEFAULTVALUE = "defaultValue";
     public static final String PROP_PARAMETERTYPE = "parameterType";
     @Column(name = "DEFAULT_VALUE")
@@ -436,6 +439,16 @@ public class AppsReportParameter implements Serializable, ObservableEntity, Sile
     @Override
     public String getImplementingClassName() {
         return "Apps.Report.Parameter";
+    }
+
+    public QueryText getQueryTextId() {
+        return queryTextId;
+    }
+
+    public void setQueryTextId(QueryText queryTextId) {
+        QueryText oldQueryTextId = this.queryTextId;
+        this.queryTextId = queryTextId;
+        propertyChangeSupport.firePropertyChange("queryTextId", oldQueryTextId, queryTextId);
     }
     
 }
