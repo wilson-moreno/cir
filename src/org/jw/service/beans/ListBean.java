@@ -20,11 +20,11 @@ import org.jw.service.util.UtilityProperties;
  *
  * @author Wilson
  */
-public class ListBean {
+public class ListBean<T> {
     public static final String PROP_LIST = "list";
     public static final String PROP_DEFAULTCOMBOBOXMODEL = "defaultComboBoxModel";
     private List list;    
-    private DefaultComboBoxModel<Object> defaultComboBoxModel;
+    private DefaultComboBoxModel<T> defaultComboBoxModel;
     private final transient PropertyChangeSupport propertyChangeSupport = new java.beans.PropertyChangeSupport(this);
     
     
@@ -38,7 +38,7 @@ public class ListBean {
     }
 
     public ListBean(Object[] objects){
-        this.list = Arrays.asList(objects);
+        this.list = (List<T>) Arrays.asList(objects);
     }
     
     public ListBean(DataAccessObject dao){
@@ -48,17 +48,17 @@ public class ListBean {
     /**
      * @return the list
      */
-    public List<Object> getList() {
+    public List<T> getList() {
         return list;
     }
     
-    public List getSortedList(){
+    public List<T> getSortedList(){
         Collections.sort(list);
         return list;
     }
     
-    public void setList(List<Object> list){
-        List<Object> oldList = this.list;
+    public void setList(List<T> list){
+        List<T> oldList = this.list;
         this.list = list;
         propertyChangeSupport.firePropertyChange(PROP_LIST, oldList, list);
     }

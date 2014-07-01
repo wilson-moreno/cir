@@ -214,9 +214,9 @@ public class UtilityDownload {
         String markers = "";
         
         for(Contact contact : territory.getContactCollection()){            
-            if(!contact.getLocationMapCollection().isEmpty()){
+            if(contact.getLocationMap() != null){
                 LocationMap locationMap;
-                locationMap = contact.getLocationMapCollection().iterator().next();
+                locationMap = contact.getLocationMap();
                 markers = markers.concat(createMarker(locationMap));
             }
         }

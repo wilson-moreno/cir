@@ -267,7 +267,9 @@ public class Territory implements Serializable, ObservableEntity, SilentSetter, 
     }
 
     public void setMapImage(byte[] mapImage) {
+        byte[] oldMapImage = this.mapImage;
         this.mapImage = mapImage;
+        propertyChangeSupport.firePropertyChange("mapImage", oldMapImage, mapImage);
     }
 
     public ServiceGroup getServiceGroupId() {

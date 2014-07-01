@@ -59,7 +59,7 @@ public class DefaultDirectionMapDownloadWorker extends SwingWorker<byte[], Strin
             mapIO.getSource().setImage(this.get());
             mapIO.getSource().setDirection(direction);
         } catch (InterruptedException | ExecutionException ex) {
-            Logger.getLogger(DefaultLocationMapDownloadWorker.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DefaultDownloadLocationMapWorker.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

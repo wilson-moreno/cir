@@ -6,6 +6,8 @@
 
 package org.jw.service.gui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Collections;
 import javax.persistence.EntityManager;
 import org.jdesktop.observablecollections.ObservableList;
@@ -34,7 +36,7 @@ public class TerritoryDialog extends javax.swing.JDialog {
     private final DataAccessObject<Territory> territoryDAO;
     private final DataAccessObject<ServiceGroup> sgDAO;
     private final ObservableListListener listListener;
-    
+    private final EntityManager em;
     
     /**
      * Creates new form TerritoryDialog
@@ -47,6 +49,7 @@ public class TerritoryDialog extends javax.swing.JDialog {
         this.territoryDAO = DataAccessObject.create(em, Territory.class);
         this.sgDAO = DataAccessObject.create(em, ServiceGroup.class);
         this.listListener = listListener;
+        this.em = em;
         initComponents();
         initMyComponents();
     }
@@ -54,7 +57,7 @@ public class TerritoryDialog extends javax.swing.JDialog {
     private void initMyComponents(){                
         territoryList.addAll(territoryDAO.readAll());
         Collections.sort(territoryList);
-        utilTable = UtilityTable.create(territoryTable, territoryList);
+        //UtilityTable<Territory> utilTable = UtilityTable.create(territoryTable, territoryList);
         ((ObservableList)territoryList).addObservableListListener(listListener);        
         DefaultTaskBuilder<Territory> taskBuilder = new DefaultTaskBuilder<>();
         taskBuilder.setEntityName("status");
@@ -74,10 +77,22 @@ public class TerritoryDialog extends javax.swing.JDialog {
         for(ServiceGroup serviceGroup : sgDAO.readAll())
             this.serviceGroupComboBox.addItem(serviceGroup);
         
-        UtilityTable<Territory> utilTable = UtilityTable.create(territoryTable, territoryList);
+        final UtilityTable<Territory> utilTable = UtilityTable.create(territoryTable, territoryList);
         setActionValidators(taskBuilder, utilTable);
         
+        final javax.swing.JDialog parent = this;
         
+        this.mapTerritoryCommand.addActionListener(
+            new ActionListener(){
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    ProximityMapEditorDialog dialog = new ProximityMapEditorDialog(parent, true, em, utilTable);
+                    dialog.pack();
+                    dialog.setLocationRelativeTo(parent);
+                    dialog.setVisible(true);
+                }                    
+            }
+        );
     }
     
     private void setActionValidators(DefaultTaskBuilder taskBuilder, UtilityTable<Territory> utilTable){
@@ -109,6 +124,11 @@ public class TerritoryDialog extends javax.swing.JDialog {
         documentFilterFactory = new org.jw.service.document.filter.DocumentFilterFactory();
         taskMonitorPanel = new org.jw.service.gui.component.TaskMonitorPanel();
         crudPanel = new org.jw.service.gui.component.MultipleRecordCrudPanel();
+        territoryListPanel = new javax.swing.JPanel();
+        territoryScrollPane = new javax.swing.JScrollPane();
+        territoryTable = new javax.swing.JTable();
+        territoryTabbedPane = new javax.swing.JTabbedPane();
+        territoryTab = new javax.swing.JPanel();
         territoryPanel = new javax.swing.JPanel();
         territoryNameLabel = new javax.swing.JLabel();
         descriptionLabel = new javax.swing.JLabel();
@@ -117,94 +137,14 @@ public class TerritoryDialog extends javax.swing.JDialog {
         enableCheckBox = new javax.swing.JCheckBox();
         serviceGroupLabel = new javax.swing.JLabel();
         serviceGroupComboBox = new javax.swing.JComboBox();
-        territoryListPanel = new javax.swing.JPanel();
-        territoryScrollPane = new javax.swing.JScrollPane();
-        territoryTable = new javax.swing.JTable();
+        territoryMapTab = new javax.swing.JPanel();
+        territoryMapPanel = new javax.swing.JPanel();
+        territoryMapToolBar = new javax.swing.JToolBar();
+        mapTerritoryCommand = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/jw/service/gui/resources/properties/dialog_titles"); // NOI18N
         setTitle(bundle.getString("territory.dialog.title")); // NOI18N
-
-        territoryPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Territory", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
-
-        territoryNameLabel.setText("Name:");
-
-        descriptionLabel.setText("Description:");
-
-        nameTextField.setColumns(10);
-        nameTextField.setDocument(documentFilterFactory.getSizeFilter30());
-
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, territoryTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.name}"), nameTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("");
-        binding.setSourceUnreadableValue("");
-        bindingGroup.addBinding(binding);
-
-        descriptionTextField.setColumns(10);
-        descriptionTextField.setDocument(documentFilterFactory.getSizeFilter100());
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, territoryTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.description}"), descriptionTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("");
-        binding.setSourceUnreadableValue("");
-        bindingGroup.addBinding(binding);
-
-        enableCheckBox.setText("Enable");
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, territoryTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.enable}"), enableCheckBox, org.jdesktop.beansbinding.BeanProperty.create("selected"));
-        binding.setSourceNullValue(false);
-        binding.setSourceUnreadableValue(false);
-        bindingGroup.addBinding(binding);
-
-        serviceGroupLabel.setText("Service Group:");
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, territoryTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.serviceGroupId}"), serviceGroupComboBox, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue(null);
-        bindingGroup.addBinding(binding);
-
-        javax.swing.GroupLayout territoryPanelLayout = new javax.swing.GroupLayout(territoryPanel);
-        territoryPanel.setLayout(territoryPanelLayout);
-        territoryPanelLayout.setHorizontalGroup(
-            territoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(territoryPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(territoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(territoryPanelLayout.createSequentialGroup()
-                        .addComponent(serviceGroupLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(serviceGroupComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(territoryPanelLayout.createSequentialGroup()
-                        .addComponent(territoryNameLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(nameTextField)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(enableCheckBox))
-                    .addGroup(territoryPanelLayout.createSequentialGroup()
-                        .addComponent(descriptionLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(descriptionTextField)))
-                .addContainerGap())
-        );
-
-        territoryPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {descriptionLabel, serviceGroupLabel, territoryNameLabel});
-
-        territoryPanelLayout.setVerticalGroup(
-            territoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(territoryPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(territoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(territoryNameLabel)
-                    .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(enableCheckBox))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(territoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(descriptionLabel)
-                    .addComponent(descriptionTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(territoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(serviceGroupLabel)
-                    .addComponent(serviceGroupComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
-        );
 
         territoryListPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Territories", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
@@ -258,25 +198,176 @@ public class TerritoryDialog extends javax.swing.JDialog {
                 .addContainerGap())
         );
 
+        territoryPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Territory", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+
+        territoryNameLabel.setText("Name:");
+
+        descriptionLabel.setText("Description:");
+
+        nameTextField.setColumns(10);
+        nameTextField.setDocument(documentFilterFactory.getSizeFilter30());
+
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, territoryTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.name}"), nameTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
+        bindingGroup.addBinding(binding);
+
+        descriptionTextField.setColumns(10);
+        descriptionTextField.setDocument(documentFilterFactory.getSizeFilter100());
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, territoryTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.description}"), descriptionTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
+        bindingGroup.addBinding(binding);
+
+        enableCheckBox.setText("Enable");
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, territoryTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.enable}"), enableCheckBox, org.jdesktop.beansbinding.BeanProperty.create("selected"));
+        binding.setSourceNullValue(false);
+        binding.setSourceUnreadableValue(false);
+        bindingGroup.addBinding(binding);
+
+        serviceGroupLabel.setText("Service Group:");
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, territoryTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.serviceGroupId}"), serviceGroupComboBox, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
+
+        javax.swing.GroupLayout territoryPanelLayout = new javax.swing.GroupLayout(territoryPanel);
+        territoryPanel.setLayout(territoryPanelLayout);
+        territoryPanelLayout.setHorizontalGroup(
+            territoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(territoryPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(territoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(territoryPanelLayout.createSequentialGroup()
+                        .addComponent(serviceGroupLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(serviceGroupComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(territoryPanelLayout.createSequentialGroup()
+                        .addComponent(territoryNameLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(nameTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 291, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(enableCheckBox))
+                    .addGroup(territoryPanelLayout.createSequentialGroup()
+                        .addComponent(descriptionLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(descriptionTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+
+        territoryPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {descriptionLabel, serviceGroupLabel, territoryNameLabel});
+
+        territoryPanelLayout.setVerticalGroup(
+            territoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(territoryPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(territoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(territoryNameLabel)
+                    .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(enableCheckBox))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(territoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(descriptionLabel)
+                    .addComponent(descriptionTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(territoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(serviceGroupLabel)
+                    .addComponent(serviceGroupComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout territoryTabLayout = new javax.swing.GroupLayout(territoryTab);
+        territoryTab.setLayout(territoryTabLayout);
+        territoryTabLayout.setHorizontalGroup(
+            territoryTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 481, Short.MAX_VALUE)
+            .addGroup(territoryTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(territoryTabLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(territoryPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addContainerGap()))
+        );
+        territoryTabLayout.setVerticalGroup(
+            territoryTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 140, Short.MAX_VALUE)
+            .addGroup(territoryTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(territoryTabLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(territoryPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addContainerGap()))
+        );
+
+        territoryTabbedPane.addTab("Territory", territoryTab);
+
+        territoryMapPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Territory Map", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+
+        territoryMapToolBar.setFloatable(false);
+        territoryMapToolBar.setRollover(true);
+
+        mapTerritoryCommand.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.add.map.png"))); // NOI18N
+        mapTerritoryCommand.setText("Map");
+        mapTerritoryCommand.setFocusable(false);
+        mapTerritoryCommand.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        territoryMapToolBar.add(mapTerritoryCommand);
+
+        javax.swing.GroupLayout territoryMapPanelLayout = new javax.swing.GroupLayout(territoryMapPanel);
+        territoryMapPanel.setLayout(territoryMapPanelLayout);
+        territoryMapPanelLayout.setHorizontalGroup(
+            territoryMapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(territoryMapPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(territoryMapToolBar, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(343, Short.MAX_VALUE))
+        );
+        territoryMapPanelLayout.setVerticalGroup(
+            territoryMapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(territoryMapPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(territoryMapToolBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(49, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout territoryMapTabLayout = new javax.swing.GroupLayout(territoryMapTab);
+        territoryMapTab.setLayout(territoryMapTabLayout);
+        territoryMapTabLayout.setHorizontalGroup(
+            territoryMapTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(territoryMapTabLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(territoryMapPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        territoryMapTabLayout.setVerticalGroup(
+            territoryMapTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(territoryMapTabLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(territoryMapPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        territoryTabbedPane.addTab("Map", territoryMapTab);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(taskMonitorPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 506, Short.MAX_VALUE)
+            .addComponent(taskMonitorPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(territoryListPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(territoryPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(crudPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(crudPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(territoryTabbedPane))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(territoryPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(territoryTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(territoryListPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(crudPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -296,21 +387,26 @@ public class TerritoryDialog extends javax.swing.JDialog {
     private javax.swing.JTextField descriptionTextField;
     private org.jw.service.document.filter.DocumentFilterFactory documentFilterFactory;
     private javax.swing.JCheckBox enableCheckBox;
+    private javax.swing.JButton mapTerritoryCommand;
     private javax.swing.JTextField nameTextField;
     private javax.swing.JComboBox serviceGroupComboBox;
     private javax.swing.JLabel serviceGroupLabel;
     private org.jw.service.gui.component.TaskMonitorPanel taskMonitorPanel;
     private java.util.List<org.jw.service.entity.Territory> territoryList;
     private javax.swing.JPanel territoryListPanel;
+    private javax.swing.JPanel territoryMapPanel;
+    private javax.swing.JPanel territoryMapTab;
+    private javax.swing.JToolBar territoryMapToolBar;
     private javax.swing.JLabel territoryNameLabel;
     private javax.swing.JPanel territoryPanel;
     private javax.swing.JScrollPane territoryScrollPane;
+    private javax.swing.JPanel territoryTab;
+    private javax.swing.JTabbedPane territoryTabbedPane;
     private javax.swing.JTable territoryTable;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
-    UtilityProperties taskMessageProperties = UtilityProperties.create(UtilityProperties.TASK_MESSAGE_PROPERTIES);        
-    UtilityTable utilTable;
+    UtilityProperties taskMessageProperties = UtilityProperties.create(UtilityProperties.TASK_MESSAGE_PROPERTIES);            
     DefaultCloseAction closeAction;
     DefaultNewAction<Territory> newAction;
     DefaultDeleteAction<Territory> deleteAction;

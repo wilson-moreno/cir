@@ -9,11 +9,11 @@ package org.jw.service.entity;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,13 +22,12 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -50,7 +49,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "LocationMap.findByMapType", query = "SELECT l FROM LocationMap l WHERE l.mapType = :mapType"),
     @NamedQuery(name = "LocationMap.findByCreatedDatetime", query = "SELECT l FROM LocationMap l WHERE l.createdDatetime = :createdDatetime"),
     @NamedQuery(name = "LocationMap.findByUpdatedDatetime", query = "SELECT l FROM LocationMap l WHERE l.updatedDatetime = :updatedDatetime")})
-public class LocationMap implements Serializable, ObservableEntity, SilentSetter {
+public class LocationMap implements Serializable, ObservableEntity, SilentSetter, Comparable<LocationMap> {
     public static final String PROP_ACCURACY = "accuracy";
     public static final String PROP_MARKERLABEL = "markerLabel";
     @Lob
@@ -105,8 +104,8 @@ public class LocationMap implements Serializable, ObservableEntity, SilentSetter
     @Column(name = "UPDATED_DATETIME")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedDatetime;
-    @OneToMany(mappedBy = "locationMapId")
-    private Collection<DirectionMap> directionMapCollection;    
+    @OneToOne(mappedBy = "locationMapId", optional = true, fetch = FetchType.EAGER)
+    private DirectionMap directionMap;    
     @Transient
     private String saveState;
     private final transient PropertyChangeSupport propertyChangeSupport = new java.beans.PropertyChangeSupport(this);
@@ -371,18 +370,18 @@ public class LocationMap implements Serializable, ObservableEntity, SilentSetter
     /**
      * @return the directionMapCollection
      */
-    @XmlTransient
-    public Collection<DirectionMap> getDirectionMapCollection() {
-        return directionMapCollection;
+    
+    public DirectionMap getDirectionMap() {
+        return directionMap;
     }
 
     /**
      * @param directionMapCollection the directionMapCollection to set
      */
-    public void setDirectionMapCollection(Collection<DirectionMap> directionMapCollection) {
-        java.util.Collection<org.jw.service.entity.DirectionMap> oldDirectionMapCollection = this.directionMapCollection;
-        this.directionMapCollection = directionMapCollection;
-        propertyChangeSupport.firePropertyChange(PROP_DIRECTIONMAPCOLLECTION, oldDirectionMapCollection, directionMapCollection);
+    public void setDirectionMap(DirectionMap directionMap) {
+        DirectionMap oldDirectionMap = this.directionMap;
+        this.directionMap = directionMap;
+        propertyChangeSupport.firePropertyChange(PROP_DIRECTIONMAPCOLLECTION, oldDirectionMap, directionMap);
     }
 
     /**
@@ -437,7 +436,7 @@ public class LocationMap implements Serializable, ObservableEntity, SilentSetter
 
     @Override
     public boolean hasDependentEntities() {
-        return !getDirectionMapCollection().isEmpty();
+        return directionMap != null;
     }
 
     @Override
@@ -485,5 +484,10 @@ public class LocationMap implements Serializable, ObservableEntity, SilentSetter
         java.lang.String oldMarkerLabel = this.markerLabel;
         this.markerLabel = markerLabel;
         propertyChangeSupport.firePropertyChange(PROP_MARKERLABEL, oldMarkerLabel, markerLabel);
+    }
+
+    @Override
+    public int compareTo(LocationMap o) {
+        return this.markerLabel.compareTo(o.markerLabel);
     }
 }

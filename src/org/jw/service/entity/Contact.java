@@ -16,6 +16,7 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -25,6 +26,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -79,8 +81,8 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
     @Lob
     @Column(name = "PROFILE_PICTURE")
     private byte[] profilePicture;
-    @OneToMany(mappedBy = "contactId")
-    private Collection<LocationMap> locationMapCollection;
+    @OneToOne(mappedBy = "contactId", optional = true, fetch = FetchType.EAGER)
+    private LocationMap locationMap;
     private static final long serialVersionUID = 1L;
     public static final String PROP_GUARDIANSNAME = "guardiansName";
     @Id
@@ -206,7 +208,7 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
         this.updatedDatetime = new Date();
         this.workBackground = "";  
         this.territoryId = null;
-        this.locationMapCollection = null;
+        this.locationMap = null;
         this.printed = false;
     }
 
@@ -893,12 +895,14 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
     }
 
     @XmlTransient
-    public Collection<LocationMap> getLocationMapCollection() {
-        return locationMapCollection;
+    public LocationMap getLocationMap() {
+        return locationMap;
     }
 
-    public void setLocationMapCollection(Collection<LocationMap> locationMapCollection) {
-        this.locationMapCollection = locationMapCollection;
+    public void setLocationMap(LocationMap locationMap) {
+        LocationMap oldLocationMap = this.locationMap;
+        this.locationMap = locationMap;
+        propertyChangeSupport.firePropertyChange("locationMap", oldLocationMap, locationMap);
     }
 
     public String getName(){
@@ -979,15 +983,10 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
     
     @Transient
     public boolean getHasMap(){
-        if(this.getLocationMapCollection().isEmpty()){
-            return false;
-        }else{
-            LocationMap map;
-            map = this.getLocationMapCollection().iterator().next();
-            if(map.getImage() == null)
-                return false;
-            else
-                return true;
+        if(locationMap == null)return false;
+        else{
+            if(locationMap.getImage() == null)return false;
+            else return true;
         }
     }
 }

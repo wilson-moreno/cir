@@ -63,9 +63,9 @@ public class ContactLocationCellRenderer extends JLabel implements ListCellRende
     private String getDisplayValue(Contact contact){
         String display = "";
         if(contact != null){            
-            if(!contact.getLocationMapCollection().isEmpty()){
+            if(contact.getLocationMap() != null){
                 LocationMap locationMap;
-                locationMap = contact.getLocationMapCollection().iterator().next();
+                locationMap = contact.getLocationMap();
                 display = display.concat(locationMap.getMarkerLabel()).concat(" - ").concat(contact.toString());
             }
         }

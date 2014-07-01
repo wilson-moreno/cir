@@ -406,17 +406,15 @@ public class LocationMapDialog extends javax.swing.JDialog {
 
     private void setContactLocationMap(){
         contactDAO.refresh(contactTarget);        
-        if(contactTarget.getLocationMapCollection().isEmpty()){
+        if(contactTarget.getLocationMap() == null){
             LocationMap map = mapDAO.create();
             map.setContactId(contactTarget);
             mapTarget = mapDAO.persist(map);    
             mapIO.setSource(mapSource);
             mapIO.setTarget(mapTarget);
             mapIO.read();
-        } else {
-            for(LocationMap map : new ArrayList<>(contactTarget.getLocationMapCollection())){
-                mapTarget = map;
-            }
+        } else {            
+            mapTarget = contactTarget.getLocationMap();
             mapIO.setSource(mapSource);
             mapIO.setTarget(mapTarget);
             mapIO.read();

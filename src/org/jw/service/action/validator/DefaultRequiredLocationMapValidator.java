@@ -32,11 +32,11 @@ public class DefaultRequiredLocationMapValidator extends AbstractActionValidator
     protected void validate() {
         Contact contact = utilTable.getSelectedItem();
         dao.refresh(contact);
-        if(!contact.getLocationMapCollection().isEmpty()){
-            LocationMap locationMap = new LocationMap();
-            for(LocationMap map : new ArrayList<>(contact.getLocationMapCollection())){
-                locationMap = map;
-            }
+        if(contact.getLocationMap() != null){
+            LocationMap locationMap;
+            
+            locationMap = contact.getLocationMap();
+            
             
             if(locationMap.isMissingRequiredFields()){                
                 AbstractActionValidator.ValidationResult result = new AbstractActionValidator.ValidationResult();

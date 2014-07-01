@@ -13,7 +13,7 @@ import org.jw.service.entity.EntityIO;
 import org.jw.service.entity.LocationMap;
 import org.jw.service.listener.task.DefaultTaskListener;
 import org.jw.service.util.UtilityDownload;
-import org.jw.service.worker.DefaultLocationMapDownloadWorker;
+import org.jw.service.worker.DefaultDownloadLocationMapWorker;
 
 /**
  *
@@ -40,7 +40,7 @@ public class DefaultDownloadLocationMapAction extends DependentAbstractAction{
 
     @Override
     public boolean mainActionPerformed(ActionEvent ae) {
-        DefaultLocationMapDownloadWorker worker = new DefaultLocationMapDownloadWorker(label, utilDownload, mapIO, listener);
+        DefaultDownloadLocationMapWorker worker = new DefaultDownloadLocationMapWorker(label, utilDownload, mapIO, listener);
         worker.execute();                    
         return true;
     }
