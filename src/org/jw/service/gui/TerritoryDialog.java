@@ -86,7 +86,7 @@ public class TerritoryDialog extends javax.swing.JDialog {
             new ActionListener(){
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    ProximityMapEditorDialog dialog = new ProximityMapEditorDialog(parent, true, em, utilTable);
+                    TerritoryMapEditorDialog dialog = new TerritoryMapEditorDialog(parent, true, em, utilTable);
                     dialog.pack();
                     dialog.setLocationRelativeTo(parent);
                     dialog.setVisible(true);
@@ -137,6 +137,10 @@ public class TerritoryDialog extends javax.swing.JDialog {
         enableCheckBox = new javax.swing.JCheckBox();
         serviceGroupLabel = new javax.swing.JLabel();
         serviceGroupComboBox = new javax.swing.JComboBox();
+        territoryDirectionTab = new javax.swing.JPanel();
+        territoryDirectionPanel = new javax.swing.JPanel();
+        directionScrollPane = new javax.swing.JScrollPane();
+        directionTextArea = new javax.swing.JTextArea();
         territoryMapTab = new javax.swing.JPanel();
         territoryMapPanel = new javax.swing.JPanel();
         territoryMapToolBar = new javax.swing.JToolBar();
@@ -302,6 +306,56 @@ public class TerritoryDialog extends javax.swing.JDialog {
 
         territoryTabbedPane.addTab("Territory", territoryTab);
 
+        territoryDirectionPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Direction", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+
+        directionTextArea.setColumns(20);
+        directionTextArea.setDocument(documentFilterFactory.getSizeFilter200());
+        directionTextArea.setLineWrap(true);
+        directionTextArea.setRows(5);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, territoryTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.direction}"), directionTextArea, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
+
+        directionScrollPane.setViewportView(directionTextArea);
+
+        javax.swing.GroupLayout territoryDirectionPanelLayout = new javax.swing.GroupLayout(territoryDirectionPanel);
+        territoryDirectionPanel.setLayout(territoryDirectionPanelLayout);
+        territoryDirectionPanelLayout.setHorizontalGroup(
+            territoryDirectionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(territoryDirectionPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(directionScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 425, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        territoryDirectionPanelLayout.setVerticalGroup(
+            territoryDirectionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(territoryDirectionPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(directionScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(12, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout territoryDirectionTabLayout = new javax.swing.GroupLayout(territoryDirectionTab);
+        territoryDirectionTab.setLayout(territoryDirectionTabLayout);
+        territoryDirectionTabLayout.setHorizontalGroup(
+            territoryDirectionTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(territoryDirectionTabLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(territoryDirectionPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        territoryDirectionTabLayout.setVerticalGroup(
+            territoryDirectionTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(territoryDirectionTabLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(territoryDirectionPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        territoryTabbedPane.addTab("Direction", territoryDirectionTab);
+
         territoryMapPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Territory Map", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
         territoryMapToolBar.setFloatable(false);
@@ -385,6 +439,8 @@ public class TerritoryDialog extends javax.swing.JDialog {
     private org.jw.service.gui.component.MultipleRecordCrudPanel crudPanel;
     private javax.swing.JLabel descriptionLabel;
     private javax.swing.JTextField descriptionTextField;
+    private javax.swing.JScrollPane directionScrollPane;
+    private javax.swing.JTextArea directionTextArea;
     private org.jw.service.document.filter.DocumentFilterFactory documentFilterFactory;
     private javax.swing.JCheckBox enableCheckBox;
     private javax.swing.JButton mapTerritoryCommand;
@@ -392,6 +448,8 @@ public class TerritoryDialog extends javax.swing.JDialog {
     private javax.swing.JComboBox serviceGroupComboBox;
     private javax.swing.JLabel serviceGroupLabel;
     private org.jw.service.gui.component.TaskMonitorPanel taskMonitorPanel;
+    private javax.swing.JPanel territoryDirectionPanel;
+    private javax.swing.JPanel territoryDirectionTab;
     private java.util.List<org.jw.service.entity.Territory> territoryList;
     private javax.swing.JPanel territoryListPanel;
     private javax.swing.JPanel territoryMapPanel;

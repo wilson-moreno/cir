@@ -187,6 +187,7 @@ public class LocationMap implements Serializable, ObservableEntity, SilentSetter
     public void silentSetProperty(String name, Object value) {
         switch(name){
             case "updatedDatetime" : this.updatedDatetime = (Date) value; break;
+            case "saveState" : this.saveState = (String) value; break;
             default : throw new UnsupportedOperationException("Property not Supported: " + name);
         }
     }
@@ -487,7 +488,7 @@ public class LocationMap implements Serializable, ObservableEntity, SilentSetter
     }
 
     @Override
-    public int compareTo(LocationMap o) {
+    public int compareTo(LocationMap o) {        
         return this.markerLabel.compareTo(o.markerLabel);
     }
 }

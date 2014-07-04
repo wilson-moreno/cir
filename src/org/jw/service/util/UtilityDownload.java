@@ -212,12 +212,14 @@ public class UtilityDownload {
     public byte[] downloadProximityMapAsBytes(Territory territory) throws MalformedURLException, IOException{
         byte[] imageBytes = null;
         String markers = "";
+        String marker = "";
         
         for(Contact contact : territory.getContactCollection()){            
             if(contact.getLocationMap() != null){
                 LocationMap locationMap;
                 locationMap = contact.getLocationMap();
-                markers = markers.concat(createMarker(locationMap));
+                marker = createMarker(locationMap);
+                if(marker != null) markers = markers.concat(marker);
             }
         }
         
@@ -240,6 +242,7 @@ public class UtilityDownload {
     }
     
     private String createMarker(LocationMap locationMap){
+        if(locationMap.getLatitude() == null || locationMap.getLongitude() == null)return null;
         return String.format("&markers=color:%s|label:%s|%f,%f", 
                              locationMap.getMarkerColor(), 
                              locationMap.getMarkerLabel(), 

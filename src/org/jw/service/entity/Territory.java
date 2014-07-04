@@ -46,6 +46,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Territory.findByCreatedDatetime", query = "SELECT t FROM Territory t WHERE t.createdDatetime = :createdDatetime"),
     @NamedQuery(name = "Territory.findByUpdatedDatetime", query = "SELECT t FROM Territory t WHERE t.updatedDatetime = :updatedDatetime")})
 public class Territory implements Serializable, ObservableEntity, SilentSetter, Comparable<Territory> {
+    public static final String PROP_DIRECTION = "direction";
     @Lob
     @Column(name = "MAP_IMAGE")
     private byte[] mapImage;
@@ -78,6 +79,8 @@ public class Territory implements Serializable, ObservableEntity, SilentSetter, 
     @Column(name = "UPDATED_DATETIME")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedDatetime;
+    @Column(name = "DIRECTION")
+    private String direction;
     private final transient PropertyChangeSupport propertyChangeSupport = new java.beans.PropertyChangeSupport(this);
     @Transient
     private String saveState;
@@ -90,6 +93,7 @@ public class Territory implements Serializable, ObservableEntity, SilentSetter, 
         this.saveState = "";
         this.serviceGroupId = null;
         this.updatedDatetime = new Date();
+        this.direction = "";
     }
 
     public Territory(Integer id) {
@@ -312,6 +316,22 @@ public class Territory implements Serializable, ObservableEntity, SilentSetter, 
     @Override
     public String getImplementingClassName() {
         return "Territory";
+    }
+
+    /**
+     * @return the direction
+     */
+    public String getDirection() {
+        return direction;
+    }
+
+    /**
+     * @param direction the direction to set
+     */
+    public void setDirection(String direction) {
+        java.lang.String oldDirection = this.direction;
+        this.direction = direction;
+        propertyChangeSupport.firePropertyChange("direction", oldDirection, direction);
     }
 
     

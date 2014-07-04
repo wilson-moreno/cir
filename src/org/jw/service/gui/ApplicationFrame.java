@@ -200,8 +200,8 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         otherTab = new javax.swing.JPanel();
         otherPanel = new javax.swing.JPanel();
         printedCheckBox = new javax.swing.JCheckBox();
-        jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        currentAgeLabel = new javax.swing.JLabel();
+        currentAgeTextField = new javax.swing.JTextField();
         contactsPanel = new javax.swing.JPanel();
         contactsScrollPane = new javax.swing.JScrollPane();
         contactsTable = new javax.swing.JTable();
@@ -591,11 +591,9 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         territoryLabel.setLabelFor(territoryComboBox);
         territoryLabel.setText("Territory:");
 
+        territoryComboBox.setModel(territoryListBean.getDefaultComboBoxModel());
         territoryComboBox.setNextFocusableComponent(personalTextField);
 
-        eLProperty = org.jdesktop.beansbinding.ELProperty.create("${sortedList}");
-        jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, territoryListBean, eLProperty, territoryComboBox);
-        bindingGroup.addBinding(jComboBoxBinding);
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.territoryId}"), territoryComboBox, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         binding.setSourceNullValue(null);
         binding.setSourceUnreadableValue(null);
@@ -1122,11 +1120,11 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         binding.setSourceUnreadableValue(false);
         bindingGroup.addBinding(binding);
 
-        jLabel1.setText("Current Age:");
+        currentAgeLabel.setText("Current Age:");
 
-        jTextField1.setEditable(false);
+        currentAgeTextField.setEditable(false);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.age}"), jTextField1, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.age}"), currentAgeTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("null");
         binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
@@ -1139,22 +1137,22 @@ public final class ApplicationFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(otherPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(otherPanelLayout.createSequentialGroup()
-                        .addComponent(jLabel1)
+                        .addComponent(currentAgeLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(currentAgeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(printedCheckBox))
                 .addContainerGap(282, Short.MAX_VALUE))
         );
 
-        otherPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel1, printedCheckBox});
+        otherPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {currentAgeLabel, printedCheckBox});
 
         otherPanelLayout.setVerticalGroup(
             otherPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(otherPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(otherPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(currentAgeLabel)
+                    .addComponent(currentAgeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(printedCheckBox)
                 .addContainerGap(86, Short.MAX_VALUE))
@@ -1585,6 +1583,8 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     private javax.swing.JPanel contactsPanel;
     private javax.swing.JScrollPane contactsScrollPane;
     private javax.swing.JTable contactsTable;
+    private javax.swing.JLabel currentAgeLabel;
+    private javax.swing.JTextField currentAgeTextField;
     private javax.swing.DefaultComboBoxModel defaultComboBoxModel;
     private org.jw.service.table.cell.renderer.DefaultDateCellRenderer defaultDateCellRenderer;
     private org.jw.service.document.filter.DocumentFilterFactory documentFilterFactory;
@@ -1610,8 +1610,6 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     private javax.swing.JTextArea historyTextArea;
     private javax.swing.JLabel houseNumberLabel;
     private javax.swing.JTextField houseNumberTextField;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel lastNameLabel;
     private javax.swing.JTextField lastNameTextField;
     private org.jw.service.gui.component.MainCommandPanel mainCommandPanel;

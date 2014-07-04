@@ -1016,12 +1016,14 @@
                 </Component>
                 <Component class="javax.swing.JComboBox" name="territoryComboBox">
                   <Properties>
+                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection component="territoryListBean" name="defaultComboBoxModel" type="property"/>
+                    </Property>
                     <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
                       <ComponentRef name="personalTextField"/>
                     </Property>
                   </Properties>
                   <BindingProperties>
-                    <BindingProperty name="elements" source="territoryListBean" sourcePath="${sortedList}" target="territoryComboBox" targetPath="elements" updateStrategy="0" immediately="false"/>
                     <BindingProperty name="selectedItem" source="contactsTable" sourcePath="${selectedElement.territoryId}" target="territoryComboBox" targetPath="selectedItem" updateStrategy="0" immediately="false">
                       <Property name="nullValue" type="java.lang.Object" value="null"/>
                       <Property name="incompletePathValue" type="java.lang.Object" value="null"/>
@@ -1861,9 +1863,9 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jLabel1" linkSize="11" min="-2" max="-2" attributes="0"/>
+                                  <Component id="currentAgeLabel" linkSize="11" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jTextField1" min="-2" pref="154" max="-2" attributes="0"/>
+                                  <Component id="currentAgeTextField" min="-2" pref="154" max="-2" attributes="0"/>
                               </Group>
                               <Component id="printedCheckBox" linkSize="11" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
@@ -1876,8 +1878,8 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jTextField1" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="currentAgeLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="currentAgeTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="printedCheckBox" min="-2" max="-2" attributes="0"/>
@@ -1898,17 +1900,17 @@
                     </BindingProperty>
                   </BindingProperties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jLabel1">
+                <Component class="javax.swing.JLabel" name="currentAgeLabel">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Current Age:"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="jTextField1">
+                <Component class="javax.swing.JTextField" name="currentAgeTextField">
                   <Properties>
                     <Property name="editable" type="boolean" value="false"/>
                   </Properties>
                   <BindingProperties>
-                    <BindingProperty name="text" source="contactsTable" sourcePath="${selectedElement.age}" target="jTextField1" targetPath="text" updateStrategy="0" immediately="false">
+                    <BindingProperty name="text" source="contactsTable" sourcePath="${selectedElement.age}" target="currentAgeTextField" targetPath="text" updateStrategy="0" immediately="false">
                       <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
                       <Property name="nullValue" type="java.lang.String" value="null"/>
                       <Property name="incompletePathValue" type="java.lang.String" value="null"/>

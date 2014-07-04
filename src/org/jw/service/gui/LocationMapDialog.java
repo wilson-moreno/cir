@@ -6,7 +6,6 @@
 
 package org.jw.service.gui;
 
-import java.util.ArrayList;
 import javax.persistence.EntityManager;
 import org.jw.service.action.DefaultCloseAction;
 import org.jw.service.action.DefaultDownloadLocationMapAction;

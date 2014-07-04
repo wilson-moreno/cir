@@ -73,6 +73,7 @@ public class ListBean<T> {
     
     
     public javax.swing.DefaultComboBoxModel getDefaultComboBoxModel(){
+        Collections.sort(list);
         return new javax.swing.DefaultComboBoxModel(list.toArray());
     }
     
