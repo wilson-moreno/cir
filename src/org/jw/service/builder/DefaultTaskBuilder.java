@@ -19,7 +19,6 @@ import org.jw.service.action.DefaultRefreshAction;
 import org.jw.service.action.DefaultSaveAction;
 import org.jw.service.action.dependency.DefaultDeletePreDependency;
 import org.jw.service.dao.DataAccessObject;
-import org.jw.service.entity.Contact;
 import org.jw.service.entity.ObservableEntity;
 import org.jw.service.gui.component.MultipleRecordCrudPanel;
 import org.jw.service.gui.component.TaskMonitorPanel;

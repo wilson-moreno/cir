@@ -131,17 +131,15 @@ public class DefaultDataTypeCellEditor extends AbstractCellEditor implements Tab
     }
     
     
-    private DefaultCellEditor getSingleInputEditor(String dataType){
-        DefaultCellEditor editor = null;
+    private DefaultCellEditor getSingleInputEditor(String dataType){        
         
         switch(dataType){
-            case "String" : editor = new DefaultCellEditor(new JTextField()); break;
-            case "Boolean" : editor = new DefaultCellEditor(new JCheckBox()); break;            
-            case "Integer" : editor = new DefaultCellEditor(createIntegerField()); break;
-            default : editor = new DefaultCellEditor(new JTextField()); break;
-        }
+            case "String" : return new DefaultCellEditor(new JTextField());
+            case "Boolean" : return new DefaultCellEditor(new JCheckBox());
+            case "Integer" : return new DefaultCellEditor(createIntegerField());
+            default : return new DefaultCellEditor(new JTextField()); 
+        }        
         
-        return editor;
     }
     
     

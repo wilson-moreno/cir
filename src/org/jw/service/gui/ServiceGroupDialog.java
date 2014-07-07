@@ -62,6 +62,7 @@ public class ServiceGroupDialog extends javax.swing.JDialog {
         ((ObservableList)serviceGroupList).addObservableListListener(listListener);        
         DefaultTaskBuilder<ServiceGroup> taskBuilder = new DefaultTaskBuilder();
         taskBuilder.setEntityName("service");
+        taskBuilder.setQuery(em.createNamedQuery("ServiceGroup.findAll", ServiceGroup.class));
         taskBuilder.setProperties(taskMessageProperties);
         taskBuilder.setMultipleRecordCrudPanel(crudPanel);
         taskBuilder.setTaskMonitorPanel(taskMonitorPanel);

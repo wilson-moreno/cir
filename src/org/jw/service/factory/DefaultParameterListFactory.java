@@ -7,6 +7,7 @@
 package org.jw.service.factory;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.jw.service.entity.AppsReportParameter;
 import org.jw.service.print.PrintParameter;
@@ -44,6 +45,8 @@ public class DefaultParameterListFactory {
             //if(parameter.getDefaultValue() != null && !parameter.getDefaultValue().trim().equals(""))param.setValue(convert(parameter.getDefaultValue(), parameter.getDataType()));
             parameterList.add(param);
         }
+        
+        Collections.sort(parameterList);
         
         return parameterList;
     }
