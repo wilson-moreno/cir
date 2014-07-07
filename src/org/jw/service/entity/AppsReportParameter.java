@@ -22,6 +22,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -46,16 +47,25 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "AppsReportParameter.findByCreatedDatetime", query = "SELECT a FROM AppsReportParameter a WHERE a.createdDatetime = :createdDatetime"),
     @NamedQuery(name = "AppsReportParameter.findByUpdatedDatetime", query = "SELECT a FROM AppsReportParameter a WHERE a.updatedDatetime = :updatedDatetime")})
 public class AppsReportParameter implements Serializable, ObservableEntity, SilentSetter, Comparable<AppsReportParameter> {
-    @JoinColumn(name = "QUERY_TEXT_ID", referencedColumnName = "ID")
-    @ManyToOne
-    private QueryText queryTextId;
+    private static final long serialVersionUID = 1L;
     public static final String PROP_DEFAULTVALUE = "defaultValue";
     public static final String PROP_PARAMETERTYPE = "parameterType";
-    @Column(name = "DEFAULT_VALUE")
-    private String defaultValue;
     public static final String PROP_DATATYPE = "dataType";
     public static final String PROP_ENABLE = "enable";
     public static final String PROP_DEPENDSON = "dependsOn";
+    public static final String PROP_DISPLAYCOLUMN = "displayColumns";
+    public static final String PROP_VALUECOLUMN = "valueColumn";
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "ID")
+    private Integer id;
+    @JoinColumn(name = "QUERY_TEXT_ID", referencedColumnName = "ID")
+    @OneToOne
+    private QueryText queryTextId;    
+    @Column(name = "DEFAULT_VALUE")
+    private String defaultValue;    
     @Column(name = "DATA_TYPE")
     private String dataType;
     @Column(name = "ENABLE")
@@ -64,12 +74,6 @@ public class AppsReportParameter implements Serializable, ObservableEntity, Sile
     private Boolean required;
     @Column(name = "DEPENDS_ON")
     private Integer dependsOn;
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "ID")
-    private Integer id;
     @Column(name = "SEQUENCE")
     private Integer sequence;
     @Column(name = "NAME")
@@ -93,6 +97,10 @@ public class AppsReportParameter implements Serializable, ObservableEntity, Sile
     private String saveState;
     @Column (name = "PARAMETER_TYPE")
     private String parameterType;
+    @Column (name = "DISPLAY_COLUMN")
+    private String displayColumn;
+    @Column (name = "VALUE_COLUMN")
+    private String valueColumn;
 
     public AppsReportParameter() {
         this.controlType = "";
@@ -449,6 +457,38 @@ public class AppsReportParameter implements Serializable, ObservableEntity, Sile
         QueryText oldQueryTextId = this.queryTextId;
         this.queryTextId = queryTextId;
         propertyChangeSupport.firePropertyChange("queryTextId", oldQueryTextId, queryTextId);
+    }
+
+    /**
+     * @return the displayColumn
+     */
+    public String getDisplayColumn() {
+        return displayColumn;
+    }
+
+    /**
+     * @param displayColumn the displayColumn to set
+     */
+    public void setDisplayColumn(String displayColumn) {
+        java.lang.String oldDisplayColumn = this.displayColumn;
+        this.displayColumn = displayColumn;
+        propertyChangeSupport.firePropertyChange(PROP_DISPLAYCOLUMN, oldDisplayColumn, displayColumn);
+    }
+
+    /**
+     * @return the valueColumn
+     */
+    public String getValueColumn() {
+        return valueColumn;
+    }
+
+    /**
+     * @param valueColumn the valueColumn to set
+     */
+    public void setValueColumn(String valueColumn) {
+        java.lang.String oldValueColumn = this.valueColumn;
+        this.valueColumn = valueColumn;
+        propertyChangeSupport.firePropertyChange(PROP_VALUECOLUMN, oldValueColumn, valueColumn);
     }
     
 }

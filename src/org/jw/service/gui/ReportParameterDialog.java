@@ -20,8 +20,8 @@ import org.jw.service.builder.DefaultTaskBuilder;
 import org.jw.service.dao.DataAccessObject;
 import org.jw.service.entity.AppsReport;
 import org.jw.service.entity.AppsReportParameter;
-import org.jw.service.entity.ContactCall;
 import org.jw.service.entity.EntityIO;
+import org.jw.service.entity.QueryText;
 import org.jw.service.list.ReportParameterMatcher;
 import org.jw.service.util.UtilityProperties;
 import org.jw.service.util.UtilityTable;
@@ -35,6 +35,7 @@ public class ReportParameterDialog extends javax.swing.JDialog {
     private final UtilityTable<AppsReport> utilTable;
     private final DataAccessObject<AppsReportParameter> parameterDAO;
     private final DataAccessObject<AppsReport> reportDAO;
+    private final DataAccessObject<QueryText> queryTextDAO;
     private final EntityIO<AppsReport> reportIO;
     private AppsReport appsReportTarget;
     private final DefaultTaskBuilder<AppsReportParameter> taskBuilder;   
@@ -48,6 +49,7 @@ public class ReportParameterDialog extends javax.swing.JDialog {
         this.utilTable = utilTable;
         this.parameterDAO = DataAccessObject.create(em, AppsReportParameter.class);
         this.reportDAO = DataAccessObject.create(em, AppsReport.class);
+        this.queryTextDAO = DataAccessObject.create(em, QueryText.class);
         this.reportIO = EntityIO.create(AppsReport.class);
         this.taskBuilder = new DefaultTaskBuilder();
         initComponents();        
@@ -123,6 +125,8 @@ public class ReportParameterDialog extends javax.swing.JDialog {
         parameterTypeListBean = new org.jw.service.beans.ListBean("parameter_type.properties");
         documentFilterFactory = new org.jw.service.document.filter.DocumentFilterFactory();
         controTypeListBean = new org.jw.service.beans.ListBean("control_types.properties");
+        queryTextListBean = new org.jw.service.beans.ListBean<QueryText>(this.queryTextDAO);
+        ;
         taskMonitorPanel = new org.jw.service.gui.component.TaskMonitorPanel();
         multipleRecordCrudPanel = new org.jw.service.gui.component.MultipleRecordCrudPanel();
         appsReportPanel = new javax.swing.JPanel();
@@ -436,11 +440,33 @@ public class ReportParameterDialog extends javax.swing.JDialog {
         binding.setSourceUnreadableValue(null);
         bindingGroup.addBinding(binding);
 
+        controlTypeComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                controlTypeComboBoxActionPerformed(evt);
+            }
+        });
+
         queryLabel.setText("Query:");
+
+        eLProperty = org.jdesktop.beansbinding.ELProperty.create("${sortedList}");
+        jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, queryTextListBean, eLProperty, queryComboBox);
+        bindingGroup.addBinding(jComboBoxBinding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, parametersTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.queryTextId}"), queryComboBox, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        bindingGroup.addBinding(binding);
 
         displayColumnLabel.setText("Display Column:");
 
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, parametersTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.displayColumn}"), displayColumnTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
+
         valueColumnLabel.setText("Value Column:");
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, parametersTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.valueColumn}"), valueColumnTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
 
         javax.swing.GroupLayout controlPanelLayout = new javax.swing.GroupLayout(controlPanel);
         controlPanel.setLayout(controlPanelLayout);
@@ -671,6 +697,28 @@ public class ReportParameterDialog extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_enableCheckBoxActionPerformed
 
+    private void controlTypeComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_controlTypeComboBoxActionPerformed
+        // TODO add your handling code here:
+        String selected = (String) this.controlTypeComboBox.getSelectedItem();
+        
+        if(selected == null){
+            setEditableControlAttributes(false);
+            return;
+        }
+        
+        switch(selected){
+            case "Single Input":setEditableControlAttributes(false);break;
+            case "Single Select Query":setEditableControlAttributes(true);break;
+            default: setEditableControlAttributes(false);                
+        }
+    }//GEN-LAST:event_controlTypeComboBoxActionPerformed
+
+    private void setEditableControlAttributes(boolean editable){
+        this.queryComboBox.setEditable(editable);
+        this.displayColumnTextField.setEditable(editable);
+        this.valueColumnTextField.setEditable(editable);
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel appsReportPanel;
     private org.jw.service.entity.AppsReport appsReportSource;
@@ -715,6 +763,7 @@ public class ReportParameterDialog extends javax.swing.JDialog {
     private javax.swing.JTable parametersTable;
     private javax.swing.JComboBox queryComboBox;
     private javax.swing.JLabel queryLabel;
+    private org.jw.service.beans.ListBean queryTextListBean;
     private javax.swing.JCheckBox requiredCheckBox;
     private javax.swing.JLabel sequenceLabel;
     private javax.swing.JFormattedTextField sequenceTextField;

@@ -6,6 +6,7 @@
 
 package org.jw.service.entity;
 
+import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.Collection;
@@ -22,6 +23,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -40,7 +42,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "QueryText.findByText", query = "SELECT q FROM QueryText q WHERE q.text = :text"),
     @NamedQuery(name = "QueryText.findByCreatedDatetime", query = "SELECT q FROM QueryText q WHERE q.createdDatetime = :createdDatetime"),
     @NamedQuery(name = "QueryText.findByUpdatedDatetime", query = "SELECT q FROM QueryText q WHERE q.updatedDatetime = :updatedDatetime")})
-public class QueryText implements Serializable {
+public class QueryText implements Serializable , ObservableEntity, SilentSetter, Comparable<QueryText> {
     private static final long serialVersionUID = 1L;
     public static final String PROP_ID = "id";
     public static final String PROP_NAME = "name";
@@ -49,6 +51,7 @@ public class QueryText implements Serializable {
     public static final String PROP_CREATEDDATETIME = "createdDatetime";
     public static final String PROP_UPDATEDDATETIME = "updatedDatetime";
     public static final String PROP_APPSREPORTPARAMETERCOLLECTION = "appsReportParameterCollection";
+    public static final String PROP_SAVESTATE = "saveState";
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -69,8 +72,16 @@ public class QueryText implements Serializable {
     @OneToMany(mappedBy = "queryTextId")
     private Collection<AppsReportParameter> appsReportParameterCollection;
     private final transient PropertyChangeSupport propertyChangeSupport = new java.beans.PropertyChangeSupport(this);
-
+    @Transient
+    private String saveState;
+    
     public QueryText() {
+        this.createdDatetime = new Date();
+        this.description = "";
+        this.name = "";
+        this.saveState = "";
+        this.text = "";
+        this.updatedDatetime = new Date();
     }
 
     public QueryText(Integer id) {
@@ -103,7 +114,7 @@ public class QueryText implements Serializable {
 
     @Override
     public String toString() {
-        return "org.jw.service.entity.QueryText[ id=" + getId() + " ]";
+        return this.getName();
     }
 
     /**
@@ -217,6 +228,72 @@ public class QueryText implements Serializable {
         java.util.Collection<org.jw.service.entity.AppsReportParameter> oldAppsReportParameterCollection = this.appsReportParameterCollection;
         this.appsReportParameterCollection = appsReportParameterCollection;
         propertyChangeSupport.firePropertyChange(PROP_APPSREPORTPARAMETERCOLLECTION, oldAppsReportParameterCollection, appsReportParameterCollection);
+    }
+
+    /**
+     * @return the saveState
+     */
+    public String getSaveState() {
+        return saveState;
+    }
+
+    /**
+     * @param saveState the saveState to set
+     */
+    public void setSaveState(String saveState) {
+        java.lang.String oldSaveState = this.saveState;
+        this.saveState = saveState;
+        propertyChangeSupport.firePropertyChange(PROP_SAVESTATE, oldSaveState, saveState);
+    }
+
+    @Override
+    public String getImplementingClassName() {
+        return "QueryText";
+    }
+
+    @Override
+    public boolean hasDependentEntities() {
+        return !this.appsReportParameterCollection.isEmpty();
+    }
+
+    @Override
+    public boolean isMissingRequiredFields() {
+        return this.name.equals("") ||
+               this.description.equals("") ||
+               this.text.equals("");
+    }
+
+    @Override
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        propertyChangeSupport.addPropertyChangeListener(listener);
+    }
+
+    @Override
+    public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
+        propertyChangeSupport.addPropertyChangeListener(propertyName, listener);
+    }
+
+    @Override
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        propertyChangeSupport.removePropertyChangeListener(listener);
+    }
+
+    @Override
+    public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
+        propertyChangeSupport.removePropertyChangeListener(propertyName, listener);
+    }
+
+    @Override
+    public void silentSetProperty(String name, Object value) {
+        switch(name){
+            case "updatedDatetime" : this.updatedDatetime = (Date) value; break;
+            default : throw new UnsupportedOperationException("Property not Supported: " + name);
+        }
+    }
+
+    @Override
+    public int compareTo(QueryText o) {
+        return name.compareTo(o.getName());
     }
     
 }

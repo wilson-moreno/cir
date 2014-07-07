@@ -61,6 +61,8 @@ create table cir.apps_report_parameter(
     required bit,
     depends_on integer,
     default_value varchar(30),
+    display_column varchar(30),
+    value_column varchar(30),
     created_datetime datetime,
     updated_datetime datetime
 );

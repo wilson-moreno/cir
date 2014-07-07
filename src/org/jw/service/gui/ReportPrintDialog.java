@@ -115,7 +115,6 @@ public class ReportPrintDialog extends javax.swing.JDialog {
         columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${value}"));
         columnBinding.setColumnName("Value");
-        columnBinding.setColumnClass(String.class);
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
         parameterrsScrollPane.setViewportView(parametersTable);
@@ -123,7 +122,7 @@ public class ReportPrintDialog extends javax.swing.JDialog {
             parametersTable.getColumnModel().getColumn(0).setResizable(false);
             parametersTable.getColumnModel().getColumn(0).setCellRenderer(org.jw.service.table.cell.renderer.DefaultStateCellRenderer.create());
             parametersTable.getColumnModel().getColumn(1).setResizable(false);
-            parametersTable.getColumnModel().getColumn(1).setCellEditor(org.jw.service.table.cell.editor.DefaultDataTypeCellEditor.create(printParametersList));
+            parametersTable.getColumnModel().getColumn(1).setCellEditor(org.jw.service.table.cell.editor.DefaultDataTypeCellEditor.create(printParametersList, em));
         }
 
         javax.swing.GroupLayout parametersPanelLayout = new javax.swing.GroupLayout(parametersPanel);

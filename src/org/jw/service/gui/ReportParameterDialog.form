@@ -30,6 +30,11 @@
         <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new org.jw.service.beans.ListBean(&quot;control_types.properties&quot;)"/>
       </AuxValues>
     </Component>
+    <Component class="org.jw.service.beans.ListBean" name="queryTextListBean">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new org.jw.service.beans.ListBean&lt;QueryText&gt;(this.queryTextDAO);&#xd;&#xa;"/>
+      </AuxValues>
+    </Component>
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="2"/>
@@ -652,6 +657,9 @@
                       <Property name="incompletePathValue" type="java.lang.Object" value="null"/>
                     </BindingProperty>
                   </BindingProperties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="controlTypeComboBoxActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="queryLabel">
                   <Properties>
@@ -659,11 +667,10 @@
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JComboBox" name="queryComboBox">
-                  <Properties>
-                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                      <StringArray count="0"/>
-                    </Property>
-                  </Properties>
+                  <BindingProperties>
+                    <BindingProperty name="elements" source="queryTextListBean" sourcePath="${sortedList}" target="queryComboBox" targetPath="elements" updateStrategy="0" immediately="false"/>
+                    <BindingProperty name="selectedItem" source="parametersTable" sourcePath="${selectedElement.queryTextId}" target="queryComboBox" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
+                  </BindingProperties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="displayColumnLabel">
                   <Properties>
@@ -671,6 +678,13 @@
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="displayColumnTextField">
+                  <BindingProperties>
+                    <BindingProperty name="text" source="parametersTable" sourcePath="${selectedElement.displayColumn}" target="displayColumnTextField" targetPath="text" updateStrategy="0" immediately="false">
+                      <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+                      <Property name="nullValue" type="java.lang.String" value="null"/>
+                      <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+                    </BindingProperty>
+                  </BindingProperties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="valueColumnLabel">
                   <Properties>
@@ -678,6 +692,13 @@
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="valueColumnTextField">
+                  <BindingProperties>
+                    <BindingProperty name="text" source="parametersTable" sourcePath="${selectedElement.valueColumn}" target="valueColumnTextField" targetPath="text" updateStrategy="0" immediately="false">
+                      <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+                      <Property name="nullValue" type="java.lang.String" value="null"/>
+                      <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+                    </BindingProperty>
+                  </BindingProperties>
                 </Component>
               </SubComponents>
             </Container>

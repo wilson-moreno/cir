@@ -11,7 +11,6 @@ import java.awt.Window;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.HashMap;
@@ -22,13 +21,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JDialog;
 import javax.swing.SwingWorker;
-import net.sf.jasperreports.engine.JRResultSetDataSource;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JRViewer;
 import org.jw.service.entity.AppsReport;
 import org.jw.service.listener.task.DefaultTaskListener;
+import org.jw.service.print.ListOption;
 import org.jw.service.print.PrintParameter;
-import net.sf.jasperreports.view.JRViewer;
 
 /**
  *
@@ -51,19 +50,17 @@ public class DefaultJDBCPrintWorker extends SwingWorker<JasperPrint, String>{
     }
     
     @Override
-    protected JasperPrint doInBackground() throws Exception {
-        PreparedStatement statement = createPreparedStatement(report.getQuery(), paramList);
+    protected JasperPrint doInBackground() throws Exception {        
         Map<String, Object> paramMap = createParameterMap(report, paramList);        
-        ResultSet resultSet = statement.executeQuery();
-        JRResultSetDataSource resultSetDataSource = new JRResultSetDataSource(resultSet);
-        return JasperFillManager.fillReport(inputStream, paramMap, resultSetDataSource);        
+        JasperPrint jasperPrint;
+        jasperPrint = JasperFillManager.fillReport(inputStream, paramMap, connection);        
+        return jasperPrint;
     }
     
     private PreparedStatement createPreparedStatement(String query, List<PrintParameter> paramList) throws SQLException{
         Collections.sort(paramList);
         PreparedStatement statement = connection.prepareStatement(query);
-        for(PrintParameter param : paramList){
-            System.out.println(param.getName());
+        for(PrintParameter param : paramList){            
             if(param.getParameterType().trim().equalsIgnoreCase("Query"))
                 setParameter(statement, param);        
         }        
@@ -95,11 +92,60 @@ public class DefaultJDBCPrintWorker extends SwingWorker<JasperPrint, String>{
         Map<String, Object> parameterMap = new HashMap<>();
         
         parameterMap.put("REPORT_TITLE", report.getTitle());
-        for(PrintParameter param : paramList)
-            if(param.getParameterType().trim().equalsIgnoreCase("Report"))
-                parameterMap.put(param.getName(), param.getValue());
-        
+        for(PrintParameter param : paramList){
+            if(param.getParameterType().trim().equalsIgnoreCase("Report")){
+                if(param.getValue() instanceof ListOption){
+                    ListOption listOption = (ListOption) param.getValue();
+                    parameterMap.put(param.getName(), listOption.getValue());                    
+                    System.out.println(param.getName() + " : " + listOption.getValue().getClass());
+                }else{
+                    parameterMap.put(param.getName(), convert(param.getDataType(), param.getValue()));                    
+                    Object value = convert(param.getDataType(), param.getValue());
+                    System.out.println(param.getName() + " : " + value.getClass());
+                }    
+            }    
+        }
+            
         return parameterMap;
     }
+    
+    
+    public Object convert(String dataType, Object value){
+        Object convertedValue = null;
+        
+        switch(dataType){
+            case "Integer" : convertedValue = parseInteger(value); break;
+            case "Double" : convertedValue = parseDouble(value); break;
+            case "String" : convertedValue = value.toString(); break;
+            default : convertedValue = value;
+        }
+        
+        return convertedValue;
+    }
+    
+    
+    private Double parseDouble(Object value){
+        double doubleValue;
+        
+        try{
+            doubleValue = Double.parseDouble(value.toString());
+        }catch(NumberFormatException ex){
+            doubleValue = 0;
+        }    
+        
+        return doubleValue;
+    }   
+    
+    private Integer parseInteger(Object value){
+        int intValue;
+        
+        try{
+            intValue = Integer.parseInt(value.toString());
+        }catch(NumberFormatException ex){
+            intValue = 0;
+        }    
+        
+        return intValue;
+    }   
     
 }

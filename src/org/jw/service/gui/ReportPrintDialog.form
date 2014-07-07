@@ -167,7 +167,7 @@
                     <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
                       <Title/>
                       <Editor editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                        <Connection code="org.jw.service.table.cell.editor.DefaultDataTypeCellEditor.create(printParametersList)" type="code"/>
+                        <Connection code="org.jw.service.table.cell.editor.DefaultDataTypeCellEditor.create(printParametersList, em)" type="code"/>
                       </Editor>
                       <Renderer/>
                     </Column>
@@ -190,7 +190,6 @@
                   </Subbinding>
                   <Subbinding sourcePath="${value}">
                     <BindingParameter name="NAME" value="Value"/>
-                    <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
                   </Subbinding>
                 </BindingProperty>
               </BindingProperties>

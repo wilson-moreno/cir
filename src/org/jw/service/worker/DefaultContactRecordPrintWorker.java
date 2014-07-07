@@ -30,10 +30,11 @@ import net.sf.jasperreports.engine.JRResultSetDataSource;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperPrintManager;
+import net.sf.jasperreports.view.JRViewer;
 import org.jw.service.entity.AppsReport;
 import org.jw.service.listener.task.DefaultTaskListener;
+import org.jw.service.print.ListOption;
 import org.jw.service.print.PrintParameter;
-import net.sf.jasperreports.view.JRViewer;
 
 /**
  *
@@ -127,12 +128,21 @@ public class DefaultContactRecordPrintWorker extends SwingWorker<JasperPrint, St
         
         for(PrintParameter param : paramList){
             switch(param.getName()){
-                case "START_RECORD_NUMBER" : recordNumberStart = (String)param.getValue(); break;
-                case "END_RECORD_NUMBER" : recordNumberEnd = (String)param.getValue(); break;
+                case "START_RECORD_NUMBER" : recordNumberStart = (String)getValue(param.getValue()); break;
+                case "END_RECORD_NUMBER" : recordNumberEnd = (String)getValue(param.getValue()); break;
             }
         }
         
         return getRecordNumberResultSet(recordNumberStart, recordNumberEnd);
+    }
+    
+    private Object getValue(Object value){
+        if(value instanceof ListOption){
+            ListOption option = (ListOption)value;
+            return option.getValue();
+        }else{
+            return value;
+        }
     }
     
     private Map<String, Object> createParameterMap(AppsReport report, List<PrintParameter> paramList){

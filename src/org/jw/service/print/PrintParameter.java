@@ -7,6 +7,7 @@
 package org.jw.service.print;
 
 import java.beans.PropertyChangeSupport;
+import org.jw.service.entity.QueryText;
 
 
 
@@ -21,7 +22,11 @@ public class PrintParameter implements Comparable<PrintParameter>{
     public static final String PROP_VALUE = "value";
     public static final String PROP_DATATYPE = "dataType";
     public static final String PROP_DEFAULTVALUE = "defaultValue";    
-    public static final String PROP_PARAMETERTYPE = "PROP_PARAMETERTYPE";
+    public static final String PROP_PARAMETERTYPE = "parameterType";
+    public static final String PROP_CONTROLTYPE = "controlType";
+    public static final String PROP_QUERYTEXT = "queryText";
+    public static final String PROP_DISPLAYCOLUMN = "displayColumn";
+    public static final String PROP_VALUECOLUMN = "valueColumn";
     private Integer sequence;
     private String name;
     private String label;
@@ -29,6 +34,10 @@ public class PrintParameter implements Comparable<PrintParameter>{
     private String dataType;
     private String defaultValue;
     private String parameterType;
+    private String controlType;
+    private String displayColumn;
+    private String valueColumn;
+    private QueryText queryText;
     private final transient PropertyChangeSupport propertyChangeSupport = new java.beans.PropertyChangeSupport(this);
         
     public PrintParameter(){
@@ -80,8 +89,8 @@ public class PrintParameter implements Comparable<PrintParameter>{
         /**
         * @return the value
         */
-        public Object getValue() {
-            return value;
+        public Object getValue() {            
+            return value;            
         }
 
         /**
@@ -160,6 +169,70 @@ public class PrintParameter implements Comparable<PrintParameter>{
         java.lang.String oldParameterType = this.parameterType;
         this.parameterType = parameterType;
         propertyChangeSupport.firePropertyChange(PROP_PARAMETERTYPE, oldParameterType, parameterType);
+    }
+
+    /**
+     * @return the controlType
+     */
+    public String getControlType() {
+        return controlType;
+    }
+
+    /**
+     * @param controlType the controlType to set
+     */
+    public void setControlType(String controlType) {
+        java.lang.String oldControlType = this.controlType;
+        this.controlType = controlType;
+        propertyChangeSupport.firePropertyChange(PROP_CONTROLTYPE, oldControlType, controlType);
+    }
+
+    /**
+     * @return the queryText
+     */
+    public QueryText getQueryText() {
+        return queryText;
+    }
+
+    /**
+     * @param queryText the queryText to set
+     */
+    public void setQueryText(QueryText queryText) {
+        org.jw.service.entity.QueryText oldQueryText = this.queryText;
+        this.queryText = queryText;
+        propertyChangeSupport.firePropertyChange(PROP_QUERYTEXT, oldQueryText, queryText);
+    }
+
+    /**
+     * @return the displayColumn
+     */
+    public String getDisplayColumn() {
+        return displayColumn;
+    }
+
+    /**
+     * @param displayColumn the displayColumn to set
+     */
+    public void setDisplayColumn(String displayColumn) {
+        java.lang.String oldDisplayColumn = this.displayColumn;
+        this.displayColumn = displayColumn;
+        propertyChangeSupport.firePropertyChange(PROP_DISPLAYCOLUMN, oldDisplayColumn, displayColumn);
+    }
+
+    /**
+     * @return the valueColumn
+     */
+    public String getValueColumn() {
+        return valueColumn;
+    }
+
+    /**
+     * @param valueColumn the valueColumn to set
+     */
+    public void setValueColumn(String valueColumn) {
+        java.lang.String oldValueColumn = this.valueColumn;
+        this.valueColumn = valueColumn;
+        propertyChangeSupport.firePropertyChange(PROP_VALUECOLUMN, oldValueColumn, valueColumn);
     }
         
         

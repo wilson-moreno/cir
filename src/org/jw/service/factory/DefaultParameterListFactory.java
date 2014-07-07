@@ -37,7 +37,11 @@ public class DefaultParameterListFactory {
             param.setLabel(parameter.getLabel());
             param.setDataType(parameter.getDataType());
             param.setParameterType(parameter.getParameterType());
-            if(parameter.getDefaultValue() != null && parameter.getDefaultValue().trim().equals(""))param.setValue(convert(parameter.getDefaultValue(), parameter.getDataType()));
+            param.setControlType(parameter.getControlType());
+            param.setQueryText(parameter.getQueryTextId());
+            param.setDisplayColumn(parameter.getDisplayColumn());
+            param.setValueColumn(parameter.getValueColumn());
+            //if(parameter.getDefaultValue() != null && !parameter.getDefaultValue().trim().equals(""))param.setValue(convert(parameter.getDefaultValue(), parameter.getDataType()));
             parameterList.add(param);
         }
         
@@ -49,12 +53,28 @@ public class DefaultParameterListFactory {
         
         switch(dataType){
             case "String" : newValue = value; break;
-            case "Integer" : newValue = Integer.parseInt(value); break;
-            case "Double" : newValue = Double.parseDouble(value); break;
+            case "Integer" : newValue = parseInteger(value); break;
+            case "Double" : newValue = parseDouble(value); break;
             default : newValue = value;
         }
         
         return newValue;
+    }
+    
+    private Double parseDouble(String doubleValue){        
+        try{
+            return Double.parseDouble(doubleValue);
+        }catch(NumberFormatException ex){
+            return new Double(0.0);
+        }        
+    }
+    
+    private Integer parseInteger(String integer){        
+        try{
+            return Integer.parseInt(integer);
+        }catch(NumberFormatException ex){
+            return new Integer(0);
+        }        
     }
     
     public List<PrintParameter> getParameterList(){
