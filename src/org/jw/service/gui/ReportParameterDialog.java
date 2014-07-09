@@ -357,7 +357,7 @@ public class ReportParameterDialog extends javax.swing.JDialog {
 
         dataTypeLabel.setText("Data Type:");
 
-        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${list}");
+        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${sortedList}");
         org.jdesktop.swingbinding.JComboBoxBinding jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, dataTypeListBean, eLProperty, dataTypeComboBox);
         bindingGroup.addBinding(jComboBoxBinding);
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, parametersTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.dataType}"), dataTypeComboBox, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
@@ -461,15 +461,15 @@ public class ReportParameterDialog extends javax.swing.JDialog {
         displayColumnLabel.setText("Display Column:");
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, parametersTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.displayColumn}"), displayColumnTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue(null);
+        binding.setSourceNullValue("null");
+        binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
 
         valueColumnLabel.setText("Value Column:");
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, parametersTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.valueColumn}"), valueColumnTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue(null);
+        binding.setSourceNullValue("null");
+        binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
 
         javax.swing.GroupLayout controlPanelLayout = new javax.swing.GroupLayout(controlPanel);

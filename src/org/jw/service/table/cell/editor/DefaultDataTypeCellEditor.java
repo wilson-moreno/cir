@@ -113,7 +113,7 @@ public class DefaultDataTypeCellEditor extends AbstractCellEditor implements Tab
     private void setListOption(ListOption listOption, String dataType, ResultSet resultSet, String displayColumn, String valueColumn) throws SQLException{
         listOption.setName(resultSet.getString(displayColumn));
         
-        switch(dataType){
+        switch(dataType){            
             case "Integer" : listOption.setValue(resultSet.getInt(valueColumn)); break;
             case "String" : listOption.setValue(resultSet.getString(valueColumn));break;    
         }
@@ -134,28 +134,62 @@ public class DefaultDataTypeCellEditor extends AbstractCellEditor implements Tab
     private DefaultCellEditor getSingleInputEditor(String dataType){        
         
         switch(dataType){
-            case "String" : return new DefaultCellEditor(new JTextField());
             case "Boolean" : return new DefaultCellEditor(new JCheckBox());
+            case "Character" : return new DefaultCellEditor(createCharacterField());    
+            case "Date" : return new DefaultCellEditor(createDateField());    
+            case "Double" : return new DefaultCellEditor(createDoubleField());    
+            case "Float" : return new DefaultCellEditor(createDoubleField());    
+            case "String" : return new DefaultCellEditor(new JTextField());            
             case "Integer" : return new DefaultCellEditor(createIntegerField());
+            case "Long" : return new DefaultCellEditor(createIntegerField());
+            case "Short" : return new DefaultCellEditor(createIntegerField());    
             default : return new DefaultCellEditor(new JTextField()); 
         }        
         
     }
     
+    private JFormattedTextField createDoubleField(){
+        try{
+            return createFormattedTextField("##0.0");            
+        }catch(ParseException ex){
+            return new JFormattedTextField();
+        }
+    }
+    
+    
+    private JFormattedTextField createFormattedTextField(String format) throws ParseException{
+        JFormattedTextField textField;
+        DefaultFormatterFactory factory;
+        MaskFormatter formatter;
+            
+        textField = new JFormattedTextField();
+        formatter = new MaskFormatter(format);
+        factory = new DefaultFormatterFactory(formatter);
+        textField.setFormatterFactory(factory);
+            
+        return textField;            
+    }
+    
+    private JFormattedTextField createDateField(){
+        try{
+            return createFormattedTextField("MMM d, yyyy");            
+        }catch(ParseException ex){
+            return new JFormattedTextField();
+        }
+    }
+    
+    private JFormattedTextField createCharacterField(){
+        try{            
+            return createFormattedTextField("?");            
+        }catch(ParseException ex){
+            return new JFormattedTextField();
+        }
+    }
     
     
     private JFormattedTextField createIntegerField(){
         try {
-            JFormattedTextField textField;
-            DefaultFormatterFactory factory;
-            MaskFormatter formatter;
-            
-            textField = new JFormattedTextField();
-            formatter = new MaskFormatter("####");
-            factory = new DefaultFormatterFactory(formatter);
-            textField.setFormatterFactory(factory);
-            
-            return textField;
+            return createFormattedTextField("####");
         } catch (ParseException ex) {
             return new JFormattedTextField();
         }

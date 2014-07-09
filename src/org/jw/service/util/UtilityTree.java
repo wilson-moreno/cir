@@ -38,12 +38,14 @@ public class UtilityTree {
     private DefaultMutableTreeNode root;
     private DefaultTreeModel model;
     private final Deque<ContactNode> stack;
+    private boolean isActiveOnly;
     
     
     private UtilityTree(JTree tree, DataAccessObject<ServiceGroup> dao, DefaultTaskListener listener){
         this.tree = tree;        
         this.dao = dao;
         this.listener = listener;
+        this.isActiveOnly = true;
         this.stack = new ArrayDeque<ContactNode>();
         this.constructTree();
     }
@@ -110,9 +112,35 @@ public class UtilityTree {
                 node.setUserObject(contact);
                 updateParent(node);
                 model.reload(node);
-            }                
+                hideIfNotActive(node);
+            } else {
+                java.util.Iterator<ContactNode> i = stack.iterator();
+                while(i.hasNext()){
+                    ContactNode contactNode = i.next();
+                    DefaultMutableTreeNode node = contactNode.getNode();
+                    Contact c = (Contact)node.getUserObject();
+                    if(contact.getId().equals(c.getId())){
+                        stack.remove(contactNode);
+                        model.insertNodeInto(contactNode.getNode(), contactNode.getParent(), contactNode.getIndex());
+                    }                        
+                }
+            }               
         } catch (InterruptedException | ExecutionException ex) {
             Logger.getLogger(UtilityTree.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void hideIfNotActive(DefaultMutableTreeNode node){
+        Contact contact;
+        ContactStatus status;
+        contact = (Contact) node.getUserObject();
+        status = contact.getStatusId();                    
+        if(status != null && status.getActive() != null && !status.getActive()){                    
+            DefaultMutableTreeNode parent = (DefaultMutableTreeNode)node.getParent();
+            int index = parent.getIndex(node);
+            pushNode(new ContactNode(parent, node, index));                    
+            model.removeNodeFromParent(node);
+            model.reload(parent);                                        
         }
     }
     
@@ -246,6 +274,8 @@ public class UtilityTree {
     }
     
     public void showActiveOnly(boolean showActive){        
+        isActiveOnly = showActive;
+        
         if(showActive){
             Enumeration children = root.breadthFirstEnumeration();        
         

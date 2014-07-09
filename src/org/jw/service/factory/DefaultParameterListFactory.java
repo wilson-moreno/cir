@@ -6,6 +6,9 @@
 
 package org.jw.service.factory;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -55,13 +58,61 @@ public class DefaultParameterListFactory {
         Object newValue;
         
         switch(dataType){
-            case "String" : newValue = value; break;
-            case "Integer" : newValue = parseInteger(value); break;
+            case "Boolean" : newValue = parseBoolean(value); break;
+            case "Character" : newValue = parseCharacter(value); break;
+            case "Date" : newValue = parseDate(value); break;
             case "Double" : newValue = parseDouble(value); break;
+            case "Float" : newValue = parseFloat(value); break;
+            case "Integer" : newValue = parseInteger(value); break;            
+            case "Long" : newValue = parseLong(value); break;
+            case "Short" : newValue = parseShort(value); break;
+            case "String" : newValue = value; break;
+            
             default : newValue = value;
         }
         
         return newValue;
+    }
+    
+    private Short parseShort(String shortValue){
+        try{
+            return Short.parseShort(shortValue);
+        }catch(NumberFormatException ex){
+            return new Short((short)0);
+        }
+    }
+    
+    private Long parseLong(String longValue){
+        try{
+            return Long.parseLong(longValue);
+        }catch(NumberFormatException ex){
+            return new Long(0);
+        }
+    }
+    
+    private Float parseFloat(String floatValue){
+        try{
+            return Float.parseFloat(floatValue);
+        }catch(NumberFormatException ex){
+            return new Float(0.0f);
+        }
+    }
+    
+    private java.util.Date parseDate(String dateValue){
+        try{
+            DateFormat dateFormat = new SimpleDateFormat("MMM d, yyyy");
+            return dateFormat.parse(dateValue);
+        }catch(ParseException ex){
+            return new java.util.Date();
+        }    
+    }
+    
+    private Character parseCharacter(String characterValue){
+        return characterValue.charAt(0);
+    }
+    
+    private Boolean parseBoolean(String booleanValue){        
+        return Boolean.parseBoolean(booleanValue);        
     }
     
     private Double parseDouble(String doubleValue){        
