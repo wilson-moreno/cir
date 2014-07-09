@@ -45,7 +45,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "AppsReportParameter.findByLabel", query = "SELECT a FROM AppsReportParameter a WHERE a.label = :label"),
     @NamedQuery(name = "AppsReportParameter.findByControlType", query = "SELECT a FROM AppsReportParameter a WHERE a.controlType = :controlType"),
     @NamedQuery(name = "AppsReportParameter.findByCreatedDatetime", query = "SELECT a FROM AppsReportParameter a WHERE a.createdDatetime = :createdDatetime"),
-    @NamedQuery(name = "AppsReportParameter.findByUpdatedDatetime", query = "SELECT a FROM AppsReportParameter a WHERE a.updatedDatetime = :updatedDatetime")})
+    @NamedQuery(name = "AppsReportParameter.findByUpdatedDatetime", query = "SELECT a FROM AppsReportParameter a WHERE a.updatedDatetime = :updatedDatetime"),
+    @NamedQuery(name = "AppsReportParameter.findByReportId", query = "SELECT a FROM AppsReportParameter a WHERE a.reportId = :reportId")})
 public class AppsReportParameter implements Serializable, ObservableEntity, SilentSetter, Comparable<AppsReportParameter> {
     private static final long serialVersionUID = 1L;
     public static final String PROP_DEFAULTVALUE = "defaultValue";

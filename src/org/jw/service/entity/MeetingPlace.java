@@ -14,6 +14,7 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,6 +23,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -47,6 +49,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "MeetingPlace.findByUpdatedDatetime", query = "SELECT m FROM MeetingPlace m WHERE m.updatedDatetime = :updatedDatetime")})
 public class MeetingPlace implements Serializable, ObservableEntity, SilentSetter, Comparable<MeetingPlace>{
     private static final long serialVersionUID = 1L;
+    public static final String PROP_TERRITORYID = "territoryId";
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -74,6 +77,8 @@ public class MeetingPlace implements Serializable, ObservableEntity, SilentSette
     private ServiceGroup serviceGroupId;
     @Transient
     private String saveState;
+    @OneToOne(mappedBy = "meetingPlaceId",fetch = FetchType.EAGER) 
+    private Territory territoryId;
 
     public MeetingPlace() {
         this.address = "";
@@ -333,5 +338,21 @@ public class MeetingPlace implements Serializable, ObservableEntity, SilentSette
     @Override
     public int compareTo(MeetingPlace o) {
         return this.getName().compareTo(o.getName());
+    }
+
+    /**
+     * @return the territoryId
+     */
+    public Territory getTerritoryId() {
+        return territoryId;
+    }
+
+    /**
+     * @param territoryId the territoryId to set
+     */
+    public void setTerritoryId(Territory territoryId) {
+        org.jw.service.entity.Territory oldTerritoryId = this.territoryId;
+        this.territoryId = territoryId;
+        propertyChangeSupport.firePropertyChange(PROP_TERRITORYID, oldTerritoryId, territoryId);
     }
 }

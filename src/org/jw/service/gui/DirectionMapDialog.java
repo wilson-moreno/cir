@@ -60,7 +60,7 @@ public class DirectionMapDialog extends javax.swing.JDialog {
     }
     
     private void setContactDirectionMap(){        
-        LocationMap locationMap = contactTarget.getLocationMap();
+        LocationMap locationMap = contactTarget.getLocationMapId();
         locationMapDAO.refresh(locationMap);
         if(locationMap.getDirectionMap() == null){
             DirectionMap map = directionMapDAO.create();

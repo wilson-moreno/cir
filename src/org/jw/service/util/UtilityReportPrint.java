@@ -51,7 +51,7 @@ public class UtilityReportPrint {
     
     public void printReport(AppsReport report, List<PrintParameter> parameters, JCheckBox previewCheckBox){        
         switch(report.getReportType()){
-            case "Default" : buildReport(report, parameters); break;
+            case "Default" : buildReport(report, parameters, previewCheckBox); break;
             case "Contact Record" : buildContactRecordReport(report, parameters, previewCheckBox); break;   
             case "Direction Map" : buildDirectionMapReport(report, parameters); break;    
         }
@@ -92,11 +92,11 @@ public class UtilityReportPrint {
         return code.getTemplateName() + "." + code.getTemplateVersion() + "." + order + "." + code.getPageTotal();
     }
     
-    private void buildReport(AppsReport report, List<PrintParameter> parameters){
+    private void buildReport(AppsReport report, List<PrintParameter> parameters, JCheckBox previewCheckBox){
         listener.setStartMessage("Creating " + report.getName() + " report...");
         listener.setDoneMessage("Finished creating " + report.getName() + " report...");
         InputStream inputStream = createInputStream(report.getFileJasper());
-        DefaultJDBCPrintWorker worker = new DefaultJDBCPrintWorker(parent, report, parameters, utilDB.getConnection(), inputStream, listener);        
+        DefaultJDBCPrintWorker worker = new DefaultJDBCPrintWorker(parent, report, parameters, utilDB.getConnection(), inputStream, listener, previewCheckBox.isSelected());        
         worker.execute();
     }
     

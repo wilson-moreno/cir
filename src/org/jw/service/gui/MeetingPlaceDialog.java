@@ -29,7 +29,7 @@ import org.jw.service.util.UtilityTable;
  */
 public class MeetingPlaceDialog extends javax.swing.JDialog {
     private final DataAccessObject<MeetingPlace> dao;
-    
+    private final EntityManager em;
     
     /**
      * Creates new form MeetingPlaceDialog
@@ -37,6 +37,7 @@ public class MeetingPlaceDialog extends javax.swing.JDialog {
     public MeetingPlaceDialog(java.awt.Frame parent, boolean modal, EntityManager em) {
         super(parent, modal);
         this.dao = DataAccessObject.create(em, MeetingPlace.class);
+        this.em = em;
         initComponents();
         initMyComponents();
     }
@@ -44,8 +45,10 @@ public class MeetingPlaceDialog extends javax.swing.JDialog {
     private void initMyComponents(){
         meetingPlaceList.clear();
         meetingPlaceList.addAll(dao.readAll());
+        java.util.Collections.sort(meetingPlaceList);
         DefaultTaskBuilder<MeetingPlace> taskBuilder = new DefaultTaskBuilder<>();
         taskBuilder.setEntityName("meeting.place");
+        taskBuilder.setQuery(em.createNamedQuery("MeetingPlace.findAll", MeetingPlace.class));        
         taskBuilder.setProperties(taskMessageProperties);
         taskBuilder.setMultipleRecordCrudPanel(crudPanel);
         taskBuilder.setTaskMonitorPanel(taskMonitorPanel);

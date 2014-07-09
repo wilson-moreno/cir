@@ -7,6 +7,7 @@
 package org.jw.service.gui;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import org.jw.service.action.DefaultCloseAction;
 import org.jw.service.action.DefaultDeleteAction;
 import org.jw.service.action.DefaultNewAction;
@@ -59,7 +60,10 @@ public class ReportParameterDialog extends javax.swing.JDialog {
     private void initMyComponents(){
         setSelectedReport();
         setReportParameters();
+        Query query = em.createQuery("SELECT a FROM AppsReportParameter a WHERE a.reportId = :reportId", AppsReportParameter.class);
+        query.setParameter("reportId", this.appsReportTarget);        
         taskBuilder.setEntityName("apps.report.parameters");
+        taskBuilder.setQuery(query);
         taskBuilder.setProperties(taskMessageProperties);
         taskBuilder.setMultipleRecordCrudPanel(this.multipleRecordCrudPanel);
         taskBuilder.setTaskMonitorPanel(taskMonitorPanel);

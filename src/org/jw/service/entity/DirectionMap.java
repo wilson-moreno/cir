@@ -21,6 +21,7 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -95,7 +96,7 @@ public class DirectionMap implements Serializable, ObservableEntity, SilentSette
     @ManyToOne
     private MeetingPlace meetingPlaceId;
     @JoinColumn(name = "LOCATION_MAP_ID", referencedColumnName = "ID")
-    @ManyToOne
+    @OneToOne
     private LocationMap locationMapId;
     private final transient PropertyChangeSupport propertyChangeSupport = new java.beans.PropertyChangeSupport(this);
     @Transient

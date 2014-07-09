@@ -7,6 +7,7 @@
 package org.jw.service.gui;
 
 import java.awt.CardLayout;
+import java.awt.event.ItemEvent;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -208,6 +209,9 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         taskMonitorPanel = new org.jw.service.gui.component.TaskMonitorPanel();
         menuBar = new javax.swing.JMenuBar();
         systemMenu = new javax.swing.JMenu();
+        dbBackUpMenuItem = new javax.swing.JMenuItem();
+        systemMenuSeparator1 = new javax.swing.JPopupMenu.Separator();
+        systemExitMenuItem = new javax.swing.JMenuItem();
         optionsMenu = new javax.swing.JMenu();
         congregationMenuItem = new javax.swing.JMenuItem();
         serviceGroupsMenuItem = new javax.swing.JMenuItem();
@@ -238,6 +242,11 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         bindingGroup.addBinding(binding);
 
         viewModeComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Show All", "Show Active Only" }));
+        viewModeComboBox.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                viewModeComboBoxItemStateChanged(evt);
+            }
+        });
 
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("root");
         contactTree.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
@@ -1254,6 +1263,24 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         );
 
         systemMenu.setText("System");
+
+        dbBackUpMenuItem.setText("Database Back-up");
+        dbBackUpMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dbBackUpMenuItemActionPerformed(evt);
+            }
+        });
+        systemMenu.add(dbBackUpMenuItem);
+        systemMenu.add(systemMenuSeparator1);
+
+        systemExitMenuItem.setText("Exit");
+        systemExitMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                systemExitMenuItemActionPerformed(evt);
+            }
+        });
+        systemMenu.add(systemExitMenuItem);
+
         menuBar.add(systemMenu);
 
         optionsMenu.setText("Options");
@@ -1362,6 +1389,26 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_removeProfilePictureCommandActionPerformed
 
+    private void systemExitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_systemExitMenuItemActionPerformed
+        // TODO add your handling code here:
+        this.mainCommandPanel.getCloseCommand().doClick();
+    }//GEN-LAST:event_systemExitMenuItemActionPerformed
+
+    private void dbBackUpMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dbBackUpMenuItemActionPerformed
+        // TODO add your handling code here:
+        this.mainCommandPanel.getBackupCommand().doClick();
+    }//GEN-LAST:event_dbBackUpMenuItemActionPerformed
+
+    private void viewModeComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_viewModeComboBoxItemStateChanged
+        // TODO add your handling code here:
+        if(evt.getStateChange() == ItemEvent.SELECTED){
+            switch((String)evt.getItem()){
+                case "Show Active Only" : utilTree.showActiveOnly(true); break;
+                case "Show All" : utilTree.showActiveOnly(false); break; 
+            }
+        }
+    }//GEN-LAST:event_viewModeComboBoxItemStateChanged
+
     private void initMyComponents(){
         this.mainCommandPanel.getServiceGroupComboBox().setSelectedIndex(-1);
         sgListListener = DefaultComboBoxModelListListener.create(this.mainCommandPanel.getServiceGroupComboBox());
@@ -1412,6 +1459,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         ContactTableSelectionListener selectionListener;
         selectionListener = new ContactTableSelectionListener(utilTable, this.territoryComboBox);
         //contactsTable.getSelectionModel().addListSelectionListener(selectionListener);
+        this.viewModeComboBox.setSelectedIndex(1);
     }
     
     private void buildCrudTask(){                
@@ -1426,7 +1474,9 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         surrogateCrudPanel.setDeleteCommand(this.mainCommandPanel.getDeleteCommand());
         surrogateCrudPanel.setSaveCommand(this.mainCommandPanel.getSaveCommand());                
         surrogateCrudPanel.setCloseCommand(this.mainCommandPanel.getExitCommand());                
+        java.util.Collections.sort(contactList);
         taskBuilder.setMultipleRecordCrudPanel(surrogateCrudPanel);
+        taskBuilder.setQuery(em.createNamedQuery("Contact.findAll", Contact.class));
         taskBuilder.setTaskMonitorPanel(taskMonitorPanel);
         taskBuilder.setCloseAction(closeAction);
         taskBuilder.setNewAction(newAction);
@@ -1585,6 +1635,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     private javax.swing.JTable contactsTable;
     private javax.swing.JLabel currentAgeLabel;
     private javax.swing.JTextField currentAgeTextField;
+    private javax.swing.JMenuItem dbBackUpMenuItem;
     private javax.swing.DefaultComboBoxModel defaultComboBoxModel;
     private org.jw.service.table.cell.renderer.DefaultDateCellRenderer defaultDateCellRenderer;
     private org.jw.service.document.filter.DocumentFilterFactory documentFilterFactory;
@@ -1664,7 +1715,9 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     private org.jw.service.beans.ListBean statusListBean;
     private javax.swing.JLabel streetLabel;
     private javax.swing.JTextField streetTextField;
+    private javax.swing.JMenuItem systemExitMenuItem;
     private javax.swing.JMenu systemMenu;
+    private javax.swing.JPopupMenu.Separator systemMenuSeparator1;
     private javax.swing.JTabbedPane tabbedPane;
     private org.jw.service.gui.component.TaskMonitorPanel taskMonitorPanel;
     private javax.swing.JComboBox territoryComboBox;

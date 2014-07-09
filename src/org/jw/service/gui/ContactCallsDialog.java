@@ -66,7 +66,7 @@ public class ContactCallsDialog extends javax.swing.JDialog {
     
     private void initMyComponents(){     
         setSelectedContact();
-        setContactCalls();
+        setContactCalls();        
         taskBuilder.setEntityName("calls");
         taskBuilder.setProperties(taskMessageProperties);
         taskBuilder.setMultipleRecordCrudPanel(crudPanel);

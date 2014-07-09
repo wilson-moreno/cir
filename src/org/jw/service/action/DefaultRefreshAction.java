@@ -7,6 +7,7 @@
 package org.jw.service.action;
 
 import java.awt.event.ActionEvent;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
@@ -36,10 +37,9 @@ public class DefaultRefreshAction<T> extends DependentAbstractAction{
     @Override
     public boolean mainActionPerformed(ActionEvent ae) {
         try {
-            DefaultRefreshWorker<T> worker = new DefaultRefreshWorker<>(query, listener);
-            list.clear();
+            DefaultRefreshWorker<T> worker = new DefaultRefreshWorker<>(query, listener);            
             worker.execute();
-            list.addAll(worker.get());
+            refreshList(worker.get());
             return true;
         } catch (InterruptedException | ExecutionException ex) {
             Logger.getLogger(DefaultRefreshAction.class.getName()).log(Level.SEVERE, null, ex);
@@ -47,4 +47,12 @@ public class DefaultRefreshAction<T> extends DependentAbstractAction{
         return true;
     }
     
+    
+    private void refreshList(List<T> newList){
+        for(T item : newList){
+            if(!list.contains(item))list.add(item);
+        }     
+        
+        
+    }
 }

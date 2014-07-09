@@ -32,6 +32,8 @@ create table cir.territory(
     description varchar(100),
     enable bit,
     map_image longvarbinary,
+    meeting_place_id int,
+    marker_color varchar(15),
     created_datetime datetime,
     updated_datetime datetime
 );
@@ -132,6 +134,7 @@ create table cir.contact_status(
     modifiable bit,
     printable bit,
     countable bit,
+    active bit,
     icon longvarbinary,
     created_datetime datetime,
     updated_datetime datetime

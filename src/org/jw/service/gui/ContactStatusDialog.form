@@ -105,12 +105,13 @@
                                   <Component id="printableCheckBox" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="countableCheckBox" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" attributes="0">
-                                  <Component id="descriptionTextField" pref="282" max="32767" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="activeCheckBox" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
+                              <Component id="descriptionTextField" max="32767" attributes="0"/>
                           </Group>
+                          <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Component id="iconCommand" min="-2" pref="89" max="-2" attributes="0"/>
@@ -138,6 +139,7 @@
                               <Component id="modifiableCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="printableCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="countableCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="activeCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
@@ -243,6 +245,17 @@
             </BindingProperty>
           </BindingProperties>
         </Component>
+        <Component class="javax.swing.JCheckBox" name="activeCheckBox">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Active"/>
+          </Properties>
+          <BindingProperties>
+            <BindingProperty name="selected" source="statusTable" sourcePath="${selectedElement.active}" target="activeCheckBox" targetPath="selected" updateStrategy="0" immediately="false">
+              <Property name="nullValue" type="boolean" value="false"/>
+              <Property name="incompletePathValue" type="boolean" value="false"/>
+            </BindingProperty>
+          </BindingProperties>
+        </Component>
       </SubComponents>
     </Container>
     <Container class="javax.swing.JPanel" name="statusPanel">
@@ -321,6 +334,11 @@
                       <Editor/>
                       <Renderer/>
                     </Column>
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                      <Title/>
+                      <Editor/>
+                      <Renderer/>
+                    </Column>
                   </TableColumnModel>
                 </Property>
                 <Property name="selectionModel" type="javax.swing.ListSelectionModel" editor="org.netbeans.modules.form.editors2.JTableSelectionModelEditor">
@@ -345,6 +363,11 @@
                   <Subbinding sourcePath="${description}">
                     <BindingParameter name="NAME" value="Description"/>
                     <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
+                    <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
+                  </Subbinding>
+                  <Subbinding sourcePath="${active}">
+                    <BindingParameter name="NAME" value="Active"/>
+                    <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Boolean.class"/>
                     <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
                   </Subbinding>
                   <Subbinding sourcePath="${modifiable}">

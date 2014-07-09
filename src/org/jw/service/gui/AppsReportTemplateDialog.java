@@ -61,6 +61,7 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
         reportList.addAll(dao.readAll());
         DefaultTaskBuilder<AppsReport> taskBuilder = new DefaultTaskBuilder();
         taskBuilder.setEntityName("apps.report");
+        taskBuilder.setQuery(em.createNamedQuery("AppsReport.findAll", AppsReport.class));
         taskBuilder.setProperties(taskMessageProperties);
         taskBuilder.setMultipleRecordCrudPanel(crudPanel);
         taskBuilder.setTaskMonitorPanel(taskMonitorPanel);

@@ -6,6 +6,7 @@
 
 package org.jw.service.gui;
 
+import java.util.Collections;
 import javax.persistence.EntityManager;
 import org.jdesktop.observablecollections.ObservableList;
 import org.jdesktop.observablecollections.ObservableListListener;
@@ -19,8 +20,8 @@ import org.jw.service.action.dependency.NewServiceGroupPreDependency;
 import org.jw.service.action.dependency.SaveServiceGroupPostDependency;
 import org.jw.service.action.dependency.SaveServiceGroupPreDependency;
 import org.jw.service.action.validator.DefaultCloseActionValidator;
-import org.jw.service.action.validator.DefaultUniqueFieldsSaveActionValidator;
 import org.jw.service.action.validator.DefaultRequiredFieldsSaveActionValidator;
+import org.jw.service.action.validator.DefaultUniqueFieldsSaveActionValidator;
 import org.jw.service.builder.DefaultTaskBuilder;
 import org.jw.service.dao.DataAccessObject;
 import org.jw.service.entity.Congregation;
@@ -59,6 +60,7 @@ public class ServiceGroupDialog extends javax.swing.JDialog {
         dao = DataAccessObject.create(em, ServiceGroup.class);     
         serviceGroupList.clear();        
         serviceGroupList.addAll(dao.readAll());
+        Collections.sort(serviceGroupList);
         ((ObservableList)serviceGroupList).addObservableListListener(listListener);        
         DefaultTaskBuilder<ServiceGroup> taskBuilder = new DefaultTaskBuilder();
         taskBuilder.setEntityName("service");

@@ -23,6 +23,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -46,22 +47,17 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Territory.findByCreatedDatetime", query = "SELECT t FROM Territory t WHERE t.createdDatetime = :createdDatetime"),
     @NamedQuery(name = "Territory.findByUpdatedDatetime", query = "SELECT t FROM Territory t WHERE t.updatedDatetime = :updatedDatetime")})
 public class Territory implements Serializable, ObservableEntity, SilentSetter, Comparable<Territory> {
-    public static final String PROP_DIRECTION = "direction";
-    @Lob
-    @Column(name = "MAP_IMAGE")
-    private byte[] mapImage;
-    @OneToMany(mappedBy = "territoryId")
-    private Collection<Contact> contactCollection;
-    @JoinColumn(name = "SERVICE_GROUP_ID", referencedColumnName = "ID")
-    @ManyToOne
-    private ServiceGroup serviceGroupId;
     private static final long serialVersionUID = 1L;
+    public static final String PROP_DIRECTION = "direction";        
     public static final String PROP_ID = "id";
     public static final String PROP_NAME = "name";
     public static final String PROP_DESCRIPTION = "description";
     public static final String PROP_ENABLE = "enable";
     public static final String PROP_CREATEDDATETIME = "createdDatetime";
     public static final String PROP_UPDATEDDATETIME = "updatedDatetime";
+    public static final String PROP_MEETINGPLACEID = "meetingPlaceId";
+    public static final String PROP_MARKERCOLOR = "markerColor";
+    private final transient PropertyChangeSupport propertyChangeSupport = new java.beans.PropertyChangeSupport(this);
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -80,10 +76,23 @@ public class Territory implements Serializable, ObservableEntity, SilentSetter, 
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedDatetime;
     @Column(name = "DIRECTION")
-    private String direction;
-    private final transient PropertyChangeSupport propertyChangeSupport = new java.beans.PropertyChangeSupport(this);
+    private String direction;    
     @Transient
     private String saveState;
+    @Lob
+    @Column(name = "MAP_IMAGE")
+    private byte[] mapImage;
+    @OneToMany(mappedBy = "territoryId")
+    private Collection<Contact> contactCollection;
+    @JoinColumn(name = "SERVICE_GROUP_ID", referencedColumnName = "ID")
+    @ManyToOne
+    private ServiceGroup serviceGroupId;
+    @JoinColumn(name="MEETING_PLACE_ID", referencedColumnName = "ID")
+    @OneToOne
+    private MeetingPlace meetingPlaceId;
+    @Column(name = "MARKER_COLOR")    
+    private String markerColor;    
+    
 
     public Territory() {
         this.createdDatetime = new Date();
@@ -332,6 +341,38 @@ public class Territory implements Serializable, ObservableEntity, SilentSetter, 
         java.lang.String oldDirection = this.direction;
         this.direction = direction;
         propertyChangeSupport.firePropertyChange("direction", oldDirection, direction);
+    }
+
+    /**
+     * @return the meetingPlaceId
+     */
+    public MeetingPlace getMeetingPlaceId() {
+        return meetingPlaceId;
+    }
+
+    /**
+     * @param meetingPlaceId the meetingPlaceId to set
+     */
+    public void setMeetingPlaceId(MeetingPlace meetingPlaceId) {
+        org.jw.service.entity.MeetingPlace oldMeetingPlaceId = this.meetingPlaceId;
+        this.meetingPlaceId = meetingPlaceId;
+        propertyChangeSupport.firePropertyChange(PROP_MEETINGPLACEID, oldMeetingPlaceId, meetingPlaceId);
+    }
+
+    /**
+     * @return the markerColor
+     */
+    public String getMarkerColor() {
+        return markerColor;
+    }
+
+    /**
+     * @param markerColor the markerColor to set
+     */
+    public void setMarkerColor(String markerColor) {
+        java.lang.String oldMarkerColor = this.markerColor;
+        this.markerColor = markerColor;
+        propertyChangeSupport.firePropertyChange(PROP_MARKERCOLOR, oldMarkerColor, markerColor);
     }
 
     

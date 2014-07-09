@@ -58,7 +58,7 @@ public class LocationMap implements Serializable, ObservableEntity, SilentSetter
     @Column(name = "MARKER_COLOR")
     private String markerColor;
     @JoinColumn(name = "CONTACT_ID", referencedColumnName = "ID")
-    @ManyToOne
+    @OneToOne
     private Contact contactId;
     private static final long serialVersionUID = 1L;
     public static final String PROP_ID = "id";

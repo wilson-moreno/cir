@@ -61,6 +61,7 @@ public class TerritoryDialog extends javax.swing.JDialog {
         ((ObservableList)territoryList).addObservableListListener(listListener);        
         DefaultTaskBuilder<Territory> taskBuilder = new DefaultTaskBuilder<>();
         taskBuilder.setEntityName("status");
+        taskBuilder.setQuery(em.createNamedQuery("Territory.findAll", Territory.class));
         taskBuilder.setProperties(taskMessageProperties);
         taskBuilder.setMultipleRecordCrudPanel(crudPanel);
         taskBuilder.setTaskMonitorPanel(taskMonitorPanel);

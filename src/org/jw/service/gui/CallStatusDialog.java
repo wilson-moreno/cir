@@ -32,7 +32,7 @@ import org.jw.service.util.UtilityTable;
  */
 public class CallStatusDialog extends javax.swing.JDialog {
     private final DataAccessObject<CallStatus> callStatusDAO;
-    
+    private final EntityManager em;
     
     /**
      * Creates new form CallStatusDialog
@@ -40,6 +40,7 @@ public class CallStatusDialog extends javax.swing.JDialog {
     public CallStatusDialog(java.awt.Frame parent, boolean modal, EntityManager em) {
         super(parent, modal);
         this.callStatusDAO = DataAccessObject.create(em, CallStatus.class);        
+        this.em = em;
         initComponents();
         initMyComponents();
     }
@@ -52,6 +53,7 @@ public class CallStatusDialog extends javax.swing.JDialog {
     private void setCallStatus(){        
         callStatusList.clear();
         callStatusList.addAll(callStatusDAO.readAll());        
+        java.util.Collections.sort(callStatusList);
     }
     
     private void buildTask(){
@@ -59,6 +61,7 @@ public class CallStatusDialog extends javax.swing.JDialog {
         // TODO add unique validation
         DefaultTaskBuilder taskBuilder = new DefaultTaskBuilder();
         taskBuilder.setEntityName("call.status");
+        taskBuilder.setQuery(em.createNamedQuery("CallStatus.findAll", CallStatus.class));
         taskBuilder.setProperties(taskMessageProperties);
         taskBuilder.setMultipleRecordCrudPanel(this.multipleRecordCrudPanel);
         taskBuilder.setTaskMonitorPanel(taskMonitorPanel);

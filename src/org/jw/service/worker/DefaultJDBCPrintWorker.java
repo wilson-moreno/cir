@@ -21,8 +21,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JDialog;
 import javax.swing.SwingWorker;
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.view.JRViewer;
 import org.jw.service.entity.AppsReport;
 import org.jw.service.listener.task.DefaultTaskListener;
@@ -39,13 +41,15 @@ public class DefaultJDBCPrintWorker extends SwingWorker<JasperPrint, String>{
     private final Connection connection;
     private final InputStream inputStream;
     private final Window parent;
+    private final boolean preview;
     
-    public DefaultJDBCPrintWorker(Window parent, AppsReport report, List<PrintParameter> paramList, Connection connection, InputStream inputStream, DefaultTaskListener taskListener){
+    public DefaultJDBCPrintWorker(Window parent, AppsReport report, List<PrintParameter> paramList, Connection connection, InputStream inputStream, DefaultTaskListener taskListener, boolean preview){
         this.parent = parent;
         this.report = report;
         this.paramList = paramList;
         this.connection = connection;
         this.inputStream = inputStream;
+        this.preview = preview;
         this.addPropertyChangeListener(taskListener);
     }
     
@@ -76,14 +80,18 @@ public class DefaultJDBCPrintWorker extends SwingWorker<JasperPrint, String>{
     @Override
     protected void done(){
         try {
-            JasperPrint print = get();            
-            JRViewer viewer = new JRViewer(print);
-            JDialog dialog = new JDialog((Frame)parent, "Print Preview", true);
-            dialog.add(viewer);            
-            dialog.setSize(parent.getSize());
-            dialog.setLocationRelativeTo(parent);
-            dialog.setVisible(true);            
-        } catch (InterruptedException | ExecutionException ex) {
+            JasperPrint print = get();      
+            if(preview){
+                JRViewer viewer = new JRViewer(print);
+                JDialog dialog = new JDialog((Frame)parent, "Print Preview", true);
+                dialog.add(viewer);            
+                dialog.setSize(parent.getSize());
+                dialog.setLocationRelativeTo(parent);
+                dialog.setVisible(true);            
+            }else{
+                JasperPrintManager.printReport(print, true);
+            }
+        } catch (InterruptedException | ExecutionException | JRException ex) {
             Logger.getLogger(DefaultJDBCPrintWorker.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -97,11 +105,11 @@ public class DefaultJDBCPrintWorker extends SwingWorker<JasperPrint, String>{
                 if(param.getValue() instanceof ListOption){
                     ListOption listOption = (ListOption) param.getValue();
                     parameterMap.put(param.getName(), listOption.getValue());                    
-                    System.out.println(param.getName() + " : " + listOption.getValue().getClass());
+                    //System.out.println(param.getName() + " : " + listOption.getValue().getClass());
                 }else{
                     parameterMap.put(param.getName(), convert(param.getDataType(), param.getValue()));                    
                     Object value = convert(param.getDataType(), param.getValue());
-                    System.out.println(param.getName() + " : " + value.getClass());
+                    //System.out.println(param.getName() + " : " + value.getClass());
                 }    
             }    
         }

@@ -8,6 +8,7 @@ package org.jw.service.builder;
 
 import java.awt.Window;
 import java.beans.PropertyChangeSupport;
+import java.util.Collections;
 import java.util.List;
 import javax.persistence.Query;
 import javax.swing.JTable;
@@ -140,7 +141,6 @@ public class DefaultTaskBuilder<T> {
         for(Object entity : list){            
             ((ObservableEntity)entity).addPropertyChangeListener(stateListener);
         }                
-        
         
         UtilityTable utilTable = UtilityTable.create(table, list);
         deleteAction.addPreActionCommands("DefaultDeletePreDependency", new DefaultDeletePreDependency(window,utilTable,dao));

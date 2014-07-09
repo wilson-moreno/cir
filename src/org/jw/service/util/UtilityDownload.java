@@ -20,11 +20,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-
 import javax.xml.parsers.ParserConfigurationException;
 import org.jw.service.entity.Contact;
 import org.jw.service.entity.DirectionMap;
 import org.jw.service.entity.LocationMap;
+import org.jw.service.entity.MeetingPlace;
 import org.jw.service.entity.Territory;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
@@ -215,16 +215,19 @@ public class UtilityDownload {
         String marker = "";
         
         for(Contact contact : territory.getContactCollection()){            
-            if(contact.getLocationMap() != null){
+            if(contact.getLocationMapId() != null){
                 LocationMap locationMap;
-                locationMap = contact.getLocationMap();
+                locationMap = contact.getLocationMapId();
                 marker = createMarker(locationMap);
                 if(marker != null) markers = markers.concat(marker);
             }
         }
         
+        marker = createMarker(territory.getMeetingPlaceId());
+        if(marker != null) markers = markers.concat(marker);
+        
         String finalURL = String.format(PROXIMITY_MAP_IMAGE_URL, markers);
-        System.out.println(finalURL);
+        //System.out.println(finalURL);
         URLConnection connection = new URL(finalURL).openConnection();
         BufferedImage bufferedImage = null;
         try (InputStream inputStream = connection.getInputStream()) {
@@ -248,6 +251,15 @@ public class UtilityDownload {
                              locationMap.getMarkerLabel(), 
                              locationMap.getLatitude(),
                              locationMap.getLongitude());
+    }
+    
+    private String createMarker(MeetingPlace meetingPlace){
+        if(meetingPlace == null)return null;
+        return String.format("&markers=color:%s|label:%s|%f,%f",                             
+                             meetingPlace.getTerritoryId().getMarkerColor(),
+                             "",
+                             meetingPlace.getLatitude(),
+                             meetingPlace.getLongitude());
     }
 }
     

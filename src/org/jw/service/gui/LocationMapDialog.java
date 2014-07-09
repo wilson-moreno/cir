@@ -405,7 +405,7 @@ public class LocationMapDialog extends javax.swing.JDialog {
 
     private void setContactLocationMap(){
         contactDAO.refresh(contactTarget);        
-        if(contactTarget.getLocationMap() == null){
+        if(contactTarget.getLocationMapId() == null){
             LocationMap map = mapDAO.create();
             map.setContactId(contactTarget);
             mapTarget = mapDAO.persist(map);    
@@ -413,7 +413,7 @@ public class LocationMapDialog extends javax.swing.JDialog {
             mapIO.setTarget(mapTarget);
             mapIO.read();
         } else {            
-            mapTarget = contactTarget.getLocationMap();
+            mapTarget = contactTarget.getLocationMapId();
             mapIO.setSource(mapSource);
             mapIO.setTarget(mapTarget);
             mapIO.read();

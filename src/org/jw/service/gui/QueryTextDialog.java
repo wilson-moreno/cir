@@ -29,6 +29,7 @@ import org.jw.service.util.UtilityTable;
  */
 public final class QueryTextDialog extends javax.swing.JDialog {
     private final DataAccessObject<QueryText> dao;
+    private final EntityManager em;
     
     /**
      * Creates new form QueryTextDialog
@@ -36,6 +37,7 @@ public final class QueryTextDialog extends javax.swing.JDialog {
     public QueryTextDialog(java.awt.Frame parent, boolean modal, EntityManager em) {
         super(parent, modal);
         this.dao = DataAccessObject.create(em, QueryText.class);
+        this.em = em;
         initComponents();
         initMyComponents();
     }
@@ -45,6 +47,7 @@ public final class QueryTextDialog extends javax.swing.JDialog {
         Collections.sort(queryTextList);
         DefaultTaskBuilder taskBuilder = new DefaultTaskBuilder();
         taskBuilder.setEntityName("query.text");
+        taskBuilder.setQuery(em.createNamedQuery("QueryText.findAll", QueryText.class));
         taskBuilder.setProperties(taskMessageProperties);
         taskBuilder.setMultipleRecordCrudPanel(this.multipleRecordCrudPanel);
         taskBuilder.setTaskMonitorPanel(taskMonitorPanel);

@@ -45,7 +45,18 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "ContactStatus.findByCreatedDatetime", query = "SELECT c FROM ContactStatus c WHERE c.createdDatetime = :createdDatetime"),
     @NamedQuery(name = "ContactStatus.findByUpdatedDatetime", query = "SELECT c FROM ContactStatus c WHERE c.updatedDatetime = :updatedDatetime")})
 public class ContactStatus implements Serializable, ObservableEntity, SilentSetter, Comparable<ContactStatus> {
+    private final transient PropertyChangeSupport propertyChangeSupport = new java.beans.PropertyChangeSupport(this);
+    public static final String PROP_ID = "id";
+    public static final String PROP_NAME = "name";
+    public static final String PROP_DESCRIPTION = "description";
+    public static final String PROP_MODIFIABLE = "modifiable";
+    public static final String PROP_PRINTABLE = "printable";
+    public static final String PROP_ICON = "icon";
+    public static final String PROP_CREATEDDATETIME = "createdDatetime";
+    public static final String PROP_UPDATEDDATETIME = "updatedDatetime";
+    public static final String PROP_CONTACTCOLLECTION = "contactCollection";
     public static final String PROP_COUNTABLE = "countable";
+    public static final String PROP_ACTIVE = "active";
     @Lob
     @Column(name = "ICON")
     private byte[] icon;
@@ -65,6 +76,8 @@ public class ContactStatus implements Serializable, ObservableEntity, SilentSett
     private Boolean printable;
     @Column(name = "COUNTABLE")
     private Boolean countable;
+    @Column(name = "ACTIVE")
+    private Boolean active;
     @Column(name = "CREATED_DATETIME")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDatetime;
@@ -80,6 +93,12 @@ public class ContactStatus implements Serializable, ObservableEntity, SilentSett
         name = "";
         description = "";
         saveState = "";
+        modifiable = false;
+        printable = false;
+        countable = false;
+        active = false;
+        createdDatetime = new Date();
+        updatedDatetime = new Date();
     }
 
     public ContactStatus(Integer id) {
@@ -216,16 +235,7 @@ public class ContactStatus implements Serializable, ObservableEntity, SilentSett
         propertyChangeSupport.firePropertyChange(PROP_CONTACTCOLLECTION, oldContactCollection, contactCollection);
     }
     
-    private final transient PropertyChangeSupport propertyChangeSupport = new java.beans.PropertyChangeSupport(this);
-    public static final String PROP_ID = "id";
-    public static final String PROP_NAME = "name";
-    public static final String PROP_DESCRIPTION = "description";
-    public static final String PROP_MODIFIABLE = "modifiable";
-    public static final String PROP_PRINTABLE = "printable";
-    public static final String PROP_ICON = "icon";
-    public static final String PROP_CREATEDDATETIME = "createdDatetime";
-    public static final String PROP_UPDATEDDATETIME = "updatedDatetime";
-    public static final String PROP_CONTACTCOLLECTION = "contactCollection";
+    
 
     
 
@@ -340,6 +350,22 @@ public class ContactStatus implements Serializable, ObservableEntity, SilentSett
         java.lang.Boolean oldCountable = this.countable;
         this.countable = countable;
         propertyChangeSupport.firePropertyChange(PROP_COUNTABLE, oldCountable, countable);
+    }
+
+    /**
+     * @return the active
+     */
+    public Boolean getActive() {
+        return active;
+    }
+
+    /**
+     * @param active the active to set
+     */
+    public void setActive(Boolean active) {
+        java.lang.Boolean oldActive = this.active;
+        this.active = active;
+        propertyChangeSupport.firePropertyChange(PROP_ACTIVE, oldActive, active);
     }
     
     

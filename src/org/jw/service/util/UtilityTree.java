@@ -6,6 +6,9 @@
 
 package org.jw.service.util;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
@@ -16,6 +19,7 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 import org.jw.service.dao.DataAccessObject;
 import org.jw.service.entity.Contact;
+import org.jw.service.entity.ContactStatus;
 import org.jw.service.entity.ServiceGroup;
 import org.jw.service.entity.Territory;
 import org.jw.service.listener.task.DefaultTaskListener;
@@ -33,11 +37,14 @@ public class UtilityTree {
     private final DefaultTaskListener listener;
     private DefaultMutableTreeNode root;
     private DefaultTreeModel model;
+    private final Deque<ContactNode> stack;
+    
     
     private UtilityTree(JTree tree, DataAccessObject<ServiceGroup> dao, DefaultTaskListener listener){
         this.tree = tree;        
         this.dao = dao;
         this.listener = listener;
+        this.stack = new ArrayDeque<ContactNode>();
         this.constructTree();
     }
     
@@ -237,4 +244,76 @@ public class UtilityTree {
         territorySearchWorker.execute();        
         return territorySearchWorker.get();
     }
+    
+    public void showActiveOnly(boolean showActive){        
+        if(showActive){
+            Enumeration children = root.breadthFirstEnumeration();        
+        
+            while(children.hasMoreElements()){
+                DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode)children.nextElement();
+                if(treeNode.getUserObject() instanceof Contact){
+                    Contact contact;
+                    ContactStatus status;
+                    contact = (Contact) treeNode.getUserObject();
+                    status = contact.getStatusId();                    
+                    if(status != null && status.getActive() != null && !status.getActive()){                    
+                        DefaultMutableTreeNode parent = (DefaultMutableTreeNode)treeNode.getParent();
+                        int index = parent.getIndex(treeNode);
+                        pushNode(new ContactNode(parent, treeNode, index));                    
+                        model.removeNodeFromParent(treeNode);
+                        model.reload(parent);                                        
+                    }
+                }
+            }
+        }else{
+            while(!stack.isEmpty()){
+                ContactNode node;
+                node = stack.pop();
+                model.insertNodeInto(node.getNode(), node.getParent(), node.getIndex());
+            }
+        }
+    }
+    
+    private void pushNode(ContactNode node){
+        stack.push(node);
+    }
+    
+    
+}
+
+class ContactNode{
+    private final DefaultMutableTreeNode parent;
+    private final DefaultMutableTreeNode node;
+    private final int index;
+    
+    public ContactNode(DefaultMutableTreeNode parent,
+                       DefaultMutableTreeNode node,
+                       int index){
+        this.parent = parent;
+        this.node = node;
+        this.index = index;
+    }
+
+    /**
+     * @return the parent
+     */
+    public DefaultMutableTreeNode getParent() {
+        return parent;
+    }
+
+    /**
+     * @return the node
+     */
+    public DefaultMutableTreeNode getNode() {
+        return node;
+    }
+
+    /**
+     * @return the index
+     */
+    public int getIndex() {
+        return index;
+    }
+    
+    
 }

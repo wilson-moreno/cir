@@ -82,7 +82,7 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
     @Column(name = "PROFILE_PICTURE")
     private byte[] profilePicture;
     @OneToOne(mappedBy = "contactId", optional = true, fetch = FetchType.EAGER)
-    private LocationMap locationMap;
+    private LocationMap locationMapId;
     private static final long serialVersionUID = 1L;
     public static final String PROP_GUARDIANSNAME = "guardiansName";
     @Id
@@ -208,7 +208,7 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
         this.updatedDatetime = new Date();
         this.workBackground = "";  
         this.territoryId = null;
-        this.locationMap = null;
+        this.locationMapId = null;
         this.printed = false;
     }
 
@@ -895,14 +895,14 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
     }
 
     @XmlTransient
-    public LocationMap getLocationMap() {
-        return locationMap;
+    public LocationMap getLocationMapId() {
+        return locationMapId;
     }
 
-    public void setLocationMap(LocationMap locationMap) {
-        LocationMap oldLocationMap = this.locationMap;
-        this.locationMap = locationMap;
-        propertyChangeSupport.firePropertyChange("locationMap", oldLocationMap, locationMap);
+    public void setLocationMapId(LocationMap locationMapId) {
+        LocationMap oldLocationMap = this.locationMapId;
+        this.locationMapId = locationMapId;
+        propertyChangeSupport.firePropertyChange("locationMap", oldLocationMap, locationMapId);
     }
 
     public String getName(){
@@ -983,9 +983,9 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
     
     @Transient
     public boolean getHasMap(){
-        if(locationMap == null)return false;
+        if(locationMapId == null)return false;
         else{
-            if(locationMap.getImage() == null)return false;
+            if(locationMapId.getImage() == null)return false;
             else return true;
         }
     }
