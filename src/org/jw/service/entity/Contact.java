@@ -9,10 +9,13 @@ package org.jw.service.entity;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyVetoException;
+import java.beans.VetoableChangeListener;
 import java.beans.VetoableChangeSupport;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -162,8 +165,7 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
     private ContactStatus statusId;
     @JoinColumn(name = "TERRITORY_ID", referencedColumnName = "ID")
     @ManyToOne
-    private Territory territoryId;
-    private final transient PropertyChangeSupport propertyChangeSupport = new java.beans.PropertyChangeSupport(this);
+    private Territory territoryId;    
     @Transient
     private String saveState;
     @Column(name = "PRINTED")
@@ -171,6 +173,7 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
     @Column(name = "HISTORY")
     private String history;
     private final transient VetoableChangeSupport vetoableChangeSupport = new java.beans.VetoableChangeSupport(this);
+    private final transient PropertyChangeSupport propertyChangeSupport = new java.beans.PropertyChangeSupport(this);
     
     public Contact() {
         this.area = "";
@@ -261,8 +264,12 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
      */
     public void setRecordDate(Date recordDate) {
         java.util.Date oldRecordDate = this.recordDate;
-        this.recordDate = recordDate;
-        propertyChangeSupport.firePropertyChange(PROP_RECORDDATE, oldRecordDate, recordDate);
+        
+        try {
+            vetoableChangeSupport.fireVetoableChange("recordDate", oldRecordDate, recordDate);
+            this.recordDate = recordDate;
+            propertyChangeSupport.firePropertyChange(PROP_RECORDDATE, oldRecordDate, recordDate);
+        } catch (PropertyVetoException ex) {}
     }
 
     /**
@@ -277,8 +284,12 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
      */
     public void setBirthdate(Date birthdate) {
         java.util.Date oldBirthdate = this.birthdate;
-        this.birthdate = birthdate;
-        propertyChangeSupport.firePropertyChange(PROP_BIRTHDATE, oldBirthdate, birthdate);
+        
+        try {
+            vetoableChangeSupport.fireVetoableChange("birthdate", oldBirthdate, birthdate);
+            this.birthdate = birthdate;
+            propertyChangeSupport.firePropertyChange(PROP_BIRTHDATE, oldBirthdate, birthdate);
+        } catch (PropertyVetoException ex) {}
     }
 
     /**
@@ -292,9 +303,9 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
      * @param lastName the lastName to set
      */
     public void setLastName(String lastName) {        
+        java.lang.String oldLastName = this.lastName;
         try {
-            vetoableChangeSupport.fireVetoableChange("lastName", this.lastName, lastName);
-            java.lang.String oldLastName = this.lastName;
+            vetoableChangeSupport.fireVetoableChange("lastName", oldLastName, lastName);            
             this.lastName = lastName.trim();
             propertyChangeSupport.firePropertyChange(PROP_LASTNAME, oldLastName, lastName);
         } catch (PropertyVetoException ex) {}
@@ -312,8 +323,11 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
      */
     public void setFirstName(String firstName) {
         java.lang.String oldFirstName = this.firstName;
-        this.firstName = firstName.trim();
-        propertyChangeSupport.firePropertyChange(PROP_FIRSTNAME, oldFirstName, firstName);
+        try {
+            vetoableChangeSupport.fireVetoableChange("firstName", oldFirstName, firstName);
+            this.firstName = firstName.trim();
+            propertyChangeSupport.firePropertyChange(PROP_FIRSTNAME, oldFirstName, firstName);
+        } catch (PropertyVetoException ex) {}
     }
 
     /**
@@ -328,8 +342,12 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
      */
     public void setNickName(String nickName) {
         java.lang.String oldNickName = this.nickName;
-        this.nickName = nickName.trim();
-        propertyChangeSupport.firePropertyChange(PROP_NICKNAME, oldNickName, nickName);
+        
+        try {
+            vetoableChangeSupport.fireVetoableChange("nickName", oldNickName, nickName);
+            this.nickName = nickName.trim();
+            propertyChangeSupport.firePropertyChange(PROP_NICKNAME, oldNickName, nickName);
+        } catch (PropertyVetoException ex) {}
     }
 
     /**
@@ -344,8 +362,12 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
      */
     public void setSex(String sex) {
         java.lang.String oldSex = this.sex;
-        this.sex = sex;
-        propertyChangeSupport.firePropertyChange(PROP_SEX, oldSex, sex);
+        
+        try {
+            vetoableChangeSupport.fireVetoableChange("sex", oldSex, sex);
+            this.sex = sex;
+            propertyChangeSupport.firePropertyChange(PROP_SEX, oldSex, sex);
+        } catch (PropertyVetoException ex) {}
     }
 
     /**
@@ -360,8 +382,11 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
      */
     public void setMaritalStatus(String maritalStatus) {
         java.lang.String oldMaritalStatus = this.maritalStatus;
-        this.maritalStatus = maritalStatus;
-        propertyChangeSupport.firePropertyChange(PROP_MARITALSTATUS, oldMaritalStatus, maritalStatus);
+        try {
+            vetoableChangeSupport.fireVetoableChange("maritalStatus", oldMaritalStatus, maritalStatus);
+            this.maritalStatus = maritalStatus;
+            propertyChangeSupport.firePropertyChange(PROP_MARITALSTATUS, oldMaritalStatus, maritalStatus);
+        } catch (PropertyVetoException ex) {}
     }
 
     /**
@@ -376,8 +401,12 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
      */
     public void setNationality(String nationality) {
         java.lang.String oldNationality = this.nationality;
-        this.nationality = nationality;
-        propertyChangeSupport.firePropertyChange(PROP_NATIONALITY, oldNationality, nationality);
+        
+        try {
+            vetoableChangeSupport.fireVetoableChange("nationality", oldNationality, nationality);
+            this.nationality = nationality;
+            propertyChangeSupport.firePropertyChange(PROP_NATIONALITY, oldNationality, nationality);
+        } catch (PropertyVetoException ex) {}
     }
 
     /**
@@ -392,8 +421,12 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
      */
     public void setProfilePicture(byte[] profilePicture) {
         byte[] oldProfilePicture = this.profilePicture;
-        this.profilePicture = profilePicture;
-        propertyChangeSupport.firePropertyChange(PROP_PROFILEPICTURE, oldProfilePicture, profilePicture);
+        
+        try {
+            vetoableChangeSupport.fireVetoableChange("profilePicture", oldProfilePicture, profilePicture);
+            this.profilePicture = profilePicture;
+            propertyChangeSupport.firePropertyChange(PROP_PROFILEPICTURE, oldProfilePicture, profilePicture);
+        } catch (PropertyVetoException ex) {}
     }
 
     /**
@@ -408,8 +441,11 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
      */
     public void setHouseNumber(String houseNumber) {
         java.lang.String oldHouseNumber = this.houseNumber;
-        this.houseNumber = houseNumber;
-        propertyChangeSupport.firePropertyChange(PROP_HOUSENUMBER, oldHouseNumber, houseNumber);
+        try {
+            vetoableChangeSupport.fireVetoableChange("houseNumber", oldHouseNumber, houseNumber);
+            this.houseNumber = houseNumber;
+            propertyChangeSupport.firePropertyChange(PROP_HOUSENUMBER, oldHouseNumber, houseNumber);
+        } catch (PropertyVetoException ex) {}
     }
 
     /**
@@ -424,8 +460,12 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
      */
     public void setStreet(String street) {
         java.lang.String oldStreet = this.street;
-        this.street = street;
-        propertyChangeSupport.firePropertyChange(PROP_STREET, oldStreet, street);
+        
+        try {
+            vetoableChangeSupport.fireVetoableChange("street", oldStreet, street);
+            this.street = street;
+            propertyChangeSupport.firePropertyChange(PROP_STREET, oldStreet, street);
+        } catch (PropertyVetoException ex) {}
     }
 
     /**
@@ -440,8 +480,12 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
      */
     public void setBarangay(String barangay) {
         java.lang.String oldBarangay = this.barangay;
-        this.barangay = barangay;
-        propertyChangeSupport.firePropertyChange(PROP_BARANGAY, oldBarangay, barangay);
+        
+        try {
+            vetoableChangeSupport.fireVetoableChange("barangay", oldBarangay, barangay);
+            this.barangay = barangay;
+            propertyChangeSupport.firePropertyChange(PROP_BARANGAY, oldBarangay, barangay);
+        } catch (PropertyVetoException ex) {}        
     }
 
     /**
@@ -456,8 +500,11 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
      */
     public void setCity(String city) {
         java.lang.String oldCity = this.city;
-        this.city = city;
-        propertyChangeSupport.firePropertyChange(PROP_CITY, oldCity, city);
+        try {
+            vetoableChangeSupport.fireVetoableChange("city", oldCity, city);
+            this.city = city;
+            propertyChangeSupport.firePropertyChange(PROP_CITY, oldCity, city);
+        } catch (PropertyVetoException ex) {}
     }
 
     /**
@@ -470,10 +517,13 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
     /**
      * @param area the area to set
      */
-    public void setArea(String area) {
-        java.lang.String oldArea = this.area;
-        this.area = area;
-        propertyChangeSupport.firePropertyChange(PROP_AREA, oldArea, area);
+    public void setArea(String area) throws PropertyVetoException {
+        java.lang.String oldArea = this.area;        
+        try {
+            vetoableChangeSupport.fireVetoableChange("area", oldArea, area);
+            this.area = area;
+            propertyChangeSupport.firePropertyChange(PROP_AREA, oldArea, area);
+        } catch (PropertyVetoException ex) {}
     }
 
     /**
@@ -488,8 +538,12 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
      */
     public void setPersonalBackground(String personalBackground) {
         java.lang.String oldPersonalBackground = this.personalBackground;
-        this.personalBackground = personalBackground;
-        propertyChangeSupport.firePropertyChange(PROP_PERSONALBACKGROUND, oldPersonalBackground, personalBackground);
+        
+        try {
+            vetoableChangeSupport.fireVetoableChange("personalBackground", oldPersonalBackground, personalBackground);
+            this.personalBackground = personalBackground;
+            propertyChangeSupport.firePropertyChange(PROP_PERSONALBACKGROUND, oldPersonalBackground, personalBackground);
+        } catch (PropertyVetoException ex) {}
     }
 
     /**
@@ -504,8 +558,11 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
      */
     public void setFamilyBackground(String familyBackground) {
         java.lang.String oldFamilyBackground = this.familyBackground;
-        this.familyBackground = familyBackground;
-        propertyChangeSupport.firePropertyChange(PROP_FAMILYBACKGROUND, oldFamilyBackground, familyBackground);
+        try {
+            vetoableChangeSupport.fireVetoableChange("familyBackground", oldFamilyBackground, familyBackground);
+            this.familyBackground = familyBackground;
+            propertyChangeSupport.firePropertyChange(PROP_FAMILYBACKGROUND, oldFamilyBackground, familyBackground);
+        } catch (PropertyVetoException ex) {}
     }
 
     /**
@@ -520,8 +577,12 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
      */
     public void setWorkBackground(String workBackground) {
         java.lang.String oldWorkBackground = this.workBackground;
-        this.workBackground = workBackground;
-        propertyChangeSupport.firePropertyChange(PROP_WORKBACKGROUND, oldWorkBackground, workBackground);
+        
+        try {
+            vetoableChangeSupport.fireVetoableChange("workBackground", oldWorkBackground, workBackground);
+            this.workBackground = workBackground;
+            propertyChangeSupport.firePropertyChange(PROP_WORKBACKGROUND, oldWorkBackground, workBackground);
+        } catch (PropertyVetoException ex) {}
     }
 
     /**
@@ -536,8 +597,12 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
      */
     public void setPhoneNumber(String phoneNumber) {
         java.lang.String oldPhoneNumber = this.phoneNumber;
-        this.phoneNumber = phoneNumber;
-        propertyChangeSupport.firePropertyChange(PROP_PHONENUMBER, oldPhoneNumber, phoneNumber);
+        
+        try {
+            vetoableChangeSupport.fireVetoableChange("phoneNumber", oldPhoneNumber, phoneNumber);
+            this.phoneNumber = phoneNumber;
+            propertyChangeSupport.firePropertyChange(PROP_PHONENUMBER, oldPhoneNumber, phoneNumber);
+        } catch (PropertyVetoException ex) {}
     }
 
     /**
@@ -552,8 +617,11 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
      */
     public void setMobileNumber(String mobileNumber) {
         java.lang.String oldMobileNumber = this.mobileNumber;
-        this.mobileNumber = mobileNumber;
-        propertyChangeSupport.firePropertyChange(PROP_MOBILENUMBER, oldMobileNumber, mobileNumber);
+        try {
+            vetoableChangeSupport.fireVetoableChange("mobileNumber", oldMobileNumber, mobileNumber);
+            this.mobileNumber = mobileNumber;
+            propertyChangeSupport.firePropertyChange(PROP_MOBILENUMBER, oldMobileNumber, mobileNumber);
+        } catch (PropertyVetoException ex) {}
     }
 
     /**
@@ -568,8 +636,11 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
      */
     public void setEmailAddress(String emailAddress) {
         java.lang.String oldEmailAddress = this.emailAddress;
-        this.emailAddress = emailAddress;
-        propertyChangeSupport.firePropertyChange(PROP_EMAILADDRESS, oldEmailAddress, emailAddress);
+        try {
+            vetoableChangeSupport.fireVetoableChange("emailAddress", oldEmailAddress, emailAddress);
+            this.emailAddress = emailAddress;
+            propertyChangeSupport.firePropertyChange(PROP_EMAILADDRESS, oldEmailAddress, emailAddress);
+        } catch (PropertyVetoException ex) {}
     }
 
     /**
@@ -584,8 +655,12 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
      */
     public void setSkypeAccount(String skypeAccount) {
         java.lang.String oldSkypeAccount = this.skypeAccount;
-        this.skypeAccount = skypeAccount;
-        propertyChangeSupport.firePropertyChange(PROP_SKYPEACCOUNT, oldSkypeAccount, skypeAccount);
+        
+        try {
+            vetoableChangeSupport.fireVetoableChange("skypeAccount", oldSkypeAccount, skypeAccount);
+            this.skypeAccount = skypeAccount;
+            propertyChangeSupport.firePropertyChange(PROP_SKYPEACCOUNT, oldSkypeAccount, skypeAccount);
+        } catch (PropertyVetoException ex) {}
     }
 
     /**
@@ -600,8 +675,11 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
      */
     public void setFacebookAccount(String facebookAccount) {
         java.lang.String oldFacebookAccount = this.facebookAccount;
-        this.facebookAccount = facebookAccount;
-        propertyChangeSupport.firePropertyChange(PROP_FACEBOOKACCOUNT, oldFacebookAccount, facebookAccount);
+        try {
+            vetoableChangeSupport.fireVetoableChange("facebookAccount", oldFacebookAccount, facebookAccount);
+            this.facebookAccount = facebookAccount;
+            propertyChangeSupport.firePropertyChange(PROP_FACEBOOKACCOUNT, oldFacebookAccount, facebookAccount);
+        } catch (PropertyVetoException ex) {}
     }
 
     /**
@@ -616,8 +694,11 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
      */
     public void setFathersName(String fathersName) {
         java.lang.String oldFathersName = this.fathersName;
-        this.fathersName = fathersName;
-        propertyChangeSupport.firePropertyChange(PROP_FATHERSNAME, oldFathersName, fathersName);
+        try {
+            vetoableChangeSupport.fireVetoableChange("fathersName", oldFathersName, fathersName);
+            this.fathersName = fathersName;
+            propertyChangeSupport.firePropertyChange(PROP_FATHERSNAME, oldFathersName, fathersName);
+        } catch (PropertyVetoException ex) {}
     }
 
     /**
@@ -632,8 +713,11 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
      */
     public void setMothersName(String mothersName) {
         java.lang.String oldMothersName = this.mothersName;
-        this.mothersName = mothersName;
-        propertyChangeSupport.firePropertyChange(PROP_MOTHERSNAME, oldMothersName, mothersName);
+        try {
+            vetoableChangeSupport.fireVetoableChange("mothersName", oldMothersName, mothersName);
+            this.mothersName = mothersName;
+            propertyChangeSupport.firePropertyChange(PROP_MOTHERSNAME, oldMothersName, mothersName);
+        } catch (PropertyVetoException ex) {}
     }
 
     /**
@@ -648,8 +732,12 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
      */
     public void setReligion(String religion) {
         java.lang.String oldReligion = this.religion;
-        this.religion = religion;
-        propertyChangeSupport.firePropertyChange(PROP_RELIGION, oldReligion, religion);
+        
+        try {
+            vetoableChangeSupport.fireVetoableChange("religion", oldReligion, religion);
+            this.religion = religion;
+            propertyChangeSupport.firePropertyChange(PROP_RELIGION, oldReligion, religion);
+        } catch (PropertyVetoException ex) {}
     }
 
     /**
@@ -664,8 +752,11 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
      */
     public void setFoundBy(String foundBy) {
         java.lang.String oldFoundBy = this.foundBy;
-        this.foundBy = foundBy;
-        propertyChangeSupport.firePropertyChange(PROP_FOUNDBY, oldFoundBy, foundBy);
+        try {
+            vetoableChangeSupport.fireVetoableChange("foundBy", oldFoundBy, foundBy);
+            this.foundBy = foundBy;
+            propertyChangeSupport.firePropertyChange(PROP_FOUNDBY, oldFoundBy, foundBy);
+        } catch (PropertyVetoException ex) {}
     }
 
     /**
@@ -729,8 +820,12 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
      */
     public void setServiceGroupId(ServiceGroup serviceGroupId) {
         org.jw.service.entity.ServiceGroup oldServiceGroupId = this.serviceGroupId;
-        this.serviceGroupId = serviceGroupId;
-        propertyChangeSupport.firePropertyChange(PROP_SERVICEGROUPID, oldServiceGroupId, serviceGroupId);
+        
+        try {
+            vetoableChangeSupport.fireVetoableChange("serviceGroupId", oldServiceGroupId, serviceGroupId);
+            this.serviceGroupId = serviceGroupId;
+            propertyChangeSupport.firePropertyChange(PROP_SERVICEGROUPID, oldServiceGroupId, serviceGroupId);
+        } catch (PropertyVetoException ex) {}
     }
 
     /**
@@ -745,8 +840,12 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
      */
     public void setStatusId(ContactStatus statusId) {
         org.jw.service.entity.ContactStatus oldStatusId = this.statusId;
-        this.statusId = statusId;
-        propertyChangeSupport.firePropertyChange(PROP_STATUSID, oldStatusId, statusId);
+        
+        try {
+            vetoableChangeSupport.fireVetoableChange("statusId", oldStatusId, statusId);
+            this.statusId = statusId;
+            propertyChangeSupport.firePropertyChange(PROP_STATUSID, oldStatusId, statusId);
+        } catch (PropertyVetoException ex) {}
     }
     public static final String PROP_ID = "id";
     public static final String PROP_RECORDNUMBER = "recordNumber";
@@ -837,6 +936,24 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
         propertyChangeSupport.firePropertyChange("saveState", oldSaveState, saveState);
     }
 
+    
+    public void addVetoableChangeListener(VetoableChangeListener listener){
+        this.vetoableChangeSupport.addVetoableChangeListener(listener);
+    }
+    
+    public void addVetoableChangeListener(String name, VetoableChangeListener listener){
+        this.vetoableChangeSupport.addVetoableChangeListener(name, listener);
+    }
+    
+    public void removeVetoableChangeListener(VetoableChangeListener listener){
+        this.vetoableChangeSupport.removeVetoableChangeListener(listener);
+    }
+    
+    public void removeVetoableChangeListener(String name, VetoableChangeListener listener){
+        this.vetoableChangeSupport.removeVetoableChangeListener(name, listener);
+    }
+    
+    
     @Override
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         propertyChangeSupport.addPropertyChangeListener(listener);
@@ -879,8 +996,12 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
      */
     public void setTerritoryId(Territory territoryId) {
         Territory oldTerritoryId = this.territoryId;
-        this.territoryId = territoryId;
-        propertyChangeSupport.firePropertyChange("territory", oldTerritoryId, territoryId);
+        
+        try {            
+            this.vetoableChangeSupport.fireVetoableChange("territoryId", oldTerritoryId, territoryId);
+            this.territoryId = territoryId;
+            propertyChangeSupport.firePropertyChange("territoryId", oldTerritoryId, territoryId);
+        } catch (PropertyVetoException ex) {}
     }
 
     @Override
@@ -911,8 +1032,12 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
     
     public void setPrinted(Boolean printed){
         Boolean oldPrinted = this.printed;
-        this.printed = printed;
-        propertyChangeSupport.firePropertyChange("printed", oldPrinted, printed);
+        
+        try {
+            vetoableChangeSupport.fireVetoableChange("printed", oldPrinted, printed);
+            this.printed = printed;
+            propertyChangeSupport.firePropertyChange("printed", oldPrinted, printed);
+        } catch (PropertyVetoException ex) {}
     }
     
     public Boolean getPrinted(){
@@ -945,11 +1070,13 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
      * @param guardiansName the guardiansName to set
      * @throws java.beans.PropertyVetoException
      */
-    public void setGuardiansName(String guardiansName) throws PropertyVetoException {
+    public void setGuardiansName(String guardiansName){
         java.lang.String oldGuardiansName = this.guardiansName;
-        //vetoableChangeSupport.fireVetoableChange(PROP_GUARDIANSNAME, oldGuardiansName, guardiansName);
-        this.guardiansName = guardiansName;
-        propertyChangeSupport.firePropertyChange(PROP_GUARDIANSNAME, oldGuardiansName, guardiansName);
+        try {
+            vetoableChangeSupport.fireVetoableChange(PROP_GUARDIANSNAME, oldGuardiansName, guardiansName);
+            this.guardiansName = guardiansName;
+            propertyChangeSupport.firePropertyChange(PROP_GUARDIANSNAME, oldGuardiansName, guardiansName);
+        } catch (PropertyVetoException ex) {}
     }
 
     /**
@@ -964,8 +1091,11 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
      */
     public void setHistory(String history) {
         java.lang.String oldHistory = this.history;
-        this.history = history;
-        propertyChangeSupport.firePropertyChange(PROP_HISTORY, oldHistory, history);
+        try {
+            vetoableChangeSupport.fireVetoableChange("history", oldHistory, history);
+            this.history = history;
+            propertyChangeSupport.firePropertyChange(PROP_HISTORY, oldHistory, history);
+        } catch (PropertyVetoException ex) {}
     }
     
     

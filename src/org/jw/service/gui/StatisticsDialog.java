@@ -18,6 +18,7 @@ import org.jw.service.action.DefaultCloseAction;
 import org.jw.service.factory.StatisticsChartFactory;
 import org.jw.service.util.UtilityDatabase;
 import org.jw.service.util.UtilityProperties;
+import static org.jw.service.key.binder.CndrsKeyBinders.*;
 
 
 /**
@@ -45,6 +46,13 @@ public class StatisticsDialog extends javax.swing.JDialog {
         createContactDistributionChart(utilDB);        
         createContactAgeGroupDistributionChart(utilDB);
         createCivilStatusDistributionChart(utilDB);
+        setKeyBinders();
+        this.closeRefreshPanel.getRefreshCommand().setVisible(false);
+    }
+    
+    private void setKeyBinders(){
+        setKeyBinder(this.closeRefreshPanel.getCloseCommand(), controlAltX, CLOSE_MAP_KEY);
+        setKeyBinder(this.closeRefreshPanel.getRefreshCommand(), controlR, REFRESH_MAP_KEY);
     }
     
     private void createCivilStatusDistributionChart(UtilityDatabase utilDB){

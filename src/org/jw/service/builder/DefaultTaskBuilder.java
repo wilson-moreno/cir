@@ -114,10 +114,10 @@ public class DefaultTaskBuilder<T> {
     
     
     public void buildDefaultTasks(){
-        DefaultTaskListener newTaskListener = taskMonitorPanel.createDefaultTaskListener(properties.getProperty(entityName + ".new.start.message"), properties.getProperty(entityName + ".new.done.message"));
-        DefaultTaskListener deleteTaskListener = taskMonitorPanel.createDefaultTaskListener(properties.getProperty(entityName + ".delete.start.message"), properties.getProperty(entityName + ".delete.done.message"));
-        DefaultTaskListener refreshTaskListener = taskMonitorPanel.createDefaultTaskListener(properties.getProperty(entityName + ".refresh.start.message"), properties.getProperty(entityName + ".refresh.done.message"));
-        DefaultTaskListener saveTaskListener = taskMonitorPanel.createDefaultTaskListener(properties.getProperty(entityName + ".save.start.message"), properties.getProperty(entityName + ".save.done.message"));
+        DefaultTaskListener newTaskListener = taskMonitorPanel.createDefaultTaskListener(properties.getProperty("new.start.message"), properties.getProperty("new.done.message"));
+        DefaultTaskListener deleteTaskListener = taskMonitorPanel.createDefaultTaskListener(properties.getProperty("delete.start.message"), properties.getProperty("delete.done.message"));
+        DefaultTaskListener refreshTaskListener = taskMonitorPanel.createDefaultTaskListener(properties.getProperty("refresh.start.message"), properties.getProperty("refresh.done.message"));
+        DefaultTaskListener saveTaskListener = taskMonitorPanel.createDefaultTaskListener(properties.getProperty("save.start.message"), properties.getProperty("save.done.message"));
           
         saveAction = new DefaultSaveAction(crudPanel.getSaveCommand(), dao, this.list, this.table, saveTaskListener);        
         DefaultEntityStateListener stateListener = DefaultEntityStateListener.create(saveAction);

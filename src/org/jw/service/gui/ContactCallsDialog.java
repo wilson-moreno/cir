@@ -531,6 +531,7 @@ public class ContactCallsDialog extends javax.swing.JDialog {
         contactDAO.refresh(contactTarget);
         contactCallsList.clear();
         contactCallsList.addAll(contactTarget.getContactCallCollection());        
+        java.util.Collections.sort(contactCallsList);
     }
 
 

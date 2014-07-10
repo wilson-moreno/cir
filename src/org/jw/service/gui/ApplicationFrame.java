@@ -54,6 +54,8 @@ import org.jw.service.list.ContactMatcher;
 import org.jw.service.list.selection.listener.ContactTableSelectionListener;
 import org.jw.service.listener.combobox.DefaultComboBoxModelListListener;
 import org.jw.service.listener.item.DefaultServiceGroupItemListener;
+import org.jw.service.listener.property.VetoableContactPropertyChangeListener;
+import org.jw.service.listener.property.VetoableTerritoryIdChangeListener;
 import org.jw.service.listener.selection.ContactListSelectionListener;
 import org.jw.service.listener.task.DefaultTaskListener;
 import org.jw.service.listener.tree.selection.DefaultTreeSelectionListener;
@@ -222,9 +224,12 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         toolsMenu = new javax.swing.JMenu();
         reportTemplatesMenuItem = new javax.swing.JMenuItem();
         queryTextMenuItem = new javax.swing.JMenuItem();
-        proximityMapMenuItem = new javax.swing.JMenuItem();
+        territoryMapMenuItem = new javax.swing.JMenuItem();
         excelImportExportMenuItem = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
+        helpContentsMenuItem = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        aboutMenuItem = new javax.swing.JMenuItem();
 
         defaultDateCellRenderer.setText("defaultDateCellRenderer1");
 
@@ -1134,8 +1139,8 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         currentAgeTextField.setEditable(false);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.age}"), currentAgeTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("null");
-        binding.setSourceUnreadableValue("null");
+        binding.setSourceNullValue("");
+        binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
 
         javax.swing.GroupLayout otherPanelLayout = new javax.swing.GroupLayout(otherPanel);
@@ -1321,9 +1326,9 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         queryTextMenuItem.setText("Query");
         toolsMenu.add(queryTextMenuItem);
 
-        proximityMapMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.proximity.map.png"))); // NOI18N
-        proximityMapMenuItem.setText("Proximity Map");
-        toolsMenu.add(proximityMapMenuItem);
+        territoryMapMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.proximity.map.png"))); // NOI18N
+        territoryMapMenuItem.setText("Territory Map");
+        toolsMenu.add(territoryMapMenuItem);
 
         excelImportExportMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.excel.icon.png"))); // NOI18N
         excelImportExportMenuItem.setText("Excel Import/Export");
@@ -1332,6 +1337,14 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         menuBar.add(toolsMenu);
 
         helpMenu.setText("Help");
+
+        helpContentsMenuItem.setText("Help Contents");
+        helpMenu.add(helpContentsMenuItem);
+        helpMenu.add(jSeparator1);
+
+        aboutMenuItem.setText("About");
+        helpMenu.add(aboutMenuItem);
+
         menuBar.add(helpMenu);
 
         setJMenuBar(menuBar);
@@ -1436,7 +1449,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         openTerritoryAction = new DefaultOpenAction(this.territoryMenuItem, UtilityDialog.TERRITORY, utilDialog, null);
         openCongregationAction = new DefaultOpenAction(this.congregationMenuItem, UtilityDialog.CONGREGATION, utilDialog, null);
         openMeetingPlaceAction = new DefaultOpenAction(this.meetingPlacesMenuItem, UtilityDialog.MEETING_PLACE, utilDialog, null);        
-        openProximityMapAction = new DefaultOpenAction(this.proximityMapMenuItem, UtilityDialog.PROXIMITY_MAP, utilDialog, null);
+        openTerritoryMapAction = new DefaultOpenAction(this.territoryMapMenuItem, UtilityDialog.SELECT_TERRITORY, utilDialog, null);
         openContactSearchAction = new DefaultOpenAction(this.mainCommandPanel.getSearchCommand(), UtilityDialog.CONTACT_SEARCH, utilDialog, null);
         openStatisticsAction = new DefaultOpenAction(this.mainCommandPanel.getStatisticsCommand() , UtilityDialog.STATISTICS, utilDialog, null);
         openCallStatusAction = new DefaultOpenAction(this.callStatusMenuItem, UtilityDialog.CALL_STATUS, utilDialog, null);
@@ -1452,6 +1465,8 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         contactPrintAction.setEnabled(false);       
         openLocationMapAction.setEnabled(false);
         openDirectionMapAction.setEnabled(false);
+        fcOpenAction.setEnabled(false);
+        removeProfileAction.setEnabled(false);
         buildCrudTask();
         addIconPropertyChangeListener();        
         setCustomKeyBinders();        
@@ -1460,11 +1475,13 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         selectionListener = new ContactTableSelectionListener(utilTable, this.territoryComboBox);
         //contactsTable.getSelectionModel().addListSelectionListener(selectionListener);
         this.viewModeComboBox.setSelectedIndex(1);
+        this.excelImportExportMenuItem.setVisible(false);
     }
     
     private void buildCrudTask(){                
         contactObservableList = (ObservableList) contactList;        
         contactList.addAll(contactDAO.readAll());
+        addVetoableTerritoryChangeListener(contactList);
         DefaultTaskBuilder<Contact> taskBuilder = new DefaultTaskBuilder<>();
         taskBuilder.setEntityName("contact");
         taskBuilder.setProperties(taskMessageProperties);        
@@ -1502,7 +1519,9 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         contactListSelectionListener.addAction(openContactCallsAction);
         contactListSelectionListener.addAction(contactPrintAction);
         contactListSelectionListener.addAction(openLocationMapAction);
-        contactListSelectionListener.addAction(openDirectionMapAction);                
+        contactListSelectionListener.addAction(openDirectionMapAction);  
+        contactListSelectionListener.addAction(fcOpenAction);
+        contactListSelectionListener.addAction(removeProfileAction);
         //contactObservableList.addObservableListListener(contactObservableListListener);
         contactsTable.getSelectionModel().addListSelectionListener(contactListSelectionListener);
         
@@ -1511,13 +1530,57 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         taskBuilder.getListListener().addDisableAdded(contactPrintAction);
         taskBuilder.getListListener().addDisableAdded(openLocationMapAction);
         taskBuilder.getListListener().addDisableAdded(openDirectionMapAction);
+        taskBuilder.getListListener().addDisableAdded(fcOpenAction);
+        taskBuilder.getListListener().addDisableAdded(removeProfileAction);
         taskBuilder.getListListener().addDisableRemoved(openContactCallsAction);
         taskBuilder.getListListener().addDisableRemoved(contactPrintAction);
         taskBuilder.getListListener().addDisableRemoved(openLocationMapAction);
         taskBuilder.getListListener().addDisableRemoved(openDirectionMapAction);
+        taskBuilder.getListListener().addDisableRemoved(fcOpenAction);
+        taskBuilder.getListListener().addDisableRemoved(removeProfileAction);
         
         setActionDependencies(taskBuilder, utilTable);
         setActionValidators(taskBuilder, utilTable);
+    }
+    
+    private void addVetoableTerritoryChangeListener(java.util.List<Contact> list){
+        VetoableTerritoryIdChangeListener territoryIdlistener = VetoableTerritoryIdChangeListener.create(this);
+        VetoableContactPropertyChangeListener contactPropertyListener = VetoableContactPropertyChangeListener.create(this);
+        
+        for(Contact contact : list){
+            contact.addVetoableChangeListener("territoryId", territoryIdlistener);
+            contact.addVetoableChangeListener("area", contactPropertyListener);
+            contact.addVetoableChangeListener("barangay", contactPropertyListener);
+            contact.addVetoableChangeListener("birthdate", contactPropertyListener);
+            contact.addVetoableChangeListener("city", contactPropertyListener);
+            contact.addVetoableChangeListener("emailAddress", contactPropertyListener);
+            contact.addVetoableChangeListener("facebookAccount", contactPropertyListener);
+            contact.addVetoableChangeListener("familyBackground", contactPropertyListener);
+            contact.addVetoableChangeListener("fathersName", contactPropertyListener);
+            contact.addVetoableChangeListener("firstName", contactPropertyListener);
+            contact.addVetoableChangeListener("foundBy", contactPropertyListener);
+            contact.addVetoableChangeListener("guardiansName", contactPropertyListener);
+            contact.addVetoableChangeListener("history", contactPropertyListener);
+            contact.addVetoableChangeListener("houseNumber", contactPropertyListener);
+            contact.addVetoableChangeListener("lastName", contactPropertyListener);
+            contact.addVetoableChangeListener("maritalStatus", contactPropertyListener);
+            contact.addVetoableChangeListener("mobileNumber", contactPropertyListener);
+            contact.addVetoableChangeListener("mothersName", contactPropertyListener);
+            contact.addVetoableChangeListener("nationality", contactPropertyListener);
+            contact.addVetoableChangeListener("nickName", contactPropertyListener);
+            contact.addVetoableChangeListener("personalBackground", contactPropertyListener);
+            contact.addVetoableChangeListener("phoneNumber", contactPropertyListener);
+            contact.addVetoableChangeListener("printed", contactPropertyListener);
+            contact.addVetoableChangeListener("profilePicture", contactPropertyListener);
+            contact.addVetoableChangeListener("recordDate", contactPropertyListener);
+            contact.addVetoableChangeListener("religion", contactPropertyListener);
+            contact.addVetoableChangeListener("sex", contactPropertyListener);
+            contact.addVetoableChangeListener("skypeAccount", contactPropertyListener);
+            //contact.addVetoableChangeListener("statusId", contactPropertyListener);
+            contact.addVetoableChangeListener("street", contactPropertyListener);
+            contact.addVetoableChangeListener("territoryId", contactPropertyListener);
+            contact.addVetoableChangeListener("workBackground", contactPropertyListener);
+        }        
     }
     
     private void setActionDependencies(DefaultTaskBuilder taskBuilder, UtilityTable<Contact> utilTable){
@@ -1610,6 +1673,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem aboutMenuItem;
     private javax.swing.JPanel addressPanel;
     private javax.swing.JPanel addressTab;
     private javax.swing.JLabel areaLabel;
@@ -1654,6 +1718,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     private javax.swing.JTextField foundByTextField;
     private javax.swing.JLabel guardiansNameLabel;
     private javax.swing.JTextField guardiansNameTextField;
+    private javax.swing.JMenuItem helpContentsMenuItem;
     private javax.swing.JMenu helpMenu;
     private javax.swing.JPanel historyPanel;
     private javax.swing.JScrollPane historyScrollPane;
@@ -1661,6 +1726,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     private javax.swing.JTextArea historyTextArea;
     private javax.swing.JLabel houseNumberLabel;
     private javax.swing.JTextField houseNumberTextField;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JLabel lastNameLabel;
     private javax.swing.JTextField lastNameTextField;
     private org.jw.service.gui.component.MainCommandPanel mainCommandPanel;
@@ -1693,7 +1759,6 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     private javax.swing.JCheckBox printedCheckBox;
     private javax.swing.JLabel profilePictureLabel;
     private javax.swing.JPanel profilePicturePanel;
-    private javax.swing.JMenuItem proximityMapMenuItem;
     private javax.swing.JMenuItem queryTextMenuItem;
     private com.toedter.calendar.JDateChooser recordDateChooser;
     private javax.swing.JLabel recordDateLabel;
@@ -1723,6 +1788,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     private javax.swing.JComboBox territoryComboBox;
     private javax.swing.JLabel territoryLabel;
     private org.jw.service.beans.ListBean territoryListBean;
+    private javax.swing.JMenuItem territoryMapMenuItem;
     private javax.swing.JMenuItem territoryMenuItem;
     private javax.swing.JMenu toolsMenu;
     private javax.swing.JScrollPane treeScrollPane;
@@ -1750,7 +1816,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     DefaultOpenAction openTerritoryAction;
     DefaultOpenAction openCongregationAction;
     DefaultOpenAction openMeetingPlaceAction;
-    DefaultOpenAction openProximityMapAction;
+    DefaultOpenAction openTerritoryMapAction;
     DefaultOpenAction openContactSearchAction;
     DefaultOpenAction openStatisticsAction;
     DefaultOpenAction openCallStatusAction;

@@ -578,6 +578,7 @@
                 <Component class="javax.swing.JButton" name="parametersCommand">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Parameters"/>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="parametersCommandActionPerformed"/>
@@ -743,6 +744,7 @@
                 <Component class="javax.swing.JButton" name="chooseFileCommand">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Choose"/>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                 </Component>
                 <Component class="com.toedter.calendar.JDateChooser" name="fileCreatedDateChooser">

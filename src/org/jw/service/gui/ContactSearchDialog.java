@@ -12,6 +12,7 @@ import org.jw.service.action.DefaultSearchAction;
 import org.jw.service.entity.Contact;
 import org.jw.service.listener.task.SearchTaskListener;
 import org.jw.service.util.UtilityTable;
+import static org.jw.service.key.binder.CndrsKeyBinders.*;
 
 /**
  *
@@ -38,6 +39,13 @@ public class ContactSearchDialog extends javax.swing.JDialog {
         SearchTaskListener searchListener = new SearchTaskListener(this.searchRecordCommandPanel.getStartSearchCommand(), this.searchRecordCommandPanel.getStopSearchCommand());
         closeAction = new DefaultCloseAction(this.searchRecordCommandPanel.getCloseCommand(), this);
         searchAction = new DefaultSearchAction(this.searchRecordCommandPanel.getStartSearchCommand(), this,keyContact, searchList, foundList, this.taskMonitorPanel.createDefaultTaskListener("Searching for record...", "Finished searching..."), searchListener);
+        setKeyBinders();
+    }
+    
+    private void setKeyBinders(){
+        setKeyBinder(this.searchRecordCommandPanel.getCloseCommand(), controlAltX, CLOSE_MAP_KEY);
+        setKeyBinder(this.firstNameTextField, controlEnter, ENTER_MAP_KEY, searchAction);
+        setKeyBinder(this.lastNameTextField, controlEnter, ENTER_MAP_KEY, searchAction);
     }
 
     /**

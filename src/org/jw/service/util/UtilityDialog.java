@@ -26,6 +26,7 @@ import org.jw.service.gui.MeetingPlaceDialog;
 import org.jw.service.gui.ProximityMapDialog;
 import org.jw.service.gui.QueryTextDialog;
 import org.jw.service.gui.ReportPrintDialog;
+import org.jw.service.gui.SelectTerritoryDialog;
 import org.jw.service.gui.ServiceGroupDialog;
 import org.jw.service.gui.StatisticsDialog;
 import org.jw.service.gui.TerritoryDialog;
@@ -52,6 +53,7 @@ public class UtilityDialog {
     public static final String STATISTICS = "statistics";
     public static final String CALL_STATUS = "call.status";
     public static final String QUERY_TEXT = "query.text";
+    public static final String SELECT_TERRITORY = "select.territory";
 
     public static UtilityDialog create(JFrame parent, boolean modal, EntityManager em, UtilityTree utilTree, UtilityTable utilTable, UtilityReportPrint utilPrint, List<Contact> contactList) {
         return new UtilityDialog(parent, modal, em, utilTree, utilTable, utilPrint, contactList);
@@ -125,7 +127,11 @@ public class UtilityDialog {
             case UtilityDialog.QUERY_TEXT :    
                     dialog = new QueryTextDialog(parent, true, em);
                     dialog.pack();
-                    break;                
+                    break;        
+            case UtilityDialog.SELECT_TERRITORY :
+                    dialog = new SelectTerritoryDialog(parent, true, em);
+                    dialog.pack();
+                    break;
         }
         
         if(dialog != null){

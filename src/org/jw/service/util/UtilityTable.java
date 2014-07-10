@@ -95,4 +95,9 @@ public class UtilityTable<T> {
         if(e1.getId().intValue() == e2.getId().intValue())return true;
         return !e1.getName().trim().equalsIgnoreCase(e2.getName().trim());               
     }
+    
+    public boolean isRowSelected(){
+        if(this.getSelectedModelIndex() > -1)return true;
+        else return false;
+    }
 }

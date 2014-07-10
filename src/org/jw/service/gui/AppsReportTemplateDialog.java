@@ -8,23 +8,24 @@ package org.jw.service.gui;
 
 import javax.persistence.EntityManager;
 import javax.swing.JFileChooser;
-
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import org.jw.service.action.DefaultCloseAction;
 import org.jw.service.action.DefaultDeleteAction;
 import org.jw.service.action.DefaultFileChooserAction;
 import org.jw.service.action.DefaultNewAction;
 import org.jw.service.action.DefaultRefreshAction;
 import org.jw.service.action.DefaultSaveAction;
-import org.jw.service.builder.DefaultTaskBuilder;
-import org.jw.service.dao.DataAccessObject;
-import org.jw.service.entity.AppsReport;
-import org.jw.service.util.UtilityProperties;
 import org.jw.service.action.dependency.JasperFileChoosePostDependency;
 import org.jw.service.action.validator.DefaultCloseActionValidator;
 import org.jw.service.action.validator.DefaultRequiredFieldsSaveActionValidator;
 import org.jw.service.action.validator.DefaultUniqueFieldsSaveActionValidator;
+import org.jw.service.builder.DefaultTaskBuilder;
+import org.jw.service.dao.DataAccessObject;
+import org.jw.service.entity.AppsReport;
 import org.jw.service.file.filter.FileFilterJasper;
 import org.jw.service.list.AppsReportMatcher;
+import org.jw.service.util.UtilityProperties;
 import org.jw.service.util.UtilityTable;
 
 /**
@@ -79,9 +80,23 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
         JasperFileChoosePostDependency jasperFileChoosePostDependency = new JasperFileChoosePostDependency(this.byteArrayBean, this.fileNameTextField, this.fileCreatedDateChooser, this.fileModifiedDateChooser);
         fcOpenAction = new DefaultFileChooserAction(this.chooseFileCommand, this, FileFilterJasper.create(), "Open" , JFileChooser.FILES_ONLY,null);
         fcOpenAction.addPostActionCommands("jasperFileChoosePostDependency", jasperFileChoosePostDependency);
+        fcOpenAction.setEnabled(false);
         
         UtilityTable<AppsReport> utilTable = UtilityTable.create(reportTable, reportList);
         setActionValidators(taskBuilder, utilTable);
+        
+        this.reportTable.getSelectionModel().addListSelectionListener(
+                new ListSelectionListener(){
+                    @Override
+                    public void valueChanged(ListSelectionEvent e) {
+                        if(!e.getValueIsAdjusting()){
+                            parametersCommand.setEnabled(true);
+                            chooseFileCommand.setEnabled(true);
+                        }
+                    }                    
+                }
+        );
+        
     }
     
     private void setActionValidators(DefaultTaskBuilder taskBuilder, UtilityTable<AppsReport> utilTable){
@@ -326,6 +341,7 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
         bindingGroup.addBinding(binding);
 
         parametersCommand.setText("Parameters");
+        parametersCommand.setEnabled(false);
         parametersCommand.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 parametersCommandActionPerformed(evt);
@@ -470,6 +486,7 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
         bindingGroup.addBinding(binding);
 
         chooseFileCommand.setText("Choose");
+        chooseFileCommand.setEnabled(false);
 
         fileCreatedDateChooser.setEnabled(false);
 

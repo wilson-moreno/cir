@@ -10,6 +10,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Collections;
 import javax.persistence.EntityManager;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import org.jdesktop.observablecollections.ObservableList;
 import org.jdesktop.observablecollections.ObservableListListener;
 import org.jw.service.action.DefaultCloseAction;
@@ -83,16 +85,27 @@ public class TerritoryDialog extends javax.swing.JDialog {
         
         final javax.swing.JDialog parent = this;
         
+        this.mapTerritoryCommand.setEnabled(false);
         this.mapTerritoryCommand.addActionListener(
             new ActionListener(){
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    TerritoryMapEditorDialog dialog = new TerritoryMapEditorDialog(parent, true, em, utilTable);
+                    TerritoryMapEditorDialog dialog = new TerritoryMapEditorDialog(parent, true, em, utilTable, null);
                     dialog.pack();
                     dialog.setLocationRelativeTo(parent);
                     dialog.setVisible(true);
                 }                    
             }
+        );
+        this.territoryTable.getSelectionModel().addListSelectionListener(
+                new ListSelectionListener(){
+                    @Override
+                    public void valueChanged(ListSelectionEvent e) {
+                        if(!e.getValueIsAdjusting()){
+                            mapTerritoryCommand.setEnabled(true);
+                        }
+                    }                    
+                }
         );
     }
     

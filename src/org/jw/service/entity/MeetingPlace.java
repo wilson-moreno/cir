@@ -337,6 +337,7 @@ public class MeetingPlace implements Serializable, ObservableEntity, SilentSette
 
     @Override
     public int compareTo(MeetingPlace o) {
+        if(o == null)return -1;
         return this.getName().compareTo(o.getName());
     }
 

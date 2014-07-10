@@ -28,12 +28,12 @@ import org.jw.service.listener.task.DefaultTaskListener;
 import org.jw.service.util.UtilityProperties;
 import org.jw.service.util.UtilityTable;
 
+
 /**
  *
  * @author Wilson
  */
-public class TerritoryMapEditorDialog extends javax.swing.JDialog implements PropertyChangeListener, ActionListener{
-    private final UtilityTable<Territory> utilTable;
+public class TerritoryMapEditorDialog extends javax.swing.JDialog implements PropertyChangeListener, ActionListener{    
     private final DataAccessObject<Territory> territoryDAO;
     private final DataAccessObject<LocationMap> locationMapDAO;
     private final DataAccessObject<Contact> contactDAO;
@@ -45,15 +45,14 @@ public class TerritoryMapEditorDialog extends javax.swing.JDialog implements Pro
      * Creates new form ProximityMapEditorDialog
      * @param utilTable
      */
-    public TerritoryMapEditorDialog(javax.swing.JDialog parent, boolean modal, EntityManager em, UtilityTable<Territory> utilTable) {
+    public TerritoryMapEditorDialog(javax.swing.JDialog parent, boolean modal, EntityManager em, UtilityTable<Territory> utilTable, Territory territory) {
         super(parent, modal);
         this.territoryDAO = DataAccessObject.create(em, Territory.class);
         this.locationMapDAO = DataAccessObject.create(em, LocationMap.class);
         this.contactDAO = DataAccessObject.create(em, Contact.class);
-        this.meetingPlaceDAO = DataAccessObject.create(em, MeetingPlace.class);
-        this.utilTable = utilTable;        
+        this.meetingPlaceDAO = DataAccessObject.create(em, MeetingPlace.class);        
         initComponents();
-        this.territoryTarget = utilTable.getSelectedItem();        
+        this.territoryTarget = utilTable == null ? territory:utilTable.getSelectedItem();        
         territoryDAO.refresh(territoryTarget);
         this.territoryIO = EntityIO.create(territorySource, territoryTarget, Territory.class);
         initMyComponents();
@@ -95,7 +94,7 @@ public class TerritoryMapEditorDialog extends javax.swing.JDialog implements Pro
         downloadAction.addPreActionCommands("downloadPreDependency", downloadPreDependency);
         this.mapCrudPanel.getSaveCommand().addActionListener(this);
         DefaultEntityStateListener stateListener = DefaultEntityStateListener.create(saveAction);
-        territorySource.addPropertyChangeListener(stateListener);
+        territorySource.addPropertyChangeListener(stateListener);        
     }
 
     /**
@@ -122,6 +121,10 @@ public class TerritoryMapEditorDialog extends javax.swing.JDialog implements Pro
         territoryTextField = new javax.swing.JTextField();
         serviceGroupLabel = new javax.swing.JLabel();
         serviceGroupTextField = new javax.swing.JTextField();
+        meetingPlaceLabel = new javax.swing.JLabel();
+        meetingPlaceComboBox = new javax.swing.JComboBox();
+        territoryMarkerLabel = new javax.swing.JLabel();
+        territoryMarkerComboBox = new javax.swing.JComboBox();
         proximityMapPanel = new javax.swing.JPanel();
         territoryMapLabel = new javax.swing.JLabel();
         locationMapsPanel = new javax.swing.JPanel();
@@ -135,10 +138,6 @@ public class TerritoryMapEditorDialog extends javax.swing.JDialog implements Pro
         latitudeTextField = new javax.swing.JFormattedTextField();
         longitudeLabel = new javax.swing.JLabel();
         longitudeTextField = new javax.swing.JFormattedTextField();
-        meetingPlaceLabel = new javax.swing.JLabel();
-        meetingPlaceComboBox = new javax.swing.JComboBox();
-        territoryMarkerLabel = new javax.swing.JLabel();
-        territoryMarkerComboBox = new javax.swing.JComboBox();
 
         org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${sortedList}");
         org.jdesktop.swingbinding.JComboBoxBinding jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, markerColorListBean, eLProperty, markerColorComboBox);
@@ -183,6 +182,32 @@ public class TerritoryMapEditorDialog extends javax.swing.JDialog implements Pro
             }
         });
 
+        meetingPlaceLabel.setText("Landmark:");
+
+        eLProperty = org.jdesktop.beansbinding.ELProperty.create("${sortedList}");
+        jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, meetingPlaceListBean, eLProperty, meetingPlaceComboBox);
+        bindingGroup.addBinding(jComboBoxBinding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, territorySource, org.jdesktop.beansbinding.ELProperty.create("${meetingPlaceId}"), meetingPlaceComboBox, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
+
+        meetingPlaceComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                meetingPlaceComboBoxActionPerformed(evt);
+            }
+        });
+
+        territoryMarkerLabel.setText("Marker:");
+
+        eLProperty = org.jdesktop.beansbinding.ELProperty.create("${sortedList}");
+        jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, markerColorListBean, eLProperty, territoryMarkerComboBox);
+        jComboBoxBinding.setSourceNullValue(null);
+        jComboBoxBinding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(jComboBoxBinding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, territorySource, org.jdesktop.beansbinding.ELProperty.create("${markerColor}"), territoryMarkerComboBox, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        bindingGroup.addBinding(binding);
+
         javax.swing.GroupLayout territoryPanelLayout = new javax.swing.GroupLayout(territoryPanel);
         territoryPanel.setLayout(territoryPanelLayout);
         territoryPanelLayout.setHorizontalGroup(
@@ -195,13 +220,20 @@ public class TerritoryMapEditorDialog extends javax.swing.JDialog implements Pro
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(territoryTextField))
                     .addGroup(territoryPanelLayout.createSequentialGroup()
-                        .addComponent(serviceGroupLabel)
+                        .addGroup(territoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(territoryMarkerLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(territoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(meetingPlaceLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(serviceGroupLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(serviceGroupTextField)))
+                        .addGroup(territoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(serviceGroupTextField)
+                            .addComponent(meetingPlaceComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(territoryMarkerComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
 
-        territoryPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {serviceGroupLabel, territoryLabel});
+        territoryPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {meetingPlaceLabel, serviceGroupLabel, territoryLabel, territoryMarkerLabel});
 
         territoryPanelLayout.setVerticalGroup(
             territoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -214,6 +246,14 @@ public class TerritoryMapEditorDialog extends javax.swing.JDialog implements Pro
                 .addGroup(territoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(serviceGroupLabel)
                     .addComponent(serviceGroupTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(territoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(meetingPlaceLabel)
+                    .addComponent(meetingPlaceComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(territoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(territoryMarkerLabel)
+                    .addComponent(territoryMarkerComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -331,26 +371,6 @@ public class TerritoryMapEditorDialog extends javax.swing.JDialog implements Pro
         binding.setSourceUnreadableValue(null);
         bindingGroup.addBinding(binding);
 
-        meetingPlaceLabel.setText("Meeting Place:");
-
-        eLProperty = org.jdesktop.beansbinding.ELProperty.create("${sortedList}");
-        jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, meetingPlaceListBean, eLProperty, meetingPlaceComboBox);
-        bindingGroup.addBinding(jComboBoxBinding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, territorySource, org.jdesktop.beansbinding.ELProperty.create("${meetingPlaceId}"), meetingPlaceComboBox, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue(null);
-        bindingGroup.addBinding(binding);
-
-        territoryMarkerLabel.setText("Marker:");
-
-        eLProperty = org.jdesktop.beansbinding.ELProperty.create("${sortedList}");
-        jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, markerColorListBean, eLProperty, territoryMarkerComboBox);
-        jComboBoxBinding.setSourceNullValue(null);
-        jComboBoxBinding.setSourceUnreadableValue(null);
-        bindingGroup.addBinding(jComboBoxBinding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, territorySource, org.jdesktop.beansbinding.ELProperty.create("${markerColor}"), territoryMarkerComboBox, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
         javax.swing.GroupLayout locationMapsPanelLayout = new javax.swing.GroupLayout(locationMapsPanel);
         locationMapsPanel.setLayout(locationMapsPanelLayout);
         locationMapsPanelLayout.setHorizontalGroup(
@@ -359,41 +379,28 @@ public class TerritoryMapEditorDialog extends javax.swing.JDialog implements Pro
                 .addContainerGap()
                 .addGroup(locationMapsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(locationMapsPanelLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(locationMapsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, locationMapsPanelLayout.createSequentialGroup()
-                                .addGroup(locationMapsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, locationMapsPanelLayout.createSequentialGroup()
-                                        .addComponent(markerLabel)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(markerLabelTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(locationMapsPanelLayout.createSequentialGroup()
-                                        .addComponent(markerColorLabel)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(colorComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(locationMapScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, locationMapsPanelLayout.createSequentialGroup()
+                        .addGroup(locationMapsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, locationMapsPanelLayout.createSequentialGroup()
+                                .addComponent(markerLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(locationMapsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(longitudeLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(latitudeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(106, 106, 106))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, locationMapsPanelLayout.createSequentialGroup()
-                                .addComponent(latitudeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap())
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, locationMapsPanelLayout.createSequentialGroup()
-                                .addComponent(longitudeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap())))
-                    .addGroup(locationMapsPanelLayout.createSequentialGroup()
-                        .addGroup(locationMapsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(locationMapScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(markerLabelTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(locationMapsPanelLayout.createSequentialGroup()
-                                .addComponent(meetingPlaceLabel)
+                                .addComponent(markerColorLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(meetingPlaceComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(territoryMarkerLabel)
+                                .addComponent(colorComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(locationMapsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(latitudeTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, locationMapsPanelLayout.createSequentialGroup()
+                                .addGroup(locationMapsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(latitudeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(longitudeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(territoryMarkerComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addComponent(longitudeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap())))
         );
 
         locationMapsPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {markerColorLabel, markerLabel});
@@ -403,14 +410,8 @@ public class TerritoryMapEditorDialog extends javax.swing.JDialog implements Pro
         locationMapsPanelLayout.setVerticalGroup(
             locationMapsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(locationMapsPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(locationMapsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(meetingPlaceLabel)
-                    .addComponent(meetingPlaceComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(territoryMarkerLabel)
-                    .addComponent(territoryMarkerComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(locationMapScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(locationMapScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(locationMapsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(markerLabelTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -448,12 +449,12 @@ public class TerritoryMapEditorDialog extends javax.swing.JDialog implements Pro
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(territoryPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(locationMapsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(proximityMapPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(locationMapsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(proximityMapPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(mapCrudPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -472,6 +473,10 @@ public class TerritoryMapEditorDialog extends javax.swing.JDialog implements Pro
     private void serviceGroupTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_serviceGroupTextFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_serviceGroupTextFieldActionPerformed
+
+    private void meetingPlaceComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_meetingPlaceComboBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_meetingPlaceComboBoxActionPerformed
 
     
 

@@ -669,7 +669,10 @@
                 <Component class="javax.swing.JComboBox" name="queryComboBox">
                   <BindingProperties>
                     <BindingProperty name="elements" source="queryTextListBean" sourcePath="${sortedList}" target="queryComboBox" targetPath="elements" updateStrategy="0" immediately="false"/>
-                    <BindingProperty name="selectedItem" source="parametersTable" sourcePath="${selectedElement.queryTextId}" target="queryComboBox" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
+                    <BindingProperty name="selectedItem" source="parametersTable" sourcePath="${selectedElement.queryTextId}" target="queryComboBox" targetPath="selectedItem" updateStrategy="0" immediately="false">
+                      <Property name="nullValue" type="java.lang.Object" value="null"/>
+                      <Property name="incompletePathValue" type="java.lang.Object" value="null"/>
+                    </BindingProperty>
                   </BindingProperties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="displayColumnLabel">
@@ -681,8 +684,8 @@
                   <BindingProperties>
                     <BindingProperty name="text" source="parametersTable" sourcePath="${selectedElement.displayColumn}" target="displayColumnTextField" targetPath="text" updateStrategy="0" immediately="false">
                       <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
-                      <Property name="nullValue" type="java.lang.String" value="null"/>
-                      <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+                      <Property name="nullValue" type="java.lang.String" value=""/>
+                      <Property name="incompletePathValue" type="java.lang.String" value=""/>
                     </BindingProperty>
                   </BindingProperties>
                 </Component>
@@ -695,8 +698,8 @@
                   <BindingProperties>
                     <BindingProperty name="text" source="parametersTable" sourcePath="${selectedElement.valueColumn}" target="valueColumnTextField" targetPath="text" updateStrategy="0" immediately="false">
                       <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
-                      <Property name="nullValue" type="java.lang.String" value="null"/>
-                      <Property name="incompletePathValue" type="java.lang.String" value="null"/>
+                      <Property name="nullValue" type="java.lang.String" value=""/>
+                      <Property name="incompletePathValue" type="java.lang.String" value=""/>
                     </BindingProperty>
                   </BindingProperties>
                 </Component>

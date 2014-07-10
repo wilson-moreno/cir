@@ -49,7 +49,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ContactCall.findByNextTopic", query = "SELECT c FROM ContactCall c WHERE c.nextTopic = :nextTopic"),
     @NamedQuery(name = "ContactCall.findByCreatedDatetime", query = "SELECT c FROM ContactCall c WHERE c.createdDatetime = :createdDatetime"),
     @NamedQuery(name = "ContactCall.findByUpdatedDatetime", query = "SELECT c FROM ContactCall c WHERE c.updatedDatetime = :updatedDatetime")})
-public class ContactCall implements Serializable, ObservableEntity, SilentSetter {
+public class ContactCall implements Serializable, ObservableEntity, SilentSetter, Comparable<ContactCall> {
     @JoinColumn(name = "CALL_STATUS_ID", referencedColumnName = "ID")
     @ManyToOne
     private CallStatus callStatusId;
@@ -452,6 +452,11 @@ public class ContactCall implements Serializable, ObservableEntity, SilentSetter
     @Override
     public String getImplementingClassName() {
         return "Contact.Call";
+    }
+
+    @Override
+    public int compareTo(ContactCall o) {
+        return this.callDate.compareTo(o.getCallDate());
     }
     
     

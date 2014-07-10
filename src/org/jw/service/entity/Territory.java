@@ -103,6 +103,7 @@ public class Territory implements Serializable, ObservableEntity, SilentSetter, 
         this.serviceGroupId = null;
         this.updatedDatetime = new Date();
         this.direction = "";
+        this.markerColor = "red";
     }
 
     public Territory(Integer id) {

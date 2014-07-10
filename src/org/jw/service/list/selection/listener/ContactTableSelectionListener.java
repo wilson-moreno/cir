@@ -34,8 +34,7 @@ public class ContactTableSelectionListener implements ListSelectionListener{
     public void valueChanged(ListSelectionEvent e) {
         if(!e.getValueIsAdjusting()){
             Contact contact = utilTable.getSelectedItem();
-            DefaultComboBoxModel model = (DefaultComboBoxModel) territoryComboBox.getModel();                        
-            
+            DefaultComboBoxModel model = (DefaultComboBoxModel) territoryComboBox.getModel();                                    
         }
     }
     

@@ -6,7 +6,6 @@
 
 package org.jw.service.gui;
 
-import java.util.Date;
 import javax.persistence.EntityManager;
 import org.jw.service.action.DefaultCloseAction;
 import org.jw.service.action.DefaultSingleSaveAction;
@@ -16,6 +15,7 @@ import org.jw.service.dao.DataAccessObject;
 import org.jw.service.entity.Congregation;
 import org.jw.service.entity.EntityIO;
 import org.jw.service.listener.state.DefaultEntityStateListener;
+import static org.jw.service.key.binder.CndrsKeyBinders.*;
 
 /**
  *
@@ -52,6 +52,12 @@ public class CongregationDialog extends javax.swing.JDialog {
         saveAction.addActionValidator(saveValidator);
         
         bindingGroup.addBindingListener(this.taskMonitorPanel.getLogger());
+        setKeyBinders();
+    }
+    
+    private void setKeyBinders(){
+        setKeyBinder(this.singleRecordCrudPanel.getCloseCommand(), controlAltX, CLOSE_MAP_KEY);
+        setKeyBinder(this.singleRecordCrudPanel.getSaveCommand(), controlS, SAVE_MAP_KEY);
     }
     
     private Congregation getCongregation(){
