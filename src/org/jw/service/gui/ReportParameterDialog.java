@@ -78,6 +78,8 @@ public class ReportParameterDialog extends javax.swing.JDialog {
         taskBuilder.setDao(parameterDAO);
         taskBuilder.buildDefaultTasks();
         
+        java.util.Collections.sort(parameterList);
+        
         NewParameterPostDependency newParameterPostDependency = new NewParameterPostDependency(parameterDAO, this.appsReportTarget);
         taskBuilder.getNewAction().addPostActionCommands("newParameterPostDependency", newParameterPostDependency);
         

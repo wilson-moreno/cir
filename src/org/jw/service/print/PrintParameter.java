@@ -27,6 +27,7 @@ public class PrintParameter implements Comparable<PrintParameter>{
     public static final String PROP_QUERYTEXT = "queryText";
     public static final String PROP_DISPLAYCOLUMN = "displayColumn";
     public static final String PROP_VALUECOLUMN = "valueColumn";
+    public static final String PROP_REQUIRED = "PROP_REQUIRED";
     private Integer sequence;
     private String name;
     private String label;
@@ -38,6 +39,7 @@ public class PrintParameter implements Comparable<PrintParameter>{
     private String displayColumn;
     private String valueColumn;
     private QueryText queryText;
+    private boolean required;
     private final transient PropertyChangeSupport propertyChangeSupport = new java.beans.PropertyChangeSupport(this);
         
     public PrintParameter(){
@@ -45,6 +47,7 @@ public class PrintParameter implements Comparable<PrintParameter>{
         this.label = "";
         this.value = "";
         this.parameterType = "";
+        this.required = false;
     }
     
     public PrintParameter(String name, String label, Object value, String parameterType){
@@ -233,6 +236,22 @@ public class PrintParameter implements Comparable<PrintParameter>{
         java.lang.String oldValueColumn = this.valueColumn;
         this.valueColumn = valueColumn;
         propertyChangeSupport.firePropertyChange(PROP_VALUECOLUMN, oldValueColumn, valueColumn);
+    }
+
+    /**
+     * @return the required
+     */
+    public boolean isRequired() {
+        return required;
+    }
+
+    /**
+     * @param required the required to set
+     */
+    public void setRequired(boolean required) {
+        boolean oldRequired = this.required;
+        this.required = required;
+        propertyChangeSupport.firePropertyChange(PROP_REQUIRED, oldRequired, required);
     }
         
         

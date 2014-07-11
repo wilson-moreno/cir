@@ -45,6 +45,7 @@ public class DefaultParameterListFactory {
             param.setQueryText(parameter.getQueryTextId());
             param.setDisplayColumn(parameter.getDisplayColumn());
             param.setValueColumn(parameter.getValueColumn());
+            param.setRequired(parameter.getRequired());            
             //if(parameter.getDefaultValue() != null && !parameter.getDefaultValue().trim().equals(""))param.setValue(convert(parameter.getDefaultValue(), parameter.getDataType()));
             parameterList.add(param);
         }

@@ -51,8 +51,7 @@ public abstract class DependentAbstractAction<T> extends AbstractAction{
     }
 
     protected void preActionPerformed(ActionEvent ae){        
-        for(DependencyCommand command : this.preActionCommands.values())this.preActionCommandsSuccess = command.run(ae);
-        
+        for(DependencyCommand command : this.preActionCommands.values())this.preActionCommandsSuccess = command.run(ae);        
     }
     
     protected void postActionPerformed(ActionEvent ae){

@@ -14,6 +14,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -48,6 +49,7 @@ public class DefaultContactRecordPrintWorker extends SwingWorker<JasperPrint, St
     private final Window parent;
     private final Map<Integer, AppsReport> templateMap;
     private final boolean preview;
+    private int lastLineCount = 0;
     
     public DefaultContactRecordPrintWorker(Window parent, Map<Integer, AppsReport> templateMap, List<PrintParameter> paramList, Connection connection, InputStream inputStream, DefaultTaskListener taskListener, boolean preview){
         this.parent = parent;
@@ -190,7 +192,7 @@ public class DefaultContactRecordPrintWorker extends SwingWorker<JasperPrint, St
     }
     
     private void appendSucceedingPages(AppsReport report, String recordNumber, JasperPrint firstPage, int pageCount, String lastName, String firstName) throws SQLException, JRException{
-        int succeedingOffset = report.getLineLimit();
+        int succeedingOffset = report.getLineLimit();        
         Map<String, Object> parameters = new HashMap<>();
         JasperPrint succeedingPage = null;
         
@@ -200,9 +202,7 @@ public class DefaultContactRecordPrintWorker extends SwingWorker<JasperPrint, St
         statement.setInt(3, templateMap.get(2).getLineLimit());
         statement.setInt(4, succeedingOffset);
         
-        ResultSet resultSet = statement.executeQuery();
-        
-        
+        ResultSet resultSet = statement.executeQuery();        
         
         while(!empty(resultSet)){            
             parameters.put("PAGE_NUMBER", ++pageCount);
@@ -219,7 +219,7 @@ public class DefaultContactRecordPrintWorker extends SwingWorker<JasperPrint, St
             statement.setString(2, recordNumber);
             statement.setInt(3, templateMap.get(2).getLineLimit());
             statement.setInt(4, succeedingOffset);
-            resultSet = statement.executeQuery();
+            resultSet = statement.executeQuery();            
         }
         
         if(pageCount % 2 == 1){
@@ -228,6 +228,19 @@ public class DefaultContactRecordPrintWorker extends SwingWorker<JasperPrint, St
             parameters.put("CONTACT_NAME", lastName.trim().equalsIgnoreCase("") ? firstName.trim():lastName.trim().concat(", ").concat(firstName.trim()));
             succeedingPage = JasperFillManager.fillReport(createInputStream(templateMap.get(2)), parameters, new JREmptyDataSource());            
             firstPage.addPage(succeedingPage.getPages().get(0));
+        } else if(lastLineCount > 15) {
+            parameters.put("PAGE_NUMBER", ++pageCount);
+            parameters.put("RECORD_NUMBER", recordNumber);
+            parameters.put("CONTACT_NAME", lastName.trim().equalsIgnoreCase("") ? firstName.trim():lastName.trim().concat(", ").concat(firstName.trim()));
+            
+            succeedingPage = JasperFillManager.fillReport(createInputStream(templateMap.get(3)), parameters, new JREmptyDataSource());            
+            firstPage.addPage(succeedingPage.getPages().get(0));            
+            
+            parameters.remove("PAGE_NUMBER");
+            parameters.put("PAGE_NUMBER", ++pageCount);            
+            
+            succeedingPage = JasperFillManager.fillReport(createInputStream(templateMap.get(2)), parameters, new JREmptyDataSource());            
+            firstPage.addPage(succeedingPage.getPages().get(0));            
         }
         
     }
@@ -245,8 +258,9 @@ public class DefaultContactRecordPrintWorker extends SwingWorker<JasperPrint, St
     }
     
     protected boolean empty(ResultSet resultSet) throws SQLException{
-        boolean empty = !resultSet.last();
-        resultSet.beforeFirst();
+        boolean empty = !resultSet.last();        
+        if(!empty)lastLineCount = resultSet.getRow();
+        resultSet.beforeFirst();        
         return empty;
     }
 }

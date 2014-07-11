@@ -17,12 +17,14 @@ import org.jw.service.action.DefaultNewAction;
 import org.jw.service.action.DefaultRefreshAction;
 import org.jw.service.action.DefaultSaveAction;
 import org.jw.service.action.dependency.JasperFileChoosePostDependency;
+import org.jw.service.action.dependency.JasperFileExtractPostDependency;
 import org.jw.service.action.validator.DefaultCloseActionValidator;
 import org.jw.service.action.validator.DefaultRequiredFieldsSaveActionValidator;
 import org.jw.service.action.validator.DefaultUniqueFieldsSaveActionValidator;
 import org.jw.service.builder.DefaultTaskBuilder;
 import org.jw.service.dao.DataAccessObject;
 import org.jw.service.entity.AppsReport;
+import org.jw.service.file.filter.FileFilterDirectory;
 import org.jw.service.file.filter.FileFilterJasper;
 import org.jw.service.list.AppsReportMatcher;
 import org.jw.service.util.UtilityProperties;
@@ -55,6 +57,7 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
         DefaultRefreshAction<AppsReport> refreshAction = null;
         DefaultSaveAction<AppsReport> saveAction = null;        
         DefaultFileChooserAction fcOpenAction = null;
+        DefaultFileChooserAction dirOpenAction = null;
         DataAccessObject<AppsReport> dao;    
         
         dao = DataAccessObject.create(em, AppsReport.class);            
@@ -82,8 +85,15 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
         fcOpenAction.addPostActionCommands("jasperFileChoosePostDependency", jasperFileChoosePostDependency);
         fcOpenAction.setEnabled(false);
         
+        
+        
         UtilityTable<AppsReport> utilTable = UtilityTable.create(reportTable, reportList);
         setActionValidators(taskBuilder, utilTable);
+        
+        JasperFileExtractPostDependency jasperFileExtractPostDependency = new JasperFileExtractPostDependency(this,utilTable);
+        dirOpenAction = new DefaultFileChooserAction(this.extractFileCommand, this, FileFilterDirectory.create(), "Save", JFileChooser.DIRECTORIES_ONLY, null);        
+        dirOpenAction.addPostActionCommands("", jasperFileExtractPostDependency);
+        dirOpenAction.setEnabled(false);
         
         this.reportTable.getSelectionModel().addListSelectionListener(
                 new ListSelectionListener(){
@@ -92,6 +102,7 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
                         if(!e.getValueIsAdjusting()){
                             parametersCommand.setEnabled(true);
                             chooseFileCommand.setEnabled(true);
+                            extractFileCommand.setEnabled(true);
                         }
                     }                    
                 }
@@ -170,6 +181,7 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
         fileCreatedDateChooser = new com.toedter.calendar.JDateChooser();
         fileModifiedDateChooser = new com.toedter.calendar.JDateChooser();
         defaultTemplateCheckBox = new javax.swing.JCheckBox();
+        extractFileCommand = new javax.swing.JButton();
         parametersTab = new javax.swing.JPanel();
         parametersPanel = new javax.swing.JPanel();
         queryScrollPane = new javax.swing.JScrollPane();
@@ -504,6 +516,14 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
 
         defaultTemplateCheckBox.setText("Default Contact Record Report Template");
 
+        extractFileCommand.setText("Extract");
+        extractFileCommand.setEnabled(false);
+        extractFileCommand.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                extractFileCommandActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jasperReportPanelLayout = new javax.swing.GroupLayout(jasperReportPanel);
         jasperReportPanel.setLayout(jasperReportPanelLayout);
         jasperReportPanelLayout.setHorizontalGroup(
@@ -512,23 +532,25 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(jasperReportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jasperReportPanelLayout.createSequentialGroup()
-                        .addComponent(jasperNameLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(fileNameTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 321, Short.MAX_VALUE))
-                    .addGroup(jasperReportPanelLayout.createSequentialGroup()
-                        .addComponent(jasperCreatedLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(fileCreatedDateChooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jasperReportPanelLayout.createSequentialGroup()
                         .addComponent(jasperModifiedLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jasperReportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jasperReportPanelLayout.createSequentialGroup()
                                 .addComponent(defaultTemplateCheckBox)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(fileModifiedDateChooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(chooseFileCommand)
+                                .addGap(0, 179, Short.MAX_VALUE))
+                            .addComponent(fileModifiedDateChooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jasperReportPanelLayout.createSequentialGroup()
+                        .addComponent(jasperNameLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(fileNameTextField)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(chooseFileCommand)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(extractFileCommand, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jasperReportPanelLayout.createSequentialGroup()
+                        .addComponent(jasperCreatedLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(fileCreatedDateChooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -541,12 +563,13 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
                 .addGroup(jasperReportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jasperNameLabel)
                     .addComponent(fileNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(chooseFileCommand))
+                    .addComponent(chooseFileCommand)
+                    .addComponent(extractFileCommand))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jasperReportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(fileCreatedDateChooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jasperCreatedLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(9, 9, 9)
                 .addGroup(jasperReportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(fileModifiedDateChooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jasperModifiedLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -592,14 +615,14 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
             parametersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(parametersPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(queryScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 444, Short.MAX_VALUE)
+                .addComponent(queryScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 448, Short.MAX_VALUE)
                 .addContainerGap())
         );
         parametersPanelLayout.setVerticalGroup(
             parametersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(parametersPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(queryScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
+                .addComponent(queryScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -660,6 +683,10 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
         paramDialog.setVisible(true);
     }//GEN-LAST:event_parametersCommandActionPerformed
 
+    private void extractFileCommandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_extractFileCommandActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_extractFileCommandActionPerformed
+
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -676,6 +703,7 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
     private javax.swing.JTextField descriptionTextField;
     private org.jw.service.document.filter.DocumentFilterFactory documentFilterFactory;
     private javax.swing.JCheckBox enableCheckBox;
+    private javax.swing.JButton extractFileCommand;
     private com.toedter.calendar.JDateChooser fileCreatedDateChooser;
     private com.toedter.calendar.JDateChooser fileModifiedDateChooser;
     private javax.swing.JTextField fileNameTextField;

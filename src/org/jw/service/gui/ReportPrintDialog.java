@@ -14,6 +14,7 @@ import javax.swing.DefaultComboBoxModel;
 import org.jw.service.action.DefaultCloseAction;
 import org.jw.service.action.DefaultPrintAction;
 import org.jw.service.action.dependency.PrintReportPreDependency;
+import org.jw.service.action.validator.ReportPrintActionValidator;
 import org.jw.service.dao.DataAccessObject;
 import org.jw.service.entity.AppsReport;
 import org.jw.service.factory.DefaultParameterListFactory;
@@ -53,6 +54,8 @@ public class ReportPrintDialog extends javax.swing.JDialog {
         this.closeAction = new DefaultCloseAction(cancelCommand, this);
         
         PrintReportPreDependency printReportPreDependency = new PrintReportPreDependency(this.parametersTable);
+        ReportPrintActionValidator printActionValidator = new ReportPrintActionValidator(this, this.printParametersList, this.parametersTable);
+        this.printAction.addActionValidator(printActionValidator);
         this.printAction.addPreActionCommands("printReportPreDependency", printReportPreDependency);
         this.reportsComboBox.setSelectedIndex(-1);
     }
@@ -210,8 +213,8 @@ public class ReportPrintDialog extends javax.swing.JDialog {
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
-    private UtilityDatabase utilDB;
-    private UtilityReportPrint utilPrint;
+    private final UtilityDatabase utilDB;
+    private final UtilityReportPrint utilPrint;
     private DefaultPrintAction printAction;
     private DefaultCloseAction closeAction;
 }
