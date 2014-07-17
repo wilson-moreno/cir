@@ -91,6 +91,7 @@ public final class QueryTextDialog extends javax.swing.JDialog {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         queryTextList = org.jdesktop.observablecollections.ObservableCollections.observableList(new java.util.ArrayList<org.jw.service.entity.QueryText>());
+        documentFilterFactory = new org.jw.service.document.filter.DocumentFilterFactory();
         taskMonitorPanel = new org.jw.service.gui.component.TaskMonitorPanel();
         multipleRecordCrudPanel = new org.jw.service.gui.component.MultipleRecordCrudPanel();
         queryTextPanel = new javax.swing.JPanel();
@@ -115,10 +116,14 @@ public final class QueryTextDialog extends javax.swing.JDialog {
 
         descriptionLabel.setText("Description:");
 
+        nameTextField.setDocument(documentFilterFactory.getSizeFilter30());
+
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, queryTextTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.name}"), nameTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");
         binding.setSourceUnreadableValue("");
         bindingGroup.addBinding(binding);
+
+        descriptionTextField.setDocument(documentFilterFactory.getSizeFilter30());
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, queryTextTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.description}"), descriptionTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("");
@@ -264,6 +269,7 @@ public final class QueryTextDialog extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel descriptionLabel;
     private javax.swing.JTextField descriptionTextField;
+    private org.jw.service.document.filter.DocumentFilterFactory documentFilterFactory;
     private org.jw.service.gui.component.MultipleRecordCrudPanel multipleRecordCrudPanel;
     private javax.swing.JLabel nameLabel;
     private javax.swing.JTextField nameTextField;

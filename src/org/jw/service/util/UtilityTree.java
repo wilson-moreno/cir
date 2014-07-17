@@ -131,6 +131,7 @@ public class UtilityTree {
     }
     
     private void hideIfNotActive(DefaultMutableTreeNode node){
+        if(!isActiveOnly)return;
         Contact contact;
         ContactStatus status;
         contact = (Contact) node.getUserObject();
@@ -277,16 +278,19 @@ public class UtilityTree {
         isActiveOnly = showActive;
         
         if(showActive){
-            Enumeration children = root.breadthFirstEnumeration();        
+            Enumeration children = root.postorderEnumeration();
         
             while(children.hasMoreElements()){
                 DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode)children.nextElement();
                 if(treeNode.getUserObject() instanceof Contact){
-                    Contact contact;
+                    Contact contact;                    
                     ContactStatus status;
-                    contact = (Contact) treeNode.getUserObject();
-                    status = contact.getStatusId();                    
-                    if(status != null && status.getActive() != null && !status.getActive()){                    
+                    contact = (Contact) treeNode.getUserObject();                    
+                    status = contact.getStatusId();    
+                    
+                    //System.out.println(status.getName());
+                    
+                    if(status != null && status.getActive() != null && !status.getActive()){                                            
                         DefaultMutableTreeNode parent = (DefaultMutableTreeNode)treeNode.getParent();
                         int index = parent.getIndex(treeNode);
                         pushNode(new ContactNode(parent, treeNode, index));                    

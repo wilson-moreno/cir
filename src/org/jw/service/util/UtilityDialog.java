@@ -14,6 +14,7 @@ import javax.persistence.EntityManager;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import org.jw.service.entity.Contact;
+import org.jw.service.gui.AboutDialog;
 import org.jw.service.gui.AppsReportTemplateDialog;
 import org.jw.service.gui.CallStatusDialog;
 import org.jw.service.gui.CongregationDialog;
@@ -54,6 +55,7 @@ public class UtilityDialog {
     public static final String CALL_STATUS = "call.status";
     public static final String QUERY_TEXT = "query.text";
     public static final String SELECT_TERRITORY = "select.territory";
+    public static final String ABOUT_APPLICATION = "about.application";
 
     public static UtilityDialog create(JFrame parent, boolean modal, EntityManager em, UtilityTree utilTree, UtilityTable utilTable, UtilityReportPrint utilPrint, List<Contact> contactList) {
         return new UtilityDialog(parent, modal, em, utilTree, utilTable, utilPrint, contactList);
@@ -132,6 +134,10 @@ public class UtilityDialog {
                     dialog = new SelectTerritoryDialog(parent, true, em);
                     dialog.pack();
                     break;
+            case UtilityDialog.ABOUT_APPLICATION :
+                    dialog = new AboutDialog(parent, true);
+                    dialog.pack();
+                    break;    
         }
         
         if(dialog != null){

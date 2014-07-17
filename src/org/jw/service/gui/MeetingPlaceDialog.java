@@ -212,15 +212,19 @@ public class MeetingPlaceDialog extends javax.swing.JDialog {
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${name}"));
         columnBinding.setColumnName("Name");
         columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${address}"));
         columnBinding.setColumnName("Address");
         columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${latitude}"));
         columnBinding.setColumnName("Latitude");
         columnBinding.setColumnClass(Double.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${longitude}"));
         columnBinding.setColumnName("Longitude");
         columnBinding.setColumnClass(Double.class);
+        columnBinding.setEditable(false);
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
         meetingPlaceScrollPane.setViewportView(meetingPlaceTable);
@@ -228,6 +232,12 @@ public class MeetingPlaceDialog extends javax.swing.JDialog {
             meetingPlaceTable.getColumnModel().getColumn(0).setResizable(false);
             meetingPlaceTable.getColumnModel().getColumn(0).setPreferredWidth(10);
             meetingPlaceTable.getColumnModel().getColumn(0).setCellRenderer(org.jw.service.table.cell.renderer.DefaultStateCellRenderer.create());
+            meetingPlaceTable.getColumnModel().getColumn(1).setPreferredWidth(100);
+            meetingPlaceTable.getColumnModel().getColumn(2).setResizable(false);
+            meetingPlaceTable.getColumnModel().getColumn(2).setPreferredWidth(300);
+            meetingPlaceTable.getColumnModel().getColumn(3).setPreferredWidth(75);
+            meetingPlaceTable.getColumnModel().getColumn(4).setResizable(false);
+            meetingPlaceTable.getColumnModel().getColumn(4).setPreferredWidth(75);
         }
 
         javax.swing.GroupLayout meetingPlacesPanelLayout = new javax.swing.GroupLayout(meetingPlacesPanel);

@@ -7,7 +7,6 @@
 package org.jw.service.gui;
 
 import javax.persistence.EntityManager;
-import org.jdesktop.observablecollections.ObservableListListener;
 import org.jw.service.action.DefaultCloseAction;
 import org.jw.service.action.DefaultDeleteAction;
 import org.jw.service.action.DefaultNewAction;
@@ -19,10 +18,7 @@ import org.jw.service.action.validator.DefaultUniqueFieldsSaveActionValidator;
 import org.jw.service.builder.DefaultTaskBuilder;
 import org.jw.service.dao.DataAccessObject;
 import org.jw.service.entity.CallStatus;
-import org.jw.service.entity.Contact;
 import org.jw.service.list.CallStatusMatcher;
-import org.jw.service.list.ContactMatcher;
-import org.jw.service.list.DefaultNameMatcher;
 import org.jw.service.util.UtilityProperties;
 import org.jw.service.util.UtilityTable;
 
@@ -42,8 +38,10 @@ public class CallStatusDialog extends javax.swing.JDialog {
         this.callStatusDAO = DataAccessObject.create(em, CallStatus.class);        
         this.em = em;
         initComponents();
-        initMyComponents();
+        initMyComponents();        
     }
+    
+    
     
     private void initMyComponents(){
         setCallStatus();
@@ -214,6 +212,11 @@ public class CallStatusDialog extends javax.swing.JDialog {
             callStatusTable.getColumnModel().getColumn(0).setResizable(false);
             callStatusTable.getColumnModel().getColumn(0).setPreferredWidth(10);
             callStatusTable.getColumnModel().getColumn(0).setCellRenderer(org.jw.service.table.cell.renderer.DefaultStateCellRenderer.create());
+            callStatusTable.getColumnModel().getColumn(1).setPreferredWidth(100);
+            callStatusTable.getColumnModel().getColumn(2).setResizable(false);
+            callStatusTable.getColumnModel().getColumn(2).setPreferredWidth(300);
+            callStatusTable.getColumnModel().getColumn(3).setResizable(false);
+            callStatusTable.getColumnModel().getColumn(3).setPreferredWidth(75);
         }
 
         javax.swing.GroupLayout listOfStatusPanelLayout = new javax.swing.GroupLayout(listOfStatusPanel);

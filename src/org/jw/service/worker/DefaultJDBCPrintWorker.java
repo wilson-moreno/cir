@@ -12,6 +12,9 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -101,6 +104,7 @@ public class DefaultJDBCPrintWorker extends SwingWorker<JasperPrint, String>{
         
         parameterMap.put("REPORT_TITLE", report.getTitle());
         for(PrintParameter param : paramList){
+            //System.out.println(param.getName() + " : " + param.getValue() + " : " + param.getParameterType());
             if(param.getParameterType().trim().equalsIgnoreCase("Report")){
                 if(param.getValue() instanceof ListOption){
                     ListOption listOption = (ListOption) param.getValue();
@@ -109,7 +113,7 @@ public class DefaultJDBCPrintWorker extends SwingWorker<JasperPrint, String>{
                 }else{
                     parameterMap.put(param.getName(), convert(param.getDataType(), param.getValue()));                    
                     Object value = convert(param.getDataType(), param.getValue());
-                    //System.out.println(param.getName() + " : " + value.getClass());
+                    //System.out.println(param.getName() + " : " + value);
                 }    
             }    
         }
@@ -122,13 +126,24 @@ public class DefaultJDBCPrintWorker extends SwingWorker<JasperPrint, String>{
         Object convertedValue = null;
         
         switch(dataType){
+            case "Year" : convertedValue = parseInteger(value);
             case "Integer" : convertedValue = parseInteger(value); break;
             case "Double" : convertedValue = parseDouble(value); break;
+            case "Date" : convertedValue = parseDate(value); break;
             case "String" : convertedValue = value.toString(); break;
             default : convertedValue = value;
         }
         
         return convertedValue;
+    }
+    
+    private java.util.Date parseDate(Object dateValue){
+        try{
+            DateFormat dateFormat = new SimpleDateFormat("MMM d, yyyy");
+            return dateFormat.parse((String) dateValue);
+        }catch(ParseException ex){
+            return new java.util.Date();
+        }    
     }
     
     

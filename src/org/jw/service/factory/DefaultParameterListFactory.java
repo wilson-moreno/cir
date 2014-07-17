@@ -35,6 +35,7 @@ public class DefaultParameterListFactory {
         List<PrintParameter> parameterList = new ArrayList<>();        
         
         for(AppsReportParameter parameter : list){
+            if(!parameter.getEnable())continue;
             PrintParameter param = new PrintParameter();
             param.setSequence(parameter.getSequence());
             param.setName(parameter.getName());

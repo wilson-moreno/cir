@@ -71,6 +71,7 @@ public class ReportPrintDialog extends javax.swing.JDialog {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         printParametersList = org.jdesktop.observablecollections.ObservableCollections.observableList(new java.util.ArrayList<org.jw.service.print.PrintParameter>());
+        defaultParamValueCellRenderer = new org.jw.service.table.cell.renderer.DefaultParamValueCellRenderer();
         reportLabel = new javax.swing.JLabel();
         reportsComboBox = new javax.swing.JComboBox();
         cancelCommand = new javax.swing.JButton();
@@ -79,6 +80,8 @@ public class ReportPrintDialog extends javax.swing.JDialog {
         parametersPanel = new javax.swing.JPanel();
         parameterrsScrollPane = new javax.swing.JScrollPane();
         parametersTable = new javax.swing.JTable();
+
+        defaultParamValueCellRenderer.setText("defaultParamValueCellRenderer1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/jw/service/gui/resources/properties/dialog_titles"); // NOI18N
@@ -126,6 +129,7 @@ public class ReportPrintDialog extends javax.swing.JDialog {
             parametersTable.getColumnModel().getColumn(0).setCellRenderer(org.jw.service.table.cell.renderer.DefaultStateCellRenderer.create());
             parametersTable.getColumnModel().getColumn(1).setResizable(false);
             parametersTable.getColumnModel().getColumn(1).setCellEditor(org.jw.service.table.cell.editor.DefaultDataTypeCellEditor.create(printParametersList, em));
+            parametersTable.getColumnModel().getColumn(1).setCellRenderer(defaultParamValueCellRenderer);
         }
 
         javax.swing.GroupLayout parametersPanelLayout = new javax.swing.GroupLayout(parametersPanel);
@@ -190,6 +194,7 @@ public class ReportPrintDialog extends javax.swing.JDialog {
         // TODO add your handling code here:
         AppsReport report = (AppsReport) this.reportsComboBox.getSelectedItem();
         if(report == null)return;
+        if(this.parametersTable.isEditing())this.parametersTable.getCellEditor().stopCellEditing();
         List<PrintParameter> paramList = DefaultParameterListFactory.create(new ArrayList(report.getAppsReportParameterCollection()));
         printParametersList.clear();
         printParametersList.addAll(paramList);
@@ -202,6 +207,7 @@ public class ReportPrintDialog extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelCommand;
+    private org.jw.service.table.cell.renderer.DefaultParamValueCellRenderer defaultParamValueCellRenderer;
     private javax.swing.JScrollPane parameterrsScrollPane;
     private javax.swing.JPanel parametersPanel;
     private javax.swing.JTable parametersTable;

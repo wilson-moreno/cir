@@ -207,18 +207,22 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="mainCommandPanel" alignment="0" pref="803" max="32767" attributes="0"/>
+          <Component id="mainCommandPanel" alignment="0" pref="836" max="32767" attributes="0"/>
           <Component id="taskMonitorPanel" alignment="0" max="32767" attributes="0"/>
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="treeScrollPane" max="32767" attributes="0"/>
                   <Component id="viewModeComboBox" pref="223" max="32767" attributes="0"/>
+                  <Component id="treeScrollPane" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <Component id="profilePicturePlatformPanel" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="tabbedPane" max="32767" attributes="0"/>
+                  </Group>
                   <Component id="contactsPanel" max="32767" attributes="0"/>
-                  <Component id="tabbedPane" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -231,8 +235,11 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <Component id="tabbedPane" min="-2" pref="221" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="tabbedPane" max="32767" attributes="0"/>
+                          <Component id="profilePicturePlatformPanel" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="contactsPanel" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
@@ -270,6 +277,10 @@
       </Events>
     </Component>
     <Container class="javax.swing.JScrollPane" name="treeScrollPane">
+      <Properties>
+        <Property name="horizontalScrollBarPolicy" type="int" value="32"/>
+        <Property name="verticalScrollBarPolicy" type="int" value="22"/>
+      </Properties>
       <AuxValues>
         <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
       </AuxValues>
@@ -301,12 +312,7 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="profilePicturePanel" max="32767" attributes="0"/>
-                          <Component id="commandCardPanel" max="32767" attributes="0"/>
-                      </Group>
+                  <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="personalPanel" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -317,69 +323,13 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Component id="profilePicturePanel" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                              <Component id="commandCardPanel" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Component id="personalPanel" max="32767" attributes="0"/>
-                      </Group>
+                      <Component id="personalPanel" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Container class="javax.swing.JPanel" name="profilePicturePanel">
-              <Properties>
-                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                  <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                    <TitledBorder title="Profile Picture">
-                      <Font PropertyName="font" name="Tahoma" size="11" style="1"/>
-                    </TitledBorder>
-                  </Border>
-                </Property>
-              </Properties>
-
-              <Layout>
-                <DimensionLayout dim="0">
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="profilePictureLabel" alignment="0" min="-2" pref="120" max="-2" attributes="0"/>
-                  </Group>
-                </DimensionLayout>
-                <DimensionLayout dim="1">
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="profilePictureLabel" alignment="0" min="-2" pref="120" max="-2" attributes="0"/>
-                  </Group>
-                </DimensionLayout>
-              </Layout>
-              <SubComponents>
-                <Component class="javax.swing.JLabel" name="profilePictureLabel">
-                  <Properties>
-                    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                      <Border info="org.netbeans.modules.form.compat2.border.BevelBorderInfo">
-                        <BevelBorder bevelType="1"/>
-                      </Border>
-                    </Property>
-                    <Property name="name" type="java.lang.String" value="Profile Picture" noResource="true"/>
-                  </Properties>
-                  <BindingProperties>
-                    <BindingProperty name="icon" source="contactsTable" sourcePath="${selectedElement.profilePicture}" target="profilePictureLabel" targetPath="icon" updateStrategy="0" immediately="false">
-                      <Property name="nullValue" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                        <Image iconType="3" name="/org/jw/service/gui/resources/icon/default.profile.picture.blank.png"/>
-                      </Property>
-                      <Property name="incompletePathValue" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                        <Image iconType="3" name="/org/jw/service/gui/resources/icon/default.profile.picture.blank.png"/>
-                      </Property>
-                      <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                        <Connection code="org.jw.service.beansbinding.converter.ByteToImageConverter.create(this.profilePictureLabel)" type="code"/>
-                      </Property>
-                    </BindingProperty>
-                  </BindingProperties>
-                </Component>
-              </SubComponents>
-            </Container>
             <Container class="javax.swing.JPanel" name="personalPanel">
               <Properties>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -405,7 +355,7 @@
                               <Group type="102" attributes="0">
                                   <Component id="nickNameLabel" linkSize="1" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" max="-2" attributes="0"/>
-                                  <Component id="nickNameTextField" pref="90" max="32767" attributes="0"/>
+                                  <Component id="nickNameTextField" pref="92" max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" attributes="0">
                                   <Component id="sexLabel" linkSize="1" min="-2" max="-2" attributes="0"/>
@@ -428,7 +378,7 @@
                               <Group type="102" attributes="0">
                                   <Component id="recordDateLabel" linkSize="2" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="recordDateChooser" max="32767" attributes="0"/>
+                                  <Component id="recordDateChooser" pref="114" max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="firstNameLabel" linkSize="2" min="-2" max="-2" attributes="0"/>
@@ -447,7 +397,7 @@
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="statusComboBox" pref="107" max="32767" attributes="0"/>
+                                      <Component id="statusComboBox" max="32767" attributes="0"/>
                                       <Component id="nationalityTextField" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
@@ -498,7 +448,7 @@
                               <Component id="nationalityLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="nationalityTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace pref="12" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -763,35 +713,6 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Container class="javax.swing.JPanel" name="commandCardPanel">
-
-              <Layout class="org.netbeans.modules.form.compat2.layouts.DesignCardLayout"/>
-              <SubComponents>
-                <Component class="javax.swing.JButton" name="setProfilePictureCommand">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Set Picture"/>
-                  </Properties>
-                  <Constraints>
-                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignCardLayout" value="org.netbeans.modules.form.compat2.layouts.DesignCardLayout$CardConstraintsDescription">
-                      <CardConstraints cardName="card2"/>
-                    </Constraint>
-                  </Constraints>
-                </Component>
-                <Component class="javax.swing.JButton" name="removeProfilePictureCommand">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Remove Picture"/>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="removeProfilePictureCommandActionPerformed"/>
-                  </Events>
-                  <Constraints>
-                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignCardLayout" value="org.netbeans.modules.form.compat2.layouts.DesignCardLayout$CardConstraintsDescription">
-                      <CardConstraints cardName="card3"/>
-                    </Constraint>
-                  </Constraints>
-                </Component>
-              </SubComponents>
-            </Container>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="addressTab">
@@ -844,7 +765,7 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="houseNumberLabel" linkSize="3" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="houseNumberTextField" pref="415" max="32767" attributes="0"/>
+                                  <Component id="houseNumberTextField" pref="282" max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -863,7 +784,7 @@
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Component id="territoryLabel" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="territoryComboBox" max="32767" attributes="0"/>
+                                          <Component id="territoryComboBox" pref="20" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
@@ -1121,7 +1042,7 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="personalLabel" linkSize="5" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="personalTextField" pref="444" max="32767" attributes="0"/>
+                                  <Component id="personalTextField" pref="311" max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" attributes="0">
                                   <Component id="familyLabel" linkSize="5" max="32767" attributes="0"/>
@@ -1477,7 +1398,7 @@
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="1" attributes="0">
-                                      <Component id="mobileNumberTextField" pref="415" max="32767" attributes="0"/>
+                                      <Component id="mobileNumberTextField" pref="282" max="32767" attributes="0"/>
                                       <Component id="phoneNumberTextField" max="32767" attributes="0"/>
                                       <Component id="emailAddressTextField" max="32767" attributes="0"/>
                                   </Group>
@@ -1526,7 +1447,7 @@
                               <Component id="facebookLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="facebookTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="30" max="32767" attributes="0"/>
+                          <EmptySpace pref="12" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -1710,7 +1631,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="mapsToolBar" min="-2" pref="100" max="-2" attributes="0"/>
-                          <EmptySpace pref="403" max="32767" attributes="0"/>
+                          <EmptySpace pref="270" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -1718,7 +1639,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="mapsToolBar" pref="143" max="32767" attributes="0"/>
+                          <Component id="mapsToolBar" pref="125" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -1806,7 +1727,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="historyScrollPane" pref="493" max="32767" attributes="0"/>
+                          <Component id="historyScrollPane" pref="360" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -1906,7 +1827,7 @@
                               </Group>
                               <Component id="printedCheckBox" linkSize="11" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="282" max="32767" attributes="0"/>
+                          <EmptySpace pref="149" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -2132,5 +2053,149 @@
     </Container>
     <Component class="org.jw.service.gui.component.TaskMonitorPanel" name="taskMonitorPanel">
     </Component>
+    <Container class="javax.swing.JPanel" name="profilePicturePlatformPanel">
+      <Properties>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.BevelBorderInfo">
+            <BevelBorder/>
+          </Border>
+        </Property>
+      </Properties>
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="profilePicturePanel" max="32767" attributes="0"/>
+                      <Component id="fullnameTextField" max="32767" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+              </Group>
+              <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="commandCardPanel" min="-2" pref="136" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                  </Group>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                  <Component id="profilePicturePanel" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
+                  <Component id="fullnameTextField" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+              </Group>
+              <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace pref="183" max="32767" attributes="0"/>
+                      <Component id="commandCardPanel" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Container class="javax.swing.JPanel" name="profilePicturePanel">
+          <Properties>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+                <TitledBorder title="Profile Picture">
+                  <Font PropertyName="font" name="Tahoma" size="11" style="1"/>
+                </TitledBorder>
+              </Border>
+            </Property>
+          </Properties>
+
+          <Layout>
+            <DimensionLayout dim="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="profilePictureLabel" alignment="1" min="-2" pref="120" max="-2" attributes="0"/>
+              </Group>
+            </DimensionLayout>
+            <DimensionLayout dim="1">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <Component id="profilePictureLabel" min="-2" pref="120" max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+          </Layout>
+          <SubComponents>
+            <Component class="javax.swing.JLabel" name="profilePictureLabel">
+              <Properties>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                  <Border info="org.netbeans.modules.form.compat2.border.BevelBorderInfo">
+                    <BevelBorder bevelType="1"/>
+                  </Border>
+                </Property>
+                <Property name="name" type="java.lang.String" value="Profile Picture" noResource="true"/>
+              </Properties>
+              <BindingProperties>
+                <BindingProperty name="icon" source="contactsTable" sourcePath="${selectedElement.profilePicture}" target="profilePictureLabel" targetPath="icon" updateStrategy="0" immediately="false">
+                  <Property name="nullValue" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                    <Image iconType="3" name="/org/jw/service/gui/resources/icon/default.profile.picture.blank.png"/>
+                  </Property>
+                  <Property name="incompletePathValue" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                    <Image iconType="3" name="/org/jw/service/gui/resources/icon/default.profile.picture.blank.png"/>
+                  </Property>
+                  <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                    <Connection code="org.jw.service.beansbinding.converter.ByteToImageConverter.create(this.profilePictureLabel)" type="code"/>
+                  </Property>
+                </BindingProperty>
+              </BindingProperties>
+            </Component>
+          </SubComponents>
+        </Container>
+        <Container class="javax.swing.JPanel" name="commandCardPanel">
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignCardLayout"/>
+          <SubComponents>
+            <Component class="javax.swing.JButton" name="setProfilePictureCommand">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Set Picture"/>
+              </Properties>
+              <Constraints>
+                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignCardLayout" value="org.netbeans.modules.form.compat2.layouts.DesignCardLayout$CardConstraintsDescription">
+                  <CardConstraints cardName="card2"/>
+                </Constraint>
+              </Constraints>
+            </Component>
+            <Component class="javax.swing.JButton" name="removeProfilePictureCommand">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Remove Picture"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="removeProfilePictureCommandActionPerformed"/>
+              </Events>
+              <Constraints>
+                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignCardLayout" value="org.netbeans.modules.form.compat2.layouts.DesignCardLayout$CardConstraintsDescription">
+                  <CardConstraints cardName="card3"/>
+                </Constraint>
+              </Constraints>
+            </Component>
+          </SubComponents>
+        </Container>
+        <Component class="javax.swing.JTextField" name="fullnameTextField">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+            <Property name="columns" type="int" value="5"/>
+            <Property name="horizontalAlignment" type="int" value="0"/>
+          </Properties>
+          <BindingProperties>
+            <BindingProperty name="text" source="contactsTable" sourcePath="${selectedElement.fullname}" target="fullnameTextField" targetPath="text" updateStrategy="0" immediately="false">
+              <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+            </BindingProperty>
+          </BindingProperties>
+        </Component>
+      </SubComponents>
+    </Container>
   </SubComponents>
 </Form>

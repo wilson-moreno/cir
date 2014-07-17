@@ -21,12 +21,14 @@ public class CndrsKeyBinders {
     public final static String CLOSE_MAP_KEY = "CLOSE";
     public final static String NEW_MAP_KEY = "NEW";
     public final static String DELETE_MAP_KEY = "DELETE";
+    public final static String DOWNLOAD_MAP_KEY = "DOWNLOAD";
     public final static String REFRESH_MAP_KEY = "REFRESH";
     public final static String SAVE_MAP_KEY = "SAVE";
     public final static String ENTER_MAP_KEY = "ENTER";
     public final static KeyStroke controlAltX = KeyStroke.getKeyStroke(KeyEvent.VK_X, KeyEvent.CTRL_DOWN_MASK | KeyEvent.ALT_DOWN_MASK);
     public final static KeyStroke controlN = KeyStroke.getKeyStroke(KeyEvent.VK_N, KeyEvent.CTRL_DOWN_MASK);
     public final static KeyStroke controlAltD = KeyStroke.getKeyStroke(KeyEvent.VK_D, KeyEvent.CTRL_DOWN_MASK | KeyEvent.ALT_DOWN_MASK);
+    public final static KeyStroke controlAltL = KeyStroke.getKeyStroke(KeyEvent.VK_L, KeyEvent.CTRL_DOWN_MASK | KeyEvent.ALT_DOWN_MASK);
     public final static KeyStroke controlR = KeyStroke.getKeyStroke(KeyEvent.VK_R, KeyEvent.CTRL_DOWN_MASK);
     public final static KeyStroke controlS = KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK);
     public final static KeyStroke controlEnter = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, KeyEvent.CTRL_DOWN_MASK);

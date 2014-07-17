@@ -14,7 +14,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -44,19 +43,17 @@ import org.jw.service.print.PrintParameter;
 public class DefaultContactRecordPrintWorker extends SwingWorker<JasperPrint, String>{
     private final String LIMIT_OFFSET = "limit ? offset ?";    
     private final List<PrintParameter> paramList;
-    private final Connection connection;
-    private final InputStream inputStream;
+    private final Connection connection;    
     private final Window parent;
     private final Map<Integer, AppsReport> templateMap;
     private final boolean preview;
     private int lastLineCount = 0;
     
-    public DefaultContactRecordPrintWorker(Window parent, Map<Integer, AppsReport> templateMap, List<PrintParameter> paramList, Connection connection, InputStream inputStream, DefaultTaskListener taskListener, boolean preview){
+    public DefaultContactRecordPrintWorker(Window parent, Map<Integer, AppsReport> templateMap, List<PrintParameter> paramList, Connection connection, DefaultTaskListener taskListener, boolean preview){
         this.parent = parent;
         this.templateMap = templateMap;
         this.paramList = paramList;
-        this.connection = connection;
-        this.inputStream = inputStream;
+        this.connection = connection;        
         this.preview = preview;
         this.addPropertyChangeListener(taskListener);
     }

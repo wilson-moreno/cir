@@ -55,6 +55,11 @@ public class ContactCallsDialog extends javax.swing.JDialog {
         this.taskBuilder = new DefaultTaskBuilder();
         initComponents(); 
         initMyComponents();
+        initDateFormatString();
+    }
+    
+    public void initDateFormatString(){
+        this.callDateChooser.setDateFormatString("MMM d, yyyy");
     }
     
     private void setSelectedContact(){        
@@ -218,7 +223,7 @@ public class ContactCallsDialog extends javax.swing.JDialog {
             callsTable.getColumnModel().getColumn(2).setPreferredWidth(50);
             callsTable.getColumnModel().getColumn(3).setPreferredWidth(50);
             callsTable.getColumnModel().getColumn(4).setPreferredWidth(50);
-            callsTable.getColumnModel().getColumn(5).setPreferredWidth(350);
+            callsTable.getColumnModel().getColumn(5).setPreferredWidth(400);
         }
 
         javax.swing.GroupLayout callsPanelLayout = new javax.swing.GroupLayout(callsPanel);

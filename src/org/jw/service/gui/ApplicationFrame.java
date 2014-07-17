@@ -86,6 +86,11 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         initComponents();
         initMyComponents();        
         //initFocusTraversalPolicy();
+        initDateFormatString();
+    }
+    
+    public void initDateFormatString(){
+        this.recordDateChooser.setDateFormatString("MMM d, yyyy");
     }
     
     public void initFocusTraversalPolicy(){
@@ -121,8 +126,6 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         contactTree = new javax.swing.JTree();
         tabbedPane = new javax.swing.JTabbedPane();
         personalTab = new javax.swing.JPanel();
-        profilePicturePanel = new javax.swing.JPanel();
-        profilePictureLabel = new javax.swing.JLabel();
         personalPanel = new javax.swing.JPanel();
         recordNumberLabel = new javax.swing.JLabel();
         recordNumberTextField = new javax.swing.JTextField();
@@ -144,9 +147,6 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         maritalStatusComboBox = new javax.swing.JComboBox();
         nationalityLabel = new javax.swing.JLabel();
         nationalityTextField = new javax.swing.JTextField();
-        commandCardPanel = new javax.swing.JPanel();
-        setProfilePictureCommand = new javax.swing.JButton();
-        removeProfilePictureCommand = new javax.swing.JButton();
         addressTab = new javax.swing.JPanel();
         addressPanel = new javax.swing.JPanel();
         houseNumberLabel = new javax.swing.JLabel();
@@ -209,6 +209,13 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         contactsScrollPane = new javax.swing.JScrollPane();
         contactsTable = new javax.swing.JTable();
         taskMonitorPanel = new org.jw.service.gui.component.TaskMonitorPanel();
+        profilePicturePlatformPanel = new javax.swing.JPanel();
+        profilePicturePanel = new javax.swing.JPanel();
+        profilePictureLabel = new javax.swing.JLabel();
+        commandCardPanel = new javax.swing.JPanel();
+        setProfilePictureCommand = new javax.swing.JButton();
+        removeProfilePictureCommand = new javax.swing.JButton();
+        fullnameTextField = new javax.swing.JTextField();
         menuBar = new javax.swing.JMenuBar();
         systemMenu = new javax.swing.JMenu();
         dbBackUpMenuItem = new javax.swing.JMenuItem();
@@ -253,31 +260,12 @@ public final class ApplicationFrame extends javax.swing.JFrame {
             }
         });
 
+        treeScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        treeScrollPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("root");
         contactTree.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
         treeScrollPane.setViewportView(contactTree);
-
-        profilePicturePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Profile Picture", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
-
-        profilePictureLabel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-        profilePictureLabel.setName("Profile Picture"); // NOI18N
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.profilePicture}"), profilePictureLabel, org.jdesktop.beansbinding.BeanProperty.create("icon"));
-        binding.setSourceNullValue(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.profile.picture.blank.png"))); // NOI18N
-        binding.setSourceUnreadableValue(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.profile.picture.blank.png"))); // NOI18N
-        binding.setConverter(org.jw.service.beansbinding.converter.ByteToImageConverter.create(this.profilePictureLabel));
-        bindingGroup.addBinding(binding);
-
-        javax.swing.GroupLayout profilePicturePanelLayout = new javax.swing.GroupLayout(profilePicturePanel);
-        profilePicturePanel.setLayout(profilePicturePanelLayout);
-        profilePicturePanelLayout.setHorizontalGroup(
-            profilePicturePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(profilePictureLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-        profilePicturePanelLayout.setVerticalGroup(
-            profilePicturePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(profilePictureLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
 
         personalPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Personal", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
@@ -419,7 +407,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
                     .addGroup(personalPanelLayout.createSequentialGroup()
                         .addComponent(nickNameLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(nickNameTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE))
+                        .addComponent(nickNameTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE))
                     .addGroup(personalPanelLayout.createSequentialGroup()
                         .addComponent(sexLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -437,7 +425,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
                     .addGroup(personalPanelLayout.createSequentialGroup()
                         .addComponent(recordDateLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(recordDateChooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(recordDateChooser, javax.swing.GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE))
                     .addGroup(personalPanelLayout.createSequentialGroup()
                         .addComponent(firstNameLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -452,7 +440,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
                             .addComponent(statusLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(personalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(statusComboBox, 0, 107, Short.MAX_VALUE)
+                            .addComponent(statusComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(nationalityTextField))))
                 .addContainerGap())
         );
@@ -496,32 +484,15 @@ public final class ApplicationFrame extends javax.swing.JFrame {
                     .addComponent(maritalStatusLabel)
                     .addComponent(nationalityLabel)
                     .addComponent(nationalityTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
-
-        commandCardPanel.setLayout(new java.awt.CardLayout());
-
-        setProfilePictureCommand.setText("Set Picture");
-        commandCardPanel.add(setProfilePictureCommand, "card2");
-
-        removeProfilePictureCommand.setText("Remove Picture");
-        removeProfilePictureCommand.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeProfilePictureCommandActionPerformed(evt);
-            }
-        });
-        commandCardPanel.add(removeProfilePictureCommand, "card3");
 
         javax.swing.GroupLayout personalTabLayout = new javax.swing.GroupLayout(personalTab);
         personalTab.setLayout(personalTabLayout);
         personalTabLayout.setHorizontalGroup(
             personalTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(personalTabLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, personalTabLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(personalTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(profilePicturePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(commandCardPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(personalPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -529,12 +500,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
             personalTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(personalTabLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(personalTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(personalTabLayout.createSequentialGroup()
-                        .addComponent(profilePicturePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(commandCardPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(personalPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(personalPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -623,7 +589,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
                     .addGroup(addressPanelLayout.createSequentialGroup()
                         .addComponent(houseNumberLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(houseNumberTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE))
+                        .addComponent(houseNumberTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 282, Short.MAX_VALUE))
                     .addGroup(addressPanelLayout.createSequentialGroup()
                         .addGroup(addressPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(barangayLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -640,7 +606,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(territoryLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(territoryComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                                .addComponent(territoryComboBox, 0, 20, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
 
@@ -799,7 +765,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
                     .addGroup(backgroundPanelLayout.createSequentialGroup()
                         .addComponent(personalLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(personalTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 444, Short.MAX_VALUE))
+                        .addComponent(personalTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE))
                     .addGroup(backgroundPanelLayout.createSequentialGroup()
                         .addComponent(familyLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -960,7 +926,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
                             .addComponent(emailAddressLabel))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(communicationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(mobileNumberTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE)
+                            .addComponent(mobileNumberTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 282, Short.MAX_VALUE)
                             .addComponent(phoneNumberTextField)
                             .addComponent(emailAddressTextField)))
                     .addGroup(communicationPanelLayout.createSequentialGroup()
@@ -999,7 +965,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
                 .addGroup(communicationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(facebookLabel)
                     .addComponent(facebookTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout communicationTabLayout = new javax.swing.GroupLayout(communicationTab);
@@ -1046,13 +1012,13 @@ public final class ApplicationFrame extends javax.swing.JFrame {
             .addGroup(mapsPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(mapsToolBar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(403, Short.MAX_VALUE))
+                .addContainerGap(270, Short.MAX_VALUE))
         );
         mapsPanelLayout.setVerticalGroup(
             mapsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mapsPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(mapsToolBar, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
+                .addComponent(mapsToolBar, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -1095,7 +1061,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
             historyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(historyPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(historyScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 493, Short.MAX_VALUE)
+                .addComponent(historyScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE)
                 .addContainerGap())
         );
         historyPanelLayout.setVerticalGroup(
@@ -1155,7 +1121,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(currentAgeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(printedCheckBox))
-                .addContainerGap(282, Short.MAX_VALUE))
+                .addContainerGap(149, Short.MAX_VALUE))
         );
 
         otherPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {currentAgeLabel, printedCheckBox});
@@ -1267,6 +1233,83 @@ public final class ApplicationFrame extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        profilePicturePlatformPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        profilePicturePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Profile Picture", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+
+        profilePictureLabel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        profilePictureLabel.setName("Profile Picture"); // NOI18N
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.profilePicture}"), profilePictureLabel, org.jdesktop.beansbinding.BeanProperty.create("icon"));
+        binding.setSourceNullValue(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.profile.picture.blank.png"))); // NOI18N
+        binding.setSourceUnreadableValue(new javax.swing.ImageIcon(getClass().getResource("/org/jw/service/gui/resources/icon/default.profile.picture.blank.png"))); // NOI18N
+        binding.setConverter(org.jw.service.beansbinding.converter.ByteToImageConverter.create(this.profilePictureLabel));
+        bindingGroup.addBinding(binding);
+
+        javax.swing.GroupLayout profilePicturePanelLayout = new javax.swing.GroupLayout(profilePicturePanel);
+        profilePicturePanel.setLayout(profilePicturePanelLayout);
+        profilePicturePanelLayout.setHorizontalGroup(
+            profilePicturePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(profilePictureLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        profilePicturePanelLayout.setVerticalGroup(
+            profilePicturePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, profilePicturePanelLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(profilePictureLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        commandCardPanel.setLayout(new java.awt.CardLayout());
+
+        setProfilePictureCommand.setText("Set Picture");
+        commandCardPanel.add(setProfilePictureCommand, "card2");
+
+        removeProfilePictureCommand.setText("Remove Picture");
+        removeProfilePictureCommand.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeProfilePictureCommandActionPerformed(evt);
+            }
+        });
+        commandCardPanel.add(removeProfilePictureCommand, "card3");
+
+        fullnameTextField.setEditable(false);
+        fullnameTextField.setColumns(5);
+        fullnameTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, contactsTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.fullname}"), fullnameTextField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        javax.swing.GroupLayout profilePicturePlatformPanelLayout = new javax.swing.GroupLayout(profilePicturePlatformPanel);
+        profilePicturePlatformPanel.setLayout(profilePicturePlatformPanelLayout);
+        profilePicturePlatformPanelLayout.setHorizontalGroup(
+            profilePicturePlatformPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(profilePicturePlatformPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(profilePicturePlatformPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(profilePicturePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fullnameTextField))
+                .addContainerGap())
+            .addGroup(profilePicturePlatformPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(profilePicturePlatformPanelLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(commandCardPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+        profilePicturePlatformPanelLayout.setVerticalGroup(
+            profilePicturePlatformPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(profilePicturePlatformPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(profilePicturePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(4, 4, 4)
+                .addComponent(fullnameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+            .addGroup(profilePicturePlatformPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, profilePicturePlatformPanelLayout.createSequentialGroup()
+                    .addContainerGap(183, Short.MAX_VALUE)
+                    .addComponent(commandCardPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap()))
+        );
+
         systemMenu.setText("System");
 
         dbBackUpMenuItem.setText("Database Back-up");
@@ -1353,17 +1396,20 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mainCommandPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 803, Short.MAX_VALUE)
+            .addComponent(mainCommandPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 836, Short.MAX_VALUE)
             .addComponent(taskMonitorPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(treeScrollPane)
-                    .addComponent(viewModeComboBox, 0, 223, Short.MAX_VALUE))
+                    .addComponent(viewModeComboBox, 0, 223, Short.MAX_VALUE)
+                    .addComponent(treeScrollPane))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(contactsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(tabbedPane))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(profilePicturePlatformPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tabbedPane))
+                    .addComponent(contactsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -1373,7 +1419,9 @@ public final class ApplicationFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(tabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(tabbedPane)
+                            .addComponent(profilePicturePlatformPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(contactsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
@@ -1398,10 +1446,6 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         //this.mainCommandPanel.getServiceGroupComboBox().addItemListener(new org.jw.service.listener.item.DefaultServiceGroupItemListener(this));
     }//GEN-LAST:event_formWindowActivated
 
-    private void removeProfilePictureCommandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeProfilePictureCommandActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_removeProfilePictureCommandActionPerformed
-
     private void systemExitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_systemExitMenuItemActionPerformed
         // TODO add your handling code here:
         this.mainCommandPanel.getCloseCommand().doClick();
@@ -1421,6 +1465,10 @@ public final class ApplicationFrame extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_viewModeComboBoxItemStateChanged
+
+    private void removeProfilePictureCommandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeProfilePictureCommandActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_removeProfilePictureCommandActionPerformed
 
     private void initMyComponents(){
         this.mainCommandPanel.getServiceGroupComboBox().setSelectedIndex(-1);
@@ -1454,6 +1502,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
         openStatisticsAction = new DefaultOpenAction(this.mainCommandPanel.getStatisticsCommand() , UtilityDialog.STATISTICS, utilDialog, null);
         openCallStatusAction = new DefaultOpenAction(this.callStatusMenuItem, UtilityDialog.CALL_STATUS, utilDialog, null);
         openQueryTextAction = new DefaultOpenAction(this.queryTextMenuItem, UtilityDialog.QUERY_TEXT, utilDialog, null);
+        openAboutDialogAction = new DefaultOpenAction(this.aboutMenuItem, UtilityDialog.ABOUT_APPLICATION, utilDialog, null);
         this.mainCommandPanel.getServiceGroupComboBox().addItemListener(serviceGroupItemListener);
         
         fcOpenAction = new DefaultFileChooserAction(this.setProfilePictureCommand, this, FileFilterImage.create(), "Open", JFileChooser.FILES_ONLY, null);        
@@ -1716,6 +1765,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     private javax.swing.JTextField firstNameTextField;
     private javax.swing.JLabel foundByLabel;
     private javax.swing.JTextField foundByTextField;
+    private javax.swing.JTextField fullnameTextField;
     private javax.swing.JLabel guardiansNameLabel;
     private javax.swing.JTextField guardiansNameTextField;
     private javax.swing.JMenuItem helpContentsMenuItem;
@@ -1759,6 +1809,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     private javax.swing.JCheckBox printedCheckBox;
     private javax.swing.JLabel profilePictureLabel;
     private javax.swing.JPanel profilePicturePanel;
+    private javax.swing.JPanel profilePicturePlatformPanel;
     private javax.swing.JMenuItem queryTextMenuItem;
     private com.toedter.calendar.JDateChooser recordDateChooser;
     private javax.swing.JLabel recordDateLabel;
@@ -1821,6 +1872,7 @@ public final class ApplicationFrame extends javax.swing.JFrame {
     DefaultOpenAction openStatisticsAction;
     DefaultOpenAction openCallStatusAction;
     DefaultOpenAction openQueryTextAction;
+    DefaultOpenAction openAboutDialogAction;
     DefaultContactPrintAction contactPrintAction;
     DataAccessObject<Contact> contactDAO;
     DataAccessObject<ContactStatus> statusDAO;

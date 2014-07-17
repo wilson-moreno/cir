@@ -225,7 +225,7 @@ create table cir.contact_call(
     call_date datetime,
     call_day varchar(15),
     call_time varchar(10),
-    status varchar(15),
+    --status varchar(15),
     call_status_id int,
     scriptures varchar(75),
     literature varchar(75),
@@ -298,6 +298,51 @@ inner join cir.service_group s on s.id = c.service_group_id
 inner join cir.contact_status st on c.status_id = st.id
 where c.birthdate is not null
 and st.countable = true
+
+
+create view vw_service_group_active_contact_count as
+select 	sg.id as "SERVICE_GROUP_ID"
+,	sg.name as "SERVICE_GROUP"
+,	count(ct.id) as "ACTIVE_CONTACT"
+from cir.service_group sg
+inner join cir.contact ct on sg.id = ct.service_group_id
+inner join cir.contact_status cs on cs.id = ct.status_id
+where cs.countable = true
+group by sg.id
+,	sg.name
+
+
+create view vw_service_group_active_contact_count as
+select 	sg.id as "SERVICE_GROUP_ID"
+,	sg.name as "SERVICE_GROUP"
+,	count(t.id) as "TERRITORY_COUNT"
+from cir.service_group sg
+inner join cir.territory t on sg.id = t.service_group_id
+where t.enable = true
+group by sg.id
+,	sg.name
+
+
+DROP FUNCTION cir.func_count_visit;
+CREATE FUNCTION cir.func_count_visit(p_contact_id INT, p_start_date DATE, p_end_date DATE)
+	RETURNS INT
+	READS SQL DATA
+	RETURN (select count(cl.id) 
+		from cir.contact ct 
+                inner join cir.contact_call cl on ct.id = cl.contact_id 
+		inner join cir.contact_status cs on cs.id = ct.status_id
+                where ct.id = p_contact_id and cs.countable = true
+                and cl.call_date between p_start_date and p_end_date)
+
+DROP FUNCTION cir.func_count_call;
+CREATE FUNCTION cir.func_count_call(p_contact_id INT, p_year INT, p_month INT)
+RETURNS INT
+READS SQL DATA
+RETURN (select count(contact_call.call_date)
+	    from cir.contact_call contact_call
+ 	   where month(contact_call.call_date) = p_month
+       	   and year(contact_call.call_date) = p_year
+	   and contact_call.contact_id = p_contact_id)
 
 
 commit;

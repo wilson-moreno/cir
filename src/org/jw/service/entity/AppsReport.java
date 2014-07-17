@@ -109,6 +109,7 @@ public class AppsReport implements Serializable, ObservableEntity, SilentSetter 
     public AppsReport() {
         this.appsReportParameterCollection = new ArrayList<AppsReportParameter>();
         this.createdDatetime = new Date();
+        this.code = "";
         this.description = "";
         this.enable = true;
         this.visible = true;

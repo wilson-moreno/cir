@@ -308,6 +308,7 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
             vetoableChangeSupport.fireVetoableChange("lastName", oldLastName, lastName);            
             this.lastName = lastName.trim();
             propertyChangeSupport.firePropertyChange(PROP_LASTNAME, oldLastName, lastName);
+            propertyChangeSupport.firePropertyChange("fullname", oldLastName, toString());
         } catch (PropertyVetoException ex) {}
     }
 
@@ -327,6 +328,7 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
             vetoableChangeSupport.fireVetoableChange("firstName", oldFirstName, firstName);
             this.firstName = firstName.trim();
             propertyChangeSupport.firePropertyChange(PROP_FIRSTNAME, oldFirstName, firstName);
+            propertyChangeSupport.firePropertyChange("fullname", oldFirstName, toString());
         } catch (PropertyVetoException ex) {}
     }
 
@@ -904,6 +906,11 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
         }
         return true;
     }
+    
+    @Transient
+    public String getFullname(){
+        return toString();
+    }
 
     @Override
     public String toString() {
@@ -913,7 +920,7 @@ public class Contact implements Serializable, ObservableEntity, SilentSetter, Co
         if(firstName.equals("") && !lastName.equals(""))
             stringName = getLastName();
         else if(lastName.equals("") && !firstName.equals(""))
-            stringName = ", " + this.getFirstName();
+            stringName = this.getFirstName();
         else if(!firstName.equals("") && !lastName.equals(""))
             stringName = this.getLastName() + ", " + this.getFirstName();
         else

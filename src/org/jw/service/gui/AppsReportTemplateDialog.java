@@ -48,6 +48,11 @@ public class AppsReportTemplateDialog extends javax.swing.JDialog {
         this.em = em;
         initComponents();
         initMyComponents();
+        initDateFormatString();
+    }
+    
+    public void initDateFormatString(){
+        this.reportDateChooser.setDateFormatString("MMM d, yyyy");
     }
     
     private void taskBuilder1(){

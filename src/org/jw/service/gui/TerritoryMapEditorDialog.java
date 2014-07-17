@@ -19,10 +19,12 @@ import org.jw.service.action.DependentAbstractAction;
 import org.jw.service.action.dependency.DownloadTerritoryMapPreDependency;
 import org.jw.service.dao.DataAccessObject;
 import org.jw.service.entity.Contact;
+import org.jw.service.entity.ContactStatus;
 import org.jw.service.entity.EntityIO;
 import org.jw.service.entity.LocationMap;
 import org.jw.service.entity.MeetingPlace;
 import org.jw.service.entity.Territory;
+import org.jw.service.key.binder.CndrsKeyBinders;
 import org.jw.service.listener.state.DefaultEntityStateListener;
 import org.jw.service.listener.task.DefaultTaskListener;
 import org.jw.service.util.UtilityProperties;
@@ -66,7 +68,9 @@ public class TerritoryMapEditorDialog extends javax.swing.JDialog implements Pro
         territoryDAO.refresh(territoryTarget);
         for(Contact contact : territoryTarget.getContactCollection()){
             contactDAO.refresh(contact);
-            LocationMap map = contact.getLocationMapId();            
+            LocationMap map = contact.getLocationMapId();     
+            ContactStatus status = contact.getStatusId();
+            if(!status.getActive())continue;
             if(map != null){
                 map.addPropertyChangeListener(this);
                 locationMapList.add(map);
@@ -95,6 +99,13 @@ public class TerritoryMapEditorDialog extends javax.swing.JDialog implements Pro
         this.mapCrudPanel.getSaveCommand().addActionListener(this);
         DefaultEntityStateListener stateListener = DefaultEntityStateListener.create(saveAction);
         territorySource.addPropertyChangeListener(stateListener);        
+        setKeyBinders();
+    }
+    
+    private void setKeyBinders(){
+        CndrsKeyBinders.setKeyBinder(this.mapCrudPanel.getCloseCommand(), CndrsKeyBinders.controlAltX, CndrsKeyBinders.CLOSE_MAP_KEY, closeAction);
+        CndrsKeyBinders.setKeyBinder(this.mapCrudPanel.getDownloadCommand(), CndrsKeyBinders.controlAltL, CndrsKeyBinders.DOWNLOAD_MAP_KEY, this.downloadAction);
+        CndrsKeyBinders.setKeyBinder(this.mapCrudPanel.getSaveCommand(), CndrsKeyBinders.controlS, CndrsKeyBinders.SAVE_MAP_KEY, this.saveAction);
     }
 
     /**

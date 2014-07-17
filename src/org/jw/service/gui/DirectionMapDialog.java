@@ -18,6 +18,7 @@ import org.jw.service.entity.DirectionMap;
 import org.jw.service.entity.EntityIO;
 import org.jw.service.entity.LocationMap;
 import org.jw.service.entity.MeetingPlace;
+import org.jw.service.key.binder.CndrsKeyBinders;
 import org.jw.service.listener.state.DefaultEntityStateListener;
 import org.jw.service.listener.task.DefaultTaskListener;
 import org.jw.service.util.UtilityDownload;
@@ -99,6 +100,13 @@ public class DirectionMapDialog extends javax.swing.JDialog {
         downloadMapAction = new DefaultDownloadDirectionMapAction(this.mapCrudPanel.getDownloadCommand(), this.directionMapImageLabel, mapIO, utilDownload, mapDownloadListener);
         
         setActionValidators();
+        setKeyBinders();
+    }
+    
+    private void setKeyBinders(){
+        CndrsKeyBinders.setKeyBinder(this.mapCrudPanel.getCloseCommand(), CndrsKeyBinders.controlAltX, CndrsKeyBinders.CLOSE_MAP_KEY, closeAction);
+        CndrsKeyBinders.setKeyBinder(this.mapCrudPanel.getDownloadCommand(), CndrsKeyBinders.controlAltL, CndrsKeyBinders.DOWNLOAD_MAP_KEY, this.downloadMapAction);
+        CndrsKeyBinders.setKeyBinder(this.mapCrudPanel.getSaveCommand(), CndrsKeyBinders.controlS, CndrsKeyBinders.SAVE_MAP_KEY, this.saveAction);
     }
     
     private void setActionValidators(){

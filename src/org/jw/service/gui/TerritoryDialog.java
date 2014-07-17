@@ -197,6 +197,10 @@ public class TerritoryDialog extends javax.swing.JDialog {
             territoryTable.getColumnModel().getColumn(0).setResizable(false);
             territoryTable.getColumnModel().getColumn(0).setPreferredWidth(10);
             territoryTable.getColumnModel().getColumn(0).setCellRenderer(org.jw.service.table.cell.renderer.DefaultStateCellRenderer.create());
+            territoryTable.getColumnModel().getColumn(1).setPreferredWidth(100);
+            territoryTable.getColumnModel().getColumn(2).setPreferredWidth(300);
+            territoryTable.getColumnModel().getColumn(3).setPreferredWidth(100);
+            territoryTable.getColumnModel().getColumn(4).setPreferredWidth(75);
         }
 
         javax.swing.GroupLayout territoryListPanelLayout = new javax.swing.GroupLayout(territoryListPanel);
@@ -328,8 +332,8 @@ public class TerritoryDialog extends javax.swing.JDialog {
         directionTextArea.setRows(5);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, territoryTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.direction}"), directionTextArea, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue(null);
+        binding.setSourceNullValue("null");
+        binding.setSourceUnreadableValue("null");
         bindingGroup.addBinding(binding);
 
         directionScrollPane.setViewportView(directionTextArea);

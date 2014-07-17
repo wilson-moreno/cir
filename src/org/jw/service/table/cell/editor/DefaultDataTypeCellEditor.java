@@ -6,6 +6,7 @@
 
 package org.jw.service.table.cell.editor;
 
+import com.toedter.calendar.JDateChooser;
 import java.awt.Component;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -53,6 +54,7 @@ public class DefaultDataTypeCellEditor extends AbstractCellEditor implements Tab
         this.list = list;
         this.em = em;
         this.utilDB = UtilityDatabase.create(em);
+        this.editor = new DefaultCellEditor(new JTextField());
     }
     
     @Override
@@ -71,6 +73,7 @@ public class DefaultDataTypeCellEditor extends AbstractCellEditor implements Tab
             case "Single Input": editor = getSingleInputEditor(param.getDataType()); break;
             case "Single Select Query": editor = getSingleSelectQuery(param); break;    
         }
+        
         
         return editor.getTableCellEditorComponent(table, value, isSelected, row, column);
     }
@@ -136,7 +139,8 @@ public class DefaultDataTypeCellEditor extends AbstractCellEditor implements Tab
         switch(dataType){
             case "Boolean" : return new DefaultCellEditor(new JCheckBox());
             case "Character" : return new DefaultCellEditor(createCharacterField());    
-            case "Date" : return new DefaultCellEditor(createDateField());    
+            case "Date" : return createDateField();   
+            case "Year" : return createYearField();
             case "Double" : return new DefaultCellEditor(createDoubleField());    
             case "Float" : return new DefaultCellEditor(createDoubleField());    
             case "String" : return new DefaultCellEditor(new JTextField());            
@@ -148,6 +152,14 @@ public class DefaultDataTypeCellEditor extends AbstractCellEditor implements Tab
         
     }
     
+    private DefaultCellEditor createYearField(){
+        return new DefaultYearEditor();
+    }
+    
+    private JDateChooser createDateChooserField(){
+        return new JDateChooser();
+    }
+    
     private JFormattedTextField createDoubleField(){
         try{
             return createFormattedTextField("##0.0");            
@@ -155,7 +167,6 @@ public class DefaultDataTypeCellEditor extends AbstractCellEditor implements Tab
             return new JFormattedTextField();
         }
     }
-    
     
     private JFormattedTextField createFormattedTextField(String format) throws ParseException{
         JFormattedTextField textField;
@@ -170,12 +181,8 @@ public class DefaultDataTypeCellEditor extends AbstractCellEditor implements Tab
         return textField;            
     }
     
-    private JFormattedTextField createDateField(){
-        try{
-            return createFormattedTextField("MMM d, yyyy");            
-        }catch(ParseException ex){
-            return new JFormattedTextField();
-        }
+    private DefaultCellEditor createDateField(){                
+        return new DefaultDateEditor();
     }
     
     private JFormattedTextField createCharacterField(){
